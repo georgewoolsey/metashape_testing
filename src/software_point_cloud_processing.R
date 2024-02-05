@@ -227,6 +227,8 @@
   # drop the function
   remove(create_project_structure)
   
+  list.files(config$temp_dir, recursive = T, full.names = T) %>%
+    purrr::map(file.remove)
 ######################################################################################################
 ######################################################################################################
 ######################################################################################################
@@ -1343,74 +1345,79 @@ process_raw_las_fn = function(my_las_file_path){
                 )
                 # class(tree_inv_df)
                 # tree_inv_df %>% dplyr::glimpse()
-              ###_______________________________________________________###
-              ### 93) clean up the DBH stem data frame ###
-              ###_______________________________________________________###
-                # add details to table and convert to sf data
-                tree_inv_df = tree_inv_df %>% 
-                  dplyr::mutate(
-                    Radius = as.numeric(Radius)
-                    , dbh_m = Radius*2
-                    , dbh_cm = dbh_m*100
-                    , basal_area_m2 = pi * (Radius)^2
-                    , basal_area_ft2 = basal_area_m2 * 10.764
-                    , treeID = paste0(X, "_", Y)
-                    , stem_x = X
-                    , stem_y = Y
-                  ) %>% 
-                  sf::st_as_sf(coords = c("X", "Y"), crs = sf::st_crs(las_norm_tile)) %>% 
-                  dplyr::select(
-                    treeID, H, stem_x, stem_y, Radius, Error
-                    , dbh_m, dbh_cm, basal_area_m2, basal_area_ft2
-                  ) %>% 
-                  dplyr::rename(
-                    tree_height_m = H
-                    , radius_m = Radius
-                    , radius_error_m = Error
-                  )
-                # tree_inv_df %>% dplyr::glimpse()
+              if(nrow(tree_inv_df)>0){
+                ###_______________________________________________________###
+                ### 93) clean up the DBH stem data frame ###
+                ###_______________________________________________________###
+                  # add details to table and convert to sf data
+                  tree_inv_df = tree_inv_df %>% 
+                    dplyr::mutate(
+                      Radius = as.numeric(Radius)
+                      , dbh_m = Radius*2
+                      , dbh_cm = dbh_m*100
+                      , basal_area_m2 = pi * (Radius)^2
+                      , basal_area_ft2 = basal_area_m2 * 10.764
+                      , treeID = paste0(X, "_", Y)
+                      , stem_x = X
+                      , stem_y = Y
+                    ) %>% 
+                    sf::st_as_sf(coords = c("X", "Y"), crs = sf::st_crs(las_norm_tile)) %>% 
+                    dplyr::select(
+                      treeID, H, stem_x, stem_y, Radius, Error
+                      , dbh_m, dbh_cm, basal_area_m2, basal_area_ft2
+                    ) %>% 
+                    dplyr::rename(
+                      tree_height_m = H
+                      , radius_m = Radius
+                      , radius_error_m = Error
+                    )
+                  # tree_inv_df %>% dplyr::glimpse()
+                  
+                  ### Remove points outside the bounding box of the laz tile + 1m buffer
+                  tree_inv_df = tree_inv_df %>% 
+                    sf::st_crop(
+                      sf::st_bbox(las_norm_tile) %>% 
+                        sf::st_as_sfc() %>% 
+                        sf::st_buffer(1)
+                    )
                 
-                ### Remove points outside the bounding box of the laz tile + 1m buffer
-                tree_inv_df = tree_inv_df %>% 
-                  sf::st_crop(
-                    sf::st_bbox(las_norm_tile) %>% 
-                      sf::st_as_sfc() %>% 
-                      sf::st_buffer(1)
-                  )
-              
-              ###_______________________________________________________###
-              ### Set the classification codes of different point types ###
-              ###_______________________________________________________###
-              
-              ### Pull out the stem files
-              stem_points = lidR::filter_poi(las_norm_tile, Stem == TRUE)
-              stem_points@data$Classification = 4
-              
-              ### Pull out the ground points
-              ground = filter_poi(las_norm_tile, Classification %in% c(2,9))
-              
-              ### Pull out the remaining points that arent ground
-              remaining_points = filter_poi(las_norm_tile, Stem == FALSE & !(Classification %in% c(2,9)))
-              remaining_points@data$Classification = 5
-              
-              ### Combine the newly classified data
-              las_reclassified = rbind(stem_points, ground, remaining_points)
-              # str(las_reclassified)
-              # class(las_reclassified)
-              # plot(las_reclassified, color = "Classification")
-              
-              ###_______________________________________________________###
-              ### Write output to disk ###
-              ###_______________________________________________________###
-              ### Write the stem points to the disk
-              lidR::writeLAS(las_reclassified, paste0(config$las_stem_dir, "/", las_name))
-              
-              ### Write stem polygons to the disk
-              out_name = tools::file_path_sans_ext(las_name)
-              out_name = paste0(config$stem_poly_tile_dir, "/", out_name, ".parquet")
-              sfarrow::st_write_parquet(tree_inv_df, out_name)
-              
-              return(T)
+                ###_______________________________________________________###
+                ### Set the classification codes of different point types ###
+                ###_______________________________________________________###
+                
+                ### Pull out the stem files
+                stem_points = lidR::filter_poi(las_norm_tile, Stem == TRUE)
+                stem_points@data$Classification = 4
+                
+                ### Pull out the ground points
+                ground = filter_poi(las_norm_tile, Classification %in% c(2,9))
+                
+                ### Pull out the remaining points that arent ground
+                remaining_points = filter_poi(las_norm_tile, Stem == FALSE & !(Classification %in% c(2,9)))
+                remaining_points@data$Classification = 5
+                
+                ### Combine the newly classified data
+                las_reclassified = rbind(stem_points, ground, remaining_points)
+                # str(las_reclassified)
+                # class(las_reclassified)
+                # plot(las_reclassified, color = "Classification")
+                
+                ###_______________________________________________________###
+                ### Write output to disk ###
+                ###_______________________________________________________###
+                ### Write the stem points to the disk
+                if(class(las_reclassified)=="LAS"){
+                  lidR::writeLAS(las_reclassified, paste0(config$las_stem_dir, "/", las_name))
+                }
+                
+                ### Write stem polygons to the disk
+                out_name = tools::file_path_sans_ext(las_name)
+                out_name = paste0(config$stem_poly_tile_dir, "/", out_name, ".parquet")
+                if(max(class(tree_inv_df)=="sf")==1){
+                  sfarrow::st_write_parquet(tree_inv_df, out_name)
+                }
+                return(T)
+              }else{return(F)} # nrow(tree_inv_df)>0
             }else{return(F)} # tree_map_function() return is LAS
           }else{return(F)} # max_point_height >= min_tree_height
         }else{return(F)} # DOES FILE EXIST == F
@@ -1473,6 +1480,9 @@ process_raw_las_fn = function(my_las_file_path){
       ###__________________________________________________________###
       ### Merge the stem vector location tiles into a single object ###
       ###__________________________________________________________###
+    if(
+      length(list.files(config$stem_poly_tile_dir, pattern = ".*\\.parquet$", full.names = T)) > 0
+    ){
       dbh_locations_sf = list.files(config$stem_poly_tile_dir, pattern = ".*\\.parquet$", full.names = T) %>% 
           purrr::map(sfarrow::st_read_parquet) %>% 
           dplyr::bind_rows() %>% 
@@ -1507,7 +1517,7 @@ process_raw_las_fn = function(my_las_file_path){
           , delete_dsn = TRUE
           , quiet = TRUE
         )
-        
+    }else{dbh_locations_sf = NA}
       # clean up
       remove(list = ls()[grep("_temp",ls())])
       gc()
@@ -1630,7 +1640,7 @@ process_raw_las_fn = function(my_las_file_path){
         ) %>% 
         # intersect with study bounds
         sf::st_intersection(
-          readLAScatalog(config$input_las_dir)@data$geometry %>% 
+          las_ctg@data$geometry %>% 
             sf::st_union() %>% 
             sf::st_as_sf()
         ) %>% 
@@ -1839,19 +1849,23 @@ process_raw_las_fn = function(my_las_file_path){
       ###________________________________________________________###
         ### Join the top down crowns with the stem location points
         ## !! Note that one crown can have multiple stems within its bounds
-        crowns_sf_joined_stems_temp = crowns_sf %>%
-          sf::st_join(
-            dbh_locations_sf %>% 
-              # rename all columns to have "stem" prefix
-              dplyr::rename_with(
-                .fn = ~ paste0("stem_",.x,recycle0 = T)
-                , .cols = tidyselect::everything()[
-                  -dplyr::any_of(
-                    c(tidyselect::starts_with("stem_"),"stem_x", "stem_y","geom","geometry")
-                  )
-                ]
-              )
-          )
+        if(dplyr::coalesce(nrow(dbh_locations_sf),0)>0){
+          crowns_sf_joined_stems_temp = crowns_sf %>%
+            sf::st_join(
+              dbh_locations_sf %>% 
+                # rename all columns to have "stem" prefix
+                dplyr::rename_with(
+                  .fn = ~ paste0("stem_",.x,recycle0 = T)
+                  , .cols = tidyselect::everything()[
+                    -dplyr::any_of(
+                      c(tidyselect::starts_with("stem_"),"stem_x", "stem_y","geom","geometry")
+                    )
+                  ]
+                )
+            )
+        }else{
+          crowns_sf_joined_stems_temp = crowns_sf %>% dplyr::mutate(stem_dbh_cm = as.numeric(NA))
+        }
         # str(crowns_sf_joined_stems_temp)
             
         ###__________________________________________________________###
@@ -2137,7 +2151,7 @@ process_raw_las_fn = function(my_las_file_path){
             dplyr::ungroup() %>% 
             dplyr::mutate(
               plotID = "1" # can spatially join to plot vectors if available
-              , plot_area_m2 = las_ctg %>% 
+              , plot_area_m2 = las_ctg@data$geometry %>% 
                 sf::st_union() %>% 
                 sf::st_area() %>% # result is m2
                 as.numeric()
@@ -2248,11 +2262,12 @@ process_raw_las_fn = function(my_las_file_path){
     # create data to return
     #################################################################################
     #################################################################################
+      xx86_end_time = Sys.time()
       # message
         message(
           f_name
           , ": total time was "
-          , round(as.numeric(difftime(Sys.time(), xx1_tile_start_time, units = c("mins"))),2)
+          , round(as.numeric(difftime(xx86_end_time, xx1_tile_start_time, units = c("mins"))),2)
           , " minutes to process "
           , scales::comma(sum(las_ctg@data$Number.of.point.records))
           , " points over an area of "
@@ -2260,8 +2275,7 @@ process_raw_las_fn = function(my_las_file_path){
           , " hectares"
         )
       # data
-      return(
-        las_list_df %>% 
+      return_df = las_list_df %>% 
           dplyr::filter(file_full_path == my_las_file_path) %>% 
           dplyr::bind_cols(
             # data from las_ctg
@@ -2273,34 +2287,57 @@ process_raw_las_fn = function(my_las_file_path){
               ) %>% 
               dplyr::mutate(
                 las_area_m2 = sf::st_area(geometry) %>% as.numeric()
-              )    
+              ) %>% 
+              sf::st_drop_geometry()
           ) %>% 
           dplyr::mutate(
-            timer_tile_time_mins = difftime(xx2_denoise_start_time, xx1_tile_start_time, units = c("mins"))
-            , timer_denoise_time_mins = difftime(xx3_classify_start_time, xx2_denoise_start_time, units = c("mins"))
-            , timer_classify_time_mins = difftime(xx4_dtm_start_time, xx3_classify_start_time, units = c("mins"))
-            , timer_dtm_time_mins = difftime(xx5_normalize_start_time, xx4_dtm_start_time, units = c("mins"))
-            , timer_normalize_time_mins = difftime(xx6_chm_start_time, xx5_normalize_start_time, units = c("mins"))
-            , timer_chm_time_mins = difftime(xx7_treels_start_time, xx6_chm_start_time, units = c("mins"))
-            , timer_treels_time_mins = difftime(xx8_itd_start_time, xx7_treels_start_time, units = c("mins"))
-            , timer_itd_time_mins = difftime(xx9_competition_start_time, xx8_itd_start_time, units = c("mins"))
-            , timer_competition_time_mins = difftime(xx10_estdbh_start_time, xx9_competition_start_time, units = c("mins"))
-            , timer_estdbh_time_mins = difftime(xx11_silv_start_time, xx10_estdbh_start_time, units = c("mins"))
-            , timer_silv_time_mins = difftime(Sys.time(), xx11_silv_start_time, units = c("mins"))
-            , timer_total_time_mins = difftime(Sys.time(), xx1_tile_start_time, units = c("mins"))
+            timer_tile_time_mins = difftime(xx2_denoise_start_time, xx1_tile_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_denoise_time_mins = difftime(xx3_classify_start_time, xx2_denoise_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_classify_time_mins = difftime(xx4_dtm_start_time, xx3_classify_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_dtm_time_mins = difftime(xx5_normalize_start_time, xx4_dtm_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_normalize_time_mins = difftime(xx6_chm_start_time, xx5_normalize_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_chm_time_mins = difftime(xx7_treels_start_time, xx6_chm_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_treels_time_mins = difftime(xx8_itd_start_time, xx7_treels_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_itd_time_mins = difftime(xx9_competition_start_time, xx8_itd_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_competition_time_mins = difftime(xx10_estdbh_start_time, xx9_competition_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_estdbh_time_mins = difftime(xx11_silv_start_time, xx10_estdbh_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_silv_time_mins = difftime(xx86_end_time, xx11_silv_start_time, units = c("mins")) %>% 
+              as.numeric()
+            , timer_total_time_mins = difftime(xx86_end_time, xx1_tile_start_time, units = c("mins")) %>% 
+              as.numeric()
           )
+      # write 
+      write.csv(
+        return_df
+        , paste0(delivery_dir, "/", f_name, "_", "processed_tracking_data.csv")
+        , row.names = F
       )
+      # return
+      return(return_df)
 }
 
 # map over function for all las files
-processed_tracking_data = las_list_df %>% 
+processed_tracking_data = las_list_df %>%
+  dplyr::filter(
+    !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
+  ) %>% 
   dplyr::pull(file_full_path) %>% 
-  .[20] %>% 
+  # .[c(10,30,51,72,90,111)] %>% 
   purrr::map(process_raw_las_fn) %>% 
   dplyr::bind_rows()
 
 write.csv(
   processed_tracking_data
-  , paste0(config$delivery_dir, "/processed_tracking_data.csv")
+  , paste0(config$delivery_dir,"/", format(Sys.time(), '%Y%m%d_%H%M_'), "processed_tracking_data.csv")
   , row.names = F
 )
