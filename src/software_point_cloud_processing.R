@@ -241,7 +241,7 @@
 ######################################################################################################
   # get list of files and directories to read from
   las_list_temp = list.files(normalizePath(input_las_dir), pattern = ".*\\.(laz|las)$", full.names = T, recursive = T)
-  
+
   # set up data.frame for processing and tracking
   las_list_df =
     dplyr::tibble(
@@ -594,7 +594,7 @@ process_raw_las_fn = function(my_las_file_path){
       ### Pull the las extent geometry
       las_grid = las_ctg@data$geometry %>%
           sf::st_union() %>% 
-          sf::st_make_grid(50) %>% 
+          sf::st_make_grid(100) %>% 
           sf::st_as_sf() %>% 
           dplyr::mutate(grid_id = dplyr::row_number())
       
@@ -641,7 +641,7 @@ process_raw_las_fn = function(my_las_file_path){
           create_grid_las_list = 
             las_grid %>% 
               sf::st_geometry() %>% 
-              purrr::map(safe_lasr_clip_polygon, files = las_ctg, buffer = 5, ofile_dir = config$las_grid_dir)
+              purrr::map(safe_lasr_clip_polygon, files = las_ctg, buffer = 10, ofile_dir = config$las_grid_dir)
 
         # create spatial index files (.lax)
           create_lax_for_tiles(
