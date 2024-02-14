@@ -27,7 +27,8 @@
   # !!!!!!!!!! ENSURE FILES ARE PROJECTED IN CRS THAT USES METRE AS MEASURMENT UNIT
   # !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.las|laz
   # !!!!!!!!!! for example: high_aggressive.las; UltraHigh_Disabled.laz; lowest_MILD.las
-  input_las_dir = "D:/Metashape_Testing_2024"
+  # input_las_dir = "D:/Metashape_Testing_2024"
+  input_las_dir = "D:/OpenDroneMap"
 
   ###_________________________###
   ### list of study site directory names
@@ -55,7 +56,7 @@
   ###____________________###
   ### Set directory for FINAL outputs ###
   ###____________________###
-  outdir = "D:/Metashape_Testing_2024"
+  outdir = "D:/OpenDroneMap"
   
   ###_________________________###
   ### Set input TreeMap directory ###
@@ -242,7 +243,8 @@
   las_list_temp = list.files(normalizePath(input_las_dir), pattern = ".*\\.(laz|las)$", full.names = T, recursive = T)
   
   # set up data.frame for processing and tracking
-  las_list_df = dplyr::tibble(
+  las_list_df =
+    dplyr::tibble(
       file_full_path = las_list_temp
     ) %>% 
     dplyr::mutate(
@@ -250,9 +252,17 @@
         stringr::word(-1, sep = fixed(normalizePath(input_las_dir))) %>% 
         toupper() %>% 
         stringr::str_extract(pattern = paste(toupper(study_site_list),collapse = "|"))
-      , file_name = file_full_path %>% 
-        stringr::word(-1, sep = fixed("/")) %>% 
-        stringr::word(1, sep = fixed(".")) %>% 
+      , file_name = ###### !!!!! MAKE ADAPTABLE TO DIFFERENT FILE NAME STRUCTURES
+        dplyr::case_when(
+          # odm_georeferenced_model
+          file_full_path %>% 
+            tolower() %>% 
+            stringr::str_detect("odm_georeferenced_model\\.(laz|las)$") ~ stringr::word(file_full_path, -2, sep = fixed("/"))
+          # metashape with file named {quality}_{depth map filtering}.las|laz
+          , T ~ file_full_path %>% 
+            stringr::word(-1, sep = fixed("/")) %>% 
+            stringr::word(1, sep = fixed("."))
+        ) %>% 
         toupper()
       , output_dir = paste0(config$delivery_dir, "/", study_site)
     ) %>% 
@@ -2336,19 +2346,19 @@ process_raw_las_fn = function(my_las_file_path){
 ######################################################################################################
   # map over function for all las files
   processed_tracking_data = las_list_df %>%
-    # dplyr::filter(
-    #   processing_attribute1 %in% c("ULTRAHIGH")
-    #   & (processing_attribute2 %in% c("MODERATE", "MILD"))
-    #   & (study_site %in% c("WA85_02"))
-    #   # | (
-    #   #   processing_attribute1 %in% c("HIGH")
-    #   #   & processing_attribute2 %in% c("MODERATE")
-    #   #   & study_site %in% c("SQ02_04")
-    #   # )
-    #   # & processing_attribute2 %in% c("MODERATE")
-    #   # !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
-    #   # & !(study_site %in% c("KAIBAB_HIGH", "KAIBAB_LOW", "N1", "SQ02_04"))
-    # ) %>%
+    dplyr::filter(
+      !(processing_attribute1 %in% c("ULTRA", "HIGH"))
+      # & (processing_attribute2 %in% c("MODERATE", "MILD"))
+      # & (study_site %in% c("WA85_02"))
+      # | (
+      #   processing_attribute1 %in% c("HIGH")
+      #   & processing_attribute2 %in% c("MODERATE")
+      #   & study_site %in% c("SQ02_04")
+      # )
+      # & processing_attribute2 %in% c("MODERATE")
+      # !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
+      # & !(study_site %in% c("KAIBAB_HIGH", "KAIBAB_LOW", "N1", "SQ02_04"))
+    ) %>%
     dplyr::pull(file_full_path) %>% 
     # .[c(10,30,51,72,90,111)] %>% 
     purrr::map(process_raw_las_fn) %>% 
