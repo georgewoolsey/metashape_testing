@@ -594,7 +594,7 @@ process_raw_las_fn = function(my_las_file_path){
       ### Pull the las extent geometry
       las_grid = las_ctg@data$geometry %>%
           sf::st_union() %>% 
-          sf::st_make_grid(100) %>% 
+          sf::st_make_grid(80) %>% 
           sf::st_as_sf() %>% 
           dplyr::mutate(grid_id = dplyr::row_number())
       
@@ -641,7 +641,7 @@ process_raw_las_fn = function(my_las_file_path){
           create_grid_las_list = 
             las_grid %>% 
               sf::st_geometry() %>% 
-              purrr::map(safe_lasr_clip_polygon, files = las_ctg, buffer = 10, ofile_dir = config$las_grid_dir)
+              purrr::map(safe_lasr_clip_polygon, files = las_ctg, buffer = 5, ofile_dir = config$las_grid_dir)
 
         # create spatial index files (.lax)
           create_lax_for_tiles(
@@ -2346,19 +2346,20 @@ process_raw_las_fn = function(my_las_file_path){
 ######################################################################################################
   # map over function for all las files
   processed_tracking_data = las_list_df %>%
-    dplyr::filter(
-      !(processing_attribute1 %in% c("ULTRA", "HIGH"))
-      # & (processing_attribute2 %in% c("MODERATE", "MILD"))
-      # & (study_site %in% c("WA85_02"))
-      # | (
-      #   processing_attribute1 %in% c("HIGH")
-      #   & processing_attribute2 %in% c("MODERATE")
-      #   & study_site %in% c("SQ02_04")
-      # )
-      # & processing_attribute2 %in% c("MODERATE")
-      # !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
-      # & !(study_site %in% c("KAIBAB_HIGH", "KAIBAB_LOW", "N1", "SQ02_04"))
-    ) %>%
+    # dplyr::filter(
+    #   (processing_attribute1 %in% c("HIGH"))
+    #   # & (processing_attribute1 %in% c("LOWEST"))
+    #   & (processing_attribute2 %in% c("MEDIUM"))
+    #   & (study_site %in% c("KAIBAB_HIGH"))
+    #   # | (
+    #   #   processing_attribute1 %in% c("HIGH")
+    #   #   & processing_attribute2 %in% c("MODERATE")
+    #   #   & study_site %in% c("SQ02_04")
+    #   # )
+    #   # & processing_attribute2 %in% c("MODERATE")
+    #   # !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
+    #   # & !(study_site %in% c("KAIBAB_HIGH", "KAIBAB_LOW", "N1", "SQ02_04"))
+    # ) %>%
     dplyr::pull(file_full_path) %>% 
     # .[c(10,30,51,72,90,111)] %>% 
     purrr::map(process_raw_las_fn) %>% 
