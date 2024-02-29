@@ -603,7 +603,7 @@ process_raw_las_fn = function(my_las_file_path){
       ### Pull the las extent geometry
       las_grid = las_ctg@data$geometry %>%
           sf::st_union() %>% 
-          sf::st_make_grid(60) %>% 
+          sf::st_make_grid(70) %>% 
           sf::st_as_sf() %>% 
           dplyr::mutate(grid_id = dplyr::row_number())
       
@@ -2355,20 +2355,18 @@ process_raw_las_fn = function(my_las_file_path){
 ######################################################################################################
   # map over function for all las files
   processed_tracking_data = las_list_df %>%
-    # dplyr::filter(
-    #   (processing_attribute1 %in% c("HIGH"))
-    #   # & (processing_attribute1 %in% c("LOWEST"))
-    #   & (processing_attribute2 %in% c("LOW"))
-    #   & (study_site %in% c("N1"))
-    #   # | (
-    #   #   processing_attribute1 %in% c("HIGH")
-    #   #   & processing_attribute2 %in% c("MODERATE")
-    #   #   & study_site %in% c("SQ02_04")
-    #   # )
-    #   # & processing_attribute2 %in% c("MODERATE")
-    #   # !(processing_attribute1 %in% c("HIGH", "ULTRAHIGH"))
-    #   # & !(study_site %in% c("KAIBAB_HIGH", "KAIBAB_LOW", "N1", "SQ02_04"))
-    # ) %>%
+    dplyr::filter(
+      (processing_attribute2 %in% c("ORIGINAL"))
+      & (processing_attribute3 %in% c("LOW"))
+      # & !(study_site== "KAIBAB_HIGH" & file_name == "DOUBLE_ORIGINAL_HIGH")
+      # & (
+      #   (study_site== "WA85_02" & file_name == "QUARTER_HALF_HIGH")
+      # )
+      # & ( processing_attribute2 %in% c("HALF") & processing_attribute3 %in% c("HIGH") )
+      # & !(study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1","SQ02_04"))
+      # & !(study_site %in% c("KAIBAB_LOW"))
+      
+    ) %>%
     dplyr::pull(file_full_path) %>% 
     # .[c(10,30,51,72,90,111)] %>% 
     purrr::map(process_raw_las_fn) %>% 
@@ -2380,86 +2378,87 @@ process_raw_las_fn = function(my_las_file_path){
     , row.names = F
   )
 
-######################################################################################################
-######################################################################################################
-######################################################################################################
-######################################################################################################
-# COMBINE ALL PROCESSING TRACKING INFORMATION INTO MASTER FILE
-# ..cuz the process was run in batches and "processed_tracking_data" only contains info from curr run
-######################################################################################################
-######################################################################################################
-######################################################################################################
-   # read list of all processed tracking files
-    tracking_list_df = dplyr::tibble(
-      file_full_path = list.files(
-        config$delivery_dir
-        , pattern = ".*_processed_tracking_data.csv$"
-        , full.names = T, recursive = T
-      )
-    ) %>%
-    # filter processed tracking files
-    dplyr::mutate(
-      study_site = file_full_path %>%
-        stringr::word(-1, sep = fixed(config$delivery_dir)) %>%
-        toupper() %>%
-        stringr::str_extract(pattern = paste(toupper(study_site_list),collapse = "|"))
-      , file_name = file_full_path %>%
-        stringr::word(-1, sep = fixed("/")) %>%
-        stringr::word(1, sep = fixed(".")) %>%
-        toupper() %>%
-        stringr::str_remove_all("_PROCESSED_TRACKING_DATA")
-    ) %>%
-    dplyr::filter(
-      !is.na(study_site)
-      & study_site %in% toupper(study_site_list)
-    ) %>%
-    # keep only unique files for processing
-    dplyr::group_by(study_site, file_name) %>%
-    dplyr::filter(dplyr::row_number()==1) %>%
-    dplyr::ungroup() %>%
-    dplyr::rename(tracking_file_full_path = file_full_path) %>%
-    dplyr::left_join(
-      las_list_df %>%
-        dplyr::rename(las_file_full_path = file_full_path)
-      , by = dplyr::join_by("study_site", "file_name")
-    )
-
-  # read each tracking data file, bind rows
-  processed_tracking_data = 1:nrow(tracking_list_df) %>%
-    purrr::map(function(row_n){
-      tracking_list_df %>%
-        dplyr::filter(dplyr::row_number() == row_n) %>%
-        dplyr::bind_cols(
-          read.csv(tracking_list_df$tracking_file_full_path[row_n]) %>%
-            dplyr::select(c(
-              number_of_points, las_area_m2
-              , tidyselect::ends_with("_mins")
-            ))
-        )
-    }) %>%
-    dplyr::bind_rows()
-
-  # write file
-  write.csv(
-    processed_tracking_data
-    , paste0(config$delivery_dir,"/ptcld_processing_tracking_data.csv")
-    , row.names = F
-  )
-
-  # clean up
-    remove(list = ls()[grep("_temp",ls())])
-    remove(tracking_list_df)
-    gc()
-
-
-# #
+# ######################################################################################################
+# ######################################################################################################
+# ######################################################################################################
+# ######################################################################################################
+# # COMBINE ALL PROCESSING TRACKING INFORMATION INTO MASTER FILE
+# # ..cuz the process was run in batches and "processed_tracking_data" only contains info from curr run
+# ######################################################################################################
+# ######################################################################################################
+# ######################################################################################################
+#    # read list of all processed tracking files
+#     tracking_list_df = dplyr::tibble(
+#       file_full_path = list.files(
+#         config$delivery_dir
+#         , pattern = ".*_processed_tracking_data.csv$"
+#         , full.names = T, recursive = T
+#       )
+#     ) %>%
+#     # filter processed tracking files
+#     dplyr::mutate(
+#       study_site = file_full_path %>%
+#         stringr::word(-1, sep = fixed(config$delivery_dir)) %>%
+#         toupper() %>%
+#         stringr::str_extract(pattern = paste(toupper(study_site_list),collapse = "|"))
+#       , file_name = file_full_path %>%
+#         stringr::word(-1, sep = fixed("/")) %>%
+#         stringr::word(1, sep = fixed(".")) %>%
+#         toupper() %>%
+#         stringr::str_remove_all("_PROCESSED_TRACKING_DATA")
+#     ) %>%
+#     dplyr::filter(
+#       !is.na(study_site)
+#       & study_site %in% toupper(study_site_list)
+#     ) %>%
+#     # keep only unique files for processing
+#     dplyr::group_by(study_site, file_name) %>%
+#     dplyr::filter(dplyr::row_number()==1) %>%
+#     dplyr::ungroup() %>%
+#     dplyr::rename(tracking_file_full_path = file_full_path) %>%
+#     dplyr::left_join(
+#       las_list_df %>%
+#         dplyr::rename(las_file_full_path = file_full_path)
+#       , by = dplyr::join_by("study_site", "file_name")
+#     )
+# 
+#   # read each tracking data file, bind rows
+#   processed_tracking_data = 1:nrow(tracking_list_df) %>%
+#     purrr::map(function(row_n){
+#       tracking_list_df %>%
+#         dplyr::filter(dplyr::row_number() == row_n) %>%
+#         dplyr::bind_cols(
+#           read.csv(tracking_list_df$tracking_file_full_path[row_n]) %>%
+#             dplyr::select(c(
+#               number_of_points, las_area_m2
+#               , tidyselect::ends_with("_mins")
+#             ))
+#         )
+#     }) %>%
+#     dplyr::bind_rows()
+# 
+#   # write file
+#   write.csv(
+#     processed_tracking_data
+#     , paste0(config$delivery_dir,"/ptcld_processing_tracking_data.csv")
+#     , row.names = F
+#   )
+# 
+#   # clean up
+#     remove(list = ls()[grep("_temp",ls())])
+#     remove(tracking_list_df)
+#     gc()
+# 
+# 
+# # #
 # las_list_df %>%
-#   dplyr::select(study_site, file_name) %>%
+#   dplyr::select(study_site, file_name, tidyselect::starts_with("processing_attribute")) %>%
 #   dplyr::anti_join(
 #     tracking_list_df %>%
 #       dplyr::select(study_site, file_name)
 #     , by = dplyr::join_by(study_site, file_name)
 #   ) %>%
+#   dplyr::filter(!(processing_attribute2 %in% c("ORIGINAL"))) %>%
 #   dplyr::mutate(
 #     xx = paste0(
 #       "| (study_site== ", study_site, " & file_name == ", file_name, ")"
