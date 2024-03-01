@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en-US" xml:lang="en-US">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 2 SfM Image Processing Data | SfM Processing Software Comparison</title>
+  <meta name="description" content="Using the bookdown package to write a book of data exploration. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 2 SfM Image Processing Data | SfM Processing Software Comparison" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Using the bookdown package to write a book of data exploration. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 2 SfM Image Processing Data | SfM Processing Software Comparison" />
+  
+  <meta name="twitter:description" content="Using the bookdown package to write a book of data exploration. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="George Woolsey" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="ptcld_analysis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script type="text/javascript">
+
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Code" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="sfm_data.html"><a href="sfm_data.html"><i class="fa fa-check"></i><b>2</b> SfM Image Processing Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="sfm_data.html"><a href="sfm_data.html#udp"><i class="fa fa-check"></i><b>2.1</b> User-Defined Parameters</a></li>
+<li class="chapter" data-level="2.2" data-path="sfm_data.html"><a href="sfm_data.html#metashape-image-processing"><i class="fa fa-check"></i><b>2.2</b> Metashape Image Processing</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="sfm_data.html"><a href="sfm_data.html#metashape-report-pdf-data-extraction"><i class="fa fa-check"></i><b>2.2.1</b> Metashape Report PDF Data Extraction</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="sfm_data.html"><a href="sfm_data.html#metashape-report-data-exploration"><i class="fa fa-check"></i><b>2.3</b> Metashape Report Data Exploration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="sfm_data.html"><a href="sfm_data.html#preliminaries"><i class="fa fa-check"></i><b>2.3.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="2.3.2" data-path="sfm_data.html"><a href="sfm_data.html#metashape-processing-time-summary"><i class="fa fa-check"></i><b>2.3.2</b> Metashape Processing Time Summary</a></li>
+<li class="chapter" data-level="2.3.3" data-path="sfm_data.html"><a href="sfm_data.html#flight-and-sparse-cloud-metrics"><i class="fa fa-check"></i><b>2.3.3</b> Flight and Sparse Cloud Metrics</a></li>
+<li class="chapter" data-level="2.3.4" data-path="sfm_data.html"><a href="sfm_data.html#metashape-dense-point-cloud-summary"><i class="fa fa-check"></i><b>2.3.4</b> Metashape Dense Point Cloud Summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html"><i class="fa fa-check"></i><b>3</b> <strong>R</strong> Point Cloud Processing</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.1</b> Processing Time Summary</a></li>
+<li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.2</b> Processing Time vs # Points</a></li>
+<li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.3</b> Processing Section Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="stats_processing_time.html"><a href="stats_processing_time.html"><i class="fa fa-check"></i><b>4</b> Statistical Analysis: Processing Time</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#one_pred_mod"><i class="fa fa-check"></i><b>4.1</b> One Nominal Predictor</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics"><i class="fa fa-check"></i><b>4.1.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model"><i class="fa fa-check"></i><b>4.1.2</b> Linear Model</a></li>
+<li class="chapter" data-level="4.1.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova"><i class="fa fa-check"></i><b>4.1.3</b> ANOVA</a></li>
+<li class="chapter" data-level="4.1.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian"><i class="fa fa-check"></i><b>4.1.4</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two-nominal-predictors"><i class="fa fa-check"></i><b>4.2</b> Two Nominal Predictors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-1"><i class="fa fa-check"></i><b>4.2.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.2.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model-1"><i class="fa fa-check"></i><b>4.2.2</b> Linear Model</a></li>
+<li class="chapter" data-level="4.2.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova-1"><i class="fa fa-check"></i><b>4.2.3</b> ANOVA</a></li>
+<li class="chapter" data-level="4.2.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian-1"><i class="fa fa-check"></i><b>4.2.4</b> Bayesian</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SfM Processing Software Comparison</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sfm_data" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Section 2</span> SfM Image Processing Data<a href="sfm_data.html#sfm_data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This section extracts data from the SfM image processing software reports (usually in <code>pdf</code> format) and reports summary statistics on processing time.</p>
+<div id="udp" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> User-Defined Parameters<a href="sfm_data.html#udp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Parameters to be set by the user</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="sfm_data.html#cb1-1" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!! USER-DEFINED PARAMETERS !!!!!!!!!!!!!!!!!!!!!!! # </span></span>
+<span id="cb1-2"><a href="sfm_data.html#cb1-2" tabindex="-1"></a><span class="do">###____________________###</span></span>
+<span id="cb1-3"><a href="sfm_data.html#cb1-3" tabindex="-1"></a><span class="do">### Set directory for outputs </span><span class="al">###</span></span>
+<span id="cb1-4"><a href="sfm_data.html#cb1-4" tabindex="-1"></a><span class="do">###____________________###</span></span>
+<span id="cb1-5"><a href="sfm_data.html#cb1-5" tabindex="-1"></a><span class="co"># rootdir = &quot;../data&quot;</span></span>
+<span id="cb1-6"><a href="sfm_data.html#cb1-6" tabindex="-1"></a>rootdir <span class="ot">=</span> <span class="st">&quot;../data&quot;</span></span>
+<span id="cb1-7"><a href="sfm_data.html#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="sfm_data.html#cb1-8" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-9"><a href="sfm_data.html#cb1-9" tabindex="-1"></a><span class="do">### Set input data directory </span><span class="al">###</span></span>
+<span id="cb1-10"><a href="sfm_data.html#cb1-10" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-11"><a href="sfm_data.html#cb1-11" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where both pdf report data resides</span></span>
+<span id="cb1-12"><a href="sfm_data.html#cb1-12" tabindex="-1"></a><span class="co"># !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.pdf</span></span>
+<span id="cb1-13"><a href="sfm_data.html#cb1-13" tabindex="-1"></a><span class="co"># !!!!!!!!!! for example: high_aggressive.pdf; UltraHigh_Disabled.pdf; lowest_MILD.pdf</span></span>
+<span id="cb1-14"><a href="sfm_data.html#cb1-14" tabindex="-1"></a>input_data_dir <span class="ot">=</span> <span class="st">&quot;../data/raw_data&quot;</span></span>
+<span id="cb1-15"><a href="sfm_data.html#cb1-15" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="sfm_data.html#cb1-16" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-17"><a href="sfm_data.html#cb1-17" tabindex="-1"></a><span class="do">### list of study site directory names</span></span>
+<span id="cb1-18"><a href="sfm_data.html#cb1-18" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-19"><a href="sfm_data.html#cb1-19" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where both pdf and las data reside</span></span>
+<span id="cb1-20"><a href="sfm_data.html#cb1-20" tabindex="-1"></a><span class="co"># directories matching the names of these study sites will be searched</span></span>
+<span id="cb1-21"><a href="sfm_data.html#cb1-21" tabindex="-1"></a>study_site_list <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-22"><a href="sfm_data.html#cb1-22" tabindex="-1"></a>  <span class="st">&quot;SQ02_04&quot;</span>, <span class="st">&quot;SQ09_02&quot;</span>, <span class="st">&quot;WA85_02&quot;</span></span>
+<span id="cb1-23"><a href="sfm_data.html#cb1-23" tabindex="-1"></a>  , <span class="st">&quot;Kaibab_High&quot;</span>, <span class="st">&quot;Kaibab_Low&quot;</span></span>
+<span id="cb1-24"><a href="sfm_data.html#cb1-24" tabindex="-1"></a>  , <span class="st">&quot;n1&quot;</span></span>
+<span id="cb1-25"><a href="sfm_data.html#cb1-25" tabindex="-1"></a>)</span>
+<span id="cb1-26"><a href="sfm_data.html#cb1-26" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="sfm_data.html#cb1-27" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!! USER-DEFINED PARAMETERS !!!!!!!!!!!!!!!!!!!!!!! #</span></span></code></pre></div>
+</div>
+<div id="metashape-image-processing" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Metashape Image Processing<a href="sfm_data.html#metashape-image-processing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Search for the list of Agisoft Metashape processing report <code>pdf</code> files to extract information from in the user-defined <code>input_data_dir</code> directory. Parse the list of files to extract processing information and study site information from.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="sfm_data.html#cb2-1" tabindex="-1"></a><span class="co"># get list of files and directories to read from</span></span>
+<span id="cb2-2"><a href="sfm_data.html#cb2-2" tabindex="-1"></a>pdf_list <span class="ot">=</span> <span class="fu">list.files</span>(<span class="fu">normalizePath</span>(input_data_dir), <span class="at">pattern =</span> <span class="st">&quot;.*</span><span class="sc">\\</span><span class="st">.(pdf)$&quot;</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
+<span id="cb2-3"><a href="sfm_data.html#cb2-3" tabindex="-1"></a><span class="co"># set up data.frame for processing</span></span>
+<span id="cb2-4"><a href="sfm_data.html#cb2-4" tabindex="-1"></a>pdf_list_df <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb2-5"><a href="sfm_data.html#cb2-5" tabindex="-1"></a>    <span class="at">file_full_path =</span> pdf_list</span>
+<span id="cb2-6"><a href="sfm_data.html#cb2-6" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-7"><a href="sfm_data.html#cb2-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-8"><a href="sfm_data.html#cb2-8" tabindex="-1"></a>    <span class="at">study_site =</span> file_full_path <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="sfm_data.html#cb2-9" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="fu">normalizePath</span>(input_data_dir))) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-10"><a href="sfm_data.html#cb2-10" tabindex="-1"></a>      <span class="fu">toupper</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="sfm_data.html#cb2-11" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_extract</span>(<span class="at">pattern =</span> <span class="fu">paste</span>(<span class="fu">toupper</span>(study_site_list),<span class="at">collapse =</span> <span class="st">&quot;|&quot;</span>))</span>
+<span id="cb2-12"><a href="sfm_data.html#cb2-12" tabindex="-1"></a>    , <span class="at">quality_filtering =</span> file_full_path <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="sfm_data.html#cb2-13" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;/&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-14"><a href="sfm_data.html#cb2-14" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;.&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-15"><a href="sfm_data.html#cb2-15" tabindex="-1"></a>      <span class="fu">toupper</span>()</span>
+<span id="cb2-16"><a href="sfm_data.html#cb2-16" tabindex="-1"></a>    , <span class="at">metashape_quality =</span> quality_filtering <span class="sc">%&gt;%</span> stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;_&quot;</span>))</span>
+<span id="cb2-17"><a href="sfm_data.html#cb2-17" tabindex="-1"></a>    , <span class="at">metashape_depthmap_filtering =</span> quality_filtering <span class="sc">%&gt;%</span> stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;_&quot;</span>))</span>
+<span id="cb2-18"><a href="sfm_data.html#cb2-18" tabindex="-1"></a>  )</span>
+<span id="cb2-19"><a href="sfm_data.html#cb2-19" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="sfm_data.html#cb2-20" tabindex="-1"></a><span class="co"># pdf_list_df</span></span>
+<span id="cb2-21"><a href="sfm_data.html#cb2-21" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb2-22"><a href="sfm_data.html#cb2-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>file_full_path) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-23"><a href="sfm_data.html#cb2-23" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-24"><a href="sfm_data.html#cb2-24" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(study_site,quality_filtering) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-25"><a href="sfm_data.html#cb2-25" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(<span class="at">caption=</span><span class="fu">paste0</span>(<span class="st">&quot;Sample of study site reports extracted from raw data directory (&quot;</span>, <span class="fu">nrow</span>(pdf_list_df), <span class="st">&quot; files detected)&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-26"><a href="sfm_data.html#cb2-26" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:data-load">Table 2.1: </span>Sample of study site reports extracted from raw data directory (120 files detected)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+study_site
+</th>
+<th style="text-align:left;">
+quality_filtering
+</th>
+<th style="text-align:left;">
+metashape_quality
+</th>
+<th style="text-align:left;">
+metashape_depthmap_filtering
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+HIGH_DISABLED
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+HIGH_MILD
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+HIGH_MODERATE
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+LOW_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+LOW_DISABLED
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_LOW
+</td>
+<td style="text-align:left;">
+MEDIUM_DISABLED
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N1
+</td>
+<td style="text-align:left;">
+LOW_MILD
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ02_04
+</td>
+<td style="text-align:left;">
+LOWEST_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ02_04
+</td>
+<td style="text-align:left;">
+LOW_MILD
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ02_04
+</td>
+<td style="text-align:left;">
+MEDIUM_DISABLED
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+HIGH_DISABLED
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+HIGH_MILD
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+LOWEST_MODERATE
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+MEDIUM_MODERATE
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+LOWEST_DISABLED
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+</tbody>
+</table>
+<div id="metashape-report-pdf-data-extraction" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Metashape Report PDF Data Extraction<a href="sfm_data.html#metashape-report-pdf-data-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Define function to extract data from the Agisoft Metashpae <code>pdf</code> reports</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="sfm_data.html#cb3-1" tabindex="-1"></a><span class="do">### function to extract time value</span></span>
+<span id="cb3-2"><a href="sfm_data.html#cb3-2" tabindex="-1"></a>parse_time_value_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(val) {</span>
+<span id="cb3-3"><a href="sfm_data.html#cb3-3" tabindex="-1"></a>    val <span class="ot">=</span> <span class="fu">tolower</span>(val)</span>
+<span id="cb3-4"><a href="sfm_data.html#cb3-4" tabindex="-1"></a>    <span class="co"># seconds</span></span>
+<span id="cb3-5"><a href="sfm_data.html#cb3-5" tabindex="-1"></a>    seconds <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-6"><a href="sfm_data.html#cb3-6" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;seconds&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;seconds&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-7"><a href="sfm_data.html#cb3-7" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="sfm_data.html#cb3-8" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-9"><a href="sfm_data.html#cb3-9" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-10"><a href="sfm_data.html#cb3-10" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-11"><a href="sfm_data.html#cb3-11" tabindex="-1"></a>      <span class="fu">as.numeric</span>()</span>
+<span id="cb3-12"><a href="sfm_data.html#cb3-12" tabindex="-1"></a>    <span class="co"># minutes</span></span>
+<span id="cb3-13"><a href="sfm_data.html#cb3-13" tabindex="-1"></a>    minutes <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-14"><a href="sfm_data.html#cb3-14" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;minutes&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;minutes&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-15"><a href="sfm_data.html#cb3-15" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-16"><a href="sfm_data.html#cb3-16" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-17"><a href="sfm_data.html#cb3-17" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-18"><a href="sfm_data.html#cb3-18" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-19"><a href="sfm_data.html#cb3-19" tabindex="-1"></a>      <span class="fu">as.numeric</span>()  </span>
+<span id="cb3-20"><a href="sfm_data.html#cb3-20" tabindex="-1"></a>    <span class="co"># hours</span></span>
+<span id="cb3-21"><a href="sfm_data.html#cb3-21" tabindex="-1"></a>    hours <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-22"><a href="sfm_data.html#cb3-22" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;hours&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;hours&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-23"><a href="sfm_data.html#cb3-23" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-24"><a href="sfm_data.html#cb3-24" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-25"><a href="sfm_data.html#cb3-25" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-26"><a href="sfm_data.html#cb3-26" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-27"><a href="sfm_data.html#cb3-27" tabindex="-1"></a>      <span class="fu">as.numeric</span>()</span>
+<span id="cb3-28"><a href="sfm_data.html#cb3-28" tabindex="-1"></a>    <span class="co"># combine</span></span>
+<span id="cb3-29"><a href="sfm_data.html#cb3-29" tabindex="-1"></a>    time_mins <span class="ot">=</span> (seconds<span class="sc">/</span><span class="dv">60</span>) <span class="sc">+</span> minutes <span class="sc">+</span> (hours<span class="sc">*</span><span class="dv">60</span>)</span>
+<span id="cb3-30"><a href="sfm_data.html#cb3-30" tabindex="-1"></a>    <span class="fu">return</span>(time_mins)</span>
+<span id="cb3-31"><a href="sfm_data.html#cb3-31" tabindex="-1"></a>}</span>
+<span id="cb3-32"><a href="sfm_data.html#cb3-32" tabindex="-1"></a><span class="do">### function to extract memory value</span></span>
+<span id="cb3-33"><a href="sfm_data.html#cb3-33" tabindex="-1"></a>parse_memory_value_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(val) {</span>
+<span id="cb3-34"><a href="sfm_data.html#cb3-34" tabindex="-1"></a>  val <span class="ot">=</span> <span class="fu">tolower</span>(val)</span>
+<span id="cb3-35"><a href="sfm_data.html#cb3-35" tabindex="-1"></a>    <span class="co"># kb</span></span>
+<span id="cb3-36"><a href="sfm_data.html#cb3-36" tabindex="-1"></a>    kb <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-37"><a href="sfm_data.html#cb3-37" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;kb&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;kb&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-38"><a href="sfm_data.html#cb3-38" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-39"><a href="sfm_data.html#cb3-39" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-40"><a href="sfm_data.html#cb3-40" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-41"><a href="sfm_data.html#cb3-41" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-42"><a href="sfm_data.html#cb3-42" tabindex="-1"></a>      <span class="fu">as.numeric</span>()</span>
+<span id="cb3-43"><a href="sfm_data.html#cb3-43" tabindex="-1"></a>    <span class="co"># mb</span></span>
+<span id="cb3-44"><a href="sfm_data.html#cb3-44" tabindex="-1"></a>    mb <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-45"><a href="sfm_data.html#cb3-45" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;mb&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;mb&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-46"><a href="sfm_data.html#cb3-46" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-47"><a href="sfm_data.html#cb3-47" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-48"><a href="sfm_data.html#cb3-48" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-49"><a href="sfm_data.html#cb3-49" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-50"><a href="sfm_data.html#cb3-50" tabindex="-1"></a>      <span class="fu">as.numeric</span>()  </span>
+<span id="cb3-51"><a href="sfm_data.html#cb3-51" tabindex="-1"></a>    <span class="co"># gb</span></span>
+<span id="cb3-52"><a href="sfm_data.html#cb3-52" tabindex="-1"></a>    gb <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-53"><a href="sfm_data.html#cb3-53" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(val, <span class="at">pattern =</span> <span class="st">&quot;gb&quot;</span>) <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">word</span>(val, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;gb&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-54"><a href="sfm_data.html#cb3-54" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-55"><a href="sfm_data.html#cb3-55" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="at">start =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-56"><a href="sfm_data.html#cb3-56" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb3-57"><a href="sfm_data.html#cb3-57" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-58"><a href="sfm_data.html#cb3-58" tabindex="-1"></a>      <span class="fu">as.numeric</span>()</span>
+<span id="cb3-59"><a href="sfm_data.html#cb3-59" tabindex="-1"></a>    <span class="co"># combine</span></span>
+<span id="cb3-60"><a href="sfm_data.html#cb3-60" tabindex="-1"></a>    mem_mb <span class="ot">=</span> (kb<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">+</span> mb <span class="sc">+</span> (gb<span class="sc">*</span><span class="dv">1000</span>)</span>
+<span id="cb3-61"><a href="sfm_data.html#cb3-61" tabindex="-1"></a>    <span class="fu">return</span>(mem_mb)</span>
+<span id="cb3-62"><a href="sfm_data.html#cb3-62" tabindex="-1"></a>}</span>
+<span id="cb3-63"><a href="sfm_data.html#cb3-63" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="sfm_data.html#cb3-64" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="sfm_data.html#cb3-65" tabindex="-1"></a><span class="co"># read each agisoft metashape report pdf and extract metrics</span></span>
+<span id="cb3-66"><a href="sfm_data.html#cb3-66" tabindex="-1"></a>extract_metashape_report_data_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(file_path) {</span>
+<span id="cb3-67"><a href="sfm_data.html#cb3-67" tabindex="-1"></a>  <span class="co"># read the pdf</span></span>
+<span id="cb3-68"><a href="sfm_data.html#cb3-68" tabindex="-1"></a>  pdf_text_ans <span class="ot">=</span> pdftools<span class="sc">::</span><span class="fu">pdf_text</span>(file_path)</span>
+<span id="cb3-69"><a href="sfm_data.html#cb3-69" tabindex="-1"></a>  <span class="do">##############################</span></span>
+<span id="cb3-70"><a href="sfm_data.html#cb3-70" tabindex="-1"></a>  <span class="co"># pull data out</span></span>
+<span id="cb3-71"><a href="sfm_data.html#cb3-71" tabindex="-1"></a>  <span class="do">##############################</span></span>
+<span id="cb3-72"><a href="sfm_data.html#cb3-72" tabindex="-1"></a>    <span class="do">######################################</span></span>
+<span id="cb3-73"><a href="sfm_data.html#cb3-73" tabindex="-1"></a>    <span class="do">### page 4 table</span></span>
+<span id="cb3-74"><a href="sfm_data.html#cb3-74" tabindex="-1"></a>    <span class="do">######################################</span></span>
+<span id="cb3-75"><a href="sfm_data.html#cb3-75" tabindex="-1"></a>      table_st_temp <span class="ot">=</span> pdf_text_ans[<span class="dv">4</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-76"><a href="sfm_data.html#cb3-76" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_locate</span>(<span class="st">&quot;X error&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-77"><a href="sfm_data.html#cb3-77" tabindex="-1"></a>        .[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb3-78"><a href="sfm_data.html#cb3-78" tabindex="-1"></a>      table_end_temp <span class="ot">=</span> (pdf_text_ans[<span class="dv">4</span>] <span class="sc">%&gt;%</span></span>
+<span id="cb3-79"><a href="sfm_data.html#cb3-79" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_locate</span>(<span class="st">&quot;Table 3&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-80"><a href="sfm_data.html#cb3-80" tabindex="-1"></a>        .[<span class="dv">1</span>,<span class="dv">1</span>])<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb3-81"><a href="sfm_data.html#cb3-81" tabindex="-1"></a>      <span class="co"># matrix</span></span>
+<span id="cb3-82"><a href="sfm_data.html#cb3-82" tabindex="-1"></a>      table_rows_temp <span class="ot">=</span> pdf_text_ans[<span class="dv">4</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-83"><a href="sfm_data.html#cb3-83" tabindex="-1"></a>        <span class="fu">substr</span>(</span>
+<span id="cb3-84"><a href="sfm_data.html#cb3-84" tabindex="-1"></a>          <span class="at">start =</span> table_st_temp</span>
+<span id="cb3-85"><a href="sfm_data.html#cb3-85" tabindex="-1"></a>          , <span class="at">stop =</span> table_end_temp</span>
+<span id="cb3-86"><a href="sfm_data.html#cb3-86" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-87"><a href="sfm_data.html#cb3-87" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="fu">fixed</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">simplify =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-88"><a href="sfm_data.html#cb3-88" tabindex="-1"></a>        <span class="fu">trimws</span>()</span>
+<span id="cb3-89"><a href="sfm_data.html#cb3-89" tabindex="-1"></a>      <span class="co"># are units in m or cm?</span></span>
+<span id="cb3-90"><a href="sfm_data.html#cb3-90" tabindex="-1"></a>      use_m_or_cm <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-91"><a href="sfm_data.html#cb3-91" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_detect</span>(table_rows_temp[<span class="dv">1</span>,<span class="dv">1</span>], <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(m</span><span class="sc">\\</span><span class="st">)&quot;</span>) <span class="sc">~</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(m</span><span class="sc">\\</span><span class="st">)&quot;</span></span>
+<span id="cb3-92"><a href="sfm_data.html#cb3-92" tabindex="-1"></a>        , stringr<span class="sc">::</span><span class="fu">str_detect</span>(table_rows_temp[<span class="dv">1</span>,<span class="dv">1</span>], <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(cm</span><span class="sc">\\</span><span class="st">)&quot;</span>) <span class="sc">~</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(cm</span><span class="sc">\\</span><span class="st">)&quot;</span></span>
+<span id="cb3-93"><a href="sfm_data.html#cb3-93" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb3-94"><a href="sfm_data.html#cb3-94" tabindex="-1"></a>      )</span>
+<span id="cb3-95"><a href="sfm_data.html#cb3-95" tabindex="-1"></a>      <span class="co"># pull names</span></span>
+<span id="cb3-96"><a href="sfm_data.html#cb3-96" tabindex="-1"></a>      names_temp <span class="ot">=</span> table_rows_temp[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">%&gt;%</span></span>
+<span id="cb3-97"><a href="sfm_data.html#cb3-97" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_split</span>(<span class="at">pattern =</span> use_m_or_cm, <span class="at">simplify =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-98"><a href="sfm_data.html#cb3-98" tabindex="-1"></a>        <span class="fu">trimws</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-99"><a href="sfm_data.html#cb3-99" tabindex="-1"></a>        stringi<span class="sc">::</span><span class="fu">stri_remove_empty_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-100"><a href="sfm_data.html#cb3-100" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>,<span class="st">&quot;_&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-101"><a href="sfm_data.html#cb3-101" tabindex="-1"></a>        <span class="fu">tolower</span>()</span>
+<span id="cb3-102"><a href="sfm_data.html#cb3-102" tabindex="-1"></a>      <span class="co"># pull data</span></span>
+<span id="cb3-103"><a href="sfm_data.html#cb3-103" tabindex="-1"></a>      page4_dta_temp <span class="ot">=</span> table_rows_temp[<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(table_rows_temp)] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-104"><a href="sfm_data.html#cb3-104" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s{2,}&quot;</span>, <span class="st">&quot;,&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-105"><a href="sfm_data.html#cb3-105" tabindex="-1"></a>        stringi<span class="sc">::</span><span class="fu">stri_remove_empty_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-106"><a href="sfm_data.html#cb3-106" tabindex="-1"></a>        <span class="fu">textConnection</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-107"><a href="sfm_data.html#cb3-107" tabindex="-1"></a>        <span class="fu">read.csv</span>(</span>
+<span id="cb3-108"><a href="sfm_data.html#cb3-108" tabindex="-1"></a>          <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb3-109"><a href="sfm_data.html#cb3-109" tabindex="-1"></a>          , <span class="at">header =</span> F</span>
+<span id="cb3-110"><a href="sfm_data.html#cb3-110" tabindex="-1"></a>          , <span class="at">col.names =</span> names_temp</span>
+<span id="cb3-111"><a href="sfm_data.html#cb3-111" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-112"><a href="sfm_data.html#cb3-112" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-113"><a href="sfm_data.html#cb3-113" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-114"><a href="sfm_data.html#cb3-114" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb3-115"><a href="sfm_data.html#cb3-115" tabindex="-1"></a>            <span class="at">.cols =</span> tidyselect<span class="sc">::</span><span class="fu">everything</span>()</span>
+<span id="cb3-116"><a href="sfm_data.html#cb3-116" tabindex="-1"></a>            , <span class="at">.fns =</span> <span class="sc">~</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-117"><a href="sfm_data.html#cb3-117" tabindex="-1"></a>              use_m_or_cm <span class="sc">==</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(m</span><span class="sc">\\</span><span class="st">)&quot;</span> <span class="sc">~</span> .x</span>
+<span id="cb3-118"><a href="sfm_data.html#cb3-118" tabindex="-1"></a>              , use_m_or_cm <span class="sc">==</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">(cm</span><span class="sc">\\</span><span class="st">)&quot;</span> <span class="sc">~</span> .x<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb3-119"><a href="sfm_data.html#cb3-119" tabindex="-1"></a>              , T <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="cn">NA</span>)</span>
+<span id="cb3-120"><a href="sfm_data.html#cb3-120" tabindex="-1"></a>            )</span>
+<span id="cb3-121"><a href="sfm_data.html#cb3-121" tabindex="-1"></a>          )</span>
+<span id="cb3-122"><a href="sfm_data.html#cb3-122" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-123"><a href="sfm_data.html#cb3-123" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(.x,<span class="st">&quot;_m&quot;</span>, <span class="at">recycle0 =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-124"><a href="sfm_data.html#cb3-124" tabindex="-1"></a>    </span>
+<span id="cb3-125"><a href="sfm_data.html#cb3-125" tabindex="-1"></a>    <span class="do">######################################</span></span>
+<span id="cb3-126"><a href="sfm_data.html#cb3-126" tabindex="-1"></a>    <span class="do">### page 6 table</span></span>
+<span id="cb3-127"><a href="sfm_data.html#cb3-127" tabindex="-1"></a>    <span class="do">######################################</span></span>
+<span id="cb3-128"><a href="sfm_data.html#cb3-128" tabindex="-1"></a>    page6_dta_temp <span class="ot">=</span></span>
+<span id="cb3-129"><a href="sfm_data.html#cb3-129" tabindex="-1"></a>      pdf_text_ans[<span class="dv">6</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-130"><a href="sfm_data.html#cb3-130" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_remove</span>(<span class="st">&quot;Processing Parameters</span><span class="sc">\n\n</span><span class="st">&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-131"><a href="sfm_data.html#cb3-131" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="fu">fixed</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">simplify =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-132"><a href="sfm_data.html#cb3-132" tabindex="-1"></a>        <span class="fu">trimws</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-133"><a href="sfm_data.html#cb3-133" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s{2,}&quot;</span>, <span class="st">&quot;|&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-134"><a href="sfm_data.html#cb3-134" tabindex="-1"></a>        <span class="fu">textConnection</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-135"><a href="sfm_data.html#cb3-135" tabindex="-1"></a>        <span class="fu">read.csv</span>(</span>
+<span id="cb3-136"><a href="sfm_data.html#cb3-136" tabindex="-1"></a>          <span class="at">sep =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb3-137"><a href="sfm_data.html#cb3-137" tabindex="-1"></a>          , <span class="at">header =</span> F</span>
+<span id="cb3-138"><a href="sfm_data.html#cb3-138" tabindex="-1"></a>          , <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;val&quot;</span>)</span>
+<span id="cb3-139"><a href="sfm_data.html#cb3-139" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-140"><a href="sfm_data.html#cb3-140" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-141"><a href="sfm_data.html#cb3-141" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-142"><a href="sfm_data.html#cb3-142" tabindex="-1"></a>          <span class="at">val =</span> val <span class="sc">%&gt;%</span> stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> <span class="fu">tolower</span>()</span>
+<span id="cb3-143"><a href="sfm_data.html#cb3-143" tabindex="-1"></a>          , <span class="at">is_header =</span> <span class="fu">is.na</span>(val) <span class="sc">|</span> val <span class="sc">==</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb3-144"><a href="sfm_data.html#cb3-144" tabindex="-1"></a>          , <span class="at">heading_grp =</span> <span class="fu">cumsum</span>(is_header)</span>
+<span id="cb3-145"><a href="sfm_data.html#cb3-145" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-146"><a href="sfm_data.html#cb3-146" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">group_by</span>(heading_grp) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-147"><a href="sfm_data.html#cb3-147" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-148"><a href="sfm_data.html#cb3-148" tabindex="-1"></a>          <span class="at">heading_nm =</span> dplyr<span class="sc">::</span><span class="fu">first</span>(var) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-149"><a href="sfm_data.html#cb3-149" tabindex="-1"></a>            <span class="fu">tolower</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-150"><a href="sfm_data.html#cb3-150" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;parameters&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-151"><a href="sfm_data.html#cb3-151" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-152"><a href="sfm_data.html#cb3-152" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>, <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb3-153"><a href="sfm_data.html#cb3-153" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-154"><a href="sfm_data.html#cb3-154" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-155"><a href="sfm_data.html#cb3-155" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-156"><a href="sfm_data.html#cb3-156" tabindex="-1"></a>          <span class="at">new_var =</span> <span class="fu">paste0</span>(</span>
+<span id="cb3-157"><a href="sfm_data.html#cb3-157" tabindex="-1"></a>            heading_nm</span>
+<span id="cb3-158"><a href="sfm_data.html#cb3-158" tabindex="-1"></a>            , <span class="st">&quot;_&quot;</span></span>
+<span id="cb3-159"><a href="sfm_data.html#cb3-159" tabindex="-1"></a>            , var <span class="sc">%&gt;%</span> <span class="fu">tolower</span>() <span class="sc">%&gt;%</span> stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>, <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb3-160"><a href="sfm_data.html#cb3-160" tabindex="-1"></a>          )</span>
+<span id="cb3-161"><a href="sfm_data.html#cb3-161" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-162"><a href="sfm_data.html#cb3-162" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">filter</span>(is_header<span class="sc">==</span>F) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-163"><a href="sfm_data.html#cb3-163" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">select</span>(new_var, val) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-164"><a href="sfm_data.html#cb3-164" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-165"><a href="sfm_data.html#cb3-165" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-166"><a href="sfm_data.html#cb3-166" tabindex="-1"></a>          <span class="at">val =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-167"><a href="sfm_data.html#cb3-167" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_time&quot;</span>) <span class="sc">~</span> <span class="fu">parse_time_value_fn</span>(val) <span class="sc">%&gt;%</span> <span class="fu">as.character</span>()</span>
+<span id="cb3-168"><a href="sfm_data.html#cb3-168" tabindex="-1"></a>            , stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_memory_usage&quot;</span>) <span class="sc">~</span> <span class="fu">parse_memory_value_fn</span>(val) <span class="sc">%&gt;%</span> <span class="fu">as.character</span>()</span>
+<span id="cb3-169"><a href="sfm_data.html#cb3-169" tabindex="-1"></a>            , stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_file_size&quot;</span>) <span class="sc">~</span> <span class="fu">parse_memory_value_fn</span>(val) <span class="sc">%&gt;%</span> <span class="fu">as.character</span>()</span>
+<span id="cb3-170"><a href="sfm_data.html#cb3-170" tabindex="-1"></a>            , T <span class="sc">~</span> val</span>
+<span id="cb3-171"><a href="sfm_data.html#cb3-171" tabindex="-1"></a>          )</span>
+<span id="cb3-172"><a href="sfm_data.html#cb3-172" tabindex="-1"></a>          , <span class="at">new_var =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb3-173"><a href="sfm_data.html#cb3-173" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_time&quot;</span>) <span class="sc">~</span> <span class="fu">paste0</span>(new_var, <span class="st">&quot;_mins&quot;</span>)</span>
+<span id="cb3-174"><a href="sfm_data.html#cb3-174" tabindex="-1"></a>            , stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_memory_usage&quot;</span>) <span class="sc">~</span> <span class="fu">paste0</span>(new_var, <span class="st">&quot;_mb&quot;</span>)</span>
+<span id="cb3-175"><a href="sfm_data.html#cb3-175" tabindex="-1"></a>            , stringr<span class="sc">::</span><span class="fu">str_ends</span>(new_var, <span class="st">&quot;_file_size&quot;</span>) <span class="sc">~</span> <span class="fu">paste0</span>(new_var, <span class="st">&quot;_mb&quot;</span>)</span>
+<span id="cb3-176"><a href="sfm_data.html#cb3-176" tabindex="-1"></a>            , T <span class="sc">~</span> new_var</span>
+<span id="cb3-177"><a href="sfm_data.html#cb3-177" tabindex="-1"></a>          )</span>
+<span id="cb3-178"><a href="sfm_data.html#cb3-178" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-179"><a href="sfm_data.html#cb3-179" tabindex="-1"></a>        tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> new_var, <span class="at">values_from =</span> val) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-180"><a href="sfm_data.html#cb3-180" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-181"><a href="sfm_data.html#cb3-181" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb3-182"><a href="sfm_data.html#cb3-182" tabindex="-1"></a>            <span class="at">.cols =</span> <span class="fu">c</span>(</span>
+<span id="cb3-183"><a href="sfm_data.html#cb3-183" tabindex="-1"></a>              tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_mins&quot;</span>)</span>
+<span id="cb3-184"><a href="sfm_data.html#cb3-184" tabindex="-1"></a>              , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_mb&quot;</span>)</span>
+<span id="cb3-185"><a href="sfm_data.html#cb3-185" tabindex="-1"></a>              , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_count&quot;</span>)</span>
+<span id="cb3-186"><a href="sfm_data.html#cb3-186" tabindex="-1"></a>              , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_cameras&quot;</span>)</span>
+<span id="cb3-187"><a href="sfm_data.html#cb3-187" tabindex="-1"></a>              , dense_point_cloud_points</span>
+<span id="cb3-188"><a href="sfm_data.html#cb3-188" tabindex="-1"></a>            )</span>
+<span id="cb3-189"><a href="sfm_data.html#cb3-189" tabindex="-1"></a>            , <span class="at">.fns =</span> <span class="sc">~</span> readr<span class="sc">::</span><span class="fu">parse_number</span>(.x)</span>
+<span id="cb3-190"><a href="sfm_data.html#cb3-190" tabindex="-1"></a>          )</span>
+<span id="cb3-191"><a href="sfm_data.html#cb3-191" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-192"><a href="sfm_data.html#cb3-192" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-193"><a href="sfm_data.html#cb3-193" tabindex="-1"></a>          <span class="at">total_dense_point_cloud_processing_time_mins =</span> (</span>
+<span id="cb3-194"><a href="sfm_data.html#cb3-194" tabindex="-1"></a>              dense_cloud_generation_processing_time_mins <span class="sc">+</span></span>
+<span id="cb3-195"><a href="sfm_data.html#cb3-195" tabindex="-1"></a>              depth_maps_generation_processing_time_mins</span>
+<span id="cb3-196"><a href="sfm_data.html#cb3-196" tabindex="-1"></a>            )</span>
+<span id="cb3-197"><a href="sfm_data.html#cb3-197" tabindex="-1"></a>          , <span class="at">total_sparse_point_cloud_processing_time_mins =</span> (</span>
+<span id="cb3-198"><a href="sfm_data.html#cb3-198" tabindex="-1"></a>              alignment_matching_time_mins <span class="sc">+</span></span>
+<span id="cb3-199"><a href="sfm_data.html#cb3-199" tabindex="-1"></a>              alignment_alignment_time_mins</span>
+<span id="cb3-200"><a href="sfm_data.html#cb3-200" tabindex="-1"></a>            )</span>
+<span id="cb3-201"><a href="sfm_data.html#cb3-201" tabindex="-1"></a>        )</span>
+<span id="cb3-202"><a href="sfm_data.html#cb3-202" tabindex="-1"></a>  <span class="do">######################################</span></span>
+<span id="cb3-203"><a href="sfm_data.html#cb3-203" tabindex="-1"></a>  <span class="do">### full pdf data</span></span>
+<span id="cb3-204"><a href="sfm_data.html#cb3-204" tabindex="-1"></a>  <span class="do">######################################</span></span>
+<span id="cb3-205"><a href="sfm_data.html#cb3-205" tabindex="-1"></a>  pdf_data_temp <span class="ot">=</span></span>
+<span id="cb3-206"><a href="sfm_data.html#cb3-206" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb3-207"><a href="sfm_data.html#cb3-207" tabindex="-1"></a>      <span class="at">file_full_path =</span> file_path</span>
+<span id="cb3-208"><a href="sfm_data.html#cb3-208" tabindex="-1"></a>      <span class="co"># pdf page 1</span></span>
+<span id="cb3-209"><a href="sfm_data.html#cb3-209" tabindex="-1"></a>      , <span class="at">pdf_title =</span> pdf_text_ans[<span class="dv">1</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-210"><a href="sfm_data.html#cb3-210" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb3-211"><a href="sfm_data.html#cb3-211" tabindex="-1"></a>      <span class="co"># pdf page 2</span></span>
+<span id="cb3-212"><a href="sfm_data.html#cb3-212" tabindex="-1"></a>      , <span class="at">number_of_images =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-213"><a href="sfm_data.html#cb3-213" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Number of images:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-214"><a href="sfm_data.html#cb3-214" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Camera stations:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-215"><a href="sfm_data.html#cb3-215" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-216"><a href="sfm_data.html#cb3-216" tabindex="-1"></a>      , <span class="at">flying_altitude_m =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-217"><a href="sfm_data.html#cb3-217" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Flying altitude:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-218"><a href="sfm_data.html#cb3-218" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot; m &quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-219"><a href="sfm_data.html#cb3-219" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-220"><a href="sfm_data.html#cb3-220" tabindex="-1"></a>      , <span class="at">tie_points =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-221"><a href="sfm_data.html#cb3-221" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Tie points:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-222"><a href="sfm_data.html#cb3-222" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-223"><a href="sfm_data.html#cb3-223" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-224"><a href="sfm_data.html#cb3-224" tabindex="-1"></a>      , <span class="at">ground_resolution_cm_pix =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-225"><a href="sfm_data.html#cb3-225" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Ground resolution:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-226"><a href="sfm_data.html#cb3-226" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;cm&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-227"><a href="sfm_data.html#cb3-227" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-228"><a href="sfm_data.html#cb3-228" tabindex="-1"></a>      , <span class="at">coverage_area_km2 =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-229"><a href="sfm_data.html#cb3-229" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Coverage area:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-230"><a href="sfm_data.html#cb3-230" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;km&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-231"><a href="sfm_data.html#cb3-231" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-232"><a href="sfm_data.html#cb3-232" tabindex="-1"></a>      , <span class="at">reprojection_error_pix =</span> pdf_text_ans[<span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb3-233"><a href="sfm_data.html#cb3-233" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;Reprojection error:&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-234"><a href="sfm_data.html#cb3-234" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">word</span>(<span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="st">&quot;pix&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-235"><a href="sfm_data.html#cb3-235" tabindex="-1"></a>        readr<span class="sc">::</span><span class="fu">parse_number</span>()</span>
+<span id="cb3-236"><a href="sfm_data.html#cb3-236" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-237"><a href="sfm_data.html#cb3-237" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(page4_dta_temp, page6_dta_temp)</span>
+<span id="cb3-238"><a href="sfm_data.html#cb3-238" tabindex="-1"></a>  <span class="co"># return</span></span>
+<span id="cb3-239"><a href="sfm_data.html#cb3-239" tabindex="-1"></a>  <span class="fu">return</span>(pdf_data_temp)</span>
+<span id="cb3-240"><a href="sfm_data.html#cb3-240" tabindex="-1"></a>}</span></code></pre></div>
+<p>Build a data table using the <code>pdf</code> data extraction function for each <code>pdf</code> report file found in the raw data directory</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="sfm_data.html#cb4-1" tabindex="-1"></a><span class="co"># map function over list of files</span></span>
+<span id="cb4-2"><a href="sfm_data.html#cb4-2" tabindex="-1"></a>pdf_data_temp <span class="ot">=</span> pdf_list_df<span class="sc">$</span>file_full_path <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="sfm_data.html#cb4-3" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(extract_metashape_report_data_fn) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="sfm_data.html#cb4-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>()</span>
+<span id="cb4-5"><a href="sfm_data.html#cb4-5" tabindex="-1"></a><span class="co"># combine with original data</span></span>
+<span id="cb4-6"><a href="sfm_data.html#cb4-6" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">nrow</span>(pdf_data_temp) <span class="sc">!=</span> <span class="fu">nrow</span>(pdf_list_df)){<span class="fu">stop</span>(<span class="st">&quot;extract_metashape_report_data_fn failed...check missing data or duplicated data&quot;</span>)}<span class="cf">else</span>{</span>
+<span id="cb4-7"><a href="sfm_data.html#cb4-7" tabindex="-1"></a>  pdf_list_df <span class="ot">=</span> pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="sfm_data.html#cb4-8" tabindex="-1"></a>    <span class="fu">left_join</span>(pdf_data_temp, <span class="at">by =</span> dplyr<span class="sc">::</span><span class="fu">join_by</span>(<span class="st">&quot;file_full_path&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="sfm_data.html#cb4-9" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb4-10"><a href="sfm_data.html#cb4-10" tabindex="-1"></a>      <span class="at">depth_maps_generation_quality =</span> <span class="fu">factor</span>(</span>
+<span id="cb4-11"><a href="sfm_data.html#cb4-11" tabindex="-1"></a>          depth_maps_generation_quality</span>
+<span id="cb4-12"><a href="sfm_data.html#cb4-12" tabindex="-1"></a>          , <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-13"><a href="sfm_data.html#cb4-13" tabindex="-1"></a>          , <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb4-14"><a href="sfm_data.html#cb4-14" tabindex="-1"></a>            <span class="st">&quot;lowest&quot;</span></span>
+<span id="cb4-15"><a href="sfm_data.html#cb4-15" tabindex="-1"></a>            , <span class="st">&quot;low&quot;</span></span>
+<span id="cb4-16"><a href="sfm_data.html#cb4-16" tabindex="-1"></a>            , <span class="st">&quot;medium&quot;</span></span>
+<span id="cb4-17"><a href="sfm_data.html#cb4-17" tabindex="-1"></a>            , <span class="st">&quot;high&quot;</span></span>
+<span id="cb4-18"><a href="sfm_data.html#cb4-18" tabindex="-1"></a>            , <span class="st">&quot;ultra high&quot;</span></span>
+<span id="cb4-19"><a href="sfm_data.html#cb4-19" tabindex="-1"></a>          )</span>
+<span id="cb4-20"><a href="sfm_data.html#cb4-20" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
+<span id="cb4-21"><a href="sfm_data.html#cb4-21" tabindex="-1"></a>      , <span class="at">depth_maps_generation_filtering_mode =</span> <span class="fu">factor</span>(</span>
+<span id="cb4-22"><a href="sfm_data.html#cb4-22" tabindex="-1"></a>          depth_maps_generation_filtering_mode</span>
+<span id="cb4-23"><a href="sfm_data.html#cb4-23" tabindex="-1"></a>          , <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-24"><a href="sfm_data.html#cb4-24" tabindex="-1"></a>          , <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb4-25"><a href="sfm_data.html#cb4-25" tabindex="-1"></a>            <span class="st">&quot;disabled&quot;</span></span>
+<span id="cb4-26"><a href="sfm_data.html#cb4-26" tabindex="-1"></a>            , <span class="st">&quot;mild&quot;</span></span>
+<span id="cb4-27"><a href="sfm_data.html#cb4-27" tabindex="-1"></a>            , <span class="st">&quot;moderate&quot;</span></span>
+<span id="cb4-28"><a href="sfm_data.html#cb4-28" tabindex="-1"></a>            , <span class="st">&quot;aggressive&quot;</span></span>
+<span id="cb4-29"><a href="sfm_data.html#cb4-29" tabindex="-1"></a>          )</span>
+<span id="cb4-30"><a href="sfm_data.html#cb4-30" tabindex="-1"></a>        ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
+<span id="cb4-31"><a href="sfm_data.html#cb4-31" tabindex="-1"></a>    )</span>
+<span id="cb4-32"><a href="sfm_data.html#cb4-32" tabindex="-1"></a>}</span></code></pre></div>
+<p>Write out data</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="sfm_data.html#cb5-1" tabindex="-1"></a><span class="do">## write out data</span></span>
+<span id="cb5-2"><a href="sfm_data.html#cb5-2" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="sfm_data.html#cb5-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(</span>
+<span id="cb5-4"><a href="sfm_data.html#cb5-4" tabindex="-1"></a>    file_full_path, metashape_quality</span>
+<span id="cb5-5"><a href="sfm_data.html#cb5-5" tabindex="-1"></a>    , metashape_depthmap_filtering, quality_filtering</span>
+<span id="cb5-6"><a href="sfm_data.html#cb5-6" tabindex="-1"></a>    , pdf_title</span>
+<span id="cb5-7"><a href="sfm_data.html#cb5-7" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="sfm_data.html#cb5-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(</span>
+<span id="cb5-9"><a href="sfm_data.html#cb5-9" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb5-10"><a href="sfm_data.html#cb5-10" tabindex="-1"></a>      depth_maps_generation_quality, depth_maps_generation_filtering_mode</span>
+<span id="cb5-11"><a href="sfm_data.html#cb5-11" tabindex="-1"></a>      , total_sparse_point_cloud_processing_time_mins</span>
+<span id="cb5-12"><a href="sfm_data.html#cb5-12" tabindex="-1"></a>      , total_dense_point_cloud_processing_time_mins</span>
+<span id="cb5-13"><a href="sfm_data.html#cb5-13" tabindex="-1"></a>      , dense_point_cloud_points</span>
+<span id="cb5-14"><a href="sfm_data.html#cb5-14" tabindex="-1"></a>      , dense_cloud_generation_file_size_mb</span>
+<span id="cb5-15"><a href="sfm_data.html#cb5-15" tabindex="-1"></a>      , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_error_m&quot;</span>)</span>
+<span id="cb5-16"><a href="sfm_data.html#cb5-16" tabindex="-1"></a>    )</span>
+<span id="cb5-17"><a href="sfm_data.html#cb5-17" tabindex="-1"></a>    , <span class="at">.after =</span> study_site</span>
+<span id="cb5-18"><a href="sfm_data.html#cb5-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-19"><a href="sfm_data.html#cb5-19" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(</span>
+<span id="cb5-20"><a href="sfm_data.html#cb5-20" tabindex="-1"></a>    study_site, depth_maps_generation_quality, depth_maps_generation_filtering_mode</span>
+<span id="cb5-21"><a href="sfm_data.html#cb5-21" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-22"><a href="sfm_data.html#cb5-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb5-23"><a href="sfm_data.html#cb5-23" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb5-24"><a href="sfm_data.html#cb5-24" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(depth_maps_generation_quality, depth_maps_generation_filtering_mode)</span>
+<span id="cb5-25"><a href="sfm_data.html#cb5-25" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="sc">~</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(.x)</span>
+<span id="cb5-26"><a href="sfm_data.html#cb5-26" tabindex="-1"></a>    )</span>
+<span id="cb5-27"><a href="sfm_data.html#cb5-27" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-28"><a href="sfm_data.html#cb5-28" tabindex="-1"></a>  <span class="fu">write.csv</span>(</span>
+<span id="cb5-29"><a href="sfm_data.html#cb5-29" tabindex="-1"></a>    <span class="at">file =</span> <span class="fu">paste0</span>(rootdir, <span class="st">&quot;/metashape_processing_data.csv&quot;</span>)</span>
+<span id="cb5-30"><a href="sfm_data.html#cb5-30" tabindex="-1"></a>    , <span class="at">row.names =</span> F</span>
+<span id="cb5-31"><a href="sfm_data.html#cb5-31" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="metashape-report-data-exploration" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Metashape Report Data Exploration<a href="sfm_data.html#metashape-report-data-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="preliminaries" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Preliminaries<a href="sfm_data.html#preliminaries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>What does the data look like?</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="sfm_data.html#cb6-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 120
+## Columns: 56
+## $ file_full_path                                &lt;chr&gt; &quot;C:\\Data\\usfs\\metasha…
+## $ study_site                                    &lt;chr&gt; &quot;KAIBAB_HIGH&quot;, &quot;KAIBAB_H…
+## $ quality_filtering                             &lt;chr&gt; &quot;HIGH_AGGRESSIVE&quot;, &quot;HIGH…
+## $ metashape_quality                             &lt;chr&gt; &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;HIGH&quot;, …
+## $ metashape_depthmap_filtering                  &lt;chr&gt; &quot;AGGRESSIVE&quot;, &quot;DISABLED&quot;…
+## $ pdf_title                                     &lt;chr&gt; &quot;High_Aggressive&quot;, &quot;High…
+## $ number_of_images                              &lt;dbl&gt; 132, 132, 132, 132, 132,…
+## $ flying_altitude_m                             &lt;dbl&gt; 94.1, 94.1, 94.1, 94.1, …
+## $ tie_points                                    &lt;dbl&gt; 109282, 109282, 109282, …
+## $ ground_resolution_cm_pix                      &lt;dbl&gt; 2.26, 2.18, 2.20, 2.19, …
+## $ coverage_area_km2                             &lt;dbl&gt; 0.0396, 0.0399, 0.0396, …
+## $ reprojection_error_pix                        &lt;dbl&gt; 0.704, 0.704, 0.704, 0.7…
+## $ x_error_m                                     &lt;dbl&gt; 1.420520, 1.420520, 1.42…
+## $ y_error_m                                     &lt;dbl&gt; 1.029610, 1.029610, 1.02…
+## $ z_error_m                                     &lt;dbl&gt; 0.475722, 0.475722, 0.47…
+## $ xy_error_m                                    &lt;dbl&gt; 1.754410, 1.754410, 1.75…
+## $ total_error_m                                 &lt;dbl&gt; 1.817770, 1.817770, 1.81…
+## $ general_cameras                               &lt;dbl&gt; 132, 132, 132, 132, 132,…
+## $ general_aligned_cameras                       &lt;dbl&gt; 132, 132, 132, 132, 132,…
+## $ general_coordinate_system                     &lt;chr&gt; &quot;w gs 84 (epsg::4326)&quot;, …
+## $ general_rotation_angles                       &lt;chr&gt; &quot;yaw, pitch, roll&quot;, &quot;yaw…
+## $ point_cloud_points                            &lt;chr&gt; &quot;109,282 of 118,009&quot;, &quot;1…
+## $ point_cloud_rms_reprojection_error            &lt;chr&gt; &quot;0.149663 (0.703638 pix)…
+## $ point_cloud_max_reprojection_error            &lt;chr&gt; &quot;0.453748 (34.8372 pix)&quot;…
+## $ point_cloud_mean_key_point_size               &lt;chr&gt; &quot;3.80033 pix&quot;, &quot;3.80033 …
+## $ point_cloud_point_colors                      &lt;chr&gt; &quot;3 bands, uint8&quot;, &quot;3 ban…
+## $ point_cloud_key_points                        &lt;chr&gt; &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, …
+## $ point_cloud_average_tie_point_multiplicity    &lt;chr&gt; &quot;3.56183&quot;, &quot;3.56183&quot;, &quot;3…
+## $ alignment_accuracy                            &lt;chr&gt; &quot;high&quot;, &quot;high&quot;, &quot;high&quot;, …
+## $ alignment_generic_preselection                &lt;chr&gt; &quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;, &quot;ye…
+## $ alignment_reference_preselection              &lt;chr&gt; &quot;source&quot;, &quot;source&quot;, &quot;sou…
+## $ alignment_key_point_limit                     &lt;chr&gt; &quot;40,000&quot;, &quot;40,000&quot;, &quot;40,…
+## $ alignment_tie_point_limit                     &lt;chr&gt; &quot;4,000&quot;, &quot;4,000&quot;, &quot;4,000…
+## $ alignment_guided_image_matching               &lt;chr&gt; &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, &quot;no&quot;, …
+## $ alignment_adaptive_camera_model_fitting       &lt;chr&gt; &quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;, &quot;ye…
+## $ alignment_matching_time_mins                  &lt;dbl&gt; 1.116667, 1.116667, 1.11…
+## $ alignment_matching_memory_usage_mb            &lt;dbl&gt; 375.78, 375.78, 375.78, …
+## $ alignment_alignment_time_mins                 &lt;dbl&gt; 0.4833333, 0.4833333, 0.…
+## $ alignment_alignment_memory_usage_mb           &lt;dbl&gt; 66.08, 66.08, 66.08, 66.…
+## $ alignment_software_version                    &lt;chr&gt; &quot;1.6.4.10928&quot;, &quot;1.6.4.10…
+## $ alignment_file_size_mb                        &lt;dbl&gt; 9.27, 9.27, 9.27, 9.27, …
+## $ depth_maps_count                              &lt;dbl&gt; 132, 132, 132, 132, 132,…
+## $ depth_maps_generation_quality                 &lt;ord&gt; high, high, high, high, …
+## $ depth_maps_generation_filtering_mode          &lt;ord&gt; aggressive, disabled, mi…
+## $ depth_maps_generation_processing_time_mins    &lt;dbl&gt; 15.2500000, 15.8166667, …
+## $ depth_maps_generation_memory_usage_mb         &lt;dbl&gt; 1930.00, 2020.00, 1870.0…
+## $ depth_maps_generation_software_version        &lt;chr&gt; &quot;1.6.4.10928&quot;, &quot;1.6.4.10…
+## $ depth_maps_generation_file_size_mb            &lt;dbl&gt; 611.00, 868.53, 775.67, …
+## $ dense_point_cloud_points                      &lt;dbl&gt; 52974294, 72549206, 6985…
+## $ dense_point_cloud_point_colors                &lt;chr&gt; &quot;3 bands, uint8&quot;, &quot;3 ban…
+## $ dense_cloud_generation_processing_time_mins   &lt;dbl&gt; 37.9500000, 42.9000000, …
+## $ dense_cloud_generation_memory_usage_mb        &lt;dbl&gt; 8140.00, 8170.00, 8100.0…
+## $ dense_cloud_generation_software_version       &lt;chr&gt; &quot;1.6.4.10928&quot;, &quot;1.6.4.10…
+## $ dense_cloud_generation_file_size_mb           &lt;dbl&gt; 760.56, 1020.00, 1004.88…
+## $ total_dense_point_cloud_processing_time_mins  &lt;dbl&gt; 53.200000, 58.716667, 54…
+## $ total_sparse_point_cloud_processing_time_mins &lt;dbl&gt; 1.600000, 1.600000, 1.60…</code></pre>
+<p>Do the processing settings match the file names?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="sfm_data.html#cb8-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="sfm_data.html#cb8-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="sfm_data.html#cb8-3" tabindex="-1"></a>    <span class="at">quality_match =</span> <span class="fu">toupper</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="sfm_data.html#cb8-4" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>) <span class="sc">==</span> </span>
+<span id="cb8-5"><a href="sfm_data.html#cb8-5" tabindex="-1"></a>      <span class="fu">toupper</span>(metashape_quality) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="sfm_data.html#cb8-6" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>)</span>
+<span id="cb8-7"><a href="sfm_data.html#cb8-7" tabindex="-1"></a>    , <span class="at">filtering_match =</span> <span class="fu">toupper</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="sfm_data.html#cb8-8" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>) <span class="sc">==</span> </span>
+<span id="cb8-9"><a href="sfm_data.html#cb8-9" tabindex="-1"></a>      <span class="fu">toupper</span>(metashape_depthmap_filtering) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-10"><a href="sfm_data.html#cb8-10" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s&quot;</span>)</span>
+<span id="cb8-11"><a href="sfm_data.html#cb8-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="sfm_data.html#cb8-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(quality_match, filtering_match) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="sfm_data.html#cb8-13" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(<span class="at">caption=</span><span class="st">&quot;Do the processing settings match the file names?&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="sfm_data.html#cb8-14" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:name-match">Table 2.2: </span>Do the processing settings match the file names?
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+quality_match
+</th>
+<th style="text-align:left;">
+filtering_match
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+120
+</td>
+</tr>
+</tbody>
+</table>
+<p>How many records are there for each depth map generation quality and depth map filtering mode settings?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="sfm_data.html#cb9-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="sfm_data.html#cb9-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_quality, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="sfm_data.html#cb9-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb9-4"><a href="sfm_data.html#cb9-4" tabindex="-1"></a>    <span class="at">x =</span> n</span>
+<span id="cb9-5"><a href="sfm_data.html#cb9-5" tabindex="-1"></a>    , <span class="at">y =</span> depth_maps_generation_quality</span>
+<span id="cb9-6"><a href="sfm_data.html#cb9-6" tabindex="-1"></a>    , <span class="at">fill =</span> depth_maps_generation_filtering_mode)</span>
+<span id="cb9-7"><a href="sfm_data.html#cb9-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="sfm_data.html#cb9-8" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="sfm_data.html#cb9-9" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb9-10"><a href="sfm_data.html#cb9-10" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb9-11"><a href="sfm_data.html#cb9-11" tabindex="-1"></a>      <span class="at">group=</span>depth_maps_generation_filtering_mode</span>
+<span id="cb9-12"><a href="sfm_data.html#cb9-12" tabindex="-1"></a>      ,<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">comma</span>(n, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb9-13"><a href="sfm_data.html#cb9-13" tabindex="-1"></a>      , <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb9-14"><a href="sfm_data.html#cb9-14" tabindex="-1"></a>      )</span>
+<span id="cb9-15"><a href="sfm_data.html#cb9-15" tabindex="-1"></a>    , <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb9-16"><a href="sfm_data.html#cb9-16" tabindex="-1"></a>    , <span class="at">color =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb9-17"><a href="sfm_data.html#cb9-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="sfm_data.html#cb9-18" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-19"><a href="sfm_data.html#cb9-19" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">14</span>)) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="sfm_data.html#cb9-20" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-21"><a href="sfm_data.html#cb9-21" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb9-22"><a href="sfm_data.html#cb9-22" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb9-23"><a href="sfm_data.html#cb9-23" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;n&quot;</span></span>
+<span id="cb9-24"><a href="sfm_data.html#cb9-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-25"><a href="sfm_data.html#cb9-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb9-26"><a href="sfm_data.html#cb9-26" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-27"><a href="sfm_data.html#cb9-27" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb9-28"><a href="sfm_data.html#cb9-28" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb9-29"><a href="sfm_data.html#cb9-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-30"><a href="sfm_data.html#cb9-30" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb9-31"><a href="sfm_data.html#cb9-31" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb9-32"><a href="sfm_data.html#cb9-32" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/quality-filtering-1.png" width="1008" /></p>
+<p>How many records are there for each study site?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="sfm_data.html#cb10-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="sfm_data.html#cb10-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_quality, depth_maps_generation_filtering_mode, study_site) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="sfm_data.html#cb10-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb10-4"><a href="sfm_data.html#cb10-4" tabindex="-1"></a>    <span class="at">x =</span> n</span>
+<span id="cb10-5"><a href="sfm_data.html#cb10-5" tabindex="-1"></a>    , <span class="at">y =</span> depth_maps_generation_quality</span>
+<span id="cb10-6"><a href="sfm_data.html#cb10-6" tabindex="-1"></a>    , <span class="at">fill =</span> depth_maps_generation_filtering_mode)</span>
+<span id="cb10-7"><a href="sfm_data.html#cb10-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="sfm_data.html#cb10-8" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="sfm_data.html#cb10-9" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb10-10"><a href="sfm_data.html#cb10-10" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb10-11"><a href="sfm_data.html#cb10-11" tabindex="-1"></a>      <span class="at">group=</span>depth_maps_generation_filtering_mode</span>
+<span id="cb10-12"><a href="sfm_data.html#cb10-12" tabindex="-1"></a>      ,<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">comma</span>(n, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb10-13"><a href="sfm_data.html#cb10-13" tabindex="-1"></a>      , <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb10-14"><a href="sfm_data.html#cb10-14" tabindex="-1"></a>      )</span>
+<span id="cb10-15"><a href="sfm_data.html#cb10-15" tabindex="-1"></a>    , <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb10-16"><a href="sfm_data.html#cb10-16" tabindex="-1"></a>    , <span class="at">color =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb10-17"><a href="sfm_data.html#cb10-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="sfm_data.html#cb10-18" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(study_site), <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-19"><a href="sfm_data.html#cb10-19" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="sfm_data.html#cb10-20" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-21"><a href="sfm_data.html#cb10-21" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb10-22"><a href="sfm_data.html#cb10-22" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb10-23"><a href="sfm_data.html#cb10-23" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;n&quot;</span></span>
+<span id="cb10-24"><a href="sfm_data.html#cb10-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="sfm_data.html#cb10-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb10-26"><a href="sfm_data.html#cb10-26" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-27"><a href="sfm_data.html#cb10-27" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb10-28"><a href="sfm_data.html#cb10-28" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb10-29"><a href="sfm_data.html#cb10-29" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb10-30"><a href="sfm_data.html#cb10-30" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-31"><a href="sfm_data.html#cb10-31" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb10-32"><a href="sfm_data.html#cb10-32" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb10-33"><a href="sfm_data.html#cb10-33" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/study-site-1.png" width="1008" /></p>
+</div>
+<div id="metashape-processing-time-summary" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Metashape Processing Time Summary<a href="sfm_data.html#metashape-processing-time-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Processing time by depth map generation quality and depth map filtering mode</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="sfm_data.html#cb11-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="sfm_data.html#cb11-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb11-3"><a href="sfm_data.html#cb11-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb11-4"><a href="sfm_data.html#cb11-4" tabindex="-1"></a>      <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb11-5"><a href="sfm_data.html#cb11-5" tabindex="-1"></a>      , <span class="at">y =</span> total_dense_point_cloud_processing_time_mins</span>
+<span id="cb11-6"><a href="sfm_data.html#cb11-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb11-7"><a href="sfm_data.html#cb11-7" tabindex="-1"></a>      , <span class="at">fill =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb11-8"><a href="sfm_data.html#cb11-8" tabindex="-1"></a>    )</span>
+<span id="cb11-9"><a href="sfm_data.html#cb11-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="sfm_data.html#cb11-10" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="sfm_data.html#cb11-11" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="sfm_data.html#cb11-12" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="sfm_data.html#cb11-13" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb11-14"><a href="sfm_data.html#cb11-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb11-15"><a href="sfm_data.html#cb11-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">8</span>)</span>
+<span id="cb11-16"><a href="sfm_data.html#cb11-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="sfm_data.html#cb11-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-18"><a href="sfm_data.html#cb11-18" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb11-19"><a href="sfm_data.html#cb11-19" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb11-20"><a href="sfm_data.html#cb11-20" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Dense Cloud + Depth Map Generation Time &quot;</span></span>
+<span id="cb11-21"><a href="sfm_data.html#cb11-21" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb11-22"><a href="sfm_data.html#cb11-22" tabindex="-1"></a>    , <span class="at">title =</span> <span class="st">&quot;Agisoft Metashape processing time by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb11-23"><a href="sfm_data.html#cb11-23" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb11-24"><a href="sfm_data.html#cb11-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-25"><a href="sfm_data.html#cb11-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb11-26"><a href="sfm_data.html#cb11-26" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-27"><a href="sfm_data.html#cb11-27" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb11-28"><a href="sfm_data.html#cb11-28" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb11-29"><a href="sfm_data.html#cb11-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-30"><a href="sfm_data.html#cb11-30" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb11-31"><a href="sfm_data.html#cb11-31" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb11-32"><a href="sfm_data.html#cb11-32" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/time-quality-1.png" width="1008" /></p>
+<p>Why is there such a great spread and left skew for the high and ultra high quality?</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="sfm_data.html#cb12-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="sfm_data.html#cb12-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb12-3"><a href="sfm_data.html#cb12-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb12-4"><a href="sfm_data.html#cb12-4" tabindex="-1"></a>      <span class="at">y =</span> total_dense_point_cloud_processing_time_mins</span>
+<span id="cb12-5"><a href="sfm_data.html#cb12-5" tabindex="-1"></a>      , <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb12-6"><a href="sfm_data.html#cb12-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb12-7"><a href="sfm_data.html#cb12-7" tabindex="-1"></a>    )</span>
+<span id="cb12-8"><a href="sfm_data.html#cb12-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="sfm_data.html#cb12-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="sfm_data.html#cb12-10" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb12-11"><a href="sfm_data.html#cb12-11" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(study_site)</span>
+<span id="cb12-12"><a href="sfm_data.html#cb12-12" tabindex="-1"></a>    , <span class="at">labeller =</span> <span class="fu">label_wrap_gen</span>(<span class="at">width =</span> <span class="dv">35</span>, <span class="at">multi_line =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-13"><a href="sfm_data.html#cb12-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="sfm_data.html#cb12-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-15"><a href="sfm_data.html#cb12-15" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb12-16"><a href="sfm_data.html#cb12-16" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb12-17"><a href="sfm_data.html#cb12-17" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">8</span>)</span>
+<span id="cb12-18"><a href="sfm_data.html#cb12-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-19"><a href="sfm_data.html#cb12-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-20"><a href="sfm_data.html#cb12-20" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb12-21"><a href="sfm_data.html#cb12-21" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb12-22"><a href="sfm_data.html#cb12-22" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Dense Cloud + Depth Map Generation Time &quot;</span></span>
+<span id="cb12-23"><a href="sfm_data.html#cb12-23" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb12-24"><a href="sfm_data.html#cb12-24" tabindex="-1"></a>    , <span class="at">title =</span> <span class="st">&quot;Agisoft Metashape processing time by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb12-25"><a href="sfm_data.html#cb12-25" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;by Study Site&quot;</span></span>
+<span id="cb12-26"><a href="sfm_data.html#cb12-26" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb12-27"><a href="sfm_data.html#cb12-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-28"><a href="sfm_data.html#cb12-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb12-29"><a href="sfm_data.html#cb12-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-30"><a href="sfm_data.html#cb12-30" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb12-31"><a href="sfm_data.html#cb12-31" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb12-32"><a href="sfm_data.html#cb12-32" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb12-33"><a href="sfm_data.html#cb12-33" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb12-34"><a href="sfm_data.html#cb12-34" tabindex="-1"></a>    <span class="co"># , strip.text.y.left = element_text(angle = 0)</span></span>
+<span id="cb12-35"><a href="sfm_data.html#cb12-35" tabindex="-1"></a>    <span class="co"># , strip.placement = &quot;outside&quot;</span></span>
+<span id="cb12-36"><a href="sfm_data.html#cb12-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-37"><a href="sfm_data.html#cb12-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb12-38"><a href="sfm_data.html#cb12-38" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb12-39"><a href="sfm_data.html#cb12-39" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/time-area-1.png" width="1008" /></p>
+<p>The study sites “Kaibab_High” and “WA85_02” have faster processing times than the other four sites across all quality settings.</p>
+</div>
+<div id="flight-and-sparse-cloud-metrics" class="section level3 hasAnchor" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Flight and Sparse Cloud Metrics<a href="sfm_data.html#flight-and-sparse-cloud-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>How do the UAS flight settings and sparse cloud generation parameters differ across sites?</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="sfm_data.html#cb13-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="sfm_data.html#cb13-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(quality_filtering<span class="sc">==</span><span class="st">&quot;ULTRAHIGH_MILD&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="sfm_data.html#cb13-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb13-4"><a href="sfm_data.html#cb13-4" tabindex="-1"></a>    study_site</span>
+<span id="cb13-5"><a href="sfm_data.html#cb13-5" tabindex="-1"></a>    , number_of_images</span>
+<span id="cb13-6"><a href="sfm_data.html#cb13-6" tabindex="-1"></a>    , tie_points</span>
+<span id="cb13-7"><a href="sfm_data.html#cb13-7" tabindex="-1"></a>    , ground_resolution_cm_pix</span>
+<span id="cb13-8"><a href="sfm_data.html#cb13-8" tabindex="-1"></a>    , flying_altitude_m</span>
+<span id="cb13-9"><a href="sfm_data.html#cb13-9" tabindex="-1"></a>    , coverage_area_km2</span>
+<span id="cb13-10"><a href="sfm_data.html#cb13-10" tabindex="-1"></a>    , tidyselect<span class="sc">::</span><span class="fu">contains</span>(<span class="st">&quot;_error_m&quot;</span>)</span>
+<span id="cb13-11"><a href="sfm_data.html#cb13-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-12"><a href="sfm_data.html#cb13-12" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb13-13"><a href="sfm_data.html#cb13-13" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(study_site), <span class="at">names_to =</span> <span class="st">&quot;metric&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;val&quot;</span></span>
+<span id="cb13-14"><a href="sfm_data.html#cb13-14" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-15"><a href="sfm_data.html#cb13-15" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb13-16"><a href="sfm_data.html#cb13-16" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb13-17"><a href="sfm_data.html#cb13-17" tabindex="-1"></a>      <span class="at">x =</span> val</span>
+<span id="cb13-18"><a href="sfm_data.html#cb13-18" tabindex="-1"></a>      , <span class="at">y =</span> study_site</span>
+<span id="cb13-19"><a href="sfm_data.html#cb13-19" tabindex="-1"></a>      , <span class="at">fill =</span> metric</span>
+<span id="cb13-20"><a href="sfm_data.html#cb13-20" tabindex="-1"></a>    )</span>
+<span id="cb13-21"><a href="sfm_data.html#cb13-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-22"><a href="sfm_data.html#cb13-22" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-23"><a href="sfm_data.html#cb13-23" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(metric), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-24"><a href="sfm_data.html#cb13-24" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;cividis&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-25"><a href="sfm_data.html#cb13-25" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-26"><a href="sfm_data.html#cb13-26" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb13-27"><a href="sfm_data.html#cb13-27" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb13-28"><a href="sfm_data.html#cb13-28" tabindex="-1"></a>    , <span class="at">title =</span> <span class="st">&quot;Different processing metrics by study site&quot;</span></span>
+<span id="cb13-29"><a href="sfm_data.html#cb13-29" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;`Ultra High` quality and `Mild` filtering used where applicable (error, resolution, coverage)&quot;</span></span>
+<span id="cb13-30"><a href="sfm_data.html#cb13-30" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-31"><a href="sfm_data.html#cb13-31" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb13-32"><a href="sfm_data.html#cb13-32" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-33"><a href="sfm_data.html#cb13-33" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb13-34"><a href="sfm_data.html#cb13-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb13-35"><a href="sfm_data.html#cb13-35" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/site-metrics-1.png" width="1008" /></p>
+<p>The study sites “Kaibab_High” and “WA85_02” have smaller coverage areas, fewer images, and higher x error values than the other four sites.</p>
+</div>
+<div id="metashape-dense-point-cloud-summary" class="section level3 hasAnchor" number="2.3.4">
+<h3><span class="header-section-number">2.3.4</span> Metashape Dense Point Cloud Summary<a href="sfm_data.html#metashape-dense-point-cloud-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dense point cloud number of points by depth map generation quality and depth map filtering mode</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="sfm_data.html#cb14-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="sfm_data.html#cb14-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb14-3"><a href="sfm_data.html#cb14-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb14-4"><a href="sfm_data.html#cb14-4" tabindex="-1"></a>      <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb14-5"><a href="sfm_data.html#cb14-5" tabindex="-1"></a>      , <span class="at">y =</span> dense_point_cloud_points</span>
+<span id="cb14-6"><a href="sfm_data.html#cb14-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb14-7"><a href="sfm_data.html#cb14-7" tabindex="-1"></a>      , <span class="at">fill =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb14-8"><a href="sfm_data.html#cb14-8" tabindex="-1"></a>    )</span>
+<span id="cb14-9"><a href="sfm_data.html#cb14-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="sfm_data.html#cb14-10" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="sfm_data.html#cb14-11" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-12"><a href="sfm_data.html#cb14-12" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-13"><a href="sfm_data.html#cb14-13" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb14-14"><a href="sfm_data.html#cb14-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; M&quot;</span>, <span class="at">scale =</span> <span class="fl">1e-6</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb14-15"><a href="sfm_data.html#cb14-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb14-16"><a href="sfm_data.html#cb14-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-17"><a href="sfm_data.html#cb14-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-18"><a href="sfm_data.html#cb14-18" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb14-19"><a href="sfm_data.html#cb14-19" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb14-20"><a href="sfm_data.html#cb14-20" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Dense Point Cloud # Points&quot;</span></span>
+<span id="cb14-21"><a href="sfm_data.html#cb14-21" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb14-22"><a href="sfm_data.html#cb14-22" tabindex="-1"></a>    , <span class="at">title =</span> <span class="st">&quot;Dense point cloud number of points by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb14-23"><a href="sfm_data.html#cb14-23" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb14-24"><a href="sfm_data.html#cb14-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-25"><a href="sfm_data.html#cb14-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb14-26"><a href="sfm_data.html#cb14-26" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb14-27"><a href="sfm_data.html#cb14-27" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb14-28"><a href="sfm_data.html#cb14-28" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb14-29"><a href="sfm_data.html#cb14-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-30"><a href="sfm_data.html#cb14-30" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb14-31"><a href="sfm_data.html#cb14-31" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb14-32"><a href="sfm_data.html#cb14-32" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/pts-quality-1.png" width="1008" /></p>
+<p>Notice there are some outlier study sites in the number of dense cloud points</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="sfm_data.html#cb15-1" tabindex="-1"></a>pdf_list_df <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="sfm_data.html#cb15-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb15-3"><a href="sfm_data.html#cb15-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb15-4"><a href="sfm_data.html#cb15-4" tabindex="-1"></a>      <span class="at">y =</span> dense_point_cloud_points</span>
+<span id="cb15-5"><a href="sfm_data.html#cb15-5" tabindex="-1"></a>      , <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb15-6"><a href="sfm_data.html#cb15-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb15-7"><a href="sfm_data.html#cb15-7" tabindex="-1"></a>    )</span>
+<span id="cb15-8"><a href="sfm_data.html#cb15-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="sfm_data.html#cb15-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="sfm_data.html#cb15-10" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb15-11"><a href="sfm_data.html#cb15-11" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(study_site)</span>
+<span id="cb15-12"><a href="sfm_data.html#cb15-12" tabindex="-1"></a>    , <span class="at">labeller =</span> <span class="fu">label_wrap_gen</span>(<span class="at">width =</span> <span class="dv">35</span>, <span class="at">multi_line =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-13"><a href="sfm_data.html#cb15-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="sfm_data.html#cb15-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="sfm_data.html#cb15-15" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb15-16"><a href="sfm_data.html#cb15-16" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; M&quot;</span>, <span class="at">scale =</span> <span class="fl">1e-6</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb15-17"><a href="sfm_data.html#cb15-17" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb15-18"><a href="sfm_data.html#cb15-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="sfm_data.html#cb15-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-20"><a href="sfm_data.html#cb15-20" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb15-21"><a href="sfm_data.html#cb15-21" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Dense Point Cloud # Points&quot;</span></span>
+<span id="cb15-22"><a href="sfm_data.html#cb15-22" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb15-23"><a href="sfm_data.html#cb15-23" tabindex="-1"></a>    , <span class="at">title =</span> <span class="st">&quot;Dense point cloud number of points by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb15-24"><a href="sfm_data.html#cb15-24" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;by Study Site&quot;</span></span>
+<span id="cb15-25"><a href="sfm_data.html#cb15-25" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb15-26"><a href="sfm_data.html#cb15-26" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-27"><a href="sfm_data.html#cb15-27" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb15-28"><a href="sfm_data.html#cb15-28" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb15-29"><a href="sfm_data.html#cb15-29" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb15-30"><a href="sfm_data.html#cb15-30" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb15-31"><a href="sfm_data.html#cb15-31" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb15-32"><a href="sfm_data.html#cb15-32" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb15-33"><a href="sfm_data.html#cb15-33" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-34"><a href="sfm_data.html#cb15-34" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb15-35"><a href="sfm_data.html#cb15-35" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb15-36"><a href="sfm_data.html#cb15-36" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/pts-area-1.png" width="1008" /></p>
+<p>The study site “Kaibab_Low” has fewer dense cloud points than the other five sites for all filtering modes in the “ultra high” and “high” quality settings. The study site “WA85_02” has more dense cloud points than the other five sites for all filtering modes in the “ultra high” quality setting but similar point numbers for the other processing settings.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ptcld_analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -603,7 +603,7 @@ process_raw_las_fn = function(my_las_file_path){
       ### Pull the las extent geometry
       las_grid = las_ctg@data$geometry %>%
           sf::st_union() %>% 
-          sf::st_make_grid(70) %>% 
+          sf::st_make_grid(50) %>% 
           sf::st_as_sf() %>% 
           dplyr::mutate(grid_id = dplyr::row_number())
       
@@ -2357,13 +2357,13 @@ process_raw_las_fn = function(my_las_file_path){
   processed_tracking_data = las_list_df %>%
     dplyr::filter(
       (processing_attribute2 %in% c("ORIGINAL"))
-      & (processing_attribute3 %in% c("LOW"))
+      & !(processing_attribute3 %in% c("LOW"))
       # & !(study_site== "KAIBAB_HIGH" & file_name == "DOUBLE_ORIGINAL_HIGH")
       # & (
       #   (study_site== "WA85_02" & file_name == "QUARTER_HALF_HIGH")
       # )
       # & ( processing_attribute2 %in% c("HALF") & processing_attribute3 %in% c("HIGH") )
-      # & !(study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1","SQ02_04"))
+      # & !(study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1"))
       # & !(study_site %in% c("KAIBAB_LOW"))
       
     ) %>%
