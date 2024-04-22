@@ -1,0 +1,7 @@
+# Field Validation{#field_valid}
+
+This section combines the SfM-derived tree locations with stem-mapped tree locations from field sampling. 
+
+While trapped in the FVS meeting I was able to get the field stem maps organized and build stand boundary polygons for use in the validation of the software comparison project.
+
+However, also realized I made a really dumb move. I discovered that I assigned the same imagery for SQ09_02 and SQ02_04, so all of the SQ02_04 data is trash. Deciding we will just move ahead with the five datasets I did not screw up.
