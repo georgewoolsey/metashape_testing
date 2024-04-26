@@ -34,9 +34,11 @@ library(emmeans)
 library(ggpubr)
 library(rstatix)
 library(broom)
+library(marginaleffects)
 
 # others
 library(pdftools) # pdf data extraction
+library(parallel) # get cores
 
 # option to put satellite imagery as base layer of mapview maps
   mapview::mapviewOptions(

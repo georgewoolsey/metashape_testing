@@ -3,7 +3,19 @@
 After running the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/2962a3cd2935a5271a207aff9ce92323b4e258b8/src/software_point_cloud_processing.R) in **R**...the processing tracking data file is used to compare summary statistics on point cloud processing times.
 
 ```{r processing-dta-ld, results='hide'}
-ptcld_processing_data = readr::read_csv(file = "../data/ptcld_processing_tracking_data.csv") %>% 
+ptcld_processing_data = 
+  list.files("../data", pattern = ".*ptcld_processing_tracking_data\\.csv$", full.names = T) %>% 
+  purrr::map(function(x){
+    readr::read_csv(x) %>% 
+      dplyr::mutate(
+        software = x %>% 
+          basename() %>% 
+          stringr::str_remove_all("_ptcld_processing_tracking_data\\.csv$")
+      )
+  }) %>% 
+  dplyr::bind_rows() %>% 
+  # not sure how to map processing attributes for pix4d and opendronemap yet....
+  dplyr::filter(software == "metashape") %>% 
   dplyr::rename(
     depth_maps_generation_quality = processing_attribute1
     , depth_maps_generation_filtering_mode = processing_attribute2

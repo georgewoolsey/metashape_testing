@@ -43,8 +43,8 @@
   # !!!!!!!!!! ENSURE FILES ARE PROJECTED IN CRS THAT USES METRE AS MEASURMENT UNIT
   # !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.las|laz
   # !!!!!!!!!! for example: high_aggressive.las; UltraHigh_Disabled.laz; lowest_MILD.las
-  input_las_dir = "D:/Metashape_Testing_2024"
-  # input_las_dir = "D:/Pix4D_Testing"
+  # input_las_dir = "D:/Metashape_Testing_2024"
+  input_las_dir = "D:/Pix4D_Testing"
   # input_las_dir = "D:/OpenDroneMap"
 
   ###_________________________###
@@ -74,10 +74,9 @@
   ###____________________###
   ### Set directory for outputs ###
   ###____________________###
-  outdir = "D:/SfM_Software_Comparison/Metashape"
-  # outdir = "D:/Pix4D_Testing"
-  # outdir = "D:/OpenDroneMap"
-  # outdir = "D:/Metashape_Testing_2024"
+  # outdir = "D:/SfM_Software_Comparison/Metashape"
+  outdir = "D:/SfM_Software_Comparison/Pix4D"
+  # outdir = "D:/SfM_Software_Comparison/OpenDroneMap"
   
   ###_________________________###
   ### Set input TreeMap directory ###
@@ -416,17 +415,13 @@
             des_file_lax = paste0(des_file_lax, ".lax")
             
             ### See if the .lax version exists in the input directory
-            does_file_exist = file.exists(des_file_lax)
-            # does_file_exist
-            
-            ### If file does_file_exist, do nothing
-            if(does_file_exist == TRUE){return(des_file)}
+            ### If file does_file_exist, delete
+            if(file.exists(des_file_lax) == TRUE){file.remove(des_file_lax)}
             
             ### If file doesnt_file_exist, create a .lax index
-            if(does_file_exist == FALSE){
-              rlas::writelax(des_file)
-              return(des_file)
-            }
+            rlas::writelax(des_file)
+            return(des_file)
+            
           }
         }) %>% unlist()
   }
@@ -1356,7 +1351,7 @@ process_raw_las_fn = function(my_las_file_path){
       ###_____________________________________________________###
       ### chunk the normalized las if not already
       ###_____________________________________________________###
-      if(grid_subset_switch==F){ # the las's are not chunked with buffer
+      if(grid_subset_switch==F | max(process_data$pts)>max_ctg_pts*0.6){ # the las's are not chunked with buffer
         # ###################################
         # # tile the normalized files to process with TreeLS
         # ###################################
@@ -2843,6 +2838,8 @@ process_raw_las_fn = function(my_las_file_path){
           , " points over an area of "
           , scales::comma(as.numeric(las_ctg@data$geometry %>% sf::st_union() %>% sf::st_area())/10000,accuracy = 0.01)
           , " hectares"
+          , "\nOutput in:\n"
+          , delivery_dir
         )
       # data
       return_df = 
@@ -2949,12 +2946,19 @@ process_raw_las_fn = function(my_las_file_path){
       , by = dplyr::join_by(study_site, file_name)
     )
   
-  # las_list_df %>% View()
+  las_list_df %>% 
+    dplyr::filter(
+      !(processing_attribute2 %in% c("ORIGINAL") & processing_attribute3 %in% c("HIGH"))
+      & file_name != "QUARTER_ORIGINAL_OPTIMAL" 
+    ) %>% 
+    View()
 
   # map over function for all las files
   processed_tracking_data = las_list_df %>%
     dplyr::filter(
-      (!processing_attribute1 %in% c("ULTRAHIGH"))
+      !(processing_attribute2 %in% c("ORIGINAL") & processing_attribute3 %in% c("HIGH"))
+      & file_name != "QUARTER_ORIGINAL_OPTIMAL" 
+      # (!processing_attribute2 %in% c("DISABLED"))
       # & (!study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1"))
       # & (!study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1"))
     ) %>%
