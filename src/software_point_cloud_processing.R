@@ -2949,7 +2949,7 @@ process_raw_las_fn = function(my_las_file_path){
   las_list_df %>% 
     dplyr::filter(
       !(processing_attribute2 %in% c("ORIGINAL") & processing_attribute3 %in% c("HIGH"))
-      & file_name != "QUARTER_ORIGINAL_OPTIMAL" 
+      & !(file_name %in% c("QUARTER_ORIGINAL_OPTIMAL" , "HALF_ORIGINAL_LOW", "HALF_ORIGINAL_OPTIMAL"))
     ) %>% 
     View()
 
@@ -2957,7 +2957,7 @@ process_raw_las_fn = function(my_las_file_path){
   processed_tracking_data = las_list_df %>%
     dplyr::filter(
       !(processing_attribute2 %in% c("ORIGINAL") & processing_attribute3 %in% c("HIGH"))
-      & file_name != "QUARTER_ORIGINAL_OPTIMAL" 
+      & !(file_name %in% c("QUARTER_ORIGINAL_OPTIMAL" , "HALF_ORIGINAL_LOW", "HALF_ORIGINAL_OPTIMAL"))
       # (!processing_attribute2 %in% c("DISABLED"))
       # & (!study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1"))
       # & (!study_site %in% c("KAIBAB_HIGH","KAIBAB_LOW","N1"))
