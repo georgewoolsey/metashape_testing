@@ -1,6 +1,6 @@
 # **R** Point Cloud Processing{#ptcld_analysis}
 
-After running the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/2962a3cd2935a5271a207aff9ce92323b4e258b8/src/software_point_cloud_processing.R) in **R**...the processing tracking data file is used to compare summary statistics on point cloud processing times.
+After running the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/main/src/software_point_cloud_processing.R) in **R**...the processing tracking data file is used to compare summary statistics on point cloud processing times.
 
 ```{r processing-dta-ld, results='hide'}
 ptcld_processing_data = 
@@ -13,38 +13,51 @@ ptcld_processing_data =
           stringr::str_remove_all("_ptcld_processing_tracking_data\\.csv$")
       )
   }) %>% 
-  dplyr::bind_rows() %>% 
-  # not sure how to map processing attributes for pix4d and opendronemap yet....
-  dplyr::filter(software == "metashape") %>% 
-  dplyr::rename(
-    depth_maps_generation_quality = processing_attribute1
-    , depth_maps_generation_filtering_mode = processing_attribute2
-  ) %>% 
-  dplyr::mutate(
-    depth_maps_generation_quality = factor(
-        depth_maps_generation_quality %>% 
-          tolower() %>% 
-          stringr::str_replace_all("ultrahigh", "ultra high")
-        , ordered = TRUE
-        , levels = c(
-          "lowest"
-          , "low"
-          , "medium"
-          , "high"
-          , "ultra high"
+  dplyr::bind_rows() 
+
+# split file name to get processing attributes
+  ptcld_processing_data = ptcld_processing_data %>%
+    tidyr::separate_wider_delim(
+      cols = file_name
+      , delim = "_"
+      , names = paste0(
+          "processing_attribute"
+          , 1:(max(stringr::str_count(ptcld_processing_data$file_name, "_"))+1)
         )
-      ) %>% forcats::fct_rev()
-    , depth_maps_generation_filtering_mode = factor(
-        depth_maps_generation_filtering_mode %>% tolower()
-        , ordered = TRUE
-        , levels = c(
-          "disabled"
-          , "mild"
-          , "moderate"
-          , "aggressive"
-        )
-      ) %>% forcats::fct_rev()
-  )
+      , too_few = "align_start"
+      , cols_remove = F
+    ) %>% 
+    # not sure how to map processing attributes for pix4d and opendronemap yet....
+    dplyr::filter(tolower(software) == "metashape") %>% 
+    dplyr::rename(
+      depth_maps_generation_quality = processing_attribute1
+      , depth_maps_generation_filtering_mode = processing_attribute2
+    ) %>% 
+    dplyr::mutate(
+      depth_maps_generation_quality = factor(
+          depth_maps_generation_quality %>% 
+            tolower() %>% 
+            stringr::str_replace_all("ultrahigh", "ultra high")
+          , ordered = TRUE
+          , levels = c(
+            "lowest"
+            , "low"
+            , "medium"
+            , "high"
+            , "ultra high"
+          )
+        ) %>% forcats::fct_rev()
+      , depth_maps_generation_filtering_mode = factor(
+          depth_maps_generation_filtering_mode %>% tolower()
+          , ordered = TRUE
+          , levels = c(
+            "disabled"
+            , "mild"
+            , "moderate"
+            , "aggressive"
+          )
+        ) %>% forcats::fct_rev()
+    )
 ```
 
 ## Processing Time Summary
@@ -195,24 +208,28 @@ ptcld_processing_data %>%
         ordered = T
         , levels = c(
           "tile"
-          , "denoise"
-          , "classify"
-          , "dtm"
-          , "normalize"
-          , "chm"
+          , "class_dtm_norm_chm"
           , "treels"
           , "itd"
           , "estdbh"
           , "competition"
           , "silv"
+          ## olde
+          # "tile"
+          # , "denoise"
+          # , "classify"
+          # , "dtm"
+          # , "normalize"
+          # , "chm"
+          # , "treels"
+          # , "itd"
+          # , "estdbh"
+          # , "competition"
+          # , "silv"
         )
         , labels = c(
           "Tile"
-          , "Denoise"
-          , "Classify"
-          , "DTM"
-          , "Normalize"
-          , "CHM"
+          , "Classify+Denoise+DTM+Normalize+CHM"
           , "TreeLS SfM DBH"
           , "CHM I.T.D."
           , "Local DBH Est."
@@ -236,7 +253,7 @@ ggplot(
     , position = position_stack(vjust = 0.5)
     , color = "black", size = 4
   ) +
-  scale_fill_viridis_d(option = "turbo") +
+  scale_fill_viridis_d(option = "turbo", begin = 0.1, end = 0.9) +
   scale_x_continuous(labels = scales::percent_format()) +
   labs(
     fill = "R script\nsection"
