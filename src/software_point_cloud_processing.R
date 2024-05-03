@@ -43,8 +43,8 @@
   # !!!!!!!!!! ENSURE FILES ARE PROJECTED IN CRS THAT USES METRE AS MEASURMENT UNIT
   # !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.las|laz
   # !!!!!!!!!! for example: high_aggressive.las; UltraHigh_Disabled.laz; lowest_MILD.las
-  # input_las_dir = "D:/Metashape_Testing_2024"
-  input_las_dir = "D:/Pix4D_Testing"
+  input_las_dir = "D:/Metashape_Testing_2024"
+  # input_las_dir = "D:/Pix4D_Testing"
   # input_las_dir = "D:/OpenDroneMap"
 
   ###_________________________###
@@ -74,8 +74,8 @@
   ###____________________###
   ### Set directory for outputs ###
   ###____________________###
-  # outdir = "D:/SfM_Software_Comparison/Metashape"
-  outdir = "D:/SfM_Software_Comparison/Pix4D"
+  outdir = "D:/SfM_Software_Comparison/Metashape"
+  # outdir = "D:/SfM_Software_Comparison/Pix4D"
   # outdir = "D:/SfM_Software_Comparison/OpenDroneMap"
   
   ###_________________________###

@@ -30,13 +30,13 @@ gc()
 
 Update the `ptcld_processing_data` created in [this section](#ptcld_analysis)
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=T}
 ## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! for testing
 list.files("../data", pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T) %>% 
   purrr::map(file.remove)
 # testing
 ptcld_processing_data = ptcld_processing_data %>% 
-  dplyr::slice_sample(n = 15, replace = F)
+  dplyr::slice_sample(n = 3, replace = F)
 ```
 
 
@@ -148,8 +148,9 @@ read_field_data <- function(my_study_site) {
 uas data
 
 ```{r}
-# function to read uas data based on study site and row
-# will pass list of unique processing_id for each site
+# function finds uas tree list
+# reads it
+# estimates linear model if not already used for DBH
 read_uas_data = function(my_processing_id, my_crs = NULL) {
   # where is this file?
   fnm = ptcld_processing_data %>% 
@@ -180,13 +181,112 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
       tcrs = sf::st_crs(dta)
     }else{tcrs = my_crs}
     
-    return(
+    dta = dta %>% 
+      sf::st_transform(tcrs)
+    
+    #################
+    # estimate linear model if not already used for DBH
+    #################
+    if(
+      # is there sufficient training data?
       dta %>% 
-        sf::st_transform(tcrs)
-    )
+        dplyr::filter(is_training_data == T) %>% 
+        nrow() > 10 & 
+      # was rf model used?
+      ptcld_processing_data %>% 
+        dplyr::filter(processing_id == my_processing_id) %>% 
+        dplyr::pull(sttng_local_dbh_model) %>% 
+        tolower() == "rf"
+    ){
+        # Gamma distribution for strictly positive response variable dbh
+        stem_prediction_model = brms::brm(
+          formula = dbh_cm ~ 1 + tree_height_m
+          , data = dta %>%
+              dplyr::filter(is_training_data==T) %>% 
+              dplyr::select(dbh_cm, tree_height_m)
+          , family = brms::brmsfamily("Gamma", link = "log")
+          , prior = c(prior(gamma(0.01, 0.01), class = shape))
+          , iter = 4000, warmup = 2000, chains = 4
+          , cores = lasR::half_cores()
+          , file = ptcld_processing_data %>%
+              dplyr::filter(processing_id == 1) %>%
+              dplyr::mutate(
+                fff = paste0(
+                  processed_data_dir
+                  , "/"
+                  , file_name
+                  , "_local_dbh_height_model"
+                )
+              ) %>%
+              dplyr::pull(fff)
+          , file_refit = "on_change"
+        )
+      #################
+      # prediction data
+      #################
+        pred_temp = predict(stem_prediction_model, dta) %>% 
+          dplyr::as_tibble() %>% 
+          dplyr::pull(1)
+        
+        # add to data
+        dta = dta %>% 
+          dplyr::mutate(
+            rf_dbh_cm = dbh_cm
+            , pred_dbh_cm = pred_temp
+            , lin_dbh_cm = ifelse(is_training_data==T, dbh_cm, pred_dbh_cm)
+          ) %>% 
+          dplyr::select(-c(pred_dbh_cm)) %>% 
+          # pick a dbh to use
+          dplyr::mutate(
+            dbh_cm = lin_dbh_cm
+            , dbh_m = dbh_cm/100
+            , radius_m = dbh_m/2
+            , basal_area_m2 = pi * (radius_m)^2
+            , basal_area_ft2 = basal_area_m2 * 10.764
+          )
+    }else if(# is there sufficient training data?
+      dta %>% 
+        dplyr::filter(is_training_data == T) %>% 
+        nrow() <= 10
+    ){
+      # the regional model was used which would result in the same est for rf and lin
+      dta = dta %>% 
+        dplyr::mutate(
+          rf_dbh_cm = dbh_cm
+          , lin_dbh_cm = dbh_cm
+        )
+    }else{
+      # linear model was already used and no rf pred
+      # could update this to estimate rf model if missing...#nextyear
+      dta = dta %>% 
+        dplyr::mutate(
+          rf_dbh_cm = as.numeric(NA)
+          , lin_dbh_cm = dbh_cm
+        )
+    }
+    return(dta)
   }else{stop("could not find file: ", fnm)}
 }
 ```
+
+```{r, include=FALSE, eval=FALSE}
+dta = read_uas_data(1)
+dta %>% 
+  ggplot(aes(x = tree_height_m, y = lin_dbh_cm, color = is_training_data)) + 
+    geom_point(aes(y = reg_est_dbh_cm,color = "zz regional_est")) +
+    geom_point(aes(y = rf_dbh_cm,color = "zz rf est")) +
+    geom_point() + 
+    labs(color = "lm est + training", x = "ht m", y = "dbh cm") +
+    scale_color_viridis_d(option = "turbo") +
+    scale_x_continuous(breaks = scales::extended_breaks(18)) +
+    scale_y_continuous(breaks = scales::extended_breaks(16)) +
+    theme_light() +
+    theme(legend.position = "top") +
+    guides(
+      color = guide_legend(override.aes = list(size = 5))
+    )
+```
+
 
 ## Validation Data Functions
 
