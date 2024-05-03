@@ -2947,22 +2947,19 @@ process_raw_las_fn = function(my_las_file_path){
     )
   
   las_list_df %>% 
-    dplyr::filter(
-      (study_site== "N1" & file_name == "QUARTER_ORIGINAL_HIGH") # chunking too small
-    ) %>% 
+    # dplyr::filter(
+    #   (study_site== "N1" & file_name == "QUARTER_ORIGINAL_HIGH") # chunking too small
+    # ) %>% 
     View()
 
   # map over function for all las files
   processed_tracking_data = las_list_df %>%
-    dplyr::filter(
-      (study_site== "N1" & file_name == "QUARTER_ORIGINAL_HIGH") # chunking too small
-      # !(study_site== "KAIBAB_HIGH" & file_name == "DOUBLE_ORIGINAL_HIGH")
-      # & !(study_site== "KAIBAB_HIGH" & file_name == "QUARTER_ORIGINAL_HIGH")
-      # & !(study_site== "KAIBAB_HIGH" & file_name == "QUARTER_ORIGINAL_OPTIMAL") # gets hung w 48m tot?
-      # & !(study_site== "KAIBAB_LOW" & file_name == "HALF_ORIGINAL_HIGH")
-      # & !(study_site== "N1" & file_name == "QUARTER_ORIGINAL_HIGH") # chunking too small
-      # & !(study_site== "WA85_02" & file_name == "DOUBLE_ORIGINAL_HIGH")
-    ) %>%
+    # dplyr::filter(
+    #   # !(study_site== "KAIBAB_HIGH" & file_name == "DOUBLE_ORIGINAL_HIGH")
+    #   # & !(study_site== "KAIBAB_HIGH" & file_name == "QUARTER_ORIGINAL_HIGH")
+    #   # & !(study_site== "KAIBAB_LOW" & file_name == "HALF_ORIGINAL_HIGH")
+    #   # & !(study_site== "WA85_02" & file_name == "DOUBLE_ORIGINAL_HIGH")
+    # ) %>%
     # dplyr::filter(
     #     (study_site== "KAIBAB_HIGH" & file_name == "DOUBLE_ORIGINAL_HIGH") 
     #     | (study_site== "KAIBAB_HIGH" & file_name == "QUARTER_ORIGINAL_HIGH")

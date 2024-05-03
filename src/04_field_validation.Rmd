@@ -30,6 +30,16 @@ gc()
 
 Update the `ptcld_processing_data` created in [this section](#ptcld_analysis)
 
+```{r, include=FALSE, eval=FALSE}
+## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! for testing
+list.files("../data", pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T) %>% 
+  purrr::map(file.remove)
+# testing
+ptcld_processing_data = ptcld_processing_data %>% 
+  dplyr::slice_sample(n = 15, replace = F)
+```
+
+
 ```{r}
 # list of study sites with completed uas data
 study_site_list = ptcld_processing_data$study_site %>% unique() %>% toupper()
@@ -73,7 +83,6 @@ ptcld_processing_data =
     processed_data_dir = dirname(tracking_file_full_path)
     , processing_id = dplyr::row_number()
   )
-  
 ```
 
 where are these validation plots and what do they look like?
@@ -88,7 +97,7 @@ validation_plots %>%
   mapview::mapview(col.regions = "blue", layer.name = "plot", alpha.regions = 0.7)
 ```
 
-## Load Example Data
+## Data Load Functions
 
 field validation data
 
@@ -134,26 +143,19 @@ read_field_data <- function(my_study_site) {
     dplyr::relocate(field_tree_id)
     
 }
-# read it
-field_data = read_field_data(study_site_list[1])
-# what is it?
-field_data %>% dplyr::glimpse()
 ```
 
 uas data
 
 ```{r}
 # function to read uas data based on study site and row
-read_uas_data = function(row_n, my_study_site, my_crs = sf::st_crs(field_data)) {
-  # which data?
-  dta = ptcld_processing_data %>% 
-    dplyr::filter(
-      study_site == my_study_site
-    ) %>% 
-    dplyr::filter(dplyr::row_number() == row_n)
-  
+# will pass list of unique processing_id for each site
+read_uas_data = function(my_processing_id, my_crs = NULL) {
   # where is this file?
-  fnm = dta %>% 
+  fnm = ptcld_processing_data %>% 
+    dplyr::filter(
+      processing_id == my_processing_id
+    ) %>% 
     dplyr::mutate(
       fnm = paste0(
         processed_data_dir
@@ -163,27 +165,30 @@ read_uas_data = function(row_n, my_study_site, my_crs = sf::st_crs(field_data)) 
       )
     ) %>% 
     dplyr::pull(fnm)
-  # read it
-  sf::st_read(fnm) %>% 
-    dplyr::mutate(
-      study_site = dta$study_site[1]
-      , file_name = dta$file_name[1]
-      , software = dta$software[1]
-    ) %>% 
-    dplyr::rename_with(tolower) %>% 
-    sf::st_set_geometry("geometry") %>% 
-    sf::st_transform(my_crs)
+  
+  if(file.exists(fnm)){
+    # read it
+    dta = sf::st_read(fnm) %>% 
+      dplyr::mutate(
+        processing_id = my_processing_id
+      ) %>% 
+      dplyr::rename_with(tolower) %>% 
+      sf::st_set_geometry("geometry")
+    
+    # transform
+    if(is.null(my_crs)){
+      tcrs = sf::st_crs(dta)
+    }else{tcrs = my_crs}
+    
+    return(
+      dta %>% 
+        sf::st_transform(tcrs)
+    )
+  }else{stop("could not find file: ", fnm)}
 }
-# read it
-uas_data = read_uas_data( 
-  row_n = 1
-  , my_study_site = study_site_list[1]
-)
-# what is it?
-uas_data %>% dplyr::glimpse()
 ```
 
-## UAS-Field Validation Data
+## Validation Data Functions
 
 ### True Positive Identification
 
@@ -324,24 +329,6 @@ true_positive_trees_fn = function(uas_data, field_data, max_dist_m = 3, max_heig
 }
 ```
 
-True positive detections
-
-```{r}
-true_positive_trees = true_positive_trees_fn(uas_data, field_data)
-# what?
-true_positive_trees %>% dplyr::glimpse()
-#check data
-  true_positive_trees %>%
-    dplyr::summarise(
-      n_rows = n()
-      , unique_uas_trees = n_distinct(uas_tree_id)
-      , unique_field_trees = n_distinct(field_tree_id)
-      , unique_pairs = n_distinct(field_tree_id, uas_tree_id)
-    ) %>% 
-    kableExtra::kbl(caption = "results of true positive stem-uas tree matching") %>% 
-    kableExtra::kable_styling()
-```
-
 ### Combine with Commission and Omission
 
 To determine UAS detected tree commissions (i.e. UAS detected trees within the overstory plot for which there was no stem-mapped tree pair; $Co$) this analysis used the 2023-06 BHEF overstory field survey plot center and plot radius of 11.35 m. UAS detected trees within this radius with an [estimated DBH](#local_mod) over 5 in (12.69 cm) that did not have a matched stem-mapped tree pair were considered commissions ($Co$).
@@ -352,7 +339,8 @@ Omissions ($Om$) are stem-mapped trees without a UAS detected tree match.
 field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, plot_data){
   field_uas_comparison = dplyr::bind_rows(
     ## true positive
-      true_positive_trees
+      true_positive_trees %>% 
+         dplyr::mutate(field_tree_id = as.numeric(field_tree_id))
     ## omission
       , field_data %>% 
         sf::st_drop_geometry() %>% 
@@ -360,7 +348,8 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
           field_tree_id, field_tree_height_m
         ) %>% 
         dplyr::anti_join(
-          true_positive_trees
+          true_positive_trees %>% 
+            dplyr::mutate(field_tree_id = as.numeric(field_tree_id))
           , by = dplyr::join_by(field_tree_id)
         ) %>% 
         dplyr::mutate(
@@ -387,6 +376,7 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
           field_uas_group = "commission"
         )
   ) %>% 
+  dplyr::filter(!is.na(field_uas_group) & field_uas_group!="") %>% 
     # attach uas data
     dplyr::left_join(
       uas_data %>%
@@ -451,113 +441,261 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
 }
 ```
 
-return comparison data
+### Full validation function
+
+function to write comparison data and return aggregate metrics when passed a `ptcld_processing_data$processing_id`
+
+function returns:
+
+1) write full validation tree list to disk
+2) update ptcld_processing_data with metrics for testing:
+  * f-score
+  * height comparison metrics (mae, mape, smape, mse, rmse)
+  * dbh comparison metrics (mae, mape, smape, mse, rmse)
+  * path to full validation tree list written to disk
 
 ```{r}
-field_uas_comparison = field_uas_comparison_fn(
-  uas_data
-  , field_data
-  , true_positive_trees
-  , plot_data = 
-      validation_plots %>% 
-        dplyr::filter(study_site == study_site_list[1])
-)
-# what?
-field_uas_comparison %>% dplyr::glimpse()
-```
-
-### Define function for all
-
-```{r}
-validation_fn <- function(study_site_nm) {
-  # plot
-  validation_plot = validation_plots %>% 
-    dplyr::filter(study_site == study_site_list[1])
-  # read field data
-  field_data = read_field_data(study_site_nm)
-  # function for a file name
-  validate_file_fn = function(
-    row, site = study_site_nm, fld = field_data, plt = validation_plot
-  ){
+#####################################################
+# function to map over each file for a particular study site
+#####################################################
+  # function for a file name identified by processing_id in ptcld_processing_data
+  validate_file_fn = function(p_id, fld_dta, plt_dta){
     # uas_data
-      uas_data = read_uas_data(
-        row_n = row
-        , my_study_site = site
-        , my_crs = sf::st_crs(fld)
+      u_dta = read_uas_data(
+        my_processing_id = p_id
+        , my_crs = sf::st_crs(fld_dta)
       )
     # true positives
-      true_positive_trees = true_positive_trees_fn(uas_data, fld)
+      tp_trees = true_positive_trees_fn(uas_data = u_dta, field_data = fld_dta)
     # field uas comparison
       field_uas_comparison = field_uas_comparison_fn(
-        uas_data
-        , fld
-        , true_positive_trees
-        , plot_data = plt
-      )
-    # write
-      write.csv(
-        field_uas_comparison
-        , paste0(
+          uas_data = u_dta
+          , field_data = fld_dta
+          , true_positive_trees = tp_trees
+          , plot_data = plt_dta
+        ) %>% 
+        # attach id information
+        dplyr::bind_cols(
           ptcld_processing_data %>% 
-            dplyr::filter(
-              study_site == site
-              & 
-            ) %>% 
-            dplyr::pull(processed_data_dir)
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::select(
+              processing_id, study_site, file_name, software
+              , depth_maps_generation_quality
+              , depth_maps_generation_filtering_mode
+              , processing_attribute3
+              , processed_data_dir
+            )
+        )
+      
+    # write tree list 
+      tl_fnm = paste0(
+          field_uas_comparison$processed_data_dir[1]
+          , "/"
+          , field_uas_comparison$file_name[1]
           , "_field_uas_comparison_data.csv"
         )
+      
+      write.csv(
+        field_uas_comparison
+        , tl_fnm
         , row.names = F
       )
+    # aggregate statistics for return
+      return_dta =
+        ptcld_processing_data %>% 
+        dplyr::filter(processing_id == p_id) %>% 
+        # attach f score
+        dplyr::bind_cols(
+          # blank data in case missing
+          dplyr::tibble(field_uas_group = c("tp", "co", "om")) %>% 
+          dplyr::left_join(
+            field_uas_comparison %>% 
+              dplyr::count(field_uas_group) %>% 
+              dplyr::mutate(field_uas_group = dplyr::case_when(
+                field_uas_group == "true positive" ~ "tp"
+                , field_uas_group == "commission" ~ "co"
+                , field_uas_group == "omission" ~ "om"
+              ))
+            , by = dplyr::join_by(field_uas_group)
+          ) %>% 
+            tidyr::pivot_wider(
+              names_from = field_uas_group
+              , values_from = n
+              , values_fill = 0
+            ) %>% 
+            dplyr::mutate(
+              f_score = dplyr::coalesce(
+                2 * ( (tp/(tp+om)) * (tp/(tp+co)) ) / ( (tp/(tp+om)) + (tp/(tp+co)) )
+                , 0
+              )
+            ) %>% 
+            dplyr::rename(
+              true_positive_n_trees = tp
+              , commission_n_trees = co
+              , omission_n_trees = om
+            ) %>% 
+            dplyr::ungroup()
+        ) %>% 
+        # attach summary error metrics
+        dplyr::bind_cols(
+          field_uas_comparison %>% 
+            dplyr::filter(field_uas_group=="true positive") %>% 
+            dplyr::ungroup() %>% 
+            # thx Metrics pkg!!
+            dplyr::summarise(
+              true_positive_trees = dplyr::n() 
+              # tree_height_m
+              , tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_mape = Metrics::mape(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_smape = Metrics::smape(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_mse = Metrics::mse(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_rmse = Metrics::rmse(field_tree_height_m, uas_tree_height_m)
+              # dbh_cm
+              , dbh_cm_mae = Metrics::mae(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_mape = Metrics::mape(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_smape = Metrics::smape(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_mse = Metrics::mse(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_rmse = Metrics::rmse(field_dbh_cm, uas_dbh_cm)
+            )
+        ) %>% 
+        # where is the tree list ?
+        dplyr::mutate(validation_file_full_path = tl_fnm)
+      
+    # return
+      return(return_dta)
   }
-}
+```
 
+check validation function
 
-## write
-write.csv(field_uas_comparison, paste0(delivery_dir,"/field_uas_comparison_data.csv"), row.names = F)
-
-## aggregate data to plot level
-field_uas_comparison_plot =
-  field_uas_comparison %>% 
-  dplyr::count(plot_id, plot_lab, field_uas_group) %>% 
-  dplyr::group_by(plot_id, plot_lab) %>% 
-  dplyr::mutate(
-    pct = n/sum(n)
-    , tot = sum(n)
-    , tp_pct=max(ifelse(field_uas_group=="true positive",pct,0)) 
-  ) %>% 
-  dplyr::ungroup() %>% 
-  # attach f score
-  dplyr::inner_join(
-    field_uas_comparison %>% 
-      dplyr::count(plot_id, field_uas_group) %>% 
-      dplyr::mutate(field_uas_group = dplyr::case_when(
-        field_uas_group == "true positive" ~ "tp"
-        , field_uas_group == "commission" ~ "co"
-        , field_uas_group == "omission" ~ "om"
-      )) %>% 
-      tidyr::pivot_wider(
-        names_from = field_uas_group
-        , values_from = n
-        , values_fill = 0
-      ) %>% 
-      dplyr::mutate(
-        plot_f_score = dplyr::coalesce(
-          2 * ( (tp/(tp+om)) * (tp/(tp+co)) ) / ( (tp/(tp+om)) + (tp/(tp+co)) )
-          , 0
-        )
-      ) %>% 
-      dplyr::select(plot_id, plot_f_score)
-    , by = dplyr::join_by(plot_id)
+```{r, results='hide'}
+validation_temp = 
+  validate_file_fn(
+    p_id = ptcld_processing_data %>% 
+      dplyr::filter(study_site == study_site_list[1]) %>% 
+      dplyr::pull(processing_id) %>% 
+      .[1]
+    , fld_dta = read_field_data(study_site_list[1])
+    , plt_dta = validation_plots %>% 
+      dplyr::filter(study_site == study_site_list[1])
   )
 ```
 
+```{r}
+# what? 
+validation_temp %>% dplyr::glimpse()
+# output file is the same thing as field_uas_comparison_fn
+validation_temp$validation_file_full_path %>% 
+  readr::read_csv() %>% 
+  dplyr::glimpse()
+```
 
-### Example comparison data exploration
+## Full pipeline function
 
-#### Height vs. DBH of $Tp$, $Co$, $Om$
+function to map over study sites represented in `ptcld_processing_data`
+
+```{r}
+# function to map over study sites represented in ptcld_processing_data
+# set up in a way so that only have to read field data from disk once and 
+# perform validation for each uas data represented for that site in ptcld_processing_data
+# Returns:
+# 1) write full validation tree list to disk
+# 2) update ptcld_processing_data with metrics for testing:
+  # f-score
+  # ht rmse
+  # dbh rmse
+  # path to validation tree list
+full_validation_fn = function(study_site_nm) {
+  # filter plot data
+    validation_plot = validation_plots %>% 
+      dplyr::filter(study_site == study_site_nm)
+  # read field data
+    field_data = read_field_data(study_site_nm)
+  # # map over file validation function and return data
+    # function for a file name identified by processing_id in ptcld_processing_data
+    d = ptcld_processing_data %>% 
+      dplyr::filter(study_site == study_site_nm) %>% 
+      dplyr::pull(processing_id) %>% 
+      purrr::map(validate_file_fn, fld_dta = field_data, plt_dta = validation_plot) %>% 
+      dplyr::bind_rows()
+  # return
+    return(d)
+}
+```
+
+## Apply validation for all
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+ptcld_validation_data = 
+  study_site_list %>% 
+    purrr::map(full_validation_fn) %>% 
+    dplyr::bind_rows()
+# write this!
+write.csv(
+    ptcld_validation_data
+    , "../data/ptcld_full_analysis_data.csv"
+    , row.names = F
+  )
+```
+
+what is this validation data?
+
+```{r}
+ptcld_validation_data %>% dplyr::glimpse()
+# summary of validation metrics
+ptcld_validation_data %>% 
+  dplyr::select(f_score, tree_height_m_mape, dbh_cm_mape) %>% 
+  summary()
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
+## Example Validation Process
+
+Data setup using functions defined above
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# read field data
+field_data_temp = read_field_data(my_study_site = study_site_list[1])
+# read_uas_data
+uas_data_temp = read_uas_data(
+  my_processing_id = ptcld_processing_data %>% 
+    dplyr::filter(study_site==study_site_list[1]) %>% 
+    dplyr::pull(processing_id) %>% 
+    .[1]
+  , my_crs = sf::st_crs(field_data_temp)
+)
+# true positive
+true_positive_trees_temp = true_positive_trees_fn(uas_data = uas_data_temp, field_data = field_data_temp)
+# field_uas_comparison_fn
+field_uas_comparison_temp = field_uas_comparison_fn(
+  uas_data = uas_data_temp
+  , field_data = field_data_temp
+  , true_positive_trees = true_positive_trees_temp 
+  , plot_data = validation_plots %>% dplyr::filter(study_site==study_site_list[1])
+)
+```
+
+what is this data?
+
+```{r}
+# field_data
+field_data_temp %>% dplyr::glimpse()
+# uas_data
+uas_data_temp %>% dplyr::glimpse()
+# true_positive_trees
+true_positive_trees_temp %>% dplyr::glimpse()
+# field_uas_comparison
+field_uas_comparison_temp %>% dplyr::glimpse()
+```
+
+### Height vs. DBH of $Tp$, $Co$, $Om$
 
 ```{r fld-dta-sum-htdbh}
-field_uas_comparison %>% 
+field_uas_comparison_temp %>% 
   dplyr::mutate(
     dbh_temp = dplyr::coalesce(field_dbh_cm, uas_dbh_cm)
     , ht_temp = dplyr::coalesce(field_tree_height_m, uas_tree_height_m)
@@ -570,7 +708,7 @@ field_uas_comparison %>%
       , alpha=0.8
       , size=2
     ) +
-    scale_color_viridis_d(option = "cividis") +
+    scale_color_viridis_d(option = "cividis", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     scale_y_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
@@ -593,10 +731,10 @@ field_uas_comparison %>%
     )  
 ```
 
-#### Height and DBH Distribution $Tp$, $Co$, $Om$
+### Height and DBH Distribution $Tp$, $Co$, $Om$
 
 ```{r fld-dta-sum-htdbh-dist}
-field_uas_comparison %>% 
+field_uas_comparison_temp %>% 
   dplyr::mutate(
     dbh = dplyr::coalesce(field_dbh_cm, uas_dbh_cm)
     , height = dplyr::coalesce(field_tree_height_m, uas_tree_height_m)
@@ -619,7 +757,7 @@ field_uas_comparison %>%
     geom_violin() +
     geom_boxplot(width = 0.1, outlier.shape = NA, color = "gray66") +
     facet_grid(cols = vars(metric), scales = "free_x") +
-    scale_fill_viridis_d(option = "cividis") +
+    scale_fill_viridis_d(option = "cividis", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       fill = ""
@@ -639,12 +777,12 @@ field_uas_comparison %>%
     )
 ```
 
-#### Detected Overstory ($TP$) Height Difference
+### Detected Overstory ($TP$) Height Difference
 
 Detected overstory tree ($TP$) height reliability.
 
 ```{r fld-dta-sum-ht}
-field_uas_comparison %>%
+field_uas_comparison_temp %>%
   dplyr::filter(field_uas_group == "true positive") %>%
   dplyr::group_by(field_uas_group) %>% 
   dplyr::mutate(
@@ -663,8 +801,8 @@ field_uas_comparison %>%
       labels = scales::percent_format()
       , breaks = scales::extended_breaks(n=8)
       , limits = c(
-        -max(field_uas_comparison$abs_height_diff_pct, na.rm = T)
-        , max(field_uas_comparison$abs_height_diff_pct, na.rm = T)
+        -max(field_uas_comparison_temp$abs_height_diff_pct, na.rm = T)
+        , max(field_uas_comparison_temp$abs_height_diff_pct, na.rm = T)
       )
     ) +
     labs(
@@ -683,12 +821,12 @@ field_uas_comparison %>%
     )
 ```
 
-#### Detected Overstory ($TP$) DBH Difference
+### Detected Overstory ($TP$) DBH Difference
 
 Detected overstory tree ($TP$) DBH reliability.
 
 ```{r fld-dta-sum-dbh}
-field_uas_comparison %>%
+field_uas_comparison_temp %>%
   dplyr::filter(field_uas_group == "true positive") %>%
   dplyr::group_by(field_uas_group) %>% 
   dplyr::mutate(
@@ -708,8 +846,8 @@ field_uas_comparison %>%
       , breaks = scales::extended_breaks(n=8)
       , limits = c(
         -2,2
-        # -max(field_uas_comparison$abs_dbh_diff_pct, na.rm = T)
-        # , max(field_uas_comparison$abs_dbh_diff_pct, na.rm = T)
+        # -max(field_uas_comparison_temp$abs_dbh_diff_pct, na.rm = T)
+        # , max(field_uas_comparison_temp$abs_dbh_diff_pct, na.rm = T)
       )
     ) +
     labs(
@@ -731,13 +869,11 @@ field_uas_comparison %>%
 
 #### Detected Overstory ($TP$) Reliability
 
-Overstory trees considered in this analysis had a tree height >= `r scales::comma(min_tree_height_m*3.28, accuracy = 0.1)` ft and a tree DBH >= `r scales::comma(min_tree_dbh_cm*0.394, accuracy = 0.1)` in.
-
 ```{r fld-dta-sum-rmse, results='asis'}
-dbh_f_temp = field_uas_comparison %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(field_dbh_cm)
-dbh_u_temp = field_uas_comparison %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(uas_dbh_cm)
-ht_f_temp = field_uas_comparison %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(field_tree_height_m)
-ht_u_temp = field_uas_comparison %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(uas_tree_height_m)
+dbh_f_temp = field_uas_comparison_temp %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(field_dbh_cm)
+dbh_u_temp = field_uas_comparison_temp %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(uas_dbh_cm)
+ht_f_temp = field_uas_comparison_temp %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(field_tree_height_m)
+ht_u_temp = field_uas_comparison_temp %>% dplyr::filter(field_uas_group=="true positive") %>% dplyr::pull(uas_tree_height_m)
 
 data.frame(
   mae_dbh = Metrics::mae(
@@ -774,7 +910,7 @@ data.frame(
       metric == "dbh" ~ "DBH (cm)"
       , metric == "height" ~ "Height (m)"
     )
-    , n = field_uas_comparison %>% dplyr::filter(field_uas_group=="true positive") %>% nrow()
+    , n = field_uas_comparison_temp %>% dplyr::filter(field_uas_group=="true positive") %>% nrow()
   ) %>% 
     kableExtra::kbl(
       caption = "Detected overstory tree height and DBH prediction performance"
