@@ -26,11 +26,9 @@ gc()
 
 ## Setup
 
-*We'll go through one example first and then we'll create the F-score for each test data set*
-
 Update the `ptcld_processing_data` created in [this section](#ptcld_analysis)
 
-```{r, include=FALSE, eval=T}
+```{r, include=FALSE, eval=F}
 ## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! for testing
 list.files("../data", pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T) %>% 
   purrr::map(file.remove)
@@ -38,7 +36,6 @@ list.files("../data", pattern = ".*_field_uas_comparison_data\\.csv$", full.name
 ptcld_processing_data = ptcld_processing_data %>% 
   dplyr::slice_sample(n = 3, replace = F)
 ```
-
 
 ```{r}
 # list of study sites with completed uas data
@@ -209,7 +206,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
           , iter = 4000, warmup = 2000, chains = 4
           , cores = lasR::half_cores()
           , file = ptcld_processing_data %>%
-              dplyr::filter(processing_id == 1) %>%
+              dplyr::filter(processing_id == my_processing_id) %>%
               dplyr::mutate(
                 fff = paste0(
                   processed_data_dir
@@ -219,7 +216,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
                 )
               ) %>%
               dplyr::pull(fff)
-          , file_refit = "on_change"
+          # , file_refit = "on_change"
         )
       #################
       # prediction data
@@ -755,6 +752,8 @@ gc()
 
 ## Example Validation Process
 
+Let's go through one example
+
 Data setup using functions defined above
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
@@ -815,7 +814,7 @@ field_uas_comparison_temp %>%
       color = "detection"
       , shape = "detection"
       , y = "DBH (cm)"
-      , x = "Tree Ht. (cm)"
+      , x = "Tree Ht. (m)"
       , title = "UAS and Stem-Mapped Tree Validation Summary"
       , subtitle = "height and DBH relationship"
     ) +
