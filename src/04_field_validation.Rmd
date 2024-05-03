@@ -433,7 +433,7 @@ To determine UAS detected tree commissions (i.e. UAS detected trees within the o
 Omissions ($Om$) are stem-mapped trees without a UAS detected tree match.
 
 ```{r, results='hide'}
-field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, plot_data){
+field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, plot_data, overstory_ht_m = 7){
   field_uas_comparison = dplyr::bind_rows(
     ## true positive
       true_positive_trees %>% 
@@ -524,10 +524,17 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
       , height_diff_pct = tree_height_diff_m/field_tree_height_m
       , abs_dbh_diff_pct = abs(dbh_diff_pct)
       , abs_height_diff_pct = abs(height_diff_pct)
+      # determine overstory/understory
+      , overstory_understory_grp = dplyr::case_when(
+        dplyr::coalesce(field_tree_height_m, uas_tree_height_m) >= overstory_ht_m ~ "overstory"
+        , dplyr::coalesce(field_tree_height_m, uas_tree_height_m) < overstory_ht_m ~ "understory"
+        , T ~ "error"
+      ) %>% factor()
       # attach identifying data
       , study_site = uas_data$study_site[1]
       , file_name = uas_data$file_name[1]
       , software = uas_data$software[1]
+      , overstory_ht_m = overstory_ht_m
     ) %>% 
     dplyr::relocate(field_uas_group) %>% 
     dplyr::select(-c(tidyselect::ends_with(".x"), tidyselect::ends_with(".y")))
@@ -597,10 +604,16 @@ function returns:
         , tl_fnm
         , row.names = F
       )
-    # aggregate statistics for return
+      
+    ############################################
+    # aggregate field_uas_comparison for return
+    ############################################
       return_dta =
         ptcld_processing_data %>% 
-        dplyr::filter(processing_id == p_id) %>% 
+        dplyr::filter(processing_id == p_id) %>%
+        ############################################
+        # overall statistics
+        ############################################
         # attach f score
         dplyr::bind_cols(
           # blank data in case missing
@@ -615,6 +628,7 @@ function returns:
               ))
             , by = dplyr::join_by(field_uas_group)
           ) %>% 
+          dplyr::mutate(n = ifelse(is.na(n),0,n)) %>% 
             tidyr::pivot_wider(
               names_from = field_uas_group
               , values_from = n
@@ -640,9 +654,8 @@ function returns:
             dplyr::ungroup() %>% 
             # thx Metrics pkg!!
             dplyr::summarise(
-              true_positive_trees = dplyr::n() 
               # tree_height_m
-              , tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
+              tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mape = Metrics::mape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_smape = Metrics::smape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mse = Metrics::mse(field_tree_height_m, uas_tree_height_m)
@@ -655,8 +668,85 @@ function returns:
               , dbh_cm_rmse = Metrics::rmse(field_dbh_cm, uas_dbh_cm)
             )
         ) %>% 
+        ############################################
+        # overstory/understory statistics
+        ############################################
+        # attach f score
+        dplyr::bind_cols(
+          # blank data in case missing
+          tidyr::crossing(
+            field_uas_group = c("tp", "co", "om")
+            , overstory_understory_grp = c("overstory", "understory")
+          ) %>% 
+          dplyr::left_join(
+            field_uas_comparison %>% 
+              dplyr::count(field_uas_group, overstory_understory_grp) %>% 
+              dplyr::mutate(field_uas_group = dplyr::case_when(
+                field_uas_group == "true positive" ~ "tp"
+                , field_uas_group == "commission" ~ "co"
+                , field_uas_group == "omission" ~ "om"
+              ))
+            , by = dplyr::join_by(field_uas_group, overstory_understory_grp)
+          ) %>% 
+          dplyr::mutate(n = ifelse(is.na(n),0,n)) %>% 
+            tidyr::pivot_wider(
+              names_from = field_uas_group
+              , values_from = n
+              , values_fill = 0
+            ) %>% 
+            dplyr::mutate(
+              f_score = dplyr::coalesce(
+                2 * ( (tp/(tp+om)) * (tp/(tp+co)) ) / ( (tp/(tp+om)) + (tp/(tp+co)) )
+                , 0
+              )
+            ) %>% 
+            dplyr::rename(
+              true_positive_n_trees = tp
+              , commission_n_trees = co
+              , omission_n_trees = om
+            ) %>% 
+            dplyr::ungroup() %>% 
+            tidyr::pivot_wider(
+              names_from = overstory_understory_grp
+              , values_from = -c(overstory_understory_grp)
+              , values_fill = 0
+              , names_glue = "{overstory_understory_grp}_{.value}"
+            )
+        ) %>% 
+        # attach summary error metrics
+        dplyr::bind_cols(
+          field_uas_comparison %>% 
+            dplyr::filter(field_uas_group=="true positive") %>% 
+            dplyr::group_by(overstory_understory_grp) %>% 
+            # thx Metrics pkg!!
+            dplyr::summarise(
+              # tree_height_m
+              tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_mape = Metrics::mape(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_smape = Metrics::smape(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_mse = Metrics::mse(field_tree_height_m, uas_tree_height_m)
+              , tree_height_m_rmse = Metrics::rmse(field_tree_height_m, uas_tree_height_m)
+              # dbh_cm
+              , dbh_cm_mae = Metrics::mae(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_mape = Metrics::mape(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_smape = Metrics::smape(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_mse = Metrics::mse(field_dbh_cm, uas_dbh_cm)
+              , dbh_cm_rmse = Metrics::rmse(field_dbh_cm, uas_dbh_cm)
+            ) %>% 
+            dplyr::ungroup() %>% 
+            tidyr::pivot_wider(
+              names_from = overstory_understory_grp
+              , values_from = -c(overstory_understory_grp)
+              , values_fill = 0
+              , names_glue = "{overstory_understory_grp}_{.value}"
+            )
+        ) %>% 
         # where is the tree list ?
-        dplyr::mutate(validation_file_full_path = tl_fnm)
+        dplyr::mutate(
+          validation_file_full_path = tl_fnm
+          # what is this overstory/understory?
+          , overstory_ht_m = field_uas_comparison$overstory_ht_m[1]
+        )
       
     # return
       return(return_dta)
@@ -889,13 +979,20 @@ field_uas_comparison_temp %>%
       field_uas_group
       ," (n=", scales::comma(dplyr::n(),accuracy=1),")"
     )
-    , color_box = median(height_diff_pct, na.rm=T)<0
+    , med = median(height_diff_pct, na.rm=T)
+    , color_box = med<0
   ) %>% 
-  ggplot(mapping = aes(x = height_diff_pct, y = plot_lab )) + # height_diff_pct
-    geom_vline(xintercept = 0, color = "gray22") +
-    geom_boxplot(mapping = aes(fill = color_box), alpha = 0.8, width = 0.7, outlier.shape = NA) +
+  ggplot(mapping = aes(x = height_diff_pct)) + # height_diff_pct
+  # ggplot(mapping = aes(x = height_diff_pct, y = plot_lab )) + # height_diff_pct
+    geom_vline(xintercept = 0, color = "gray22", lwd = 1) +
+    # geom_boxplot(mapping = aes(fill = color_box), alpha = 0.8, width = 0.7, outlier.shape = NA) +
+    geom_density(mapping = aes(fill = color_box), alpha = 0.8) +
+    geom_vline(aes(xintercept = med), color = "gray66", linetype = "dashed") + # ymin = -Inf, ymax = Inf
+    geom_text(
+      aes(x = med, y = 0, label = paste0("median: ",scales::percent(med, accuracy = 0.1)))
+      , hjust = -0.1, vjust = 1
+    ) +
     scale_fill_manual(values = c("steelblue", "coral")) +
-    geom_point(color = "black", shape = ".") +
     scale_x_continuous(
       labels = scales::percent_format()
       , breaks = scales::extended_breaks(n=8)
@@ -904,6 +1001,7 @@ field_uas_comparison_temp %>%
         , max(field_uas_comparison_temp$abs_height_diff_pct, na.rm = T)
       )
     ) +
+    scale_y_continuous(NULL, breaks = NULL) +
     labs(
       fill = ""
       , y = ""
@@ -933,22 +1031,24 @@ field_uas_comparison_temp %>%
       field_uas_group
       ," (n=", scales::comma(dplyr::n(),accuracy=1),")"
     )
-    , color_box = median(dbh_diff_pct, na.rm=T)<0
-  ) %>%  
-  ggplot(mapping = aes(x = dbh_diff_pct, y = plot_lab)) + # dbh_diff_pct
-    geom_vline(xintercept = 0, color = "gray22") +
-    geom_boxplot(mapping = aes(fill = color_box), alpha = 0.8, width = 0.7, outlier.shape = NA) +
+    , med = median(dbh_diff_pct, na.rm=T)
+    , color_box = med<0
+  ) %>% 
+  ggplot(mapping = aes(x = dbh_diff_pct)) + # height_diff_pct
+    geom_vline(xintercept = 0, color = "gray22", lwd = 1) +
+    geom_density(mapping = aes(fill = color_box), alpha = 0.8) +
+    geom_vline(aes(xintercept = med), color = "gray66", linetype = "dashed") + # ymin = -Inf, ymax = Inf
+    geom_text(
+      aes(x = med, y = 0, label = paste0("median: ",scales::percent(med, accuracy = 0.1)))
+      , hjust = -0.1, vjust = 1
+    ) +
     scale_fill_manual(values = c("steelblue", "coral")) +
-    geom_point(color = "black", shape = ".") +
     scale_x_continuous(
       labels = scales::percent_format()
       , breaks = scales::extended_breaks(n=8)
-      , limits = c(
-        -2,2
-        # -max(field_uas_comparison_temp$abs_dbh_diff_pct, na.rm = T)
-        # , max(field_uas_comparison_temp$abs_dbh_diff_pct, na.rm = T)
-      )
+      , limits = c(-2,2)
     ) +
+    scale_y_continuous(NULL, breaks = NULL) +
     labs(
       fill = ""
       , y = ""
