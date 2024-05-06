@@ -564,47 +564,66 @@ function returns:
 #####################################################
   # function for a file name identified by processing_id in ptcld_processing_data
   validate_file_fn = function(p_id, fld_dta, plt_dta){
-    # uas_data
-      u_dta = read_uas_data(
-        my_processing_id = p_id
-        , my_crs = sf::st_crs(fld_dta)
-      )
-    # true positives
-      tp_trees = true_positive_trees_fn(uas_data = u_dta, field_data = fld_dta)
-    # field uas comparison
-      field_uas_comparison = field_uas_comparison_fn(
-          uas_data = u_dta
-          , field_data = fld_dta
-          , true_positive_trees = tp_trees
-          , plot_data = plt_dta
-        ) %>% 
-        # attach id information
-        dplyr::bind_cols(
+    # tree list file name
+      tl_fnm = paste0(
           ptcld_processing_data %>% 
             dplyr::filter(processing_id == p_id) %>% 
-            dplyr::select(
-              processing_id, study_site, file_name, software
-              , depth_maps_generation_quality
-              , depth_maps_generation_filtering_mode
-              , processing_attribute3
-              , processed_data_dir
-            )
-        )
-      
-    # write tree list 
-      tl_fnm = paste0(
-          field_uas_comparison$processed_data_dir[1]
+            dplyr::pull(processed_data_dir)
           , "/"
-          , field_uas_comparison$file_name[1]
+          , ptcld_processing_data %>% 
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::pull(file_name)
           , "_field_uas_comparison_data.csv"
         )
-      
-      write.csv(
-        field_uas_comparison
-        , tl_fnm
-        , row.names = F
-      )
-      
+    # brms model
+      brms_fnm = paste0(
+          ptcld_processing_data %>% 
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::pull(processed_data_dir)
+          , "/"
+          , ptcld_processing_data %>% 
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::pull(file_name)
+          , "_local_dbh_height_model.rds"
+        )
+    # check it
+    if(file.exists(tl_fnm) & file.exists(brms_fnm)){
+      # read it
+      field_uas_comparison = readr::read_csv(tl_fnm)
+    }else{
+      # uas_data
+        u_dta = read_uas_data(
+          my_processing_id = p_id
+          , my_crs = sf::st_crs(fld_dta)
+        )
+      # true positives
+        tp_trees = true_positive_trees_fn(uas_data = u_dta, field_data = fld_dta)
+      # field uas comparison
+        field_uas_comparison = field_uas_comparison_fn(
+            uas_data = u_dta
+            , field_data = fld_dta
+            , true_positive_trees = tp_trees
+            , plot_data = plt_dta
+          ) %>% 
+          # attach id information
+          dplyr::bind_cols(
+            ptcld_processing_data %>% 
+              dplyr::filter(processing_id == p_id) %>% 
+              dplyr::select(
+                processing_id, study_site, file_name, software
+                , depth_maps_generation_quality
+                , depth_maps_generation_filtering_mode
+                , processing_attribute3
+                , processed_data_dir
+              )
+          )
+        # write it
+        write.csv(
+          field_uas_comparison
+          , tl_fnm
+          , row.names = F
+        )
+    }
     ############################################
     # aggregate field_uas_comparison for return
     ############################################

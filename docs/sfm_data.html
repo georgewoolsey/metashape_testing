@@ -53,6 +53,20 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
 <script type="text/javascript">
 
 // toggle visibility of R source blocks in R Markdown output
@@ -179,9 +193,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html"><i class="fa fa-check"></i><b>3</b> <strong>R</strong> Point Cloud Processing</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.1</b> Processing Time Summary</a></li>
-<li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.2</b> Processing Time vs # Points</a></li>
-<li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.3</b> Processing Section Timing</a></li>
+<li class="chapter" data-level="3.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#number-of-files-summary"><i class="fa fa-check"></i><b>3.1</b> Number of files summary</a></li>
+<li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.2</b> Processing Time Summary</a></li>
+<li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.3</b> Processing Time vs # Points</a></li>
+<li class="chapter" data-level="3.4" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.4</b> Processing Section Timing</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="stats_processing_time.html"><a href="stats_processing_time.html"><i class="fa fa-check"></i><b>4</b> Statistical Analysis: Processing Time</a>
 <ul>
@@ -190,14 +205,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics"><i class="fa fa-check"></i><b>4.1.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="4.1.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model"><i class="fa fa-check"></i><b>4.1.2</b> Linear Model</a></li>
 <li class="chapter" data-level="4.1.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova"><i class="fa fa-check"></i><b>4.1.3</b> ANOVA</a></li>
-<li class="chapter" data-level="4.1.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian"><i class="fa fa-check"></i><b>4.1.4</b> Bayesian</a></li>
+<li class="chapter" data-level="4.1.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#one_pred_mod_bays"><i class="fa fa-check"></i><b>4.1.4</b> Bayesian</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two-nominal-predictors"><i class="fa fa-check"></i><b>4.2</b> Two Nominal Predictors</a>
+<li class="chapter" data-level="4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two_pred_mod"><i class="fa fa-check"></i><b>4.2</b> Two Nominal Predictors</a>
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-1"><i class="fa fa-check"></i><b>4.2.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="4.2.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model-1"><i class="fa fa-check"></i><b>4.2.2</b> Linear Model</a></li>
 <li class="chapter" data-level="4.2.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova-1"><i class="fa fa-check"></i><b>4.2.3</b> ANOVA</a></li>
-<li class="chapter" data-level="4.2.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian-1"><i class="fa fa-check"></i><b>4.2.4</b> Bayesian</a></li>
+<li class="chapter" data-level="4.2.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two_pred_mod_bays"><i class="fa fa-check"></i><b>4.2.4</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>4.3</b> Two Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-2"><i class="fa fa-check"></i><b>4.3.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.3.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#id_3_pred_mod_bays"><i class="fa fa-check"></i><b>4.3.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#gamma-two-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>4.4</b> Gamma: Two Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-3"><i class="fa fa-check"></i><b>4.4.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#id_4_pred_mod_bays"><i class="fa fa-check"></i><b>4.4.2</b> Bayesian</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="field_valid.html"><a href="field_valid.html"><i class="fa fa-check"></i><b>5</b> Field Validation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="field_valid.html"><a href="field_valid.html#setup"><i class="fa fa-check"></i><b>5.1</b> Setup</a></li>
+<li class="chapter" data-level="5.2" data-path="field_valid.html"><a href="field_valid.html#data-load-functions"><i class="fa fa-check"></i><b>5.2</b> Data Load Functions</a></li>
+<li class="chapter" data-level="5.3" data-path="field_valid.html"><a href="field_valid.html#validation-data-functions"><i class="fa fa-check"></i><b>5.3</b> Validation Data Functions</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="field_valid.html"><a href="field_valid.html#true-positive-identification"><i class="fa fa-check"></i><b>5.3.1</b> True Positive Identification</a></li>
+<li class="chapter" data-level="5.3.2" data-path="field_valid.html"><a href="field_valid.html#combine-with-commission-and-omission"><i class="fa fa-check"></i><b>5.3.2</b> Combine with Commission and Omission</a></li>
+<li class="chapter" data-level="5.3.3" data-path="field_valid.html"><a href="field_valid.html#full-validation-function"><i class="fa fa-check"></i><b>5.3.3</b> Full validation function</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="field_valid.html"><a href="field_valid.html#full-pipeline-function"><i class="fa fa-check"></i><b>5.4</b> Full pipeline function</a></li>
+<li class="chapter" data-level="5.5" data-path="field_valid.html"><a href="field_valid.html#apply-validation-for-all"><i class="fa fa-check"></i><b>5.5</b> Apply validation for all</a></li>
+<li class="chapter" data-level="5.6" data-path="field_valid.html"><a href="field_valid.html#example-validation-process"><i class="fa fa-check"></i><b>5.6</b> Example Validation Process</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="field_valid.html"><a href="field_valid.html#height-vs.-dbh-of-tp-co-om"><i class="fa fa-check"></i><b>5.6.1</b> Height vs. DBH of <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.6.2" data-path="field_valid.html"><a href="field_valid.html#height-and-dbh-distribution-tp-co-om"><i class="fa fa-check"></i><b>5.6.2</b> Height and DBH Distribution <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.6.3" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-height-difference"><i class="fa fa-check"></i><b>5.6.3</b> Detected Overstory (<span class="math inline">\(TP\)</span>) Height Difference</a></li>
+<li class="chapter" data-level="5.6.4" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-dbh-difference"><i class="fa fa-check"></i><b>5.6.4</b> Detected Overstory (<span class="math inline">\(TP\)</span>) DBH Difference</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -231,38 +276,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="sfm_data.html#cb1-6" tabindex="-1"></a>rootdir <span class="ot">=</span> <span class="st">&quot;../data&quot;</span></span>
 <span id="cb1-7"><a href="sfm_data.html#cb1-7" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="sfm_data.html#cb1-8" tabindex="-1"></a><span class="do">###_________________________###</span></span>
-<span id="cb1-9"><a href="sfm_data.html#cb1-9" tabindex="-1"></a><span class="do">### Set input data directory </span><span class="al">###</span></span>
+<span id="cb1-9"><a href="sfm_data.html#cb1-9" tabindex="-1"></a><span class="do">### Set pdf data directory </span><span class="al">###</span></span>
 <span id="cb1-10"><a href="sfm_data.html#cb1-10" tabindex="-1"></a><span class="do">###_________________________###</span></span>
-<span id="cb1-11"><a href="sfm_data.html#cb1-11" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where both pdf report data resides</span></span>
+<span id="cb1-11"><a href="sfm_data.html#cb1-11" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where pdf report data resides</span></span>
 <span id="cb1-12"><a href="sfm_data.html#cb1-12" tabindex="-1"></a><span class="co"># !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.pdf</span></span>
 <span id="cb1-13"><a href="sfm_data.html#cb1-13" tabindex="-1"></a><span class="co"># !!!!!!!!!! for example: high_aggressive.pdf; UltraHigh_Disabled.pdf; lowest_MILD.pdf</span></span>
-<span id="cb1-14"><a href="sfm_data.html#cb1-14" tabindex="-1"></a>input_data_dir <span class="ot">=</span> <span class="st">&quot;../data/raw_data&quot;</span></span>
+<span id="cb1-14"><a href="sfm_data.html#cb1-14" tabindex="-1"></a>pdf_report_dir <span class="ot">=</span> <span class="st">&quot;../data/raw_data&quot;</span></span>
 <span id="cb1-15"><a href="sfm_data.html#cb1-15" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="sfm_data.html#cb1-16" tabindex="-1"></a><span class="do">###_________________________###</span></span>
-<span id="cb1-17"><a href="sfm_data.html#cb1-17" tabindex="-1"></a><span class="do">### list of study site directory names</span></span>
+<span id="cb1-17"><a href="sfm_data.html#cb1-17" tabindex="-1"></a><span class="do">### Set point cloud processing data directory </span><span class="al">###</span></span>
 <span id="cb1-18"><a href="sfm_data.html#cb1-18" tabindex="-1"></a><span class="do">###_________________________###</span></span>
-<span id="cb1-19"><a href="sfm_data.html#cb1-19" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where both pdf and las data reside</span></span>
-<span id="cb1-20"><a href="sfm_data.html#cb1-20" tabindex="-1"></a><span class="co"># directories matching the names of these study sites will be searched</span></span>
-<span id="cb1-21"><a href="sfm_data.html#cb1-21" tabindex="-1"></a>study_site_list <span class="ot">=</span> <span class="fu">c</span>(</span>
-<span id="cb1-22"><a href="sfm_data.html#cb1-22" tabindex="-1"></a>  <span class="st">&quot;SQ02_04&quot;</span>, <span class="st">&quot;SQ09_02&quot;</span>, <span class="st">&quot;WA85_02&quot;</span></span>
-<span id="cb1-23"><a href="sfm_data.html#cb1-23" tabindex="-1"></a>  , <span class="st">&quot;Kaibab_High&quot;</span>, <span class="st">&quot;Kaibab_Low&quot;</span></span>
-<span id="cb1-24"><a href="sfm_data.html#cb1-24" tabindex="-1"></a>  , <span class="st">&quot;n1&quot;</span></span>
-<span id="cb1-25"><a href="sfm_data.html#cb1-25" tabindex="-1"></a>)</span>
-<span id="cb1-26"><a href="sfm_data.html#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="sfm_data.html#cb1-27" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!! USER-DEFINED PARAMETERS !!!!!!!!!!!!!!!!!!!!!!! #</span></span></code></pre></div>
+<span id="cb1-19"><a href="sfm_data.html#cb1-19" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where the outputs of the software_point_cloud_processing.R script are located</span></span>
+<span id="cb1-20"><a href="sfm_data.html#cb1-20" tabindex="-1"></a><span class="co"># !!!!!!!!!! script will look for &quot;processed_tracking_data\\.csv&quot; files</span></span>
+<span id="cb1-21"><a href="sfm_data.html#cb1-21" tabindex="-1"></a>ptcld_processing_dir <span class="ot">=</span> <span class="st">&quot;D:/SfM_Software_Comparison&quot;</span></span>
+<span id="cb1-22"><a href="sfm_data.html#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="sfm_data.html#cb1-23" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-24"><a href="sfm_data.html#cb1-24" tabindex="-1"></a><span class="do">### list of study site directory names</span></span>
+<span id="cb1-25"><a href="sfm_data.html#cb1-25" tabindex="-1"></a><span class="do">###_________________________###</span></span>
+<span id="cb1-26"><a href="sfm_data.html#cb1-26" tabindex="-1"></a><span class="co"># !!!!!!!!!! this is where both pdf and las data reside</span></span>
+<span id="cb1-27"><a href="sfm_data.html#cb1-27" tabindex="-1"></a><span class="co"># directories matching the names of these study sites will be searched</span></span>
+<span id="cb1-28"><a href="sfm_data.html#cb1-28" tabindex="-1"></a><span class="co"># arrange processed data in file structure that includes the software and the site</span></span>
+<span id="cb1-29"><a href="sfm_data.html#cb1-29" tabindex="-1"></a><span class="co"># ... with the processing attributes in the file name</span></span>
+<span id="cb1-30"><a href="sfm_data.html#cb1-30" tabindex="-1"></a><span class="co"># ex: &quot;../metashape/N1/high_aggressive_processed_tracking_data.csv&quot;</span></span>
+<span id="cb1-31"><a href="sfm_data.html#cb1-31" tabindex="-1"></a><span class="co"># what sites to look for?</span></span>
+<span id="cb1-32"><a href="sfm_data.html#cb1-32" tabindex="-1"></a>study_site_list <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-33"><a href="sfm_data.html#cb1-33" tabindex="-1"></a>  <span class="st">&quot;SQ09_02&quot;</span>, <span class="st">&quot;WA85_02&quot;</span></span>
+<span id="cb1-34"><a href="sfm_data.html#cb1-34" tabindex="-1"></a>  , <span class="st">&quot;Kaibab_High&quot;</span>, <span class="st">&quot;Kaibab_Low&quot;</span></span>
+<span id="cb1-35"><a href="sfm_data.html#cb1-35" tabindex="-1"></a>  , <span class="st">&quot;n1&quot;</span></span>
+<span id="cb1-36"><a href="sfm_data.html#cb1-36" tabindex="-1"></a>  <span class="co"># , &quot;SQ02_04&quot; # SQ09_02 and SQ02_04 have same imagery? </span></span>
+<span id="cb1-37"><a href="sfm_data.html#cb1-37" tabindex="-1"></a>)</span>
+<span id="cb1-38"><a href="sfm_data.html#cb1-38" tabindex="-1"></a><span class="co"># what softwares to look for?</span></span>
+<span id="cb1-39"><a href="sfm_data.html#cb1-39" tabindex="-1"></a>software_list <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;metashape&quot;</span>, <span class="st">&quot;pix4d&quot;</span>, <span class="st">&quot;opendronemap&quot;</span>)</span>
+<span id="cb1-40"><a href="sfm_data.html#cb1-40" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="sfm_data.html#cb1-41" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!! USER-DEFINED PARAMETERS !!!!!!!!!!!!!!!!!!!!!!! #</span></span></code></pre></div>
 </div>
 <div id="metashape-image-processing" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Metashape Image Processing<a href="sfm_data.html#metashape-image-processing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Search for the list of Agisoft Metashape processing report <code>pdf</code> files to extract information from in the user-defined <code>input_data_dir</code> directory. Parse the list of files to extract processing information and study site information from.</p>
+<p>Search for the list of Agisoft Metashape processing report <code>pdf</code> files to extract information from in the user-defined <code>pdf_report_dir</code> directory. Parse the list of files to extract processing information and study site information from.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="sfm_data.html#cb2-1" tabindex="-1"></a><span class="co"># get list of files and directories to read from</span></span>
-<span id="cb2-2"><a href="sfm_data.html#cb2-2" tabindex="-1"></a>pdf_list <span class="ot">=</span> <span class="fu">list.files</span>(<span class="fu">normalizePath</span>(input_data_dir), <span class="at">pattern =</span> <span class="st">&quot;.*</span><span class="sc">\\</span><span class="st">.(pdf)$&quot;</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
+<span id="cb2-2"><a href="sfm_data.html#cb2-2" tabindex="-1"></a>pdf_list <span class="ot">=</span> <span class="fu">list.files</span>(<span class="fu">normalizePath</span>(pdf_report_dir), <span class="at">pattern =</span> <span class="st">&quot;.*</span><span class="sc">\\</span><span class="st">.(pdf)$&quot;</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
 <span id="cb2-3"><a href="sfm_data.html#cb2-3" tabindex="-1"></a><span class="co"># set up data.frame for processing</span></span>
 <span id="cb2-4"><a href="sfm_data.html#cb2-4" tabindex="-1"></a>pdf_list_df <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">tibble</span>(</span>
 <span id="cb2-5"><a href="sfm_data.html#cb2-5" tabindex="-1"></a>    <span class="at">file_full_path =</span> pdf_list</span>
 <span id="cb2-6"><a href="sfm_data.html#cb2-6" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-7"><a href="sfm_data.html#cb2-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb2-8"><a href="sfm_data.html#cb2-8" tabindex="-1"></a>    <span class="at">study_site =</span> file_full_path <span class="sc">%&gt;%</span> </span>
-<span id="cb2-9"><a href="sfm_data.html#cb2-9" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="fu">normalizePath</span>(input_data_dir))) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="sfm_data.html#cb2-9" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">word</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">sep =</span> <span class="fu">fixed</span>(<span class="fu">normalizePath</span>(pdf_report_dir))) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-10"><a href="sfm_data.html#cb2-10" tabindex="-1"></a>      <span class="fu">toupper</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb2-11"><a href="sfm_data.html#cb2-11" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_extract</span>(<span class="at">pattern =</span> <span class="fu">paste</span>(<span class="fu">toupper</span>(study_site_list),<span class="at">collapse =</span> <span class="st">&quot;|&quot;</span>))</span>
 <span id="cb2-12"><a href="sfm_data.html#cb2-12" tabindex="-1"></a>    , <span class="at">quality_filtering =</span> file_full_path <span class="sc">%&gt;%</span> </span>
@@ -306,10 +365,10 @@ metashape_depthmap_filtering
 KAIBAB_HIGH
 </td>
 <td style="text-align:left;">
-HIGH_DISABLED
+ULTRAHIGH_DISABLED
 </td>
 <td style="text-align:left;">
-HIGH
+ULTRAHIGH
 </td>
 <td style="text-align:left;">
 DISABLED
@@ -318,6 +377,20 @@ DISABLED
 <tr>
 <td style="text-align:left;">
 KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_MILD
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_LOW
 </td>
 <td style="text-align:left;">
 HIGH_MILD
@@ -331,41 +404,13 @@ MILD
 </tr>
 <tr>
 <td style="text-align:left;">
-KAIBAB_HIGH
+KAIBAB_LOW
 </td>
 <td style="text-align:left;">
-HIGH_MODERATE
+LOWEST_DISABLED
 </td>
 <td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-MODERATE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_HIGH
-</td>
-<td style="text-align:left;">
-LOW_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_HIGH
-</td>
-<td style="text-align:left;">
-LOW_DISABLED
-</td>
-<td style="text-align:left;">
-LOW
+LOWEST
 </td>
 <td style="text-align:left;">
 DISABLED
@@ -376,116 +421,18 @@ DISABLED
 KAIBAB_LOW
 </td>
 <td style="text-align:left;">
-MEDIUM_DISABLED
+MEDIUM_MILD
 </td>
 <td style="text-align:left;">
 MEDIUM
 </td>
 <td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-LOW_MILD
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
 MILD
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-SQ02_04
-</td>
-<td style="text-align:left;">
-LOWEST_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ02_04
-</td>
-<td style="text-align:left;">
-LOW_MILD
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ02_04
-</td>
-<td style="text-align:left;">
-MEDIUM_DISABLED
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-HIGH_DISABLED
-</td>
-<td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-HIGH_MILD
-</td>
-<td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-LOWEST_MODERATE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-MODERATE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
+KAIBAB_LOW
 </td>
 <td style="text-align:left;">
 MEDIUM_MODERATE
@@ -499,13 +446,125 @@ MODERATE
 </tr>
 <tr>
 <td style="text-align:left;">
-WA85_02
+N1
 </td>
 <td style="text-align:left;">
 LOWEST_DISABLED
 </td>
 <td style="text-align:left;">
 LOWEST
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N1
+</td>
+<td style="text-align:left;">
+MEDIUM_DISABLED
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+HIGH_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+LOW_MILD
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+HIGH_DISABLED
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_MILD
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HIGH_MILD
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+LOWEST_MODERATE
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+LOW_DISABLED
+</td>
+<td style="text-align:left;">
+LOW
 </td>
 <td style="text-align:left;">
 DISABLED

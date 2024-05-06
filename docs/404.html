@@ -53,6 +53,20 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
 <script type="text/javascript">
 
 // toggle visibility of R source blocks in R Markdown output
@@ -179,9 +193,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html"><i class="fa fa-check"></i><b>3</b> <strong>R</strong> Point Cloud Processing</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.1</b> Processing Time Summary</a></li>
-<li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.2</b> Processing Time vs # Points</a></li>
-<li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.3</b> Processing Section Timing</a></li>
+<li class="chapter" data-level="3.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#number-of-files-summary"><i class="fa fa-check"></i><b>3.1</b> Number of files summary</a></li>
+<li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.2</b> Processing Time Summary</a></li>
+<li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.3</b> Processing Time vs # Points</a></li>
+<li class="chapter" data-level="3.4" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.4</b> Processing Section Timing</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="stats_processing_time.html"><a href="stats_processing_time.html"><i class="fa fa-check"></i><b>4</b> Statistical Analysis: Processing Time</a>
 <ul>
@@ -190,14 +205,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics"><i class="fa fa-check"></i><b>4.1.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="4.1.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model"><i class="fa fa-check"></i><b>4.1.2</b> Linear Model</a></li>
 <li class="chapter" data-level="4.1.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova"><i class="fa fa-check"></i><b>4.1.3</b> ANOVA</a></li>
-<li class="chapter" data-level="4.1.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian"><i class="fa fa-check"></i><b>4.1.4</b> Bayesian</a></li>
+<li class="chapter" data-level="4.1.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#one_pred_mod_bays"><i class="fa fa-check"></i><b>4.1.4</b> Bayesian</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two-nominal-predictors"><i class="fa fa-check"></i><b>4.2</b> Two Nominal Predictors</a>
+<li class="chapter" data-level="4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two_pred_mod"><i class="fa fa-check"></i><b>4.2</b> Two Nominal Predictors</a>
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-1"><i class="fa fa-check"></i><b>4.2.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="4.2.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#linear-model-1"><i class="fa fa-check"></i><b>4.2.2</b> Linear Model</a></li>
 <li class="chapter" data-level="4.2.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#anova-1"><i class="fa fa-check"></i><b>4.2.3</b> ANOVA</a></li>
-<li class="chapter" data-level="4.2.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#bayesian-1"><i class="fa fa-check"></i><b>4.2.4</b> Bayesian</a></li>
+<li class="chapter" data-level="4.2.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two_pred_mod_bays"><i class="fa fa-check"></i><b>4.2.4</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="stats_processing_time.html"><a href="stats_processing_time.html#two-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>4.3</b> Two Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-2"><i class="fa fa-check"></i><b>4.3.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.3.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#id_3_pred_mod_bays"><i class="fa fa-check"></i><b>4.3.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="stats_processing_time.html"><a href="stats_processing_time.html#gamma-two-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>4.4</b> Gamma: Two Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="stats_processing_time.html"><a href="stats_processing_time.html#summary-statistics-3"><i class="fa fa-check"></i><b>4.4.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4.4.2" data-path="stats_processing_time.html"><a href="stats_processing_time.html#id_4_pred_mod_bays"><i class="fa fa-check"></i><b>4.4.2</b> Bayesian</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="field_valid.html"><a href="field_valid.html"><i class="fa fa-check"></i><b>5</b> Field Validation</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="field_valid.html"><a href="field_valid.html#setup"><i class="fa fa-check"></i><b>5.1</b> Setup</a></li>
+<li class="chapter" data-level="5.2" data-path="field_valid.html"><a href="field_valid.html#data-load-functions"><i class="fa fa-check"></i><b>5.2</b> Data Load Functions</a></li>
+<li class="chapter" data-level="5.3" data-path="field_valid.html"><a href="field_valid.html#validation-data-functions"><i class="fa fa-check"></i><b>5.3</b> Validation Data Functions</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="field_valid.html"><a href="field_valid.html#true-positive-identification"><i class="fa fa-check"></i><b>5.3.1</b> True Positive Identification</a></li>
+<li class="chapter" data-level="5.3.2" data-path="field_valid.html"><a href="field_valid.html#combine-with-commission-and-omission"><i class="fa fa-check"></i><b>5.3.2</b> Combine with Commission and Omission</a></li>
+<li class="chapter" data-level="5.3.3" data-path="field_valid.html"><a href="field_valid.html#full-validation-function"><i class="fa fa-check"></i><b>5.3.3</b> Full validation function</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="field_valid.html"><a href="field_valid.html#full-pipeline-function"><i class="fa fa-check"></i><b>5.4</b> Full pipeline function</a></li>
+<li class="chapter" data-level="5.5" data-path="field_valid.html"><a href="field_valid.html#apply-validation-for-all"><i class="fa fa-check"></i><b>5.5</b> Apply validation for all</a></li>
+<li class="chapter" data-level="5.6" data-path="field_valid.html"><a href="field_valid.html#example-validation-process"><i class="fa fa-check"></i><b>5.6</b> Example Validation Process</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="field_valid.html"><a href="field_valid.html#height-vs.-dbh-of-tp-co-om"><i class="fa fa-check"></i><b>5.6.1</b> Height vs. DBH of <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.6.2" data-path="field_valid.html"><a href="field_valid.html#height-and-dbh-distribution-tp-co-om"><i class="fa fa-check"></i><b>5.6.2</b> Height and DBH Distribution <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.6.3" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-height-difference"><i class="fa fa-check"></i><b>5.6.3</b> Detected Overstory (<span class="math inline">\(TP\)</span>) Height Difference</a></li>
+<li class="chapter" data-level="5.6.4" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-dbh-difference"><i class="fa fa-check"></i><b>5.6.4</b> Detected Overstory (<span class="math inline">\(TP\)</span>) DBH Difference</a></li>
 </ul></li>
 </ul></li>
 </ul>

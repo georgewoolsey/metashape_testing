@@ -120,6 +120,48 @@ c("software", "study_site"
   purrr::map(sum_stats_dta)
 ```
 
+quick f-score view by software and processing attributes
+
+```{r, fig.height=8}
+ptcld_validation_data %>% 
+  dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>% 
+  # collapse across study site
+  dplyr::summarise(
+    f_score = median(f_score, na.rm = T)
+    , n = dplyr::n()
+  ) %>% 
+  ggplot(mapping = aes(
+    y = depth_maps_generation_quality
+    , x = depth_maps_generation_filtering_mode
+    , fill = f_score
+    , label = paste0(scales::comma(f_score,accuracy = 0.01), "\n(n=", n,")")
+  )) +
+  geom_tile(color = "white") +
+  geom_text(color = "white", size = 3) +
+  facet_grid(cols = vars(software)) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_fill_viridis_c(option = "mako", begin = 0.3, end = 0.9, direction = -1) +
+  labs(
+    x = "filtering mode"
+    , y = "depth map quality"
+    , fill = "F-score"
+    , subtitle = "median F-score and # of study sites"
+  ) +
+  theme_light() + 
+  theme(
+    legend.position = "none"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , panel.background = element_blank()
+    , panel.grid = element_blank()
+    , plot.subtitle = element_text(hjust = 0.5)
+    , strip.text = element_text(color = "black", face = "bold")
+  )
+
+ggplot2::ggsave("../data/fscore_comp_quick.png", height = 9, width = 8)
+```
+
+
 ## One Nominal Predictor{#one_pred_mod}
 
 We'll start by exploring the influence of the depth map generation quality parameter on the point cloud processing time.

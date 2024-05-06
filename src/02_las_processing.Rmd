@@ -2,63 +2,224 @@
 
 After running the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/main/src/software_point_cloud_processing.R) in **R**...the processing tracking data file is used to compare summary statistics on point cloud processing times.
 
-```{r processing-dta-ld, results='hide'}
-ptcld_processing_data = 
-  list.files("../data", pattern = ".*ptcld_processing_tracking_data\\.csv$", full.names = T) %>% 
-  purrr::map(function(x){
-    readr::read_csv(x) %>% 
-      dplyr::mutate(
-        software = x %>% 
-          basename() %>% 
-          stringr::str_remove_all("_ptcld_processing_tracking_data\\.csv$")
-      )
-  }) %>% 
-  dplyr::bind_rows() 
+For comparison across software, the SfM point cloud generation processing parameters need are mapped to the Metashape parameters based on the [Pix4D documentation](https://support.pix4d.com/hc/en-us/articles/202557799-Menu-Process-Processing-Options-2-Point-Cloud-and-Mesh-Point-Cloud-PIX4Dmapper) and the [Agisoft Metashape discussion board](https://www.agisoft.com/forum/index.php?topic=11007.0)
 
-# split file name to get processing attributes
-  ptcld_processing_data = ptcld_processing_data %>%
-    tidyr::separate_wider_delim(
-      cols = file_name
-      , delim = "_"
-      , names = paste0(
-          "processing_attribute"
-          , 1:(max(stringr::str_count(ptcld_processing_data$file_name, "_"))+1)
-        )
-      , too_few = "align_start"
-      , cols_remove = F
+```{r processing-dta-ld, results='hide'}
+### get tracking data
+ # read list of all processed tracking files
+  tracking_list_df =
+    dplyr::tibble(
+      file_full_path = list.files(
+          ptcld_processing_dir
+          , pattern = ".*_processed_tracking_data\\.csv$"
+          , full.names = T, recursive = T
+        ) %>% 
+        normalizePath()
     ) %>% 
-    # not sure how to map processing attributes for pix4d and opendronemap yet....
-    dplyr::filter(tolower(software) == "metashape") %>% 
-    dplyr::rename(
-      depth_maps_generation_quality = processing_attribute1
-      , depth_maps_generation_filtering_mode = processing_attribute2
-    ) %>% 
+    # get the software used
     dplyr::mutate(
-      depth_maps_generation_quality = factor(
-          depth_maps_generation_quality %>% 
-            tolower() %>% 
-            stringr::str_replace_all("ultrahigh", "ultra high")
-          , ordered = TRUE
-          , levels = c(
-            "lowest"
-            , "low"
-            , "medium"
-            , "high"
-            , "ultra high"
-          )
-        ) %>% forcats::fct_rev()
-      , depth_maps_generation_filtering_mode = factor(
-          depth_maps_generation_filtering_mode %>% tolower()
-          , ordered = TRUE
-          , levels = c(
-            "disabled"
-            , "mild"
-            , "moderate"
-            , "aggressive"
-          )
-        ) %>% forcats::fct_rev()
-    )
+      file_full_path %>% 
+        toupper() %>%
+        stringr::str_extract_all(pattern = paste(toupper(software_list),collapse = "|"), simplify = T) %>% 
+        dplyr::as_tibble() %>% 
+        tidyr::unite(col = "software", sep = " ", na.rm = T)
+    ) %>% 
+    # filter processed tracking files
+    dplyr::mutate(
+      software = software %>% stringr::word(-1)
+      , study_site = file_full_path %>%
+        toupper() %>%
+        stringr::str_extract(pattern = paste(toupper(study_site_list),collapse = "|"))
+      , file_name = file_full_path %>%
+        basename() %>%
+        stringr::word(1, sep = fixed(".")) %>%
+        toupper() %>%
+        stringr::str_remove_all("_PROCESSED_TRACKING_DATA")
+    ) %>% 
+    dplyr::filter(
+      !is.na(study_site)
+      & study_site %in% toupper(study_site_list)
+      & !is.na(software)
+      & software %in% toupper(software_list)
+    ) %>% 
+    # keep only unique files for processing
+    dplyr::group_by(software, study_site, file_name) %>%
+    dplyr::filter(dplyr::row_number()==1) %>%
+    dplyr::ungroup() %>%
+    dplyr::rename(tracking_file_full_path = file_full_path)
   
+  # tracking_list_df %>% dplyr::glimpse()
+  
+  # read each tracking data file, bind rows
+  ptcld_processing_data = 1:nrow(tracking_list_df) %>%
+    purrr::map(function(row_n){
+      tracking_list_df %>%
+        dplyr::filter(dplyr::row_number() == row_n) %>%
+        dplyr::bind_cols(
+          read.csv(tracking_list_df$tracking_file_full_path[row_n]) 
+        )
+    }) %>%
+    dplyr::bind_rows()
+  
+  # ptcld_processing_data %>% dplyr::glimpse()
+  # split file name to get processing attributes
+    ptcld_processing_data =
+      ptcld_processing_data %>%
+      tidyr::separate_wider_delim(
+        cols = file_name
+        , delim = "_"
+        , names = paste0(
+            "processing_attribute"
+            , 1:(max(stringr::str_count(ptcld_processing_data$file_name, "_"))+1)
+          )
+        , too_few = "align_start"
+        , cols_remove = F
+      ) %>%
+      # not sure how to map processing attributes for pix4d and opendronemap ??????????????
+      dplyr::mutate(
+        # temporary
+        qqq = dplyr::case_when(
+            tolower(software) == "pix4d" ~ processing_attribute2
+            , T ~ processing_attribute1
+          )
+        , fff = dplyr::case_when(
+            tolower(software) == "pix4d" ~ processing_attribute3
+            , T ~ processing_attribute2
+          )
+        # mapping 
+        , depth_maps_generation_quality = dplyr::case_when(
+            tolower(qqq) %in% c("ultrahigh", "ultra", "original", "origianl") ~ "ultra high"
+            , tolower(qqq) %in% c("half") ~ "high"
+            , tolower(qqq) %in% c("quarter") ~ "medium"
+            , tolower(qqq) %in% c("eighth","eightht") ~ "low"
+            , T ~ tolower(qqq)
+          ) %>% 
+          factor(
+            ordered = TRUE
+            , levels = c(
+              "lowest"
+              , "low"
+              , "medium"
+              , "high"
+              , "ultra high"
+            )
+          ) %>% forcats::fct_rev()
+        , depth_maps_generation_filtering_mode = dplyr::case_when(
+            tolower(fff) %in% c("lowest") & 
+              tolower(software) %in% c("opendronemap") ~ "disabled"
+            , tolower(fff) %in% c("high")
+              & tolower(software) %in% c("pix4d") ~ "disabled"
+            , tolower(fff) %in% c("low")
+              & tolower(software) %in% c("opendronemap") ~ "mild"
+            , tolower(fff) %in% c("optimal")
+              & tolower(software) %in% c("pix4d") ~ "mild"
+            , tolower(fff) %in% c("medium")
+              & tolower(software) %in% c("opendronemap") ~ "moderate"
+            , tolower(fff) %in% c("low")
+              & tolower(software) %in% c("pix4d") ~ "moderate"
+            , tolower(fff) %in% c("high")
+              & tolower(software) %in% c("opendronemap") ~ "aggressive"
+            , T ~ tolower(fff)
+          ) %>% 
+          factor(
+            ordered = TRUE
+            , levels = c(
+              "disabled"
+              , "mild"
+              , "moderate"
+              , "aggressive"
+            )
+          ) %>% forcats::fct_rev()
+      )
+```
+
+what is this mapping?
+
+```{r}
+# quality
+ptcld_processing_data %>% 
+  dplyr::count(depth_maps_generation_quality, qqq, software) %>% 
+  ggplot(aes(x = tolower(software), y = depth_maps_generation_quality, label = tolower(qqq))) +
+    geom_tile(fill = NA, color = "black") +
+    ggrepel::geom_text_repel(color = "gray33") +
+    labs(y = "Mapped: Depth Map Quality", x = "") +
+    scale_x_discrete(position = "top") +
+    coord_cartesian(expand = F) +
+    theme_light() +
+    theme(
+      panel.grid = element_blank()
+      , axis.text = element_text(size = 11, face = "bold", color = "black")
+      , panel.border = element_rect(color = "black")
+    )
+ggplot2::ggsave("../data/mapped_quality.jpg", height = 8, width = 6)
+```
+
+```{r}
+# filtering
+ptcld_processing_data %>% 
+  dplyr::count(depth_maps_generation_filtering_mode, fff, software) %>% 
+  ggplot(aes(x = tolower(software), y = depth_maps_generation_filtering_mode, label = tolower(fff))) +
+    geom_tile(fill = NA, color = "black") +
+    ggrepel::geom_text_repel(color = "gray33") +
+    labs(y = "Mapped: Filtering Mode", x = "") +
+    scale_x_discrete(position = "top") +
+    coord_cartesian(expand = F) +
+    theme_light() +
+    theme(
+      panel.grid = element_blank()
+      , axis.text = element_text(size = 11, face = "bold", color = "black")
+      , panel.border = element_rect(color = "black")
+    )
+ggplot2::ggsave("../data/mapped_filtering_mode.jpg", height = 8, width = 6)
+```
+
+```{r}
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Filtering
+# !!!! keep only one kind of pix4d, all metashape and odm ???????
+ptcld_processing_data = ptcld_processing_data %>% 
+  dplyr::select(-c(qqq,fff)) %>% 
+  dplyr::filter(
+    dplyr::case_when(
+      tolower(software) == "pix4d" & tolower(processing_attribute1) == "original" ~ T
+      , tolower(software) != "pix4d" ~ T
+      , T ~ F
+    ) == T
+  )
+```
+
+## Number of files summary
+
+```{r, fig.height=8}
+ptcld_processing_data %>% 
+  dplyr::count(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>% 
+  ggplot(mapping = aes(
+    y = depth_maps_generation_quality
+    , x = depth_maps_generation_filtering_mode
+    , fill = n
+    , label = n
+  )) +
+  geom_tile(color = "white") +
+  geom_text(color = "white", size = 3) +
+  facet_grid(cols = vars(software)) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8) +
+  labs(
+    x = "filtering mode"
+    , y = "depth map quality"
+    , fill = "number of sites"
+  ) +
+  theme_light() + 
+  theme(
+    legend.position = "none"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , panel.background = element_blank()
+    , panel.grid = element_blank()
+    , plot.subtitle = element_text(hjust = 0.5)
+    , strip.text = element_text(color = "black", face = "bold")
+  )
+
+ggplot2::ggsave("../data/n_sites_comp_quick.png", height = 9, width = 8)
 ```
 
 ## Processing Time Summary
@@ -258,13 +419,13 @@ ggplot(
   scale_x_continuous(labels = scales::percent_format()) +
   labs(
     fill = "R script\nsection"
-    , y = "Metashape depth map quality"
+    , y = "depth map quality"
     , x = "% Point Cloud Total Processing Time"
     , title = bquote(
         bold("R") ~
-        "point cloud total processing time by Metashape depth map generation quality and R script section"
+        "point cloud total processing time by depth map generation quality and R script section"
     )
-    , subtitle = "Median across study site and Metashape depth map filtering mode "
+    , subtitle = "Median across software, study site, & depth map filtering mode "
   ) +
   theme_light() +
   theme(
@@ -280,6 +441,8 @@ ggplot(
   guides(
     fill = guide_legend(nrow = 3, byrow = T, reverse = T, override.aes = list(alpha = 0.9))
   )  
+
+ggplot2::ggsave("../data/processing_time_brkdown.png", width = 8.5, height = 6)
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}

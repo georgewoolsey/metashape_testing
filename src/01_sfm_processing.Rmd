@@ -80,23 +80,37 @@ Parameters to be set by the user
 rootdir = "../data"
 
 ###_________________________###
-### Set input data directory ###
+### Set pdf data directory ###
 ###_________________________###
-# !!!!!!!!!! this is where both pdf report data resides
+# !!!!!!!!!! this is where pdf report data resides
 # !!!!!!!!!! files should be named in the format {quality}_{depth map filtering}.pdf
 # !!!!!!!!!! for example: high_aggressive.pdf; UltraHigh_Disabled.pdf; lowest_MILD.pdf
-input_data_dir = "../data/raw_data"
+pdf_report_dir = "../data/raw_data"
+
+###_________________________###
+### Set point cloud processing data directory ###
+###_________________________###
+# !!!!!!!!!! this is where the outputs of the software_point_cloud_processing.R script are located
+# !!!!!!!!!! script will look for "processed_tracking_data\\.csv" files
+ptcld_processing_dir = "D:/SfM_Software_Comparison"
 
 ###_________________________###
 ### list of study site directory names
 ###_________________________###
 # !!!!!!!!!! this is where both pdf and las data reside
 # directories matching the names of these study sites will be searched
+# arrange processed data in file structure that includes the software and the site
+# ... with the processing attributes in the file name
+# ex: "../metashape/N1/high_aggressive_processed_tracking_data.csv"
+# what sites to look for?
 study_site_list = c(
-  "SQ02_04", "SQ09_02", "WA85_02"
+  "SQ09_02", "WA85_02"
   , "Kaibab_High", "Kaibab_Low"
   , "n1"
+  # , "SQ02_04" # SQ09_02 and SQ02_04 have same imagery? 
 )
+# what softwares to look for?
+software_list = c("metashape", "pix4d", "opendronemap")
 
 # !!!!!!!!!!!!!!!!!!!!!!! USER-DEFINED PARAMETERS !!!!!!!!!!!!!!!!!!!!!!! #
 ```
@@ -107,18 +121,18 @@ dir.create(paste0(rootdir, "/fits"), showWarnings = F)
 
 ## Metashape Image Processing
 
-Search for the list of Agisoft Metashape processing report `pdf` files to extract information from in the user-defined `input_data_dir` directory. Parse the list of files to extract processing information and study site information from.
+Search for the list of Agisoft Metashape processing report `pdf` files to extract information from in the user-defined `pdf_report_dir` directory. Parse the list of files to extract processing information and study site information from.
 
 ```{r data-load}
 # get list of files and directories to read from
-pdf_list = list.files(normalizePath(input_data_dir), pattern = ".*\\.(pdf)$", full.names = T, recursive = T)
+pdf_list = list.files(normalizePath(pdf_report_dir), pattern = ".*\\.(pdf)$", full.names = T, recursive = T)
 # set up data.frame for processing
 pdf_list_df = dplyr::tibble(
     file_full_path = pdf_list
   ) %>% 
   dplyr::mutate(
     study_site = file_full_path %>% 
-      stringr::word(-1, sep = fixed(normalizePath(input_data_dir))) %>% 
+      stringr::word(-1, sep = fixed(normalizePath(pdf_report_dir))) %>% 
       toupper() %>% 
       stringr::str_extract(pattern = paste(toupper(study_site_list),collapse = "|"))
     , quality_filtering = file_full_path %>% 
