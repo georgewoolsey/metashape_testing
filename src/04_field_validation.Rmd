@@ -88,7 +88,7 @@ where are these validation plots and what do they look like?
 # what?
 validation_plots %>% dplyr::glimpse()
 # where?
-mapview::mapviewOptions(basemaps = c("Stadia.StamenTonerLite","Esri.WorldImagery"))
+mapview::mapviewOptions(basemaps = c("OpenStreetMap","Esri.WorldImagery"))
 validation_plots %>% 
   sf::st_buffer(2000) %>% # because they are small
   mapview::mapview(col.regions = "blue", layer.name = "plot", alpha.regions = 0.7)

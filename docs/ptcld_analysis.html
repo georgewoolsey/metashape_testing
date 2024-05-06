@@ -392,31 +392,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-124"><a href="ptcld_analysis.html#cb16-124" tabindex="-1"></a>            )</span>
 <span id="cb16-125"><a href="ptcld_analysis.html#cb16-125" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
 <span id="cb16-126"><a href="ptcld_analysis.html#cb16-126" tabindex="-1"></a>      )</span></code></pre></div>
+<p>what have we done?</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ptcld_analysis.html#cb17-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 498
+## Columns: 33
+## $ tracking_file_full_path              &lt;chr&gt; &quot;D:\\SfM_Software_Comparison\\Met…
+## $ software                             &lt;chr&gt; &quot;METASHAPE&quot;, &quot;METASHAPE&quot;, &quot;METASH…
+## $ study_site                           &lt;chr&gt; &quot;KAIBAB_HIGH&quot;, &quot;KAIBAB_HIGH&quot;, &quot;KA…
+## $ processing_attribute1                &lt;chr&gt; &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;…
+## $ processing_attribute2                &lt;chr&gt; &quot;AGGRESSIVE&quot;, &quot;DISABLED&quot;, &quot;MILD&quot;,…
+## $ processing_attribute3                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ file_name                            &lt;chr&gt; &quot;HIGH_AGGRESSIVE&quot;, &quot;HIGH_DISABLED…
+## $ number_of_points                     &lt;int&gt; 52974294, 72549206, 69858217, 698…
+## $ las_area_m2                          &lt;dbl&gt; 86661.27, 87175.42, 86404.78, 864…
+## $ timer_tile_time_mins                 &lt;dbl&gt; 0.63600698, 2.49318542, 0.8413380…
+## $ timer_class_dtm_norm_chm_time_mins   &lt;dbl&gt; 3.6559556, 5.3289152, 5.1638296, …
+## $ timer_treels_time_mins               &lt;dbl&gt; 8.9065272, 19.2119663, 12.3391793…
+## $ timer_itd_time_mins                  &lt;dbl&gt; 0.02202115, 0.02449968, 0.0379844…
+## $ timer_competition_time_mins          &lt;dbl&gt; 0.10590740, 0.17865245, 0.1212486…
+## $ timer_estdbh_time_mins               &lt;dbl&gt; 0.02290262, 0.02382533, 0.0219917…
+## $ timer_silv_time_mins                 &lt;dbl&gt; 0.012565533, 0.015940932, 0.01503…
+## $ timer_total_time_mins                &lt;dbl&gt; 13.361886, 27.276985, 18.540606, …
+## $ sttng_input_las_dir                  &lt;chr&gt; &quot;D:/Metashape_Testing_2024&quot;, &quot;D:/…
+## $ sttng_use_parallel_processing        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ sttng_desired_chm_res                &lt;dbl&gt; 0.25, 0.25, 0.25, 0.25, 0.25, 0.2…
+## $ sttng_max_height_threshold_m         &lt;int&gt; 60, 60, 60, 60, 60, 60, 60, 60, 6…
+## $ sttng_minimum_tree_height_m          &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ sttng_dbh_max_size_m                 &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ sttng_local_dbh_model                &lt;chr&gt; &quot;rf&quot;, &quot;rf&quot;, &quot;rf&quot;, &quot;rf&quot;, &quot;rf&quot;, &quot;rf…
+## $ sttng_user_supplied_epsg             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ sttng_accuracy_level                 &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ sttng_pts_m2_for_triangulation       &lt;int&gt; 20, 20, 20, 20, 20, 20, 20, 20, 2…
+## $ sttng_normalization_with             &lt;chr&gt; &quot;triangulation&quot;, &quot;triangulation&quot;,…
+## $ sttng_competition_buffer_m           &lt;int&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, …
+## $ qqq                                  &lt;chr&gt; &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;HIGH&quot;, &quot;…
+## $ fff                                  &lt;chr&gt; &quot;AGGRESSIVE&quot;, &quot;DISABLED&quot;, &quot;MILD&quot;,…
+## $ depth_maps_generation_quality        &lt;ord&gt; high, high, high, high, low, low,…
+## $ depth_maps_generation_filtering_mode &lt;ord&gt; aggressive, disabled, mild, moder…</code></pre>
 <p>what is this mapping?</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ptcld_analysis.html#cb17-1" tabindex="-1"></a><span class="co"># quality</span></span>
-<span id="cb17-2"><a href="ptcld_analysis.html#cb17-2" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="ptcld_analysis.html#cb17-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_quality, qqq, software) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="ptcld_analysis.html#cb17-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">tolower</span>(software), <span class="at">y =</span> depth_maps_generation_quality, <span class="at">label =</span> <span class="fu">tolower</span>(qqq))) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="ptcld_analysis.html#cb17-5" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="ptcld_analysis.html#cb17-6" tabindex="-1"></a>    ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(<span class="at">color =</span> <span class="st">&quot;gray33&quot;</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="ptcld_analysis.html#cb17-7" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Mapped: Depth Map Quality&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="ptcld_analysis.html#cb17-8" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">position =</span> <span class="st">&quot;top&quot;</span>) <span class="sc">+</span></span>
-<span id="cb17-9"><a href="ptcld_analysis.html#cb17-9" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> F) <span class="sc">+</span></span>
-<span id="cb17-10"><a href="ptcld_analysis.html#cb17-10" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb17-11"><a href="ptcld_analysis.html#cb17-11" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb17-12"><a href="ptcld_analysis.html#cb17-12" tabindex="-1"></a>      <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb17-13"><a href="ptcld_analysis.html#cb17-13" tabindex="-1"></a>      , <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
-<span id="cb17-14"><a href="ptcld_analysis.html#cb17-14" tabindex="-1"></a>      , <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
-<span id="cb17-15"><a href="ptcld_analysis.html#cb17-15" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-5-1.png" width="1008" /></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="ptcld_analysis.html#cb18-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_quality.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ptcld_analysis.html#cb19-1" tabindex="-1"></a><span class="co"># filtering</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ptcld_analysis.html#cb19-1" tabindex="-1"></a><span class="co"># quality</span></span>
 <span id="cb19-2"><a href="ptcld_analysis.html#cb19-2" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb19-3"><a href="ptcld_analysis.html#cb19-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_filtering_mode, fff, software) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-4"><a href="ptcld_analysis.html#cb19-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">tolower</span>(software), <span class="at">y =</span> depth_maps_generation_filtering_mode, <span class="at">label =</span> <span class="fu">tolower</span>(fff))) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="ptcld_analysis.html#cb19-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_quality, qqq, software) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="ptcld_analysis.html#cb19-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">tolower</span>(software), <span class="at">y =</span> depth_maps_generation_quality, <span class="at">label =</span> <span class="fu">tolower</span>(qqq))) <span class="sc">+</span></span>
 <span id="cb19-5"><a href="ptcld_analysis.html#cb19-5" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
 <span id="cb19-6"><a href="ptcld_analysis.html#cb19-6" tabindex="-1"></a>    ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(<span class="at">color =</span> <span class="st">&quot;gray33&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-7"><a href="ptcld_analysis.html#cb19-7" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Mapped: Filtering Mode&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="ptcld_analysis.html#cb19-7" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Mapped: Depth Map Quality&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb19-8"><a href="ptcld_analysis.html#cb19-8" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">position =</span> <span class="st">&quot;top&quot;</span>) <span class="sc">+</span></span>
 <span id="cb19-9"><a href="ptcld_analysis.html#cb19-9" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> F) <span class="sc">+</span></span>
 <span id="cb19-10"><a href="ptcld_analysis.html#cb19-10" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
@@ -426,265 +446,282 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb19-14"><a href="ptcld_analysis.html#cb19-14" tabindex="-1"></a>      , <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
 <span id="cb19-15"><a href="ptcld_analysis.html#cb19-15" tabindex="-1"></a>    )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-6-1.png" width="1008" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ptcld_analysis.html#cb20-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_filtering_mode.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="ptcld_analysis.html#cb21-1" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Filtering</span></span>
-<span id="cb21-2"><a href="ptcld_analysis.html#cb21-2" tabindex="-1"></a><span class="co"># !!!! keep only one kind of pix4d, all metashape and odm ???????</span></span>
-<span id="cb21-3"><a href="ptcld_analysis.html#cb21-3" tabindex="-1"></a>ptcld_processing_data <span class="ot">=</span> ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="ptcld_analysis.html#cb21-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(qqq,fff)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-5"><a href="ptcld_analysis.html#cb21-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
-<span id="cb21-6"><a href="ptcld_analysis.html#cb21-6" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb21-7"><a href="ptcld_analysis.html#cb21-7" tabindex="-1"></a>      <span class="fu">tolower</span>(software) <span class="sc">==</span> <span class="st">&quot;pix4d&quot;</span> <span class="sc">&amp;</span> <span class="fu">tolower</span>(processing_attribute1) <span class="sc">==</span> <span class="st">&quot;original&quot;</span> <span class="sc">~</span> T</span>
-<span id="cb21-8"><a href="ptcld_analysis.html#cb21-8" tabindex="-1"></a>      , <span class="fu">tolower</span>(software) <span class="sc">!=</span> <span class="st">&quot;pix4d&quot;</span> <span class="sc">~</span> T</span>
-<span id="cb21-9"><a href="ptcld_analysis.html#cb21-9" tabindex="-1"></a>      , T <span class="sc">~</span> F</span>
-<span id="cb21-10"><a href="ptcld_analysis.html#cb21-10" tabindex="-1"></a>    ) <span class="sc">==</span> T</span>
-<span id="cb21-11"><a href="ptcld_analysis.html#cb21-11" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ptcld_analysis.html#cb20-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_quality.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="ptcld_analysis.html#cb21-1" tabindex="-1"></a><span class="co"># filtering</span></span>
+<span id="cb21-2"><a href="ptcld_analysis.html#cb21-2" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="ptcld_analysis.html#cb21-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(depth_maps_generation_filtering_mode, fff, software) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="ptcld_analysis.html#cb21-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">tolower</span>(software), <span class="at">y =</span> depth_maps_generation_filtering_mode, <span class="at">label =</span> <span class="fu">tolower</span>(fff))) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="ptcld_analysis.html#cb21-5" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="ptcld_analysis.html#cb21-6" tabindex="-1"></a>    ggrepel<span class="sc">::</span><span class="fu">geom_text_repel</span>(<span class="at">color =</span> <span class="st">&quot;gray33&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="ptcld_analysis.html#cb21-7" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Mapped: Filtering Mode&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="ptcld_analysis.html#cb21-8" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">position =</span> <span class="st">&quot;top&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="ptcld_analysis.html#cb21-9" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> F) <span class="sc">+</span></span>
+<span id="cb21-10"><a href="ptcld_analysis.html#cb21-10" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb21-11"><a href="ptcld_analysis.html#cb21-11" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb21-12"><a href="ptcld_analysis.html#cb21-12" tabindex="-1"></a>      <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb21-13"><a href="ptcld_analysis.html#cb21-13" tabindex="-1"></a>      , <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb21-14"><a href="ptcld_analysis.html#cb21-14" tabindex="-1"></a>      , <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb21-15"><a href="ptcld_analysis.html#cb21-15" tabindex="-1"></a>    )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-7-1.png" width="1008" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ptcld_analysis.html#cb22-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_filtering_mode.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="ptcld_analysis.html#cb23-1" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Filtering</span></span>
+<span id="cb23-2"><a href="ptcld_analysis.html#cb23-2" tabindex="-1"></a><span class="co"># !!!! keep only one kind of pix4d, all metashape and odm ???????</span></span>
+<span id="cb23-3"><a href="ptcld_analysis.html#cb23-3" tabindex="-1"></a>ptcld_processing_data <span class="ot">=</span> ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="ptcld_analysis.html#cb23-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(qqq,fff)) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-5"><a href="ptcld_analysis.html#cb23-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb23-6"><a href="ptcld_analysis.html#cb23-6" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb23-7"><a href="ptcld_analysis.html#cb23-7" tabindex="-1"></a>      <span class="fu">tolower</span>(software) <span class="sc">==</span> <span class="st">&quot;pix4d&quot;</span> <span class="sc">&amp;</span> <span class="fu">tolower</span>(processing_attribute1) <span class="sc">==</span> <span class="st">&quot;original&quot;</span> <span class="sc">~</span> T</span>
+<span id="cb23-8"><a href="ptcld_analysis.html#cb23-8" tabindex="-1"></a>      , <span class="fu">tolower</span>(software) <span class="sc">!=</span> <span class="st">&quot;pix4d&quot;</span> <span class="sc">~</span> T</span>
+<span id="cb23-9"><a href="ptcld_analysis.html#cb23-9" tabindex="-1"></a>      , T <span class="sc">~</span> F</span>
+<span id="cb23-10"><a href="ptcld_analysis.html#cb23-10" tabindex="-1"></a>    ) <span class="sc">==</span> T</span>
+<span id="cb23-11"><a href="ptcld_analysis.html#cb23-11" tabindex="-1"></a>  )</span></code></pre></div>
 <div id="number-of-files-summary" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Number of files summary<a href="ptcld_analysis.html#number-of-files-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ptcld_analysis.html#cb22-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="ptcld_analysis.html#cb22-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="ptcld_analysis.html#cb22-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(</span>
-<span id="cb22-4"><a href="ptcld_analysis.html#cb22-4" tabindex="-1"></a>    <span class="at">y =</span> depth_maps_generation_quality</span>
-<span id="cb22-5"><a href="ptcld_analysis.html#cb22-5" tabindex="-1"></a>    , <span class="at">x =</span> depth_maps_generation_filtering_mode</span>
-<span id="cb22-6"><a href="ptcld_analysis.html#cb22-6" tabindex="-1"></a>    , <span class="at">fill =</span> n</span>
-<span id="cb22-7"><a href="ptcld_analysis.html#cb22-7" tabindex="-1"></a>    , <span class="at">label =</span> n</span>
-<span id="cb22-8"><a href="ptcld_analysis.html#cb22-8" tabindex="-1"></a>  )) <span class="sc">+</span></span>
-<span id="cb22-9"><a href="ptcld_analysis.html#cb22-9" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
-<span id="cb22-10"><a href="ptcld_analysis.html#cb22-10" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb22-11"><a href="ptcld_analysis.html#cb22-11" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(software)) <span class="sc">+</span> </span>
-<span id="cb22-12"><a href="ptcld_analysis.html#cb22-12" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb22-13"><a href="ptcld_analysis.html#cb22-13" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb22-14"><a href="ptcld_analysis.html#cb22-14" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">begin =</span> <span class="fl">0.2</span>, <span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb22-15"><a href="ptcld_analysis.html#cb22-15" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb22-16"><a href="ptcld_analysis.html#cb22-16" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;filtering mode&quot;</span></span>
-<span id="cb22-17"><a href="ptcld_analysis.html#cb22-17" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
-<span id="cb22-18"><a href="ptcld_analysis.html#cb22-18" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;number of sites&quot;</span></span>
-<span id="cb22-19"><a href="ptcld_analysis.html#cb22-19" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb22-20"><a href="ptcld_analysis.html#cb22-20" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
-<span id="cb22-21"><a href="ptcld_analysis.html#cb22-21" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb22-22"><a href="ptcld_analysis.html#cb22-22" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb22-23"><a href="ptcld_analysis.html#cb22-23" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
-<span id="cb22-24"><a href="ptcld_analysis.html#cb22-24" tabindex="-1"></a>    , <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb22-25"><a href="ptcld_analysis.html#cb22-25" tabindex="-1"></a>    , <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb22-26"><a href="ptcld_analysis.html#cb22-26" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb22-27"><a href="ptcld_analysis.html#cb22-27" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb22-28"><a href="ptcld_analysis.html#cb22-28" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-8-1.png" width="1008" /></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="ptcld_analysis.html#cb23-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/n_sites_comp_quick.png&quot;</span>, <span class="at">height =</span> <span class="dv">9</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="ptcld_analysis.html#cb24-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="ptcld_analysis.html#cb24-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="ptcld_analysis.html#cb24-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb24-4"><a href="ptcld_analysis.html#cb24-4" tabindex="-1"></a>    <span class="at">y =</span> depth_maps_generation_quality</span>
+<span id="cb24-5"><a href="ptcld_analysis.html#cb24-5" tabindex="-1"></a>    , <span class="at">x =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb24-6"><a href="ptcld_analysis.html#cb24-6" tabindex="-1"></a>    , <span class="at">fill =</span> n</span>
+<span id="cb24-7"><a href="ptcld_analysis.html#cb24-7" tabindex="-1"></a>    , <span class="at">label =</span> n</span>
+<span id="cb24-8"><a href="ptcld_analysis.html#cb24-8" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="ptcld_analysis.html#cb24-9" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="ptcld_analysis.html#cb24-10" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="ptcld_analysis.html#cb24-11" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(software)) <span class="sc">+</span> </span>
+<span id="cb24-12"><a href="ptcld_analysis.html#cb24-12" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="ptcld_analysis.html#cb24-13" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="ptcld_analysis.html#cb24-14" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">begin =</span> <span class="fl">0.2</span>, <span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb24-15"><a href="ptcld_analysis.html#cb24-15" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-16"><a href="ptcld_analysis.html#cb24-16" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;filtering mode&quot;</span></span>
+<span id="cb24-17"><a href="ptcld_analysis.html#cb24-17" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
+<span id="cb24-18"><a href="ptcld_analysis.html#cb24-18" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;number of sites&quot;</span></span>
+<span id="cb24-19"><a href="ptcld_analysis.html#cb24-19" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-20"><a href="ptcld_analysis.html#cb24-20" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb24-21"><a href="ptcld_analysis.html#cb24-21" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb24-22"><a href="ptcld_analysis.html#cb24-22" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb24-23"><a href="ptcld_analysis.html#cb24-23" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb24-24"><a href="ptcld_analysis.html#cb24-24" tabindex="-1"></a>    , <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb24-25"><a href="ptcld_analysis.html#cb24-25" tabindex="-1"></a>    , <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb24-26"><a href="ptcld_analysis.html#cb24-26" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb24-27"><a href="ptcld_analysis.html#cb24-27" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb24-28"><a href="ptcld_analysis.html#cb24-28" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-9-1.png" width="1008" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="ptcld_analysis.html#cb25-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/n_sites_comp_quick.png&quot;</span>, <span class="at">height =</span> <span class="dv">9</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 </div>
 <div id="processing-time-summary" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Processing Time Summary<a href="ptcld_analysis.html#processing-time-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Total processing time by depth map generation quality and depth map filtering mode</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="ptcld_analysis.html#cb24-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="ptcld_analysis.html#cb24-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb24-3"><a href="ptcld_analysis.html#cb24-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
-<span id="cb24-4"><a href="ptcld_analysis.html#cb24-4" tabindex="-1"></a>      <span class="at">x =</span> depth_maps_generation_quality</span>
-<span id="cb24-5"><a href="ptcld_analysis.html#cb24-5" tabindex="-1"></a>      , <span class="at">y =</span> timer_total_time_mins</span>
-<span id="cb24-6"><a href="ptcld_analysis.html#cb24-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
-<span id="cb24-7"><a href="ptcld_analysis.html#cb24-7" tabindex="-1"></a>      , <span class="at">fill =</span> depth_maps_generation_filtering_mode</span>
-<span id="cb24-8"><a href="ptcld_analysis.html#cb24-8" tabindex="-1"></a>    )</span>
-<span id="cb24-9"><a href="ptcld_analysis.html#cb24-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-10"><a href="ptcld_analysis.html#cb24-10" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb24-11"><a href="ptcld_analysis.html#cb24-11" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
-<span id="cb24-12"><a href="ptcld_analysis.html#cb24-12" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
-<span id="cb24-13"><a href="ptcld_analysis.html#cb24-13" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
-<span id="cb24-14"><a href="ptcld_analysis.html#cb24-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb24-15"><a href="ptcld_analysis.html#cb24-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
-<span id="cb24-16"><a href="ptcld_analysis.html#cb24-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-17"><a href="ptcld_analysis.html#cb24-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-18"><a href="ptcld_analysis.html#cb24-18" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
-<span id="cb24-19"><a href="ptcld_analysis.html#cb24-19" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
-<span id="cb24-20"><a href="ptcld_analysis.html#cb24-20" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
-<span id="cb24-21"><a href="ptcld_analysis.html#cb24-21" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
-<span id="cb24-22"><a href="ptcld_analysis.html#cb24-22" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
-<span id="cb24-23"><a href="ptcld_analysis.html#cb24-23" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
-<span id="cb24-24"><a href="ptcld_analysis.html#cb24-24" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and filtering mode&quot;</span></span>
-<span id="cb24-25"><a href="ptcld_analysis.html#cb24-25" tabindex="-1"></a>    )</span>
-<span id="cb24-26"><a href="ptcld_analysis.html#cb24-26" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
-<span id="cb24-27"><a href="ptcld_analysis.html#cb24-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-28"><a href="ptcld_analysis.html#cb24-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb24-29"><a href="ptcld_analysis.html#cb24-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb24-30"><a href="ptcld_analysis.html#cb24-30" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb24-31"><a href="ptcld_analysis.html#cb24-31" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb24-32"><a href="ptcld_analysis.html#cb24-32" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-33"><a href="ptcld_analysis.html#cb24-33" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb24-34"><a href="ptcld_analysis.html#cb24-34" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
-<span id="cb24-35"><a href="ptcld_analysis.html#cb24-35" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ptcld_analysis.html#cb26-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="ptcld_analysis.html#cb26-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb26-3"><a href="ptcld_analysis.html#cb26-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb26-4"><a href="ptcld_analysis.html#cb26-4" tabindex="-1"></a>      <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb26-5"><a href="ptcld_analysis.html#cb26-5" tabindex="-1"></a>      , <span class="at">y =</span> timer_total_time_mins</span>
+<span id="cb26-6"><a href="ptcld_analysis.html#cb26-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb26-7"><a href="ptcld_analysis.html#cb26-7" tabindex="-1"></a>      , <span class="at">fill =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb26-8"><a href="ptcld_analysis.html#cb26-8" tabindex="-1"></a>    )</span>
+<span id="cb26-9"><a href="ptcld_analysis.html#cb26-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-10"><a href="ptcld_analysis.html#cb26-10" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="ptcld_analysis.html#cb26-11" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-12"><a href="ptcld_analysis.html#cb26-12" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-13"><a href="ptcld_analysis.html#cb26-13" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb26-14"><a href="ptcld_analysis.html#cb26-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb26-15"><a href="ptcld_analysis.html#cb26-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb26-16"><a href="ptcld_analysis.html#cb26-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-17"><a href="ptcld_analysis.html#cb26-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-18"><a href="ptcld_analysis.html#cb26-18" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb26-19"><a href="ptcld_analysis.html#cb26-19" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb26-20"><a href="ptcld_analysis.html#cb26-20" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
+<span id="cb26-21"><a href="ptcld_analysis.html#cb26-21" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb26-22"><a href="ptcld_analysis.html#cb26-22" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
+<span id="cb26-23"><a href="ptcld_analysis.html#cb26-23" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
+<span id="cb26-24"><a href="ptcld_analysis.html#cb26-24" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb26-25"><a href="ptcld_analysis.html#cb26-25" tabindex="-1"></a>    )</span>
+<span id="cb26-26"><a href="ptcld_analysis.html#cb26-26" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb26-27"><a href="ptcld_analysis.html#cb26-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-28"><a href="ptcld_analysis.html#cb26-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb26-29"><a href="ptcld_analysis.html#cb26-29" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb26-30"><a href="ptcld_analysis.html#cb26-30" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb26-31"><a href="ptcld_analysis.html#cb26-31" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb26-32"><a href="ptcld_analysis.html#cb26-32" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-33"><a href="ptcld_analysis.html#cb26-33" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb26-34"><a href="ptcld_analysis.html#cb26-34" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb26-35"><a href="ptcld_analysis.html#cb26-35" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/processing-dta-tot-1.png" width="1008" /></p>
 <p>Notice there are some outlier study sites in the point cloud processing time</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="ptcld_analysis.html#cb25-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href="ptcld_analysis.html#cb25-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb25-3"><a href="ptcld_analysis.html#cb25-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
-<span id="cb25-4"><a href="ptcld_analysis.html#cb25-4" tabindex="-1"></a>      <span class="at">y =</span> timer_total_time_mins</span>
-<span id="cb25-5"><a href="ptcld_analysis.html#cb25-5" tabindex="-1"></a>      , <span class="at">x =</span> depth_maps_generation_quality</span>
-<span id="cb25-6"><a href="ptcld_analysis.html#cb25-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
-<span id="cb25-7"><a href="ptcld_analysis.html#cb25-7" tabindex="-1"></a>    )</span>
-<span id="cb25-8"><a href="ptcld_analysis.html#cb25-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-9"><a href="ptcld_analysis.html#cb25-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb25-10"><a href="ptcld_analysis.html#cb25-10" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
-<span id="cb25-11"><a href="ptcld_analysis.html#cb25-11" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(study_site)</span>
-<span id="cb25-12"><a href="ptcld_analysis.html#cb25-12" tabindex="-1"></a>    , <span class="at">labeller =</span> <span class="fu">label_wrap_gen</span>(<span class="at">width =</span> <span class="dv">35</span>, <span class="at">multi_line =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-13"><a href="ptcld_analysis.html#cb25-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-14"><a href="ptcld_analysis.html#cb25-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
-<span id="cb25-15"><a href="ptcld_analysis.html#cb25-15" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
-<span id="cb25-16"><a href="ptcld_analysis.html#cb25-16" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb25-17"><a href="ptcld_analysis.html#cb25-17" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
-<span id="cb25-18"><a href="ptcld_analysis.html#cb25-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-19"><a href="ptcld_analysis.html#cb25-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-20"><a href="ptcld_analysis.html#cb25-20" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
-<span id="cb25-21"><a href="ptcld_analysis.html#cb25-21" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
-<span id="cb25-22"><a href="ptcld_analysis.html#cb25-22" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
-<span id="cb25-23"><a href="ptcld_analysis.html#cb25-23" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
-<span id="cb25-24"><a href="ptcld_analysis.html#cb25-24" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
-<span id="cb25-25"><a href="ptcld_analysis.html#cb25-25" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and filtering mode&quot;</span></span>
-<span id="cb25-26"><a href="ptcld_analysis.html#cb25-26" tabindex="-1"></a>    )</span>
-<span id="cb25-27"><a href="ptcld_analysis.html#cb25-27" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;by Study Site&quot;</span></span>
-<span id="cb25-28"><a href="ptcld_analysis.html#cb25-28" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
-<span id="cb25-29"><a href="ptcld_analysis.html#cb25-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-30"><a href="ptcld_analysis.html#cb25-30" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
-<span id="cb25-31"><a href="ptcld_analysis.html#cb25-31" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb25-32"><a href="ptcld_analysis.html#cb25-32" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb25-33"><a href="ptcld_analysis.html#cb25-33" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb25-34"><a href="ptcld_analysis.html#cb25-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb25-35"><a href="ptcld_analysis.html#cb25-35" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
-<span id="cb25-36"><a href="ptcld_analysis.html#cb25-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-37"><a href="ptcld_analysis.html#cb25-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb25-38"><a href="ptcld_analysis.html#cb25-38" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
-<span id="cb25-39"><a href="ptcld_analysis.html#cb25-39" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="ptcld_analysis.html#cb27-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="ptcld_analysis.html#cb27-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb27-3"><a href="ptcld_analysis.html#cb27-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb27-4"><a href="ptcld_analysis.html#cb27-4" tabindex="-1"></a>      <span class="at">y =</span> timer_total_time_mins</span>
+<span id="cb27-5"><a href="ptcld_analysis.html#cb27-5" tabindex="-1"></a>      , <span class="at">x =</span> depth_maps_generation_quality</span>
+<span id="cb27-6"><a href="ptcld_analysis.html#cb27-6" tabindex="-1"></a>      , <span class="at">color =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb27-7"><a href="ptcld_analysis.html#cb27-7" tabindex="-1"></a>    )</span>
+<span id="cb27-8"><a href="ptcld_analysis.html#cb27-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="ptcld_analysis.html#cb27-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="ptcld_analysis.html#cb27-10" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb27-11"><a href="ptcld_analysis.html#cb27-11" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">vars</span>(study_site)</span>
+<span id="cb27-12"><a href="ptcld_analysis.html#cb27-12" tabindex="-1"></a>    , <span class="at">labeller =</span> <span class="fu">label_wrap_gen</span>(<span class="at">width =</span> <span class="dv">35</span>, <span class="at">multi_line =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-13"><a href="ptcld_analysis.html#cb27-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="ptcld_analysis.html#cb27-14" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;plasma&quot;</span>) <span class="sc">+</span></span>
+<span id="cb27-15"><a href="ptcld_analysis.html#cb27-15" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb27-16"><a href="ptcld_analysis.html#cb27-16" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb27-17"><a href="ptcld_analysis.html#cb27-17" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb27-18"><a href="ptcld_analysis.html#cb27-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-19"><a href="ptcld_analysis.html#cb27-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-20"><a href="ptcld_analysis.html#cb27-20" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Filtering Mode&quot;</span></span>
+<span id="cb27-21"><a href="ptcld_analysis.html#cb27-21" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
+<span id="cb27-22"><a href="ptcld_analysis.html#cb27-22" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Quality&quot;</span></span>
+<span id="cb27-23"><a href="ptcld_analysis.html#cb27-23" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
+<span id="cb27-24"><a href="ptcld_analysis.html#cb27-24" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
+<span id="cb27-25"><a href="ptcld_analysis.html#cb27-25" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and filtering mode&quot;</span></span>
+<span id="cb27-26"><a href="ptcld_analysis.html#cb27-26" tabindex="-1"></a>    )</span>
+<span id="cb27-27"><a href="ptcld_analysis.html#cb27-27" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;by Study Site&quot;</span></span>
+<span id="cb27-28"><a href="ptcld_analysis.html#cb27-28" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on the y-axis&quot;</span></span>
+<span id="cb27-29"><a href="ptcld_analysis.html#cb27-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-30"><a href="ptcld_analysis.html#cb27-30" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb27-31"><a href="ptcld_analysis.html#cb27-31" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb27-32"><a href="ptcld_analysis.html#cb27-32" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb27-33"><a href="ptcld_analysis.html#cb27-33" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb27-34"><a href="ptcld_analysis.html#cb27-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb27-35"><a href="ptcld_analysis.html#cb27-35" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb27-36"><a href="ptcld_analysis.html#cb27-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-37"><a href="ptcld_analysis.html#cb27-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb27-38"><a href="ptcld_analysis.html#cb27-38" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb27-39"><a href="ptcld_analysis.html#cb27-39" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/processing-dta-tot-area-1.png" width="1008" /></p>
 </div>
 <div id="processing-time-vs-points" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Processing Time vs # Points<a href="ptcld_analysis.html#processing-time-vs-points" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ptcld_analysis.html#cb26-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="ptcld_analysis.html#cb26-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb26-3"><a href="ptcld_analysis.html#cb26-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
-<span id="cb26-4"><a href="ptcld_analysis.html#cb26-4" tabindex="-1"></a>      <span class="at">x =</span> number_of_points</span>
-<span id="cb26-5"><a href="ptcld_analysis.html#cb26-5" tabindex="-1"></a>      , <span class="at">y =</span> timer_total_time_mins</span>
-<span id="cb26-6"><a href="ptcld_analysis.html#cb26-6" tabindex="-1"></a>    )</span>
-<span id="cb26-7"><a href="ptcld_analysis.html#cb26-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="ptcld_analysis.html#cb26-8" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">&quot;navy&quot;</span>) <span class="sc">+</span></span>
-<span id="cb26-9"><a href="ptcld_analysis.html#cb26-9" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
-<span id="cb26-10"><a href="ptcld_analysis.html#cb26-10" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb26-11"><a href="ptcld_analysis.html#cb26-11" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
-<span id="cb26-12"><a href="ptcld_analysis.html#cb26-12" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb26-13"><a href="ptcld_analysis.html#cb26-13" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(</span>
-<span id="cb26-14"><a href="ptcld_analysis.html#cb26-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; M&quot;</span>, <span class="at">scale =</span> <span class="fl">1e-6</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb26-15"><a href="ptcld_analysis.html#cb26-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">6</span>)</span>
-<span id="cb26-16"><a href="ptcld_analysis.html#cb26-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb26-17"><a href="ptcld_analysis.html#cb26-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-18"><a href="ptcld_analysis.html#cb26-18" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
-<span id="cb26-19"><a href="ptcld_analysis.html#cb26-19" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Dense Point Cloud # Points&quot;</span></span>
-<span id="cb26-20"><a href="ptcld_analysis.html#cb26-20" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
-<span id="cb26-21"><a href="ptcld_analysis.html#cb26-21" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
-<span id="cb26-22"><a href="ptcld_analysis.html#cb26-22" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time versus dense point cloud number of points&quot;</span></span>
-<span id="cb26-23"><a href="ptcld_analysis.html#cb26-23" tabindex="-1"></a>    )</span>
-<span id="cb26-24"><a href="ptcld_analysis.html#cb26-24" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on both axes&quot;</span></span>
-<span id="cb26-25"><a href="ptcld_analysis.html#cb26-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb26-26"><a href="ptcld_analysis.html#cb26-26" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ptcld_analysis.html#cb28-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="ptcld_analysis.html#cb28-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb28-3"><a href="ptcld_analysis.html#cb28-3" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb28-4"><a href="ptcld_analysis.html#cb28-4" tabindex="-1"></a>      <span class="at">x =</span> number_of_points</span>
+<span id="cb28-5"><a href="ptcld_analysis.html#cb28-5" tabindex="-1"></a>      , <span class="at">y =</span> timer_total_time_mins</span>
+<span id="cb28-6"><a href="ptcld_analysis.html#cb28-6" tabindex="-1"></a>    )</span>
+<span id="cb28-7"><a href="ptcld_analysis.html#cb28-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="ptcld_analysis.html#cb28-8" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">&quot;navy&quot;</span>) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="ptcld_analysis.html#cb28-9" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(</span>
+<span id="cb28-10"><a href="ptcld_analysis.html#cb28-10" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb28-11"><a href="ptcld_analysis.html#cb28-11" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb28-12"><a href="ptcld_analysis.html#cb28-12" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="ptcld_analysis.html#cb28-13" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(</span>
+<span id="cb28-14"><a href="ptcld_analysis.html#cb28-14" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; M&quot;</span>, <span class="at">scale =</span> <span class="fl">1e-6</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb28-15"><a href="ptcld_analysis.html#cb28-15" tabindex="-1"></a>    , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">6</span>)</span>
+<span id="cb28-16"><a href="ptcld_analysis.html#cb28-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-17"><a href="ptcld_analysis.html#cb28-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-18"><a href="ptcld_analysis.html#cb28-18" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Point Cloud Total Processing Time&quot;</span></span>
+<span id="cb28-19"><a href="ptcld_analysis.html#cb28-19" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;Dense Point Cloud # Points&quot;</span></span>
+<span id="cb28-20"><a href="ptcld_analysis.html#cb28-20" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
+<span id="cb28-21"><a href="ptcld_analysis.html#cb28-21" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
+<span id="cb28-22"><a href="ptcld_analysis.html#cb28-22" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time versus dense point cloud number of points&quot;</span></span>
+<span id="cb28-23"><a href="ptcld_analysis.html#cb28-23" tabindex="-1"></a>    )</span>
+<span id="cb28-24"><a href="ptcld_analysis.html#cb28-24" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;*Note the log scale on both axes&quot;</span></span>
+<span id="cb28-25"><a href="ptcld_analysis.html#cb28-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-26"><a href="ptcld_analysis.html#cb28-26" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/processing-dta-time-pts-1.png" width="1008" /></p>
 </div>
 <div id="processing-section-timing" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Processing Section Timing<a href="ptcld_analysis.html#processing-section-timing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="ptcld_analysis.html#cb27-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="ptcld_analysis.html#cb27-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb27-3"><a href="ptcld_analysis.html#cb27-3" tabindex="-1"></a>    depth_maps_generation_quality</span>
-<span id="cb27-4"><a href="ptcld_analysis.html#cb27-4" tabindex="-1"></a>    , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_mins&quot;</span>)</span>
-<span id="cb27-5"><a href="ptcld_analysis.html#cb27-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-6"><a href="ptcld_analysis.html#cb27-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(timer_total_time_mins)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-7"><a href="ptcld_analysis.html#cb27-7" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb27-8"><a href="ptcld_analysis.html#cb27-8" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(depth_maps_generation_quality)</span>
-<span id="cb27-9"><a href="ptcld_analysis.html#cb27-9" tabindex="-1"></a>    , <span class="at">names_to =</span> <span class="st">&quot;section&quot;</span></span>
-<span id="cb27-10"><a href="ptcld_analysis.html#cb27-10" tabindex="-1"></a>    , <span class="at">values_to =</span> <span class="st">&quot;mins&quot;</span></span>
-<span id="cb27-11"><a href="ptcld_analysis.html#cb27-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-12"><a href="ptcld_analysis.html#cb27-12" tabindex="-1"></a>  <span class="co"># dplyr::count(depth_maps_generation_quality, section)</span></span>
-<span id="cb27-13"><a href="ptcld_analysis.html#cb27-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(depth_maps_generation_quality, section) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-14"><a href="ptcld_analysis.html#cb27-14" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">med_mins =</span> <span class="fu">median</span>(mins)) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-15"><a href="ptcld_analysis.html#cb27-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-16"><a href="ptcld_analysis.html#cb27-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb27-17"><a href="ptcld_analysis.html#cb27-17" tabindex="-1"></a>    <span class="at">total_mins =</span> <span class="fu">sum</span>(med_mins)</span>
-<span id="cb27-18"><a href="ptcld_analysis.html#cb27-18" tabindex="-1"></a>    , <span class="at">pct_mins =</span> med_mins<span class="sc">/</span>total_mins </span>
-<span id="cb27-19"><a href="ptcld_analysis.html#cb27-19" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-20"><a href="ptcld_analysis.html#cb27-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb27-21"><a href="ptcld_analysis.html#cb27-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb27-22"><a href="ptcld_analysis.html#cb27-22" tabindex="-1"></a>    <span class="at">section =</span> section <span class="sc">%&gt;%</span> </span>
-<span id="cb27-23"><a href="ptcld_analysis.html#cb27-23" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;timer_&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-24"><a href="ptcld_analysis.html#cb27-24" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;_time_mins&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-25"><a href="ptcld_analysis.html#cb27-25" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
-<span id="cb27-26"><a href="ptcld_analysis.html#cb27-26" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
-<span id="cb27-27"><a href="ptcld_analysis.html#cb27-27" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
-<span id="cb27-28"><a href="ptcld_analysis.html#cb27-28" tabindex="-1"></a>          <span class="st">&quot;tile&quot;</span></span>
-<span id="cb27-29"><a href="ptcld_analysis.html#cb27-29" tabindex="-1"></a>          , <span class="st">&quot;class_dtm_norm_chm&quot;</span></span>
-<span id="cb27-30"><a href="ptcld_analysis.html#cb27-30" tabindex="-1"></a>          , <span class="st">&quot;treels&quot;</span></span>
-<span id="cb27-31"><a href="ptcld_analysis.html#cb27-31" tabindex="-1"></a>          , <span class="st">&quot;itd&quot;</span></span>
-<span id="cb27-32"><a href="ptcld_analysis.html#cb27-32" tabindex="-1"></a>          , <span class="st">&quot;estdbh&quot;</span></span>
-<span id="cb27-33"><a href="ptcld_analysis.html#cb27-33" tabindex="-1"></a>          , <span class="st">&quot;competition&quot;</span></span>
-<span id="cb27-34"><a href="ptcld_analysis.html#cb27-34" tabindex="-1"></a>          , <span class="st">&quot;silv&quot;</span></span>
-<span id="cb27-35"><a href="ptcld_analysis.html#cb27-35" tabindex="-1"></a>          <span class="do">## olde</span></span>
-<span id="cb27-36"><a href="ptcld_analysis.html#cb27-36" tabindex="-1"></a>          <span class="co"># &quot;tile&quot;</span></span>
-<span id="cb27-37"><a href="ptcld_analysis.html#cb27-37" tabindex="-1"></a>          <span class="co"># , &quot;denoise&quot;</span></span>
-<span id="cb27-38"><a href="ptcld_analysis.html#cb27-38" tabindex="-1"></a>          <span class="co"># , &quot;classify&quot;</span></span>
-<span id="cb27-39"><a href="ptcld_analysis.html#cb27-39" tabindex="-1"></a>          <span class="co"># , &quot;dtm&quot;</span></span>
-<span id="cb27-40"><a href="ptcld_analysis.html#cb27-40" tabindex="-1"></a>          <span class="co"># , &quot;normalize&quot;</span></span>
-<span id="cb27-41"><a href="ptcld_analysis.html#cb27-41" tabindex="-1"></a>          <span class="co"># , &quot;chm&quot;</span></span>
-<span id="cb27-42"><a href="ptcld_analysis.html#cb27-42" tabindex="-1"></a>          <span class="co"># , &quot;treels&quot;</span></span>
-<span id="cb27-43"><a href="ptcld_analysis.html#cb27-43" tabindex="-1"></a>          <span class="co"># , &quot;itd&quot;</span></span>
-<span id="cb27-44"><a href="ptcld_analysis.html#cb27-44" tabindex="-1"></a>          <span class="co"># , &quot;estdbh&quot;</span></span>
-<span id="cb27-45"><a href="ptcld_analysis.html#cb27-45" tabindex="-1"></a>          <span class="co"># , &quot;competition&quot;</span></span>
-<span id="cb27-46"><a href="ptcld_analysis.html#cb27-46" tabindex="-1"></a>          <span class="co"># , &quot;silv&quot;</span></span>
-<span id="cb27-47"><a href="ptcld_analysis.html#cb27-47" tabindex="-1"></a>        )</span>
-<span id="cb27-48"><a href="ptcld_analysis.html#cb27-48" tabindex="-1"></a>        , <span class="at">labels =</span> <span class="fu">c</span>(</span>
-<span id="cb27-49"><a href="ptcld_analysis.html#cb27-49" tabindex="-1"></a>          <span class="st">&quot;Tile&quot;</span></span>
-<span id="cb27-50"><a href="ptcld_analysis.html#cb27-50" tabindex="-1"></a>          , <span class="st">&quot;Classify+Denoise+DTM+Normalize+CHM&quot;</span></span>
-<span id="cb27-51"><a href="ptcld_analysis.html#cb27-51" tabindex="-1"></a>          , <span class="st">&quot;TreeLS SfM DBH&quot;</span></span>
-<span id="cb27-52"><a href="ptcld_analysis.html#cb27-52" tabindex="-1"></a>          , <span class="st">&quot;CHM I.T.D.&quot;</span></span>
-<span id="cb27-53"><a href="ptcld_analysis.html#cb27-53" tabindex="-1"></a>          , <span class="st">&quot;Local DBH Est.&quot;</span></span>
-<span id="cb27-54"><a href="ptcld_analysis.html#cb27-54" tabindex="-1"></a>          , <span class="st">&quot;Tree Competition&quot;</span></span>
-<span id="cb27-55"><a href="ptcld_analysis.html#cb27-55" tabindex="-1"></a>          , <span class="st">&quot;Silvicultural Metrics&quot;</span></span>
-<span id="cb27-56"><a href="ptcld_analysis.html#cb27-56" tabindex="-1"></a>        )</span>
-<span id="cb27-57"><a href="ptcld_analysis.html#cb27-57" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
-<span id="cb27-58"><a href="ptcld_analysis.html#cb27-58" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb27-59"><a href="ptcld_analysis.html#cb27-59" tabindex="-1"></a>  </span>
-<span id="cb27-60"><a href="ptcld_analysis.html#cb27-60" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb27-61"><a href="ptcld_analysis.html#cb27-61" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> pct_mins, <span class="at">y =</span> depth_maps_generation_quality, <span class="at">fill=</span>section, <span class="at">group=</span>section)</span>
-<span id="cb27-62"><a href="ptcld_analysis.html#cb27-62" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb27-63"><a href="ptcld_analysis.html#cb27-63" tabindex="-1"></a>  <span class="fu">geom_col</span>(</span>
-<span id="cb27-64"><a href="ptcld_analysis.html#cb27-64" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha=</span><span class="fl">0.8</span></span>
-<span id="cb27-65"><a href="ptcld_analysis.html#cb27-65" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-66"><a href="ptcld_analysis.html#cb27-66" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb27-67"><a href="ptcld_analysis.html#cb27-67" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
-<span id="cb27-68"><a href="ptcld_analysis.html#cb27-68" tabindex="-1"></a>        <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(<span class="fu">ifelse</span>(pct_mins<span class="sc">&gt;=</span><span class="fl">0.06</span>,pct_mins,<span class="cn">NA</span>), <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb27-69"><a href="ptcld_analysis.html#cb27-69" tabindex="-1"></a>        , <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
-<span id="cb27-70"><a href="ptcld_analysis.html#cb27-70" tabindex="-1"></a>      )</span>
-<span id="cb27-71"><a href="ptcld_analysis.html#cb27-71" tabindex="-1"></a>    , <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb27-72"><a href="ptcld_analysis.html#cb27-72" tabindex="-1"></a>    , <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
-<span id="cb27-73"><a href="ptcld_analysis.html#cb27-73" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-74"><a href="ptcld_analysis.html#cb27-74" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>, <span class="at">begin =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
-<span id="cb27-75"><a href="ptcld_analysis.html#cb27-75" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>()) <span class="sc">+</span></span>
-<span id="cb27-76"><a href="ptcld_analysis.html#cb27-76" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb27-77"><a href="ptcld_analysis.html#cb27-77" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;R script</span><span class="sc">\n</span><span class="st">section&quot;</span></span>
-<span id="cb27-78"><a href="ptcld_analysis.html#cb27-78" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
-<span id="cb27-79"><a href="ptcld_analysis.html#cb27-79" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;% Point Cloud Total Processing Time&quot;</span></span>
-<span id="cb27-80"><a href="ptcld_analysis.html#cb27-80" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
-<span id="cb27-81"><a href="ptcld_analysis.html#cb27-81" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
-<span id="cb27-82"><a href="ptcld_analysis.html#cb27-82" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and R script section&quot;</span></span>
-<span id="cb27-83"><a href="ptcld_analysis.html#cb27-83" tabindex="-1"></a>    )</span>
-<span id="cb27-84"><a href="ptcld_analysis.html#cb27-84" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;Median across software, study site, &amp; depth map filtering mode &quot;</span></span>
-<span id="cb27-85"><a href="ptcld_analysis.html#cb27-85" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-86"><a href="ptcld_analysis.html#cb27-86" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb27-87"><a href="ptcld_analysis.html#cb27-87" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb27-88"><a href="ptcld_analysis.html#cb27-88" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb27-89"><a href="ptcld_analysis.html#cb27-89" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb27-90"><a href="ptcld_analysis.html#cb27-90" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">7</span>)</span>
-<span id="cb27-91"><a href="ptcld_analysis.html#cb27-91" tabindex="-1"></a>    , <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb27-92"><a href="ptcld_analysis.html#cb27-92" tabindex="-1"></a>    , <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb27-93"><a href="ptcld_analysis.html#cb27-93" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb27-94"><a href="ptcld_analysis.html#cb27-94" tabindex="-1"></a>    , <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>,<span class="at">size=</span><span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb27-95"><a href="ptcld_analysis.html#cb27-95" tabindex="-1"></a>    , <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb27-96"><a href="ptcld_analysis.html#cb27-96" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-97"><a href="ptcld_analysis.html#cb27-97" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb27-98"><a href="ptcld_analysis.html#cb27-98" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> T, <span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
-<span id="cb27-99"><a href="ptcld_analysis.html#cb27-99" tabindex="-1"></a>  )  </span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="ptcld_analysis.html#cb29-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="ptcld_analysis.html#cb29-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb29-3"><a href="ptcld_analysis.html#cb29-3" tabindex="-1"></a>    depth_maps_generation_quality</span>
+<span id="cb29-4"><a href="ptcld_analysis.html#cb29-4" tabindex="-1"></a>    , tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_mins&quot;</span>)</span>
+<span id="cb29-5"><a href="ptcld_analysis.html#cb29-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="ptcld_analysis.html#cb29-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(timer_total_time_mins)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-7"><a href="ptcld_analysis.html#cb29-7" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb29-8"><a href="ptcld_analysis.html#cb29-8" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(depth_maps_generation_quality)</span>
+<span id="cb29-9"><a href="ptcld_analysis.html#cb29-9" tabindex="-1"></a>    , <span class="at">names_to =</span> <span class="st">&quot;section&quot;</span></span>
+<span id="cb29-10"><a href="ptcld_analysis.html#cb29-10" tabindex="-1"></a>    , <span class="at">values_to =</span> <span class="st">&quot;mins&quot;</span></span>
+<span id="cb29-11"><a href="ptcld_analysis.html#cb29-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-12"><a href="ptcld_analysis.html#cb29-12" tabindex="-1"></a>  <span class="co"># dplyr::count(depth_maps_generation_quality, section)</span></span>
+<span id="cb29-13"><a href="ptcld_analysis.html#cb29-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(depth_maps_generation_quality, section) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-14"><a href="ptcld_analysis.html#cb29-14" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">med_mins =</span> <span class="fu">median</span>(mins)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-15"><a href="ptcld_analysis.html#cb29-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-16"><a href="ptcld_analysis.html#cb29-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb29-17"><a href="ptcld_analysis.html#cb29-17" tabindex="-1"></a>    <span class="at">total_mins =</span> <span class="fu">sum</span>(med_mins)</span>
+<span id="cb29-18"><a href="ptcld_analysis.html#cb29-18" tabindex="-1"></a>    , <span class="at">pct_mins =</span> med_mins<span class="sc">/</span>total_mins </span>
+<span id="cb29-19"><a href="ptcld_analysis.html#cb29-19" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-20"><a href="ptcld_analysis.html#cb29-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb29-21"><a href="ptcld_analysis.html#cb29-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb29-22"><a href="ptcld_analysis.html#cb29-22" tabindex="-1"></a>    <span class="at">section =</span> section <span class="sc">%&gt;%</span> </span>
+<span id="cb29-23"><a href="ptcld_analysis.html#cb29-23" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;timer_&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-24"><a href="ptcld_analysis.html#cb29-24" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;_time_mins&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-25"><a href="ptcld_analysis.html#cb29-25" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
+<span id="cb29-26"><a href="ptcld_analysis.html#cb29-26" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
+<span id="cb29-27"><a href="ptcld_analysis.html#cb29-27" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb29-28"><a href="ptcld_analysis.html#cb29-28" tabindex="-1"></a>          <span class="st">&quot;tile&quot;</span></span>
+<span id="cb29-29"><a href="ptcld_analysis.html#cb29-29" tabindex="-1"></a>          , <span class="st">&quot;class_dtm_norm_chm&quot;</span></span>
+<span id="cb29-30"><a href="ptcld_analysis.html#cb29-30" tabindex="-1"></a>          , <span class="st">&quot;treels&quot;</span></span>
+<span id="cb29-31"><a href="ptcld_analysis.html#cb29-31" tabindex="-1"></a>          , <span class="st">&quot;itd&quot;</span></span>
+<span id="cb29-32"><a href="ptcld_analysis.html#cb29-32" tabindex="-1"></a>          , <span class="st">&quot;estdbh&quot;</span></span>
+<span id="cb29-33"><a href="ptcld_analysis.html#cb29-33" tabindex="-1"></a>          , <span class="st">&quot;competition&quot;</span></span>
+<span id="cb29-34"><a href="ptcld_analysis.html#cb29-34" tabindex="-1"></a>          , <span class="st">&quot;silv&quot;</span></span>
+<span id="cb29-35"><a href="ptcld_analysis.html#cb29-35" tabindex="-1"></a>          <span class="do">## olde</span></span>
+<span id="cb29-36"><a href="ptcld_analysis.html#cb29-36" tabindex="-1"></a>          <span class="co"># &quot;tile&quot;</span></span>
+<span id="cb29-37"><a href="ptcld_analysis.html#cb29-37" tabindex="-1"></a>          <span class="co"># , &quot;denoise&quot;</span></span>
+<span id="cb29-38"><a href="ptcld_analysis.html#cb29-38" tabindex="-1"></a>          <span class="co"># , &quot;classify&quot;</span></span>
+<span id="cb29-39"><a href="ptcld_analysis.html#cb29-39" tabindex="-1"></a>          <span class="co"># , &quot;dtm&quot;</span></span>
+<span id="cb29-40"><a href="ptcld_analysis.html#cb29-40" tabindex="-1"></a>          <span class="co"># , &quot;normalize&quot;</span></span>
+<span id="cb29-41"><a href="ptcld_analysis.html#cb29-41" tabindex="-1"></a>          <span class="co"># , &quot;chm&quot;</span></span>
+<span id="cb29-42"><a href="ptcld_analysis.html#cb29-42" tabindex="-1"></a>          <span class="co"># , &quot;treels&quot;</span></span>
+<span id="cb29-43"><a href="ptcld_analysis.html#cb29-43" tabindex="-1"></a>          <span class="co"># , &quot;itd&quot;</span></span>
+<span id="cb29-44"><a href="ptcld_analysis.html#cb29-44" tabindex="-1"></a>          <span class="co"># , &quot;estdbh&quot;</span></span>
+<span id="cb29-45"><a href="ptcld_analysis.html#cb29-45" tabindex="-1"></a>          <span class="co"># , &quot;competition&quot;</span></span>
+<span id="cb29-46"><a href="ptcld_analysis.html#cb29-46" tabindex="-1"></a>          <span class="co"># , &quot;silv&quot;</span></span>
+<span id="cb29-47"><a href="ptcld_analysis.html#cb29-47" tabindex="-1"></a>        )</span>
+<span id="cb29-48"><a href="ptcld_analysis.html#cb29-48" tabindex="-1"></a>        , <span class="at">labels =</span> <span class="fu">c</span>(</span>
+<span id="cb29-49"><a href="ptcld_analysis.html#cb29-49" tabindex="-1"></a>          <span class="st">&quot;Tile&quot;</span></span>
+<span id="cb29-50"><a href="ptcld_analysis.html#cb29-50" tabindex="-1"></a>          , <span class="st">&quot;Classify+Denoise+DTM+Normalize+CHM&quot;</span></span>
+<span id="cb29-51"><a href="ptcld_analysis.html#cb29-51" tabindex="-1"></a>          , <span class="st">&quot;TreeLS SfM DBH&quot;</span></span>
+<span id="cb29-52"><a href="ptcld_analysis.html#cb29-52" tabindex="-1"></a>          , <span class="st">&quot;CHM I.T.D.&quot;</span></span>
+<span id="cb29-53"><a href="ptcld_analysis.html#cb29-53" tabindex="-1"></a>          , <span class="st">&quot;Local DBH Est.&quot;</span></span>
+<span id="cb29-54"><a href="ptcld_analysis.html#cb29-54" tabindex="-1"></a>          , <span class="st">&quot;Tree Competition&quot;</span></span>
+<span id="cb29-55"><a href="ptcld_analysis.html#cb29-55" tabindex="-1"></a>          , <span class="st">&quot;Silvicultural Metrics&quot;</span></span>
+<span id="cb29-56"><a href="ptcld_analysis.html#cb29-56" tabindex="-1"></a>        )</span>
+<span id="cb29-57"><a href="ptcld_analysis.html#cb29-57" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
+<span id="cb29-58"><a href="ptcld_analysis.html#cb29-58" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb29-59"><a href="ptcld_analysis.html#cb29-59" tabindex="-1"></a>  </span>
+<span id="cb29-60"><a href="ptcld_analysis.html#cb29-60" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb29-61"><a href="ptcld_analysis.html#cb29-61" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> pct_mins, <span class="at">y =</span> depth_maps_generation_quality, <span class="at">fill=</span>section, <span class="at">group=</span>section)</span>
+<span id="cb29-62"><a href="ptcld_analysis.html#cb29-62" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb29-63"><a href="ptcld_analysis.html#cb29-63" tabindex="-1"></a>  <span class="fu">geom_col</span>(</span>
+<span id="cb29-64"><a href="ptcld_analysis.html#cb29-64" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha=</span><span class="fl">0.8</span></span>
+<span id="cb29-65"><a href="ptcld_analysis.html#cb29-65" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-66"><a href="ptcld_analysis.html#cb29-66" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb29-67"><a href="ptcld_analysis.html#cb29-67" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb29-68"><a href="ptcld_analysis.html#cb29-68" tabindex="-1"></a>        <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(<span class="fu">ifelse</span>(pct_mins<span class="sc">&gt;=</span><span class="fl">0.06</span>,pct_mins,<span class="cn">NA</span>), <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb29-69"><a href="ptcld_analysis.html#cb29-69" tabindex="-1"></a>        , <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb29-70"><a href="ptcld_analysis.html#cb29-70" tabindex="-1"></a>      )</span>
+<span id="cb29-71"><a href="ptcld_analysis.html#cb29-71" tabindex="-1"></a>    , <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb29-72"><a href="ptcld_analysis.html#cb29-72" tabindex="-1"></a>    , <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb29-73"><a href="ptcld_analysis.html#cb29-73" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-74"><a href="ptcld_analysis.html#cb29-74" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>, <span class="at">begin =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb29-75"><a href="ptcld_analysis.html#cb29-75" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>()) <span class="sc">+</span></span>
+<span id="cb29-76"><a href="ptcld_analysis.html#cb29-76" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-77"><a href="ptcld_analysis.html#cb29-77" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;R script</span><span class="sc">\n</span><span class="st">section&quot;</span></span>
+<span id="cb29-78"><a href="ptcld_analysis.html#cb29-78" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
+<span id="cb29-79"><a href="ptcld_analysis.html#cb29-79" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;% Point Cloud Total Processing Time&quot;</span></span>
+<span id="cb29-80"><a href="ptcld_analysis.html#cb29-80" tabindex="-1"></a>    , <span class="at">title =</span> <span class="fu">bquote</span>(</span>
+<span id="cb29-81"><a href="ptcld_analysis.html#cb29-81" tabindex="-1"></a>        <span class="fu">bold</span>(<span class="st">&quot;R&quot;</span>) <span class="sc">~</span></span>
+<span id="cb29-82"><a href="ptcld_analysis.html#cb29-82" tabindex="-1"></a>        <span class="st">&quot;point cloud total processing time by depth map generation quality and R script section&quot;</span></span>
+<span id="cb29-83"><a href="ptcld_analysis.html#cb29-83" tabindex="-1"></a>    )</span>
+<span id="cb29-84"><a href="ptcld_analysis.html#cb29-84" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;Median across software, study site, &amp; depth map filtering mode &quot;</span></span>
+<span id="cb29-85"><a href="ptcld_analysis.html#cb29-85" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-86"><a href="ptcld_analysis.html#cb29-86" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb29-87"><a href="ptcld_analysis.html#cb29-87" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb29-88"><a href="ptcld_analysis.html#cb29-88" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb29-89"><a href="ptcld_analysis.html#cb29-89" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb29-90"><a href="ptcld_analysis.html#cb29-90" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">7</span>)</span>
+<span id="cb29-91"><a href="ptcld_analysis.html#cb29-91" tabindex="-1"></a>    , <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb29-92"><a href="ptcld_analysis.html#cb29-92" tabindex="-1"></a>    , <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb29-93"><a href="ptcld_analysis.html#cb29-93" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb29-94"><a href="ptcld_analysis.html#cb29-94" tabindex="-1"></a>    , <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>,<span class="at">size=</span><span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb29-95"><a href="ptcld_analysis.html#cb29-95" tabindex="-1"></a>    , <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb29-96"><a href="ptcld_analysis.html#cb29-96" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-97"><a href="ptcld_analysis.html#cb29-97" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb29-98"><a href="ptcld_analysis.html#cb29-98" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> T, <span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
+<span id="cb29-99"><a href="ptcld_analysis.html#cb29-99" tabindex="-1"></a>  )  </span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/time-breakdown-1.png" width="1008" /></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ptcld_analysis.html#cb28-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/processing_time_brkdown.png&quot;</span>, <span class="at">width =</span> <span class="fl">8.5</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="ptcld_analysis.html#cb30-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/processing_time_brkdown.png&quot;</span>, <span class="at">width =</span> <span class="fl">8.5</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code></pre></div>
 
 </div>
 </div>

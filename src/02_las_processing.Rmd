@@ -133,6 +133,12 @@ For comparison across software, the SfM point cloud generation processing parame
       )
 ```
 
+what have we done?
+
+```{r}
+ptcld_processing_data %>% dplyr::glimpse()
+```
+
 what is this mapping?
 
 ```{r}
