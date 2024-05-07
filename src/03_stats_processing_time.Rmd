@@ -1353,7 +1353,7 @@ ptime_data %>%
   scale_y_discrete(expand = c(0, 0)) +
   scale_fill_viridis_c(
     option = "viridis"
-    , labels = c("", "short","","", "", "long")
+    , labels = c("", "short","","", "long", "")
   ) +
   labs(
     x = "filtering mode"

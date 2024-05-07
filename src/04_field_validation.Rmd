@@ -889,13 +889,30 @@ field_uas_comparison_temp = field_uas_comparison_fn(
 
 what is this data?
 
+`field_data`
+
 ```{r}
 # field_data
 field_data_temp %>% dplyr::glimpse()
+```
+
+`uas_data`
+
+```{r}
 # uas_data
 uas_data_temp %>% dplyr::glimpse()
+```
+
+`true_positive_trees`
+
+```{r}
 # true_positive_trees
 true_positive_trees_temp %>% dplyr::glimpse()
+```
+
+`field_uas_comparison`
+
+```{r}
 # field_uas_comparison
 field_uas_comparison_temp %>% dplyr::glimpse()
 ```
