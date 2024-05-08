@@ -1062,7 +1062,7 @@ brms_contrast_temp = brms_contrast_temp %>%
       )
   ) %>% 
   # median_hdi summary for coloring 
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
     , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
@@ -1306,7 +1306,7 @@ gc()
 
 Now, we'll add the average deflection from the baseline (i.e. the "grand mean") due to study site (i.e. the "subjects" in our data). The main effect for the study site will be added to our model with the combined influence of the depth map generation quality and the depth map filtering parameters on the point cloud processing time.
 
-In the model we use below, the study site is modeled as a "random effect." [Hobbs et al. (2024)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598) describe the a similar model:
+In the model we use below, the study site is modeled as a "random effect." [Hobbs et al. (2024)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598) describe a similar model:
 
 >It is important to understand that fitting treatment intercepts and slopes as random rather than fixed means that our inference applied to all possible sites suitable for [inclusion in the study]. In contrast, assuming fixed effects of treatment would dramatically reduce the uncertainty about those effects, but would constrain inference to the four sites that we studied. (p. 13)
 
@@ -1627,7 +1627,7 @@ brms_contrast_temp = brms_contrast_temp %>%
       )
   ) %>% 
   # median_hdi summary for coloring 
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
     , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
@@ -2197,7 +2197,7 @@ brms_contrast_temp = brms_contrast_temp %>%
       )
   ) %>% 
   # median_hdi summary for coloring 
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
     , pct_gt_zero = sum(is_gt_zero)/dplyr::n()

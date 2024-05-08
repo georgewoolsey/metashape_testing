@@ -196,6 +196,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
         tolower() == "rf"
     ){
         # Gamma distribution for strictly positive response variable dbh
+          # !!!! fit with intercept 
         stem_prediction_model = brms::brm(
           formula = dbh_cm ~ 1 + tree_height_m
           , data = dta %>%
@@ -218,10 +219,39 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
               dplyr::pull(fff)
           # , file_refit = "on_change"
         )
+        
+        # Gamma distribution for strictly positive response variable dbh
+          # !!!! fit with NO intercept 
+        stem_prediction_noint_model = brms::brm(
+          formula = dbh_cm ~ 0 + tree_height_m
+          , data = dta %>%
+              dplyr::filter(is_training_data==T) %>% 
+              dplyr::select(dbh_cm, tree_height_m)
+          , family = brms::brmsfamily("Gamma", link = "log")
+          , prior = c(prior(gamma(0.01, 0.01), class = shape))
+          , iter = 4000, warmup = 2000, chains = 4
+          , cores = lasR::half_cores()
+          , file = ptcld_processing_data %>%
+              dplyr::filter(processing_id == my_processing_id) %>%
+              dplyr::mutate(
+                fff = paste0(
+                  processed_data_dir
+                  , "/"
+                  , file_name
+                  , "_local_dbh_height_noint_model"
+                )
+              ) %>%
+              dplyr::pull(fff)
+          # , file_refit = "on_change"
+        )
       #################
       # prediction data
       #################
         pred_temp = predict(stem_prediction_model, dta) %>% 
+          dplyr::as_tibble() %>% 
+          dplyr::pull(1)
+        
+        pred_noint_temp = predict(stem_prediction_noint_model, dta) %>% 
           dplyr::as_tibble() %>% 
           dplyr::pull(1)
         
@@ -230,12 +260,14 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
           dplyr::mutate(
             rf_dbh_cm = dbh_cm
             , pred_dbh_cm = pred_temp
+            , pred_noint_dbh_cm = pred_noint_temp
             , lin_dbh_cm = ifelse(is_training_data==T, dbh_cm, pred_dbh_cm)
+            , lin_noint_dbh_cm = ifelse(is_training_data==T, dbh_cm, pred_noint_dbh_cm)
           ) %>% 
-          dplyr::select(-c(pred_dbh_cm)) %>% 
+          dplyr::select(-c(pred_dbh_cm,pred_noint_dbh_cm)) %>% 
           # pick a dbh to use
           dplyr::mutate(
-            dbh_cm = lin_dbh_cm
+            dbh_cm = lin_noint_dbh_cm
             , dbh_m = dbh_cm/100
             , radius_m = dbh_m/2
             , basal_area_m2 = pi * (radius_m)^2
@@ -251,6 +283,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
         dplyr::mutate(
           rf_dbh_cm = dbh_cm
           , lin_dbh_cm = dbh_cm
+          , lin_noint_dbh_cm = dbh_cm
         )
     }else{
       # linear model was already used and no rf pred
@@ -259,6 +292,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
         dplyr::mutate(
           rf_dbh_cm = as.numeric(NA)
           , lin_dbh_cm = dbh_cm
+          , lin_noint_dbh_cm = as.numeric(NA)
         )
     }
     return(dta)
@@ -586,8 +620,19 @@ function returns:
             dplyr::pull(file_name)
           , "_local_dbh_height_model.rds"
         )
+    # brms model noint
+      brms_noint_fnm = paste0(
+          ptcld_processing_data %>% 
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::pull(processed_data_dir)
+          , "/"
+          , ptcld_processing_data %>% 
+            dplyr::filter(processing_id == p_id) %>% 
+            dplyr::pull(file_name)
+          , "_local_dbh_height_noint_model.rds"
+        )
     # check it
-    if(file.exists(tl_fnm) & file.exists(brms_fnm)){
+    if(file.exists(tl_fnm) & file.exists(brms_fnm) & file.exists(brms_noint_fnm)){
       # read it
       field_uas_comparison = readr::read_csv(tl_fnm)
     }else{
