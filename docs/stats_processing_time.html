@@ -245,6 +245,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6.4" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-dbh-difference"><i class="fa fa-check"></i><b>5.6.4</b> Detected Overstory (<span class="math inline">\(TP\)</span>) DBH Difference</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="stats_validation.html"><a href="stats_validation.html"><i class="fa fa-check"></i><b>6</b> Statistical Analysis: Validation</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-4"><i class="fa fa-check"></i><b>6.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.2" data-path="stats_validation.html"><a href="stats_validation.html#f_one_pred_mod"><i class="fa fa-check"></i><b>6.2</b> One Nominal Predictor</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-5"><i class="fa fa-check"></i><b>6.2.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.2.2" data-path="stats_validation.html"><a href="stats_validation.html#f_one_pred_mod_bays"><i class="fa fa-check"></i><b>6.2.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="stats_validation.html"><a href="stats_validation.html#f_two_pred_mod"><i class="fa fa-check"></i><b>6.3</b> Two Nominal Predictors</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-6"><i class="fa fa-check"></i><b>6.3.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.3.2" data-path="stats_validation.html"><a href="stats_validation.html#f_two_pred_mod_bays"><i class="fa fa-check"></i><b>6.3.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="stats_validation.html"><a href="stats_validation.html#f_three_pred_mod"><i class="fa fa-check"></i><b>6.4</b> Three Nominal Predictors</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-7"><i class="fa fa-check"></i><b>6.4.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="stats_validation.html"><a href="stats_validation.html#f_three_pred_mod_bays"><i class="fa fa-check"></i><b>6.4.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="stats_validation.html"><a href="stats_validation.html#three-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>6.5</b> Three Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-8"><i class="fa fa-check"></i><b>6.5.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.5.2" data-path="stats_validation.html"><a href="stats_validation.html#f_4_pred_mod_bays"><i class="fa fa-check"></i><b>6.5.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="stats_validation.html"><a href="stats_validation.html#the-beta-three-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>6.6</b> The beta: Three Nominal Predictors + site effects</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-9"><i class="fa fa-check"></i><b>6.6.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.6.2" data-path="stats_validation.html"><a href="stats_validation.html#f_5_pred_mod_bays"><i class="fa fa-check"></i><b>6.6.2</b> Bayesian</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -5531,7 +5560,7 @@ hdi
 <span id="cb71-47"><a href="stats_processing_time.html#cb71-47" tabindex="-1"></a>      )</span>
 <span id="cb71-48"><a href="stats_processing_time.html#cb71-48" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb71-49"><a href="stats_processing_time.html#cb71-49" tabindex="-1"></a>  <span class="co"># median_hdi summary for coloring </span></span>
-<span id="cb71-50"><a href="stats_processing_time.html#cb71-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb71-50"><a href="stats_processing_time.html#cb71-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb71-51"><a href="stats_processing_time.html#cb71-51" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb71-52"><a href="stats_processing_time.html#cb71-52" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
 <span id="cb71-53"><a href="stats_processing_time.html#cb71-53" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
@@ -5549,7 +5578,7 @@ hdi
 <span id="cb71-65"><a href="stats_processing_time.html#cb71-65" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 320,000
 ## Columns: 11
-## Groups: contrast [10]
+## Groups: contrast, depth_maps_generation_filtering_mode [40]
 ## $ depth_maps_generation_filtering_mode &lt;ord&gt; aggressive, aggressive, aggressiv…
 ## $ .chain                               &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ .iteration                           &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
@@ -6471,7 +6500,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <div id="two-nominal-predictors-site-effects" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Two Nominal Predictors + site effects<a href="stats_processing_time.html#two-nominal-predictors-site-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now, we’ll add the average deflection from the baseline (i.e. the “grand mean”) due to study site (i.e. the “subjects” in our data). The main effect for the study site will be added to our model with the combined influence of the depth map generation quality and the depth map filtering parameters on the point cloud processing time.</p>
-<p>In the model we use below, the study site is modeled as a “random effect.” <a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598">Hobbs et al. (2024)</a> describe the a similar model:</p>
+<p>In the model we use below, the study site is modeled as a “random effect.” <a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598">Hobbs et al. (2024)</a> describe a similar model:</p>
 <blockquote>
 <p>It is important to understand that fitting treatment intercepts and slopes as random rather than fixed means that our inference applied to all possible sites suitable for [inclusion in the study]. In contrast, assuming fixed effects of treatment would dramatically reduce the uncertainty about those effects, but would constrain inference to the four sites that we studied. (p. 13)</p>
 </blockquote>
@@ -6512,7 +6541,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb83-17"><a href="stats_processing_time.html#cb83-17" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb83-18"><a href="stats_processing_time.html#cb83-18" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(</span>
 <span id="cb83-19"><a href="stats_processing_time.html#cb83-19" tabindex="-1"></a>    <span class="at">option =</span> <span class="st">&quot;viridis&quot;</span></span>
-<span id="cb83-20"><a href="stats_processing_time.html#cb83-20" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;short&quot;</span>,<span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;long&quot;</span>)</span>
+<span id="cb83-20"><a href="stats_processing_time.html#cb83-20" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;short&quot;</span>,<span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>, <span class="st">&quot;long&quot;</span>, <span class="st">&quot;&quot;</span>)</span>
 <span id="cb83-21"><a href="stats_processing_time.html#cb83-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb83-22"><a href="stats_processing_time.html#cb83-22" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb83-23"><a href="stats_processing_time.html#cb83-23" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;filtering mode&quot;</span></span>
@@ -7883,7 +7912,7 @@ hdi
 <span id="cb93-53"><a href="stats_processing_time.html#cb93-53" tabindex="-1"></a>      )</span>
 <span id="cb93-54"><a href="stats_processing_time.html#cb93-54" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb93-55"><a href="stats_processing_time.html#cb93-55" tabindex="-1"></a>  <span class="co"># median_hdi summary for coloring </span></span>
-<span id="cb93-56"><a href="stats_processing_time.html#cb93-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb93-56"><a href="stats_processing_time.html#cb93-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb93-57"><a href="stats_processing_time.html#cb93-57" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb93-58"><a href="stats_processing_time.html#cb93-58" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
 <span id="cb93-59"><a href="stats_processing_time.html#cb93-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
@@ -7901,7 +7930,7 @@ hdi
 <span id="cb93-71"><a href="stats_processing_time.html#cb93-71" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 320,000
 ## Columns: 11
-## Groups: contrast [10]
+## Groups: contrast, depth_maps_generation_filtering_mode [40]
 ## $ depth_maps_generation_filtering_mode &lt;ord&gt; aggressive, aggressive, aggressiv…
 ## $ .chain                               &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ .iteration                           &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
@@ -10130,7 +10159,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb117-53"><a href="stats_processing_time.html#cb117-53" tabindex="-1"></a>      )</span>
 <span id="cb117-54"><a href="stats_processing_time.html#cb117-54" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb117-55"><a href="stats_processing_time.html#cb117-55" tabindex="-1"></a>  <span class="co"># median_hdi summary for coloring </span></span>
-<span id="cb117-56"><a href="stats_processing_time.html#cb117-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb117-56"><a href="stats_processing_time.html#cb117-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb117-57"><a href="stats_processing_time.html#cb117-57" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb117-58"><a href="stats_processing_time.html#cb117-58" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
 <span id="cb117-59"><a href="stats_processing_time.html#cb117-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
@@ -10148,7 +10177,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb117-71"><a href="stats_processing_time.html#cb117-71" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 320,000
 ## Columns: 11
-## Groups: contrast [10]
+## Groups: contrast, depth_maps_generation_filtering_mode [40]
 ## $ depth_maps_generation_filtering_mode &lt;ord&gt; aggressive, aggressive, aggressiv…
 ## $ .chain                               &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ .iteration                           &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, N…

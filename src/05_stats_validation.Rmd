@@ -1122,6 +1122,7 @@ brms_f_mod3 = brms::brm(
     , brms::prior(cauchy(0, sd_y), class = "sigma")
   )
   , stanvars = stanvars_temp
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , file = paste0(rootdir, "/fits/brms_f_mod3")
 )
 # https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
@@ -1928,7 +1929,7 @@ brms_f_mod4 = brms::brm(
     , brms::prior(cauchy(0, sd_y), class = "sigma")
   )
   , stanvars = stanvars_temp
-  # , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , file = paste0(rootdir, "/fits/brms_f_mod4")
 )
 ```
@@ -2844,6 +2845,7 @@ brms_f_mod5 = brms::brm(
   , family = Beta(link = "logit")
   , iter = 50000, warmup = 25000, chains = 4
   , cores = round(parallel::detectCores()/2)
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , file = paste0(rootdir, "/fits/brms_f_mod5")
 )
 ```
@@ -3737,7 +3739,7 @@ remove(list = ls()[grep("_temp",ls())])
 gc()
 ```
 
-```{r one-sum-norm, eval=FALSE, include=FALSE}
+```{r, eval=FALSE, include=FALSE}
 brms_f_mod1 %>% 
   plot(variable = c("^b_", "sigma"), regex = TRUE)
 
