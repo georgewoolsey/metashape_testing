@@ -1115,6 +1115,7 @@ brms_f_mod3 = brms::brm(
   , data = ptcld_validation_data
   , family = brms::brmsfamily(family = "gaussian")
   , iter = 50000, warmup = 25000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , prior = c(
     brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
@@ -1122,7 +1123,6 @@ brms_f_mod3 = brms::brm(
     , brms::prior(cauchy(0, sd_y), class = "sigma")
   )
   , stanvars = stanvars_temp
-  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , file = paste0(rootdir, "/fits/brms_f_mod3")
 )
 # https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
@@ -1695,7 +1695,7 @@ ptcld_validation_data %>%
     theme(legend.position = "none")
 ```
 
-let's compare these results to the results from our [one nominal predictor model above](#f_one_pred_mod_bays) and [two nominal predictor model above](#f_two_pred_mod_bays)
+let's compare these results to the results from our [two nominal predictor model above](#f_two_pred_mod_bays)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -1922,6 +1922,7 @@ brms_f_mod4 = brms::brm(
   , data = ptcld_validation_data
   , family = brms::brmsfamily(family = "gaussian")
   , iter = 50000, warmup = 25000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , prior = c(
     brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
@@ -1929,7 +1930,6 @@ brms_f_mod4 = brms::brm(
     , brms::prior(cauchy(0, sd_y), class = "sigma")
   )
   , stanvars = stanvars_temp
-  , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , file = paste0(rootdir, "/fits/brms_f_mod4")
 )
 ```
@@ -2369,6 +2369,8 @@ brms_contrast_temp %>%
   guides(
     fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
   )
+
+ggplot2::ggsave("../data/qlty_sftwr_comp_mod4.png", height = 6, width = 8)
 ```
 
 and summarize these contrasts
@@ -2463,6 +2465,8 @@ brms_contrast_temp %>%
     legend.position = c(.75, .15)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
+
+ggplot2::ggsave("../data/sftwr_qlty_comp_mod4.png", height = 8, width = 6)
 ```
 
 and summarize these contrasts
@@ -2605,7 +2609,7 @@ ptcld_validation_data %>%
     theme(legend.position = "none")
 ```
 
-let's compare these results to the results from our [one nominal predictor model above](#f_one_pred_mod_bays), [two nominal predictor model above](#f_two_pred_mod_bays), and [three nominal predictor model above](#f_three_pred_mod_bays)
+let's compare these results to the results from [two nominal predictor model above](#f_two_pred_mod_bays) and [three nominal predictor model above](#f_three_pred_mod_bays)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -2648,7 +2652,7 @@ ptcld_validation_data %>%
   
 ```
 
-to address one of our main questions, let's also collapse across the depth map quality and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -2844,8 +2848,8 @@ brms_f_mod5 = brms::brm(
   , data = ptcld_validation_data
   , family = Beta(link = "logit")
   , iter = 50000, warmup = 25000, chains = 4
-  , cores = round(parallel::detectCores()/2)
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
   , file = paste0(rootdir, "/fits/brms_f_mod5")
 )
 ```
@@ -3324,6 +3328,8 @@ brms_contrast_temp %>%
   guides(
     fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
   )
+
+ggplot2::ggsave("../data/qlty_sftwr_comp_mod5.png", height = 6, width = 8)
 ```
 
 and summarize these contrasts
@@ -3418,6 +3424,8 @@ brms_contrast_temp %>%
     legend.position = c(.75, .15)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
+
+ggplot2::ggsave("../data/sftwr_qlty_comp_mod5.png", height = 8, width = 6)
 ```
 
 and summarize these contrasts
@@ -3534,6 +3542,142 @@ ptcld_validation_data %>%
   
 ```
 
+we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the depth map quality setting effect
+
+```{r}
+brms_contrast_temp =
+  ptcld_validation_data %>%
+    dplyr::distinct(depth_maps_generation_quality) %>% 
+    tidybayes::add_epred_draws(
+      brms_f_mod5, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_quality)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_quality
+      , comparison = 
+        contrast_list
+        # tidybayes::emmeans_comparison("revpairwise") 
+        #"pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>% 
+  dplyr::mutate(
+    is_gt_zero = value > 0
+    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , sig_level = dplyr::case_when(
+      pct_gt_zero > 0.99 ~ 0
+      , pct_gt_zero > 0.95 ~ 1
+      , pct_gt_zero > 0.9 ~ 2
+      , pct_gt_zero > 0.8 ~ 3
+      , T ~ 4
+    ) %>% 
+    factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
+  )
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+# plot it
+brms_contrast_temp %>% 
+  ggplot(
+    mapping = aes(
+      x = value, y = contrast
+      , fill = sig_level # pct_gt_zero
+    )
+  ) +
+    tidybayes::stat_halfeye(
+      point_interval = median_hdi, .width = c(0.5,0.95)
+      # , slab_fill = "gray22", slab_alpha = 1
+      , interval_color = "black", point_color = "black", point_fill = "black"
+      , justification = -0.01
+    ) +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
+    scale_fill_viridis_d(
+      option = "mako", begin = 0.3
+      , drop = F
+      # , labels = scales::percent
+    ) +
+    # scale_fill_viridis_c(
+    #   option = "mako", begin = 0.3, direction = -1
+    #   , labels = scales::percent
+    # ) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    labs(
+      y = "depth map quality"
+      , x = "constrast (f-score)"
+      , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+      , fill = "Pr(contrast > 0)"
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "top"
+      , legend.direction  = "horizontal"
+      , strip.text = element_text(color = "black", face = "bold")
+    ) +
+    guides(
+      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
+    )
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "quality contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(width = "8in", height = "6in")
+```
+
 let's also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -3569,7 +3713,7 @@ ptcld_validation_data %>%
     theme(legend.position = "none")
 ```
 
-let's compare these results to the results from our [one nominal predictor model above](#f_one_pred_mod_bays), [two nominal predictor model above](#f_two_pred_mod_bays), and [three nominal predictor model above](#f_three_pred_mod_bays)
+let's compare these results to the results from our [two nominal predictor model above](#f_two_pred_mod_bays), [three nominal predictor model above](#f_three_pred_mod_bays), and [three nominal predictor + site model above](#f_4_pred_mod_bays)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -3620,7 +3764,7 @@ ptcld_validation_data %>%
   
 ```
 
-to address one of our main questions, let's also collapse across the depth map quality and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -3655,7 +3799,7 @@ ptcld_validation_data %>%
     theme(legend.position = "none")
 ```
 
-let's compare these results to the results from our [three nominal predictor model above](#f_three_pred_mod_bays) and and [three nominal predictor + site effects model above](#f_4_pred_mod_bays)
+let's compare these results to the results from our [three nominal predictor model above](#f_three_pred_mod_bays) and [three nominal predictor + site effects model above](#f_4_pred_mod_bays)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -3698,6 +3842,107 @@ ptcld_validation_data %>%
   
 ```
 
+we can also perform pairwise comparisons after collapsing across the filtering mode, depth map quality setting, and study site to compare the software main effect
+
+```{r}
+brms_contrast_temp =
+  ptcld_validation_data %>%
+    dplyr::distinct(software) %>% 
+    tidybayes::add_epred_draws(
+      brms_f_mod5, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | software)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = software
+      , comparison = "pairwise"
+    ) %>% 
+    dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>% 
+  dplyr::mutate(
+    is_gt_zero = abs(value) > 0.05
+    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , sig_level = dplyr::case_when(
+      pct_gt_zero > 0.99 ~ 0
+      , pct_gt_zero > 0.95 ~ 1
+      , pct_gt_zero > 0.9 ~ 2
+      , pct_gt_zero > 0.8 ~ 3
+      , T ~ 4
+    ) %>% 
+      factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
+  )
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+# plot it
+brms_contrast_temp %>% 
+  ggplot(
+    mapping = aes(
+      x = value, y = contrast
+      # , fill = sig_level
+      , fill = pct_gt_zero
+    )
+  ) +
+  tidybayes::stat_halfeye(
+    point_interval = median_hdi, .width = c(0.5,0.95)
+    # , slab_fill = "gray22", slab_alpha = 1
+    , interval_color = "black", point_color = "black", point_fill = "black"
+    , justification = -0.01
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
+  scale_fill_viridis_c(
+    option = "mako", begin = 0.3, direction = -1
+    , breaks = scales::extended_breaks(n=6)
+    , labels = scales::percent
+  ) +
+  scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+  labs(
+    y = "software"
+    , x = "constrast (f-score)"
+    , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+    , fill = "Pr(abs(contrast) > 0.05)"
+  ) +
+  theme_light() +
+  theme(
+      legend.position = "top"
+      , legend.direction  = "horizontal"
+      , strip.text = element_text(color = "black", face = "bold")
+    ) +
+    guides(
+      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
+    )
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "software contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(width = "8in", height = "8in")
+```
+
 ```{r, include=FALSE, eval=FALSE}
 # Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors.
 # extract the posterior draws
@@ -3737,40 +3982,6 @@ brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
 gc()
-```
-
-```{r, eval=FALSE, include=FALSE}
-brms_f_mod1 %>% 
-  plot(variable = c("^b_", "sigma"), regex = TRUE)
-
-brms::as_draws_df(
-        brms_f_mod1
-        , variable = c("^b_", "shape")
-        , regex = TRUE
-      ) %>% 
-      # quick way to get a table of summary statistics and diagnostics
-      posterior::summarize_draws(
-        "mean", "median", "sd"
-        ,  ~quantile(.x, probs = c(
-          0.05, 0.95
-          # , 0.025, 0.975
-        ))
-        , "rhat"
-      )
-
-
-# Check normality assumption by groups. Computing Shapiro-Wilk test for each group level. If the data is normally distributed, the p-value should be greater than 0.05.
-
-
-ptcld_validation_data %>% 
-  dplyr::group_by(depth_maps_generation_quality) %>% 
-  rstatix::shapiro_test(f_score) %>% 
-  kableExtra::kbl(digits = 3) %>% 
-  kableExtra::kable_styling()
-
-# The time is not normally distributed (p < 0.05) for most groups as assessed by Shapiro-Wilk’s test of normality. 
-# 
-# If you have doubt about the normality of the data, you can use the Kruskal-Wallis test, which is the non-parametric alternative to one-way ANOVA test.
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
