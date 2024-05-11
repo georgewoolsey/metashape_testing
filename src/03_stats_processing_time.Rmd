@@ -225,7 +225,7 @@ kableExtra::kbl(
     digits = 2, caption = "Mean group effects: depth map quality processing time constrasts"
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 ### Bayesian{#one_pred_mod_bays}
@@ -531,7 +531,7 @@ ptime_data %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 ### Linear Model
@@ -572,7 +572,7 @@ predict(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 and plot these means with 95% confidence interval
@@ -655,7 +655,7 @@ ptime_data %>%
     , caption = "Pairwise comparisons between filtering mode at each depth map quality group"
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 ~~we can use the `emmeans` package to [perform interaction analysis](https://cran.r-project.org/web/packages/emmeans/vignettes/interactions.html) of the mean estimates using [Tukey's Honest Significant Differences method](https://search.r-project.org/R/refmans/stats/html/TukeyHSD.html).~~
@@ -780,7 +780,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 
@@ -896,7 +896,7 @@ brms2_mod %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors: point cloud processing time by depth map quality and filtering mode") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 We can look at the model noise standard deviation $\sigma_y$
@@ -923,8 +923,7 @@ dplyr::bind_rows(
   ) %>% 
   dplyr::relocate(model) %>% 
   kableExtra::kbl(digits = 2, caption = "brms::brm model noise standard deviation comparison") %>% 
-    kableExtra::kable_styling() %>% 
-    kableExtra::scroll_box(width = "8in", height = "6in")
+    kableExtra::kable_styling()
 ```
 
 plot the posterior distributions of the conditional means with the median processing time and the 95% highest posterior density interval (HDI)
@@ -1147,7 +1146,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 [Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes that for the multiple nominal predictors model: 
@@ -1488,7 +1487,7 @@ brms3_mod %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors + study site effects for point cloud processing time") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 We can look at the model noise standard deviation $\sigma_y$
@@ -1516,8 +1515,7 @@ dplyr::bind_rows(
   ) %>% 
   dplyr::relocate(model) %>% 
   kableExtra::kbl(digits = 2, caption = "brms::brm model noise standard deviation comparison") %>% 
-    kableExtra::kable_styling() %>% 
-    kableExtra::scroll_box(width = "8in", height = "6in")
+    kableExtra::kable_styling()
 ```
 
 plot the posterior distributions of the conditional means with the median processing time and the 95% highest posterior density interval (HDI)
@@ -1712,7 +1710,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 let's collapse across the filtering mode and study site to compare the depth map quality setting effect.
@@ -2063,7 +2061,7 @@ brms4_mod %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors + study site effects for point cloud processing time") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 We can look at the model noise standard deviation (shape) $\alpha$
@@ -2288,7 +2286,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 let's collapse across the filtering mode and study site to compare the depth map quality setting effect.

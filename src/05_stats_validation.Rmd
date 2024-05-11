@@ -10,6 +10,57 @@ All of the predictor variables of interest in this study are categorical (a.k.a.
 
 For a more in-depth review of the traditional treatment of this sort of data structure called multifactor analysis of variance (ANOVA) compared to the Bayesian hierarchical generalization of the traditional ANOVA model used here see [this previous section](#stats_processing_time).
 
+## Setup
+
+first we're going to define a function to ingest a formula as text and separate it into multiple rows based on the number of characters for plotting
+
+```{r}
+# function to pull the formula for labeling below
+get_frmla_text = function(frmla_chr, split_chrs = 100){
+
+  cumsum_group = function(x, threshold) {
+    cumsum = 0
+    group = 1
+    result = numeric()
+    for (i in 1:length(x)) {
+      cumsum = cumsum + x[i]
+      if (cumsum > threshold) {
+        group = group + 1
+        cumsum = x[i]
+      }
+      result = c(result, group)
+    }
+    return (result)
+  }
+  
+  r = stringr::str_sub(
+    frmla_chr
+    , # get the two column matrix of start end
+      frmla_chr %>% 
+        stringr::str_locate_all("\\+") %>% 
+        .[[1]] %>% 
+        dplyr::as_tibble() %>% 
+        dplyr::select(start) %>% 
+        dplyr::mutate(
+          len = dplyr::coalesce(start-dplyr::lag(start),0)
+          , ld = dplyr::coalesce(dplyr::lead(start)-1, stringr::str_length(frmla_chr))
+          , cum = cumsum_group(len, split_chrs)
+          , start = ifelse(dplyr::row_number()==1,1,start)
+        ) %>% 
+        dplyr::group_by(cum) %>% 
+        dplyr::summarise(start = min(start), end = max(ld)) %>% 
+        dplyr::ungroup() %>% 
+        dplyr::select(-cum) %>% 
+        as.matrix()
+    ) %>% 
+    stringr::str_squish() %>% 
+    paste0(collapse = "\n")
+  
+  return(r)
+}
+```
+
+
 ## Summary Statistics
 
 What is this data?
@@ -65,7 +116,7 @@ Summary by metrics of interest
 
 ```{r}
 sum_stats_dta = function(my_var){
-  sum_fns <- list(
+  sum_fns = list(
     n = ~sum(ifelse(is.na(.x), 0, 1))  
     , min = ~min(.x, na.rm = TRUE)
     , max = ~max(.x, na.rm = TRUE)
@@ -96,17 +147,17 @@ sum_stats_dta = function(my_var){
       theme_light() +
       theme(legend.position = "none")
   )
-  # summarize data
-  (
-  ptcld_validation_data %>% 
-    dplyr::group_by(dplyr::across(dplyr::all_of(my_var))) %>%
-    dplyr::summarise(
-      dplyr::across(f_score, sum_fns)
-      , .groups = 'drop_last'
-    ) %>% 
-    kableExtra::kbl() %>% 
-    kableExtra::kable_styling()
-  )
+  # # summarize data
+  # (
+  # ptcld_validation_data %>% 
+  #   dplyr::group_by(dplyr::across(dplyr::all_of(my_var))) %>%
+  #   dplyr::summarise(
+  #     dplyr::across(f_score, sum_fns)
+  #     , .groups = 'drop_last'
+  #   ) %>% 
+  #   kableExtra::kbl() %>% 
+  #   kableExtra::kable_styling()
+  # )
 }
 # sum_stats_dta("software")
 ```
@@ -230,6 +281,11 @@ stats::coef(brms_f_mod1) %>%
 We can look at the model noise standard deviation $\sigma_y$
 
 ```{r}
+# get formula
+form_temp = brms_f_mod1$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text() %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod1) %>% 
 # plot
@@ -241,7 +297,10 @@ brms::as_draws_df(brms_f_mod1) %>%
     , quantiles = 100
   ) +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(latex2exp::TeX("$\\sigma_y$")) +
+  labs(
+    x = latex2exp::TeX("$\\sigma_y$")
+    , caption = form_temp
+  ) +
   theme_light()
 ```
 
@@ -270,6 +329,7 @@ ptcld_validation_data %>%
     labs(
       y = "depth map quality", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -374,7 +434,7 @@ plot it
 ```{r}
 # plot, finally
 brms_contrast_temp %>% 
-  ggplot(aes(x = value, y = contrast, fill = sig_level)) +
+  ggplot(aes(x = value, y = contrast, fill = pct_gt_zero)) +
     tidybayes::stat_halfeye(
       point_interval = median_hdi, .width = c(0.5,0.95)
       # , slab_fill = "gray22", slab_alpha = 1
@@ -382,10 +442,11 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
@@ -393,11 +454,12 @@ brms_contrast_temp %>%
       , x = "constrast (F-score)"
       , fill = "Pr(contrast > 0)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+      , caption = form_temp
     ) +
     theme_light() +
-    theme(legend.position = "top", legend.direction = "horizontal") +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
+    theme(
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
     )
 ```
 
@@ -457,7 +519,7 @@ ptcld_validation_data %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 ### Bayesian{#f_two_pred_mod_bays}
@@ -491,23 +553,23 @@ y_{i}  &\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 
 ```{r}
 # from Kurz: 
-gamma_a_b_from_omega_sigma <- function(mode, sd) {
+gamma_a_b_from_omega_sigma = function(mode, sd) {
   if (mode <= 0) stop("mode must be > 0")
   if (sd   <= 0) stop("sd must be > 0")
-  rate <- (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
-  shape <- 1 + mode * rate
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
   return(list(shape = shape, rate = rate))
 }
 
-mean_y_temp <- mean(ptcld_validation_data$f_score)
-sd_y_temp   <- sd(ptcld_validation_data$f_score)
+mean_y_temp = mean(ptcld_validation_data$f_score)
+sd_y_temp   = sd(ptcld_validation_data$f_score)
 
-omega_temp <- sd_y_temp / 2
-sigma_temp <- 2 * sd_y_temp
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
 
-s_r_temp <- gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
 
-stanvars_temp <- 
+stanvars_temp = 
   brms::stanvar(mean_y_temp,    name = "mean_y") + 
   brms::stanvar(sd_y_temp,      name = "sd_y") +
   brms::stanvar(s_r_temp$shape, name = "alpha") +
@@ -572,13 +634,18 @@ brms_f_mod2 %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors: F-score by depth map quality and filtering mode") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 
 We can look at the model noise standard deviation $\sigma_y$
 
 ```{r}
+# get formula
+form_temp = brms_f_mod2$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text() %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod2) %>% 
 # plot
@@ -590,7 +657,10 @@ brms::as_draws_df(brms_f_mod2) %>%
     , quantiles = 100
   ) +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(latex2exp::TeX("$\\sigma_y$")) +
+  labs(
+    x = latex2exp::TeX("$\\sigma_y$")
+    , caption = form_temp
+  ) +
   theme_light()
 ```
 
@@ -604,8 +674,7 @@ dplyr::bind_rows(
   ) %>% 
   dplyr::relocate(model) %>% 
   kableExtra::kbl(digits = 2, caption = "brms::brm model noise standard deviation comparison") %>% 
-    kableExtra::kable_styling() %>% 
-    kableExtra::scroll_box(width = "8in", height = "6in")
+    kableExtra::kable_styling()
 ```
 
 plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
@@ -636,6 +705,7 @@ ptcld_validation_data %>%
       x = "filtering mode", y = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , fill = "Filtering Mode"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
@@ -727,8 +797,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = depth_maps_generation_filtering_mode
+      , fill = pct_gt_zero
     )
   ) +
     tidybayes::stat_halfeye(
@@ -738,15 +807,12 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
-    # scale_fill_viridis_c(
-    #   option = "mako", begin = 0.3, direction = -1
-    #   , labels = scales::percent
-    # ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
@@ -754,11 +820,12 @@ brms_contrast_temp %>%
       , x = "constrast (f-score)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
       , fill = "Pr(contrast > 0)"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -786,8 +853,9 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
+
 
 [Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes that for the multiple nominal predictors model: 
 
@@ -823,6 +891,7 @@ ptcld_validation_data %>%
     labs(
       y = "depth map quality", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -894,6 +963,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -922,7 +992,7 @@ brms::as_draws_df(brms_f_mod2) %>%
     , shape = 21 #, point_size = 3
     , quantiles = 100
   ) +
-  labs(x = "", y = "") +
+  labs(x = "", y = "", caption = form_temp) +
   theme_light()
 ```
 
@@ -974,7 +1044,7 @@ ptcld_validation_data %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 we can view this data by using `ggplot2::geom_tile`
@@ -1000,7 +1070,7 @@ ptcld_validation_data %>%
   facet_grid(cols = vars(software)) + 
   scale_x_discrete(expand = c(0, 0)) +
   scale_y_discrete(expand = c(0, 0)) +
-  scale_fill_viridis_c(option = "mako", begin = 0.3, end = 0.9, direction = -1) +
+  scale_fill_viridis_c(option = "cividis", begin = 0.3, end = 0.9) +
   labs(
     x = "filtering mode"
     , y = "depth map quality"
@@ -1072,23 +1142,23 @@ y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 
 ```{r}
 # from Kurz: 
-gamma_a_b_from_omega_sigma <- function(mode, sd) {
+gamma_a_b_from_omega_sigma = function(mode, sd) {
   if (mode <= 0) stop("mode must be > 0")
   if (sd   <= 0) stop("sd must be > 0")
-  rate <- (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
-  shape <- 1 + mode * rate
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
   return(list(shape = shape, rate = rate))
 }
 
-mean_y_temp <- mean(ptcld_validation_data$f_score)
-sd_y_temp   <- sd(ptcld_validation_data$f_score)
+mean_y_temp = mean(ptcld_validation_data$f_score)
+sd_y_temp   = sd(ptcld_validation_data$f_score)
 
-omega_temp <- sd_y_temp / 2
-sigma_temp <- 2 * sd_y_temp
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
 
-s_r_temp <- gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
 
-stanvars_temp <- 
+stanvars_temp = 
   brms::stanvar(mean_y_temp,    name = "mean_y") + 
   brms::stanvar(sd_y_temp,      name = "sd_y") +
   brms::stanvar(s_r_temp$shape, name = "alpha") +
@@ -1147,7 +1217,9 @@ brms::prior_summary(brms_f_mod3) %>%
 
 The `brms::brm` model summary
 
-```{r}
+We won't clutter the output here but this can be run if you are following along on your own
+
+```{r, eval=F}
 brms_f_mod3 %>% 
   brms::posterior_summary() %>% 
   as.data.frame() %>% 
@@ -1166,12 +1238,17 @@ brms_f_mod3 %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian 3 nominal predictors for F-score") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 We can look at the model noise standard deviation $\sigma_y$
 
 ```{r}
+# get formula
+form_temp = brms_f_mod3$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text() %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod3) %>% 
 # plot
@@ -1183,7 +1260,10 @@ brms::as_draws_df(brms_f_mod3) %>%
     , quantiles = 100
   ) +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(latex2exp::TeX("$\\sigma_y$")) +
+  labs(
+    x = latex2exp::TeX("$\\sigma_y$")
+    , caption = form_temp
+  ) +
   theme_light()
 ```
 
@@ -1198,8 +1278,7 @@ dplyr::bind_rows(
   ) %>% 
   dplyr::relocate(model) %>% 
   kableExtra::kbl(digits = 2, caption = "brms::brm model noise standard deviation comparison") %>% 
-    kableExtra::kable_styling() %>% 
-    kableExtra::scroll_box(width = "8in", height = "6in")
+    kableExtra::kable_styling()
 ```
 
 plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
@@ -1238,6 +1317,7 @@ ptcld_validation_data %>%
       x = "filtering mode", y = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , fill = "Filtering Mode"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
@@ -1335,8 +1415,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = depth_maps_generation_filtering_mode
+      , fill = pct_gt_zero
     )
   ) +
     tidybayes::stat_halfeye(
@@ -1346,15 +1425,12 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
-    # scale_fill_viridis_c(
-    #   option = "mako", begin = 0.3, direction = -1
-    #   , labels = scales::percent
-    # ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
@@ -1362,11 +1438,12 @@ brms_contrast_temp %>%
       , x = "constrast (f-score)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
       , fill = "Pr(contrast > 0)"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -1394,7 +1471,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
@@ -1433,6 +1510,7 @@ ptcld_validation_data %>%
     x = "software", y = "f-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI"
     , fill = "Filtering Mode"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
@@ -1524,8 +1602,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = software
+      , fill = pct_gt_zero
     )
   ) +
   tidybayes::stat_halfeye(
@@ -1535,15 +1612,12 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_d(
-    option = "mako", begin = 0.3
-    , drop = F
-    # , labels = scales::percent
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
+    , labels = scales::percent
   ) +
-  # scale_fill_viridis_c(
-  #   option = "mako", begin = 0.3, direction = -1
-  #   , labels = scales::percent
-  # ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
   facet_grid(cols = vars(software)) +
   labs(
@@ -1551,11 +1625,12 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
     , fill = "Pr(contrast > 0)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
-    legend.position = "top"
-    , legend.direction  = "horizontal"
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
   guides(
@@ -1583,7 +1658,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 let's collapse across the filtering mode and software to compare the depth map quality setting effect.
@@ -1616,6 +1691,7 @@ ptcld_validation_data %>%
     labs(
       y = "depth map quality", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -1690,6 +1766,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -1760,6 +1837,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -1788,7 +1866,7 @@ brms::as_draws_df(brms_f_mod3) %>%
     , shape = 21 #, point_size = 3
     , quantiles = 100
   ) +
-  labs(x = "", y = "") +
+  labs(x = "", y = "", caption = form_temp) +
   theme_light()
 ```
 
@@ -1878,23 +1956,23 @@ y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 
 ```{r}
 # from Kurz: 
-gamma_a_b_from_omega_sigma <- function(mode, sd) {
+gamma_a_b_from_omega_sigma = function(mode, sd) {
   if (mode <= 0) stop("mode must be > 0")
   if (sd   <= 0) stop("sd must be > 0")
-  rate <- (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
-  shape <- 1 + mode * rate
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
   return(list(shape = shape, rate = rate))
 }
 
-mean_y_temp <- mean(ptcld_validation_data$f_score)
-sd_y_temp   <- sd(ptcld_validation_data$f_score)
+mean_y_temp = mean(ptcld_validation_data$f_score)
+sd_y_temp   = sd(ptcld_validation_data$f_score)
 
-omega_temp <- sd_y_temp / 2
-sigma_temp <- 2 * sd_y_temp
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
 
-s_r_temp <- gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
 
-stanvars_temp <- 
+stanvars_temp = 
   brms::stanvar(mean_y_temp,    name = "mean_y") + 
   brms::stanvar(sd_y_temp,      name = "sd_y") +
   brms::stanvar(s_r_temp$shape, name = "alpha") +
@@ -1951,7 +2029,9 @@ brms::prior_summary(brms_f_mod4) %>%
 
 The `brms::brm` model summary
 
-```{r}
+We won't clutter the output here but this can be run if you are following along on your own
+
+```{r, eval=F}
 brms_f_mod4 %>% 
   brms::posterior_summary() %>% 
   as.data.frame() %>% 
@@ -1970,12 +2050,17 @@ brms_f_mod4 %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian 3 nominal predictors + study site effects for F-score") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 We can look at the model noise standard deviation $\sigma_y$
 
 ```{r}
+# get formula
+form_temp = brms_f_mod4$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text() %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod4) %>% 
 # plot
@@ -1987,7 +2072,10 @@ brms::as_draws_df(brms_f_mod4) %>%
     , quantiles = 100
   ) +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(latex2exp::TeX("$\\sigma_y$")) +
+  labs(
+    x = latex2exp::TeX("$\\sigma_y$")
+    , caption = form_temp
+  ) +
   theme_light()
 ```
 
@@ -2003,8 +2091,7 @@ dplyr::bind_rows(
   ) %>% 
   dplyr::relocate(model) %>% 
   kableExtra::kbl(digits = 2, caption = "brms::brm model noise standard deviation comparison") %>% 
-    kableExtra::kable_styling() %>% 
-    kableExtra::scroll_box(width = "8in", height = "6in")
+    kableExtra::kable_styling()
 ```
 
 plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
@@ -2043,6 +2130,7 @@ ptcld_validation_data %>%
       x = "filtering mode", y = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , fill = "Filtering Mode"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
@@ -2140,8 +2228,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = depth_maps_generation_filtering_mode
+      , fill = pct_gt_zero
     )
   ) +
     tidybayes::stat_halfeye(
@@ -2151,15 +2238,12 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
-    # scale_fill_viridis_c(
-    #   option = "mako", begin = 0.3, direction = -1
-    #   , labels = scales::percent
-    # ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
@@ -2167,11 +2251,12 @@ brms_contrast_temp %>%
       , x = "constrast (f-score)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
       , fill = "Pr(contrast > 0)"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -2199,7 +2284,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
@@ -2238,6 +2323,7 @@ ptcld_validation_data %>%
     x = "software", y = "f-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI"
     , fill = "Filtering Mode"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
@@ -2332,8 +2418,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = software
+      , fill = pct_gt_zero
     )
   ) +
   tidybayes::stat_halfeye(
@@ -2343,15 +2428,12 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_d(
-    option = "mako", begin = 0.3
-    , drop = F
-    # , labels = scales::percent
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
+    , labels = scales::percent
   ) +
-  # scale_fill_viridis_c(
-  #   option = "mako", begin = 0.3, direction = -1
-  #   , labels = scales::percent
-  # ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
   facet_grid(cols = vars(software)) +
   labs(
@@ -2359,11 +2441,12 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
     , fill = "Pr(contrast > 0)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
-    legend.position = "top"
-    , legend.direction  = "horizontal"
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
   guides(
@@ -2393,7 +2476,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 The contrasts above address the question "are there differences in F-score based on dense point cloud generation quality within each software?".
@@ -2436,7 +2519,6 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      # , fill = sig_level
       , fill = pct_gt_zero
     )
   ) +
@@ -2447,11 +2529,18 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_c(
-    option = "mako", begin = 0.3, direction = -1
-    , breaks = scales::extended_breaks(n=6)
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
     , labels = scales::percent
   ) +
+  # scale_fill_viridis_c(
+  #   option = "turbo", begin = 0.3, direction = -1
+  #   , limits = c(0,1)
+  #   , breaks = scales::extended_breaks(n=6)
+  #   , labels = scales::percent
+  # ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
@@ -2459,10 +2548,13 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
     , fill = "Pr(abs(contrast) > 0.05)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
     legend.position = c(.75, .15)
+    , legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
 
@@ -2489,7 +2581,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
@@ -2522,6 +2614,7 @@ ptcld_validation_data %>%
     labs(
       y = "depth map quality", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -2604,6 +2697,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -2682,6 +2776,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -2745,7 +2840,7 @@ brms::as_draws_df(brms_f_mod4) %>%
     , shape = 21 #, point_size = 3
     , quantiles = 100
   ) +
-  labs(x = "", y = "") +
+  labs(x = "", y = "", caption = form_temp) +
   theme_light()
 ```
 
@@ -2925,7 +3020,9 @@ brms::prior_summary(brms_f_mod5) %>%
 
 The `brms::brm` model summary
 
-```{r}
+We won't clutter the output here but this can be run if you are following along on your own
+
+```{r, eval=F}
 brms_f_mod5 %>% 
   brms::posterior_summary() %>% 
   as.data.frame() %>% 
@@ -2944,12 +3041,17 @@ brms_f_mod5 %>%
   ) %>% 
   kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors + study site effects for F-score") %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 We can look at the model noise standard deviation (concentration) $\phi$
 
 ```{r}
+# get formula
+form_temp = brms_f_mod5$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text() %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod5) %>% 
 # plot
@@ -2961,7 +3063,10 @@ brms::as_draws_df(brms_f_mod5) %>%
     , quantiles = 100
   ) +
   scale_y_continuous(NULL, breaks = NULL) +
-  xlab(latex2exp::TeX("$\\phi$")) +
+  labs(
+    x = latex2exp::TeX("$\\phi$")
+    , caption = form_temp
+  ) +
   theme_light()
 
 ```
@@ -3002,6 +3107,7 @@ ptcld_validation_data %>%
       x = "filtering mode", y = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , fill = "Filtering Mode"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
@@ -3099,8 +3205,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = depth_maps_generation_filtering_mode
+      , fill = pct_gt_zero
     )
   ) +
     tidybayes::stat_halfeye(
@@ -3110,15 +3215,12 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
-    # scale_fill_viridis_c(
-    #   option = "mako", begin = 0.3, direction = -1
-    #   , labels = scales::percent
-    # ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
@@ -3126,11 +3228,12 @@ brms_contrast_temp %>%
       , x = "constrast (f-score)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
       , fill = "Pr(contrast > 0)"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -3158,7 +3261,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
@@ -3197,6 +3300,7 @@ ptcld_validation_data %>%
     x = "software", y = "f-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI"
     , fill = "Filtering Mode"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
@@ -3291,8 +3395,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
-      # , fill = software
+      , fill = pct_gt_zero
     )
   ) +
   tidybayes::stat_halfeye(
@@ -3302,15 +3405,12 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_d(
-    option = "mako", begin = 0.3
-    , drop = F
-    # , labels = scales::percent
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
+    , labels = scales::percent
   ) +
-  # scale_fill_viridis_c(
-  #   option = "mako", begin = 0.3, direction = -1
-  #   , labels = scales::percent
-  # ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
   facet_grid(cols = vars(software)) +
   labs(
@@ -3318,11 +3418,12 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
     , fill = "Pr(contrast > 0)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
-    legend.position = "top"
-    , legend.direction  = "horizontal"
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
   guides(
@@ -3352,7 +3453,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 The contrasts above address the question "are there differences in F-score based on dense point cloud generation quality within each software?".
@@ -3395,7 +3496,6 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      # , fill = sig_level
       , fill = pct_gt_zero
     )
   ) +
@@ -3406,9 +3506,10 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_c(
-    option = "mako", begin = 0.3, direction = -1
-    , breaks = scales::extended_breaks(n=6)
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
     , labels = scales::percent
   ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
@@ -3418,10 +3519,13 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
     , fill = "Pr(abs(contrast) > 0.05)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
     legend.position = c(.75, .15)
+    , legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
 
@@ -3448,7 +3552,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
@@ -3481,6 +3585,7 @@ ptcld_validation_data %>%
     labs(
       y = "depth map quality", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -3619,7 +3724,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = sig_level # pct_gt_zero
+      , fill = pct_gt_zero
     )
   ) +
     tidybayes::stat_halfeye(
@@ -3629,26 +3734,24 @@ brms_contrast_temp %>%
       , justification = -0.01
     ) +
     geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-    scale_fill_viridis_d(
-      option = "mako", begin = 0.3
-      , drop = F
-      # , labels = scales::percent
+    scale_fill_fermenter(
+      n.breaks = 10, palette = "PuOr"
+      , direction = 1
+      , limits = c(0,1)
+      , labels = scales::percent
     ) +
-    # scale_fill_viridis_c(
-    #   option = "mako", begin = 0.3, direction = -1
-    #   , labels = scales::percent
-    # ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "depth map quality"
       , x = "constrast (f-score)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
       , fill = "Pr(contrast > 0)"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -3675,7 +3778,7 @@ kableExtra::kbl(
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "6in")
+  kableExtra::scroll_box(height = "6in")
 ```
 
 let's also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
@@ -3708,6 +3811,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -3794,6 +3898,7 @@ ptcld_validation_data %>%
     labs(
       y = "filtering mode", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -3887,7 +3992,6 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      # , fill = sig_level
       , fill = pct_gt_zero
     )
   ) +
@@ -3898,9 +4002,10 @@ brms_contrast_temp %>%
     , justification = -0.01
   ) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
-  scale_fill_viridis_c(
-    option = "mako", begin = 0.3, direction = -1
-    , breaks = scales::extended_breaks(n=6)
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
     , labels = scales::percent
   ) +
   scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
@@ -3909,11 +4014,12 @@ brms_contrast_temp %>%
     , x = "constrast (f-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
     , fill = "Pr(abs(contrast) > 0.05)"
+    , caption = form_temp
   ) +
   theme_light() +
   theme(
-      legend.position = "top"
-      , legend.direction  = "horizontal"
+      legend.text = element_text(size = 7)
+      , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
     guides(
@@ -3940,7 +4046,7 @@ brms_contrast_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(width = "8in", height = "8in")
+  kableExtra::scroll_box(height = "8in")
 ```
 
 ```{r, include=FALSE, eval=FALSE}
@@ -3966,7 +4072,7 @@ brms::as_draws_df(brms_f_mod5) %>%
     , shape = 21 #, point_size = 3
     , quantiles = 100
   ) +
-  labs(x = "", y = "") +
+  labs(x = "", y = "", caption = form_temp) +
   scale_x_continuous(limits = c(-0.1,1.1)) +
   theme_light()
 ```
