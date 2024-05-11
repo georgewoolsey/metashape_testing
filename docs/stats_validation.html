@@ -483,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb172-8"><a href="stats_validation.html#cb172-8" tabindex="-1"></a>    , <span class="at">sd =</span> <span class="sc">~</span><span class="fu">sd</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb172-9"><a href="stats_validation.html#cb172-9" tabindex="-1"></a>  )</span>
 <span id="cb172-10"><a href="stats_validation.html#cb172-10" tabindex="-1"></a>  <span class="co"># plot</span></span>
-<span id="cb172-11"><a href="stats_validation.html#cb172-11" tabindex="-1"></a>  <span class="fu">print</span>(</span>
+<span id="cb172-11"><a href="stats_validation.html#cb172-11" tabindex="-1"></a>  (</span>
 <span id="cb172-12"><a href="stats_validation.html#cb172-12" tabindex="-1"></a>    <span class="fu">ggplot</span>(</span>
 <span id="cb172-13"><a href="stats_validation.html#cb172-13" tabindex="-1"></a>      <span class="at">data =</span> ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb172-14"><a href="stats_validation.html#cb172-14" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data[[my_var]]) <span class="sc">%&gt;%</span></span>
@@ -524,18 +524,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb173-3"><a href="stats_validation.html#cb173-3" tabindex="-1"></a>  , <span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span></span>
 <span id="cb173-4"><a href="stats_validation.html#cb173-4" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb173-5"><a href="stats_validation.html#cb173-5" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(sum_stats_dta)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-108-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-108-3.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-108-4.png" width="1008" /></p>
 <pre><code>## [[1]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-5.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-1.png" width="1008" /></p>
 <pre><code>## 
 ## [[2]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-6.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-2.png" width="1008" /></p>
 <pre><code>## 
 ## [[3]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-7.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-3.png" width="1008" /></p>
 <pre><code>## 
 ## [[4]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-8.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-108-4.png" width="1008" /></p>
 </div>
 <div id="f_one_pred_mod" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> One Nominal Predictor<a href="stats_validation.html#f_one_pred_mod" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1315,7 +1314,11 @@ lowest
 <span id="cb188-26"><a href="stats_validation.html#cb188-26" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
 <span id="cb188-27"><a href="stats_validation.html#cb188-27" tabindex="-1"></a>      <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
 <span id="cb188-28"><a href="stats_validation.html#cb188-28" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb188-29"><a href="stats_validation.html#cb188-29" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb188-29"><a href="stats_validation.html#cb188-29" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb188-30"><a href="stats_validation.html#cb188-30" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb188-31"><a href="stats_validation.html#cb188-31" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb188-32"><a href="stats_validation.html#cb188-32" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb188-33"><a href="stats_validation.html#cb188-33" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-118-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="stats_validation.html#cb189-1" tabindex="-1"></a><span class="co"># # can also use the following as substitute for the &quot;tidybayes::spread_draws&quot; used above to get same result</span></span>
@@ -3129,9 +3132,10 @@ hdi
 <span id="cb202-34"><a href="stats_validation.html#cb202-34" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb202-35"><a href="stats_validation.html#cb202-35" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb202-36"><a href="stats_validation.html#cb202-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb202-37"><a href="stats_validation.html#cb202-37" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb202-38"><a href="stats_validation.html#cb202-38" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb202-39"><a href="stats_validation.html#cb202-39" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb202-37"><a href="stats_validation.html#cb202-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb202-38"><a href="stats_validation.html#cb202-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb202-39"><a href="stats_validation.html#cb202-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb202-40"><a href="stats_validation.html#cb202-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-131-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="stats_validation.html#cb203-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -6038,9 +6042,10 @@ hdi
 <span id="cb225-34"><a href="stats_validation.html#cb225-34" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb225-35"><a href="stats_validation.html#cb225-35" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb225-36"><a href="stats_validation.html#cb225-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb225-37"><a href="stats_validation.html#cb225-37" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb225-38"><a href="stats_validation.html#cb225-38" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb225-39"><a href="stats_validation.html#cb225-39" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb225-37"><a href="stats_validation.html#cb225-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb225-38"><a href="stats_validation.html#cb225-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb225-39"><a href="stats_validation.html#cb225-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb225-40"><a href="stats_validation.html#cb225-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-150-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="stats_validation.html#cb226-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -6932,9 +6937,10 @@ disabled
 <span id="cb231-34"><a href="stats_validation.html#cb231-34" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb231-35"><a href="stats_validation.html#cb231-35" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb231-36"><a href="stats_validation.html#cb231-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb231-37"><a href="stats_validation.html#cb231-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb231-38"><a href="stats_validation.html#cb231-38" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb231-39"><a href="stats_validation.html#cb231-39" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb231-37"><a href="stats_validation.html#cb231-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb231-38"><a href="stats_validation.html#cb231-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb231-39"><a href="stats_validation.html#cb231-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb231-40"><a href="stats_validation.html#cb231-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-154-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="stats_validation.html#cb232-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -8482,9 +8488,10 @@ hdi
 <span id="cb254-34"><a href="stats_validation.html#cb254-34" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb254-35"><a href="stats_validation.html#cb254-35" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb254-36"><a href="stats_validation.html#cb254-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb254-37"><a href="stats_validation.html#cb254-37" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb254-38"><a href="stats_validation.html#cb254-38" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb254-39"><a href="stats_validation.html#cb254-39" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb254-37"><a href="stats_validation.html#cb254-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb254-38"><a href="stats_validation.html#cb254-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb254-39"><a href="stats_validation.html#cb254-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb254-40"><a href="stats_validation.html#cb254-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-174-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="stats_validation.html#cb255-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -9379,9 +9386,10 @@ disabled
 <span id="cb260-34"><a href="stats_validation.html#cb260-34" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb260-35"><a href="stats_validation.html#cb260-35" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb260-36"><a href="stats_validation.html#cb260-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb260-37"><a href="stats_validation.html#cb260-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb260-38"><a href="stats_validation.html#cb260-38" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb260-39"><a href="stats_validation.html#cb260-39" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb260-37"><a href="stats_validation.html#cb260-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb260-38"><a href="stats_validation.html#cb260-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb260-39"><a href="stats_validation.html#cb260-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb260-40"><a href="stats_validation.html#cb260-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-178-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="stats_validation.html#cb261-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/qlty_sftwr_comp_mod4.png&quot;</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
@@ -9815,11 +9823,15 @@ PIX4D
 <span id="cb265-36"><a href="stats_validation.html#cb265-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb265-37"><a href="stats_validation.html#cb265-37" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb265-38"><a href="stats_validation.html#cb265-38" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb265-39"><a href="stats_validation.html#cb265-39" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">75</span>, .<span class="dv">15</span>)</span>
+<span id="cb265-39"><a href="stats_validation.html#cb265-39" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">75</span>, .<span class="dv">13</span>)</span>
 <span id="cb265-40"><a href="stats_validation.html#cb265-40" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
 <span id="cb265-41"><a href="stats_validation.html#cb265-41" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb265-42"><a href="stats_validation.html#cb265-42" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb265-43"><a href="stats_validation.html#cb265-43" tabindex="-1"></a>  ) </span></code></pre></div>
+<span id="cb265-43"><a href="stats_validation.html#cb265-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb265-44"><a href="stats_validation.html#cb265-44" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb265-45"><a href="stats_validation.html#cb265-45" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb265-46"><a href="stats_validation.html#cb265-46" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb265-47"><a href="stats_validation.html#cb265-47" tabindex="-1"></a>  )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-181-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="stats_validation.html#cb266-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/sftwr_qlty_comp_mod4.png&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
@@ -11203,9 +11215,10 @@ default
 <span id="cb292-34"><a href="stats_validation.html#cb292-34" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb292-35"><a href="stats_validation.html#cb292-35" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb292-36"><a href="stats_validation.html#cb292-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb292-37"><a href="stats_validation.html#cb292-37" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb292-38"><a href="stats_validation.html#cb292-38" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb292-39"><a href="stats_validation.html#cb292-39" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb292-37"><a href="stats_validation.html#cb292-37" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb292-38"><a href="stats_validation.html#cb292-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb292-39"><a href="stats_validation.html#cb292-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb292-40"><a href="stats_validation.html#cb292-40" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-203-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="stats_validation.html#cb293-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -12100,9 +12113,10 @@ disabled
 <span id="cb298-34"><a href="stats_validation.html#cb298-34" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb298-35"><a href="stats_validation.html#cb298-35" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb298-36"><a href="stats_validation.html#cb298-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb298-37"><a href="stats_validation.html#cb298-37" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
-<span id="cb298-38"><a href="stats_validation.html#cb298-38" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb298-39"><a href="stats_validation.html#cb298-39" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb298-37"><a href="stats_validation.html#cb298-37" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb298-38"><a href="stats_validation.html#cb298-38" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb298-39"><a href="stats_validation.html#cb298-39" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb298-40"><a href="stats_validation.html#cb298-40" tabindex="-1"></a>  )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-207-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="stats_validation.html#cb299-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/qlty_sftwr_comp_mod5.png&quot;</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
@@ -12530,11 +12544,15 @@ PIX4D
 <span id="cb303-30"><a href="stats_validation.html#cb303-30" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb303-31"><a href="stats_validation.html#cb303-31" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb303-32"><a href="stats_validation.html#cb303-32" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb303-33"><a href="stats_validation.html#cb303-33" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">75</span>, .<span class="dv">15</span>)</span>
+<span id="cb303-33"><a href="stats_validation.html#cb303-33" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">75</span>, .<span class="dv">13</span>)</span>
 <span id="cb303-34"><a href="stats_validation.html#cb303-34" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
 <span id="cb303-35"><a href="stats_validation.html#cb303-35" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb303-36"><a href="stats_validation.html#cb303-36" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb303-37"><a href="stats_validation.html#cb303-37" tabindex="-1"></a>  ) </span></code></pre></div>
+<span id="cb303-37"><a href="stats_validation.html#cb303-37" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb303-38"><a href="stats_validation.html#cb303-38" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb303-39"><a href="stats_validation.html#cb303-39" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb303-40"><a href="stats_validation.html#cb303-40" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb303-41"><a href="stats_validation.html#cb303-41" tabindex="-1"></a>  )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-210-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="stats_validation.html#cb304-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/sftwr_qlty_comp_mod5.png&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
@@ -13004,9 +13022,10 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb310-33"><a href="stats_validation.html#cb310-33" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
 <span id="cb310-34"><a href="stats_validation.html#cb310-34" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb310-35"><a href="stats_validation.html#cb310-35" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb310-36"><a href="stats_validation.html#cb310-36" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb310-37"><a href="stats_validation.html#cb310-37" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb310-38"><a href="stats_validation.html#cb310-38" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb310-36"><a href="stats_validation.html#cb310-36" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb310-37"><a href="stats_validation.html#cb310-37" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb310-38"><a href="stats_validation.html#cb310-38" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb310-39"><a href="stats_validation.html#cb310-39" tabindex="-1"></a>    )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-215-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="stats_validation.html#cb311-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -13024,25 +13043,23 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb311-13"><a href="stats_validation.html#cb311-13" tabindex="-1"></a>      , <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span></span>
 <span id="cb311-14"><a href="stats_validation.html#cb311-14" tabindex="-1"></a>    )</span>
 <span id="cb311-15"><a href="stats_validation.html#cb311-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb311-16"><a href="stats_validation.html#cb311-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb311-17"><a href="stats_validation.html#cb311-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;6in&quot;</span>)</span></code></pre></div>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
+<span id="cb311-16"><a href="stats_validation.html#cb311-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:unnamed-chunk-216">Table 6.20: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:left;">
 quality contrast
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 difference (f-score)
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 conf.low
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 conf.high
 </th>
 </tr>
@@ -13190,7 +13207,6 @@ low - lowest
 </tr>
 </tbody>
 </table>
-</div>
 <p>let’s also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="stats_validation.html#cb312-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -13419,13 +13435,14 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb318-29"><a href="stats_validation.html#cb318-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb318-30"><a href="stats_validation.html#cb318-30" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb318-31"><a href="stats_validation.html#cb318-31" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb318-32"><a href="stats_validation.html#cb318-32" tabindex="-1"></a>      <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
-<span id="cb318-33"><a href="stats_validation.html#cb318-33" tabindex="-1"></a>      , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb318-34"><a href="stats_validation.html#cb318-34" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb318-35"><a href="stats_validation.html#cb318-35" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb318-36"><a href="stats_validation.html#cb318-36" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb318-37"><a href="stats_validation.html#cb318-37" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb318-38"><a href="stats_validation.html#cb318-38" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb318-32"><a href="stats_validation.html#cb318-32" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb318-33"><a href="stats_validation.html#cb318-33" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb318-34"><a href="stats_validation.html#cb318-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb318-35"><a href="stats_validation.html#cb318-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb318-36"><a href="stats_validation.html#cb318-36" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb318-37"><a href="stats_validation.html#cb318-37" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb318-38"><a href="stats_validation.html#cb318-38" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb318-39"><a href="stats_validation.html#cb318-39" tabindex="-1"></a>  )))</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-222-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="stats_validation.html#cb319-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -13443,25 +13460,23 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb319-13"><a href="stats_validation.html#cb319-13" tabindex="-1"></a>      , <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span></span>
 <span id="cb319-14"><a href="stats_validation.html#cb319-14" tabindex="-1"></a>    )</span>
 <span id="cb319-15"><a href="stats_validation.html#cb319-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb319-16"><a href="stats_validation.html#cb319-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb319-17"><a href="stats_validation.html#cb319-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;8in&quot;</span>)</span></code></pre></div>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
+<span id="cb319-16"><a href="stats_validation.html#cb319-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:unnamed-chunk-223">Table 6.21: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:left;">
 software contrast
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 difference (f-score)
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 conf.low
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;">
 conf.high
 </th>
 </tr>
@@ -13511,7 +13526,6 @@ PIX4D - OPENDRONEMAP
 </tr>
 </tbody>
 </table>
-</div>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="stats_validation.html#cb320-1" tabindex="-1"></a>brms_f_mod5 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms_f_mod5, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
 <span id="cb320-2"><a href="stats_validation.html#cb320-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod5, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>

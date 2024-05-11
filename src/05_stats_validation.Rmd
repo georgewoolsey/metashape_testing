@@ -125,7 +125,7 @@ sum_stats_dta = function(my_var){
     , sd = ~sd(.x, na.rm = TRUE)
   )
   # plot
-  print(
+  (
     ggplot(
       data = ptcld_validation_data %>% 
         dplyr::group_by(.data[[my_var]]) %>%
@@ -460,7 +460,11 @@ brms_contrast_temp %>%
     theme(
       legend.text = element_text(size = 7)
       , legend.title = element_text(size = 8)
-    )
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -828,9 +832,10 @@ brms_contrast_temp %>%
       , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -1446,9 +1451,10 @@ brms_contrast_temp %>%
       , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -1633,9 +1639,10 @@ brms_contrast_temp %>%
     , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
-  guides(
-    fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-  )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -2259,9 +2266,10 @@ brms_contrast_temp %>%
       , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -2449,9 +2457,10 @@ brms_contrast_temp %>%
     , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
-  guides(
-    fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-  )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 
 ggplot2::ggsave("../data/qlty_sftwr_comp_mod4.png", height = 6, width = 8)
 ```
@@ -2552,11 +2561,15 @@ brms_contrast_temp %>%
   ) +
   theme_light() +
   theme(
-    legend.position = c(.75, .15)
+    legend.position = c(.75, .13)
     , legend.text = element_text(size = 7)
     , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
-  ) 
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
 
 ggplot2::ggsave("../data/sftwr_qlty_comp_mod4.png", height = 8, width = 6)
 ```
@@ -3236,9 +3249,10 @@ brms_contrast_temp %>%
       , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -3426,9 +3440,10 @@ brms_contrast_temp %>%
     , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
   ) +
-  guides(
-    fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-  )
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(12, "lines")
+  )))
 
 ggplot2::ggsave("../data/qlty_sftwr_comp_mod5.png", height = 6, width = 8)
 ```
@@ -3523,11 +3538,15 @@ brms_contrast_temp %>%
   ) +
   theme_light() +
   theme(
-    legend.position = c(.75, .15)
+    legend.position = c(.75, .13)
     , legend.text = element_text(size = 7)
     , legend.title = element_text(size = 8)
     , strip.text = element_text(color = "black", face = "bold")
-  ) 
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
 
 ggplot2::ggsave("../data/sftwr_qlty_comp_mod5.png", height = 8, width = 6)
 ```
@@ -3754,9 +3773,10 @@ brms_contrast_temp %>%
       , legend.title = element_text(size = 8)
       , strip.text = element_text(color = "black", face = "bold")
     ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(12, "lines")
+    )))
 ```
 
 and summarize these contrasts
@@ -3777,8 +3797,7 @@ kableExtra::kbl(
       , "conf.low", "conf.high"
     )
   ) %>% 
-  kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "6in")
+  kableExtra::kable_styling()
 ```
 
 let's also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
@@ -4018,13 +4037,14 @@ brms_contrast_temp %>%
   ) +
   theme_light() +
   theme(
-      legend.text = element_text(size = 7)
-      , legend.title = element_text(size = 8)
-      , strip.text = element_text(color = "black", face = "bold")
-    ) +
-    guides(
-      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    )
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(12, "lines")
+  )))
 ```
 
 and summarize these contrasts
@@ -4045,8 +4065,7 @@ brms_contrast_temp %>%
       , "conf.low", "conf.high"
     )
   ) %>% 
-  kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "8in")
+  kableExtra::kable_styling()
 ```
 
 ```{r, include=FALSE, eval=FALSE}
