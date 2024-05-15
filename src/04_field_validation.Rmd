@@ -26,11 +26,28 @@ gc()
 
 ## Setup
 
-Update the `ptcld_processing_data` created in [this section](#ptcld_analysis)
+Pick a DBH to use for the validation. For this project, the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/main/src/software_point_cloud_processing.R) utilized the random forest model to estimate missing DBH values using training values extracted from the point cloud using the `TreeLS` package. The script below adds two linear model estimates of DBH based on the training data: 1) a linear model with an intercept (`dbh_cm ~ 1 + tree_height_m`); and 2) a linear model with no intercept (`dbh_cm ~ 0 + tree_height_m`).
+
+The options for picking a DBH to use are: 
+
+1. "rf" for random forest estimate
+2. "lin" for linear model with an intercept (`dbh_cm ~ 1 + tree_height_m`) estimate
+3. "lin_noint" for linear model with no intercept (`dbh_cm ~ 0 + tree_height_m`) estimate 
+4. "regional" for regional estimate based on regional FIA data using the [USFS TreeMap data](https://www.fs.usda.gov/rds/archive/catalog/RDS-2021-0074)
+
+```{r}
+# Pick a DBH to use for the validation
+my_dbh_estimate = "lin"
+```
+
+Load field validation plot data and update the `ptcld_processing_data` created in [this section](#ptcld_analysis) by adding a `processing_id` which we'll use to process the files for validation.
 
 ```{r, include=FALSE, eval=F}
 ## !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! for testing
-list.files("../data", pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T) %>% 
+list.files(
+    "D:/SfM_Software_Comparison" # "../data"
+    , pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T
+  ) %>% 
   purrr::map(file.remove)
 # testing
 ptcld_processing_data = ptcld_processing_data %>% 
@@ -148,7 +165,7 @@ uas data
 # function finds uas tree list
 # reads it
 # estimates linear model if not already used for DBH
-read_uas_data = function(my_processing_id, my_crs = NULL) {
+read_uas_data = function(my_processing_id, my_crs = NULL, use_this_dbh = my_dbh_estimate) {
   # where is this file?
   fnm = ptcld_processing_data %>% 
     dplyr::filter(
@@ -264,15 +281,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
             , lin_dbh_cm = ifelse(is_training_data==T, dbh_cm, pred_dbh_cm)
             , lin_noint_dbh_cm = ifelse(is_training_data==T, dbh_cm, pred_noint_dbh_cm)
           ) %>% 
-          dplyr::select(-c(pred_dbh_cm,pred_noint_dbh_cm)) %>% 
-          # pick a dbh to use
-          dplyr::mutate(
-            dbh_cm = lin_noint_dbh_cm
-            , dbh_m = dbh_cm/100
-            , radius_m = dbh_m/2
-            , basal_area_m2 = pi * (radius_m)^2
-            , basal_area_ft2 = basal_area_m2 * 10.764
-          )
+          dplyr::select(-c(pred_dbh_cm,pred_noint_dbh_cm))
     }else if(# is there sufficient training data?
       dta %>% 
         dplyr::filter(is_training_data == T) %>% 
@@ -295,7 +304,26 @@ read_uas_data = function(my_processing_id, my_crs = NULL) {
           , lin_noint_dbh_cm = as.numeric(NA)
         )
     }
-    return(dta)
+    # return with dbh updated
+    return(
+      dta %>% 
+        dplyr::mutate(
+          dbh_cm = dplyr::case_when(
+          # update dbh to selected
+          tolower(use_this_dbh) == "rf" & !is.na(rf_dbh_cm) ~ rf_dbh_cm
+          , tolower(use_this_dbh) == "lin" & !is.na(lin_dbh_cm) ~ lin_dbh_cm
+          , tolower(use_this_dbh) == "lin_noint" & !is.na(lin_noint_dbh_cm) ~ lin_noint_dbh_cm
+          , tolower(use_this_dbh) == "regional" & !is.na(reg_est_dbh_cm) ~ reg_est_dbh_cm
+          , T ~ reg_est_dbh_cm
+        )) %>% 
+        dplyr::mutate(
+          dbh_m = dbh_cm/100
+          , radius_m = dbh_m/2
+          , basal_area_m2 = pi * (radius_m)^2
+          , basal_area_ft2 = basal_area_m2 * 10.764
+        )
+        
+    )
   }else{stop("could not find file: ", fnm)}
 }
 ```
@@ -779,8 +807,15 @@ function returns:
         ) %>% 
         # attach summary error metrics
         dplyr::bind_cols(
-          field_uas_comparison %>% 
-            dplyr::filter(field_uas_group=="true positive") %>% 
+          tidyr::crossing(
+              field_uas_group = c("true positive")
+              , overstory_understory_grp = c("overstory","understory")
+            ) %>% 
+          dplyr::left_join(
+              field_uas_comparison %>%
+                dplyr::mutate(overstory_understory_grp=as.character(overstory_understory_grp))
+              , by = dplyr::join_by("field_uas_group", "overstory_understory_grp")
+            ) %>% 
             dplyr::group_by(overstory_understory_grp) %>% 
             # thx Metrics pkg!!
             dplyr::summarise(
@@ -904,11 +939,181 @@ remove(list = ls()[grep("_temp",ls())])
 gc()
 ```
 
+## Full Validation Summary Data
+
+### True Positive, Commission, Ommission
+
+Summary of tree true positive ($TP$), commission ($Co$), and omission ($Om$) detection by depth map quality and filtering mode
+
+```{r, fig.height=11}
+plt_fn_temp = function(site = study_site_list[1]){
+ptcld_validation_data %>%
+  dplyr::filter(study_site == site) %>% 
+  dplyr::mutate(
+    plot_lab = forcats::fct_cross(depth_maps_generation_quality,depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(plot_lab = forcats::fct_reorder(
+      plot_lab
+      , .x = depth_maps_generation_quality
+      , .fun = max
+    ) %>% forcats::fct_rev()
+  ) %>% 
+  dplyr::select(
+    software, plot_lab, 
+    tidyselect::ends_with("_n_trees")
+    & !tidyselect::starts_with("overstory_")
+    & !tidyselect::starts_with("understory_")
+  ) %>% 
+  tidyr::pivot_longer(
+    cols = -c(software,plot_lab)
+    , values_drop_na = F
+  ) %>% 
+  dplyr::group_by(software,plot_lab) %>% 
+  dplyr::mutate(
+    field_uas_group = name %>% 
+      stringr::str_remove_all("_n_trees") %>% 
+      stringr::str_replace_all("_"," ")
+    , pct = dplyr::coalesce(value,0)/sum(dplyr::coalesce(value,0))
+  ) %>%
+  dplyr::ungroup() %>% 
+ggplot(
+  mapping = aes(x = pct, y = plot_lab, fill=field_uas_group, group=field_uas_group)
+) +
+  geom_col(
+    width = 0.7, alpha=0.8
+  ) +
+  geom_text(
+    mapping = aes(
+        label = scales::percent(ifelse(pct>=0.12,pct,NA), accuracy = 1)
+        , fontface = "bold"
+      )
+    , position = position_stack(vjust = 0.5)
+    , color = "black", size = 2.3
+  ) +
+  facet_grid(cols = vars(software)) +
+  scale_fill_viridis_d(option = "cividis") +
+  scale_x_continuous(labels = scales::percent_format()) +
+  labs(
+    fill = ""
+    , y = ""
+    , x = "Percent of Trees"
+    # , title = "UAS and Stem-Mapped Tree Validation Summary"
+    , subtitle = paste0("plot: ", site)
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "top"
+    , legend.direction  = "horizontal"
+    , legend.title = element_text(size=7)
+    , axis.title.x = element_text(size=8, face = "bold")
+    , axis.title.y = element_blank()
+    , axis.text.x = element_blank()
+    , axis.text.y = element_text(color = "black",size=8)
+    , axis.ticks.x = element_blank()
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+    , strip.text = element_text(color = "black", face = "bold")
+  ) +
+  guides(
+    fill = guide_legend(reverse = T, override.aes = list(alpha = 0.9))
+  )
+}
+# map over sites
+plt_list_temp = study_site_list %>% 
+  purrr::map(plt_fn_temp)
+# combine
+patchwork::wrap_plots(plt_list_temp, ncol = 2, guides = "collect") &
+  theme(legend.position="bottom")
+```
+
+### F-score
+
+```{r, fig.height=11}
+plt_fn_temp = function(site = study_site_list[1]){
+ptcld_validation_data %>%
+  dplyr::filter(study_site == site) %>% 
+  dplyr::mutate(
+    plot_lab = forcats::fct_cross(depth_maps_generation_quality,depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(plot_lab = forcats::fct_reorder(
+      plot_lab
+      , .x = depth_maps_generation_quality
+      , .fun = max
+    ) %>% forcats::fct_rev()
+  ) %>% 
+  dplyr::distinct(software,plot_lab,f_score) %>%
+ggplot(
+  mapping = aes(x = f_score, y = plot_lab, fill=f_score, label = scales::comma(f_score, accuracy = 0.01))
+) +
+  geom_col(
+    width = 0.7
+  ) +
+  geom_text(
+    color = "black", size = 2.3
+    , hjust = -0.1
+  ) +
+  facet_grid(cols = vars(software)) +
+  scale_fill_viridis_c(option = "mako", direction = -1, begin = 0.1, limits = c(0,max(ptcld_validation_data$f_score)*1.14)) +
+  scale_x_continuous(limits = c(0,max(ptcld_validation_data$f_score)*1.14), breaks = NULL) +
+  labs(
+    fill = ""
+    , y = ""
+    , x = "F-Score"
+    # , title = "UAS and Stem-Mapped Tree F-Score Summary"
+    , subtitle = paste0("plot: ", site)
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.title.x = element_text(size=8, face = "bold")
+    , axis.title.y = element_blank()
+    , axis.text.x = element_blank()
+    , axis.text.y = element_text(color = "black",size=8)
+    , axis.ticks.x = element_blank()
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+    , strip.text = element_text(color = "black", face = "bold")
+  ) +
+  guides(
+    fill = guide_legend(reverse = T, override.aes = list(alpha = 0.9))
+  )
+}
+# plt_fn_temp()
+# map over sites
+plt_list_temp = study_site_list %>% 
+  purrr::map(plt_fn_temp)
+# combine
+patchwork::wrap_plots(plt_list_temp, ncol = 2)
+```
+
 ## Example Validation Process
 
 Let's go through one example
 
-Data setup using functions defined above
+### Data Load
+
+get the orthomosaic (here using from ODM ultra-lowest) from the directory titled `field_validation/orthomosaic` with the name of the site as the file name (e.g.; "kaibab_high.tif")
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# let's load the orthomosaic for this site too
+# put the orthomosaic images (here using from ODM ultra-lowest) in a folder 
+# ...titled "field_validation/orthomosaic" with the name of the site as the file ("kaibab_high.tif")
+# read list of orthos
+  ortho_rast = list.files(
+      "../data/field_validation/orthomosaic/"
+      , pattern = paste0(".*", study_site_list[1], ".*\\.(tif|tiff)$")
+      , full.names = T
+    )[1] %>% 
+    terra::rast()
+
+    # ortho_rast %>% str()
+    # terra::res(ortho_rast)
+    # ortho_rast %>%
+    #   terra::aggregate(2) %>%
+    #   terra::plotRGB(r = 1, g = 2, b = 3, stretch = "hist", colNA = "transparent")
+```
+
+Data load using functions defined above
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
 # read field data
@@ -933,6 +1138,8 @@ field_uas_comparison_temp = field_uas_comparison_fn(
 ```
 
 what is this data?
+
+### Field Data
 
 `field_data`
 

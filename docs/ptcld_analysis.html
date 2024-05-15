@@ -237,12 +237,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="field_valid.html"><a href="field_valid.html#full-pipeline-function"><i class="fa fa-check"></i><b>5.4</b> Full pipeline function</a></li>
 <li class="chapter" data-level="5.5" data-path="field_valid.html"><a href="field_valid.html#apply-validation-for-all"><i class="fa fa-check"></i><b>5.5</b> Apply validation for all</a></li>
-<li class="chapter" data-level="5.6" data-path="field_valid.html"><a href="field_valid.html#example-validation-process"><i class="fa fa-check"></i><b>5.6</b> Example Validation Process</a>
+<li class="chapter" data-level="5.6" data-path="field_valid.html"><a href="field_valid.html#full-validation-summary-data"><i class="fa fa-check"></i><b>5.6</b> Full Validation Summary Data</a>
 <ul>
-<li class="chapter" data-level="5.6.1" data-path="field_valid.html"><a href="field_valid.html#height-vs.-dbh-of-tp-co-om"><i class="fa fa-check"></i><b>5.6.1</b> Height vs. DBH of <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
-<li class="chapter" data-level="5.6.2" data-path="field_valid.html"><a href="field_valid.html#height-and-dbh-distribution-tp-co-om"><i class="fa fa-check"></i><b>5.6.2</b> Height and DBH Distribution <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
-<li class="chapter" data-level="5.6.3" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-height-difference"><i class="fa fa-check"></i><b>5.6.3</b> Detected Overstory (<span class="math inline">\(TP\)</span>) Height Difference</a></li>
-<li class="chapter" data-level="5.6.4" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-dbh-difference"><i class="fa fa-check"></i><b>5.6.4</b> Detected Overstory (<span class="math inline">\(TP\)</span>) DBH Difference</a></li>
+<li class="chapter" data-level="5.6.1" data-path="field_valid.html"><a href="field_valid.html#true-positive-commission-ommission"><i class="fa fa-check"></i><b>5.6.1</b> True Positive, Commission, Ommission</a></li>
+<li class="chapter" data-level="5.6.2" data-path="field_valid.html"><a href="field_valid.html#f-score"><i class="fa fa-check"></i><b>5.6.2</b> F-score</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="field_valid.html"><a href="field_valid.html#example-validation-process"><i class="fa fa-check"></i><b>5.7</b> Example Validation Process</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="field_valid.html"><a href="field_valid.html#height-vs.-dbh-of-tp-co-om"><i class="fa fa-check"></i><b>5.7.1</b> Height vs. DBH of <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.7.2" data-path="field_valid.html"><a href="field_valid.html#height-and-dbh-distribution-tp-co-om"><i class="fa fa-check"></i><b>5.7.2</b> Height and DBH Distribution <span class="math inline">\(Tp\)</span>, <span class="math inline">\(Co\)</span>, <span class="math inline">\(Om\)</span></a></li>
+<li class="chapter" data-level="5.7.3" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-height-difference"><i class="fa fa-check"></i><b>5.7.3</b> Detected Overstory (<span class="math inline">\(TP\)</span>) Height Difference</a></li>
+<li class="chapter" data-level="5.7.4" data-path="field_valid.html"><a href="field_valid.html#detected-overstory-tp-dbh-difference"><i class="fa fa-check"></i><b>5.7.4</b> Detected Overstory (<span class="math inline">\(TP\)</span>) DBH Difference</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="stats_validation.html"><a href="stats_validation.html"><i class="fa fa-check"></i><b>6</b> Statistical Analysis: Validation</a>
@@ -424,7 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-126"><a href="ptcld_analysis.html#cb16-126" tabindex="-1"></a>      )</span></code></pre></div>
 <p>what have we done?</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ptcld_analysis.html#cb17-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
-<pre><code>## Rows: 498
+<pre><code>## Rows: 500
 ## Columns: 33
 ## $ tracking_file_full_path              &lt;chr&gt; &quot;D:\\SfM_Software_Comparison\\Met…
 ## $ software                             &lt;chr&gt; &quot;METASHAPE&quot;, &quot;METASHAPE&quot;, &quot;METASH…

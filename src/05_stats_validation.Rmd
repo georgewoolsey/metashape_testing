@@ -95,6 +95,9 @@ if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
         ) %>% forcats::fct_rev()
     )
 }
+# replace 0 f-score with very small positive to run models
+ptcld_validation_data = ptcld_validation_data %>% 
+  dplyr::mutate(f_score = ifelse(f_score==0,1e-4,f_score))
 # what is this data?
 ptcld_validation_data %>% dplyr::glimpse()
 # a row is unique by...
@@ -1189,7 +1192,7 @@ brms_f_mod3 = brms::brm(
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   , data = ptcld_validation_data
   , family = brms::brmsfamily(family = "gaussian")
-  , iter = 50000, warmup = 25000, chains = 4
+  , iter = 20000, warmup = 10000, chains = 4
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , prior = c(
@@ -2006,7 +2009,7 @@ brms_f_mod4 = brms::brm(
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   , data = ptcld_validation_data
   , family = brms::brmsfamily(family = "gaussian")
-  , iter = 50000, warmup = 25000, chains = 4
+  , iter = 20000, warmup = 10000, chains = 4
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , prior = c(
@@ -2955,7 +2958,7 @@ brms_f_mod5 = brms::brm(
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   , data = ptcld_validation_data
   , family = Beta(link = "logit")
-  , iter = 50000, warmup = 25000, chains = 4
+  , iter = 20000, warmup = 10000, chains = 4
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , file = paste0(rootdir, "/fits/brms_f_mod5")
