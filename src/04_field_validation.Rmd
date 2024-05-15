@@ -926,6 +926,38 @@ write.csv(
 
 what is this validation data?
 
+```{r, include=FALSE, eval=TRUE}
+# load data if needed
+if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
+ ptcld_validation_data = readr::read_csv("../data/ptcld_full_analysis_data.csv") %>% 
+   dplyr::mutate(
+      depth_maps_generation_quality = factor(
+          depth_maps_generation_quality %>% 
+            tolower() %>% 
+            stringr::str_replace_all("ultrahigh", "ultra high")
+          , ordered = TRUE
+          , levels = c(
+            "lowest"
+            , "low"
+            , "medium"
+            , "high"
+            , "ultra high"
+          )
+        ) %>% forcats::fct_rev()
+      , depth_maps_generation_filtering_mode = factor(
+          depth_maps_generation_filtering_mode %>% tolower()
+          , ordered = TRUE
+          , levels = c(
+            "disabled"
+            , "mild"
+            , "moderate"
+            , "aggressive"
+          )
+        ) %>% forcats::fct_rev()
+    )
+}
+```
+
 ```{r}
 ptcld_validation_data %>% dplyr::glimpse()
 # summary of validation metrics
@@ -1092,30 +1124,12 @@ Let's go through one example
 
 ### Data Load
 
-get the orthomosaic (here using from ODM ultra-lowest) from the directory titled `field_validation/orthomosaic` with the name of the site as the file name (e.g.; "kaibab_high.tif")
-
-```{r, results='hide', message=FALSE, warning=FALSE}
-# let's load the orthomosaic for this site too
-# put the orthomosaic images (here using from ODM ultra-lowest) in a folder 
-# ...titled "field_validation/orthomosaic" with the name of the site as the file ("kaibab_high.tif")
-# read list of orthos
-  ortho_rast = list.files(
-      "../data/field_validation/orthomosaic/"
-      , pattern = paste0(".*", study_site_list[1], ".*\\.(tif|tiff)$")
-      , full.names = T
-    )[1] %>% 
-    terra::rast()
-
-    # ortho_rast %>% str()
-    # terra::res(ortho_rast)
-    # ortho_rast %>%
-    #   terra::aggregate(2) %>%
-    #   terra::plotRGB(r = 1, g = 2, b = 3, stretch = "hist", colNA = "transparent")
-```
-
 Data load using functions defined above
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
+# validation plot boundary
+plot_bound_temp = validation_plots %>% 
+  dplyr::filter(study_site==study_site_list[1])
 # read field data
 field_data_temp = read_field_data(my_study_site = study_site_list[1])
 # read_uas_data
@@ -1133,11 +1147,108 @@ field_uas_comparison_temp = field_uas_comparison_fn(
   uas_data = uas_data_temp
   , field_data = field_data_temp
   , true_positive_trees = true_positive_trees_temp 
-  , plot_data = validation_plots %>% dplyr::filter(study_site==study_site_list[1])
+  , plot_data = plot_bound_temp
 )
 ```
 
-what is this data?
+get the orthomosaic (here using from ODM ultra-lowest) from the directory titled `field_validation/orthomosaic` with the name of the site as the file name (e.g.; "kaibab_high.tif")
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# let's load the orthomosaic for this site too
+# put the orthomosaic images (here using from ODM ultra-lowest) in a folder 
+# ...titled "field_validation/orthomosaic" with the name of the site as the file ("kaibab_high.tif")
+ortho_list = list.files(
+  "../data/field_validation/orthomosaic/"
+  , pattern = ".*\\.(tif|tiff)$"
+  , full.names = T
+)
+# load raster
+ortho_rast = ortho_list %>% 
+  purrr::pluck(
+    ortho_list %>% 
+      toupper() %>% 
+      stringr::str_which(pattern = study_site_list[1]) %>% 
+      .[1]
+  ) %>% 
+  terra::rast()
+# aggregate to lower resolution if needed
+if(terra::res(ortho_rast)[1]<0.5){
+  ortho_rast = terra::aggregate(
+    ortho_rast
+    , fact = round(0.5/terra::res(ortho_rast)[1])
+    , fun = "median"
+    , cores = round(parallel::detectCores()/2)
+  )
+}
+# ortho_rast
+# terra::res(ortho_rast)
+# ortho_rast %>%
+#   terra::aggregate(2) %>%
+#   terra::plotRGB(r = 1, g = 2, b = 3, stretch = "lin", colNA = "transparent")
+
+# convert to stars
+ortho_st = ortho_rast %>%  
+  terra::subset(subset = c(1,2,3)) %>%
+  terra::crop(
+    # stand %>% 
+    plot_bound_temp %>%
+      sf::st_buffer(2) %>% 
+      sf::st_bbox() %>% 
+      sf::st_as_sfc() %>% 
+      terra::vect() %>% 
+      terra::project(terra::crs(ortho_rast))
+  ) %>% 
+  stars::st_as_stars()
+
+# convert to rgb
+ortho_rgb = stars::st_rgb(
+  ortho_st[,,,1:3]
+  , dimension = 3
+  , use_alpha = FALSE
+  # , stretch = "histogram"
+  , probs = c(0.005, 0.995)
+  , stretch = "percent"
+)
+```
+
+what is all this data?
+
+### Orthomosaic Data
+
+`ortho_rast`
+
+```{r}
+ortho_rast
+```
+
+plot it
+
+```{r}
+# ggplot rgb
+  plt_rgb <- ggplot() +
+    stars::geom_stars(data = ortho_rgb[]) +
+    scale_fill_identity(na.value = "transparent") + # !!! don't take this out or RGB plot will kill your computer
+    # add plot boundary
+    geom_sf(
+      data =  plot_bound_temp %>%
+        terra::vect() %>% 
+        terra::project(terra::crs(ortho_rast)) %>% 
+        sf::st_as_sf()
+      , alpha = 0
+      , lwd = 1.2
+      , color = "blue"
+    ) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(
+      x = ""
+      , y = ""
+    ) +
+    theme_void()
+# plot + boundary
+plt_rgb
+```
+
 
 ### Field Data
 
@@ -1148,12 +1259,72 @@ what is this data?
 field_data_temp %>% dplyr::glimpse()
 ```
 
+plot it
+
+```{r}
+plt_field_data_temp = plt_rgb + 
+  ggnewscale::new_scale_fill() +
+  geom_sf(
+    data = field_data_temp %>% 
+      terra::vect() %>% 
+      terra::project(terra::crs(ortho_rast)) %>% 
+      sf::st_as_sf()
+    , mapping = aes(fill = field_tree_height_m)
+    , shape = 21
+    , size = 1.1
+  ) +
+  scale_fill_viridis_c(
+    option="plasma", alpha = 0.6, name = "ht. (m)"
+    , limits = c(
+      min(field_data_temp$field_tree_height_m, na.rm = T)
+      , max(field_data_temp$field_tree_height_m, na.rm = T)
+    )
+    , breaks = scales::breaks_extended(6)
+  ) + 
+  labs(subtitle = "field mapped trees")
+# plot
+plt_field_data_temp
+```
+
+### UAS Data
+
 `uas_data`
 
 ```{r}
 # uas_data
 uas_data_temp %>% dplyr::glimpse()
 ```
+
+plot it
+
+```{r}
+plt_uas_data_temp = plt_rgb + 
+  ggnewscale::new_scale_fill() +
+  geom_sf(
+    data = uas_data_temp %>% 
+      sf::st_transform(sf::st_crs(plot_bound_temp)) %>% 
+      sf::st_intersection(plot_bound_temp %>% sf::st_buffer(3)) %>% 
+      terra::vect() %>% 
+      terra::project(terra::crs(ortho_rast)) %>% 
+      sf::st_as_sf()
+    , mapping = aes(fill = tree_height_m)
+    , shape = 21
+    , size = 1.1
+  ) +
+  scale_fill_viridis_c(
+    option="plasma", alpha = 0.6, name = "ht. (m)"
+    , limits = c(
+      min(field_data_temp$field_tree_height_m, na.rm = T)
+      , max(field_data_temp$field_tree_height_m, na.rm = T)
+    )
+    , breaks = scales::breaks_extended(6)
+  ) + 
+  labs(subtitle = "UAS detected trees")
+# plot
+plt_uas_data_temp
+```
+
+### True Positives
 
 `true_positive_trees`
 
@@ -1162,6 +1333,8 @@ uas_data_temp %>% dplyr::glimpse()
 true_positive_trees_temp %>% dplyr::glimpse()
 ```
 
+### Field & UAS Comparison
+
 `field_uas_comparison`
 
 ```{r}
@@ -1169,10 +1342,57 @@ true_positive_trees_temp %>% dplyr::glimpse()
 field_uas_comparison_temp %>% dplyr::glimpse()
 ```
 
+no geometry, let's attach it
+
+```{r}
+field_uas_comparison_temp = field_uas_comparison_temp %>% 
+  dplyr::mutate(
+    x = ifelse(!is.na(field_tree_utm_x), field_tree_utm_x, uas_tree_utm_x)
+    , y = ifelse(!is.na(field_tree_utm_x), field_tree_utm_y, uas_tree_utm_y)
+  ) %>% 
+  sf::st_as_sf(
+    coords = c("x", "y")
+    , crs = sf::st_crs(field_data_temp)
+    , remove=T
+  )
+```
+
+plot it
+
+```{r}
+plt_comparison_temp = plt_rgb + 
+  ggnewscale::new_scale_fill() +
+  geom_sf(
+    data = field_uas_comparison_temp %>% 
+      terra::vect() %>% 
+      terra::project(terra::crs(ortho_rast)) %>% 
+      sf::st_as_sf()
+    , mapping = aes(fill = field_uas_group)
+    , color = "black"
+    , shape = 21
+    , size = 1.1
+  ) +
+  scale_fill_viridis_d(option = "cividis", name = "trees", drop = F, alpha = 0.7) +
+  labs(subtitle = "field & UAS comparison trees")
+# plot
+plt_comparison_temp
+```
+
+### Combine Plots
+
+combine these
+
+```{r, fig.height=9}
+(plt_field_data_temp + theme(legend.position = "none") + plt_uas_data_temp) / plt_comparison_temp
+ggplot2::ggsave("../data/field_uas_comparison.jpg", width = 8, height = 9)
+```
+
+
 ### Height vs. DBH of $Tp$, $Co$, $Om$
 
 ```{r fld-dta-sum-htdbh}
 field_uas_comparison_temp %>% 
+  sf::st_drop_geometry() %>% 
   dplyr::mutate(
     dbh_temp = dplyr::coalesce(field_dbh_cm, uas_dbh_cm)
     , ht_temp = dplyr::coalesce(field_tree_height_m, uas_tree_height_m)
@@ -1212,6 +1432,7 @@ field_uas_comparison_temp %>%
 
 ```{r fld-dta-sum-htdbh-dist}
 field_uas_comparison_temp %>% 
+  sf::st_drop_geometry() %>% 
   dplyr::mutate(
     dbh = dplyr::coalesce(field_dbh_cm, uas_dbh_cm)
     , height = dplyr::coalesce(field_tree_height_m, uas_tree_height_m)
@@ -1260,6 +1481,7 @@ Detected overstory tree ($TP$) height reliability.
 
 ```{r fld-dta-sum-ht}
 field_uas_comparison_temp %>%
+  sf::st_drop_geometry() %>% 
   dplyr::filter(field_uas_group == "true positive") %>%
   dplyr::group_by(field_uas_group) %>% 
   dplyr::mutate(
@@ -1312,6 +1534,7 @@ Detected overstory tree ($TP$) DBH reliability.
 
 ```{r fld-dta-sum-dbh}
 field_uas_comparison_temp %>%
+  sf::st_drop_geometry() %>% 
   dplyr::filter(field_uas_group == "true positive") %>%
   dplyr::group_by(field_uas_group) %>% 
   dplyr::mutate(

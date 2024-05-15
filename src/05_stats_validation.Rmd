@@ -721,9 +721,6 @@ ptcld_validation_data %>%
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-    # guides(
-    #   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    # )
 ```
 
 we can also make pairwise comparisons
@@ -1334,9 +1331,7 @@ ptcld_validation_data %>%
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-    # guides(
-    #   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    # )
+    
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -1528,9 +1523,6 @@ ptcld_validation_data %>%
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
-# guides(
-#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-# )
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -2149,9 +2141,7 @@ ptcld_validation_data %>%
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-    # guides(
-    #   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    # )
+    
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -2343,9 +2333,6 @@ ptcld_validation_data %>%
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
-# guides(
-#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-# )
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -3132,9 +3119,7 @@ ptcld_validation_data %>%
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-    # guides(
-    #   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-    # )
+    
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -3326,9 +3311,6 @@ ptcld_validation_data %>%
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
-# guides(
-#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
-# )
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
