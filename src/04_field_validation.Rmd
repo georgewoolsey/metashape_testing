@@ -973,6 +973,27 @@ gc()
 
 ## Full Validation Summary Data
 
+```{r, include=F, eval=FALSE}
+# summary
+ptcld_validation_data %>% 
+  dplyr::filter(study_site == "KAIBAB_HIGH") %>% 
+  dplyr::select(tidyselect::ends_with("f_score")) %>% 
+  summary()
+# 
+read_field_data("KAIBAB_HIGH") %>% 
+  ggplot(aes(x=field_tree_height_m)) + geom_density() + theme_light()
+
+read_field_data("KAIBAB_HIGH") %>% 
+  sf::st_drop_geometry() %>% 
+  dplyr::select(field_tree_height_m) %>% 
+  summary()
+
+read_field_data("WA85_02") %>% 
+  sf::st_drop_geometry() %>% 
+  dplyr::select(field_tree_height_m) %>% 
+  summary()
+```
+
 ### True Positive, Commission, Ommission
 
 Summary of tree true positive ($TP$), commission ($Co$), and omission ($Om$) detection by depth map quality and filtering mode
@@ -1820,21 +1841,21 @@ plt_validation_fn = function(my_site = study_site_list[1]){
 apply the function
 
 ```{r, warning=FALSE, message=FALSE, results='hide'}
-plt_list_temp = study_site_list %>% 
+hey_list_temp = study_site_list %>% 
   purrr::map(plt_validation_fn)
 ```
 
 ### Validation Maps
 
 ```{r}
-plt_list_temp
+hey_list_temp
 ```
 
 ### Validation Maps Combined
 
 ```{r, fig.height=11}
 # combine
-patchwork::wrap_plots(plt_list_temp, ncol = 2, guides = "collect") &
+patchwork::wrap_plots(hey_list_temp, ncol = 2, guides = "collect") &
   theme(legend.position="bottom", legend.direction = "horizontal", plot.title = element_text(size = 8), plot.subtitle = element_text(size = 7))
 ```
 

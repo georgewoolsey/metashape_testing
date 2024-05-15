@@ -546,16 +546,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb195-4"><a href="stats_validation.html#cb195-4" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb195-5"><a href="stats_validation.html#cb195-5" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(sum_stats_dta)</span></code></pre></div>
 <pre><code>## [[1]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-125-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-126-1.png" width="1008" /></p>
 <pre><code>## 
 ## [[2]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-125-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-126-2.png" width="1008" /></p>
 <pre><code>## 
 ## [[3]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-125-3.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-126-3.png" width="1008" /></p>
 <pre><code>## 
 ## [[4]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-125-4.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-126-4.png" width="1008" /></p>
 </div>
 <div id="f_one_pred_mod" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> One Nominal Predictor<a href="stats_validation.html#f_one_pred_mod" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -575,7 +575,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb200-10"><a href="stats_validation.html#cb200-10" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-126">Table 6.1: </span>summary statistics: F-score by depth map quality
+<span id="tab:unnamed-chunk-127">Table 6.1: </span>summary statistics: F-score by depth map quality
 </caption>
 <thead>
 <tr>
@@ -695,7 +695,7 @@ y_{i}  &amp;\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb201-8"><a href="stats_validation.html#cb201-8" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="stats_validation.html#cb202-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod1)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-128-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-129-1.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="stats_validation.html#cb203-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb203-2"><a href="stats_validation.html#cb203-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms_f_mod1) <span class="sc">%&gt;%</span> </span>
@@ -887,7 +887,7 @@ default
 <span id="cb204-17"><a href="stats_validation.html#cb204-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-130">Table 6.2: </span>Bayesian one nominal predictor: F-score by depth map quality
+<span id="tab:unnamed-chunk-131">Table 6.2: </span>Bayesian one nominal predictor: F-score by depth map quality
 </caption>
 <thead>
 <tr>
@@ -1042,7 +1042,7 @@ sigma
 <span id="cb205-9"><a href="stats_validation.html#cb205-9" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-131">Table 6.3: </span>brms::brm model: F-score by depth map quality
+<span id="tab:unnamed-chunk-132">Table 6.3: </span>brms::brm model: F-score by depth map quality
 </caption>
 <thead>
 <tr>
@@ -1173,7 +1173,7 @@ lowest
 <span id="cb206-19"><a href="stats_validation.html#cb206-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb206-20"><a href="stats_validation.html#cb206-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb206-21"><a href="stats_validation.html#cb206-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-132-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-133-1.png" width="1008" /></p>
 <p>plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)</p>
 <div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="stats_validation.html#cb207-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb207-2"><a href="stats_validation.html#cb207-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -1201,7 +1201,7 @@ lowest
 <span id="cb207-24"><a href="stats_validation.html#cb207-24" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb207-25"><a href="stats_validation.html#cb207-25" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb207-26"><a href="stats_validation.html#cb207-26" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-133-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-134-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons</p>
 <div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="stats_validation.html#cb208-1" tabindex="-1"></a><span class="co"># first we need to define the contrasts to make</span></span>
 <span id="cb208-2"><a href="stats_validation.html#cb208-2" tabindex="-1"></a>contrast_list <span class="ot">=</span> </span>
@@ -1340,7 +1340,7 @@ lowest
 <span id="cb210-31"><a href="stats_validation.html#cb210-31" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb210-32"><a href="stats_validation.html#cb210-32" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb210-33"><a href="stats_validation.html#cb210-33" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-135-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-136-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="stats_validation.html#cb211-1" tabindex="-1"></a><span class="co"># # can also use the following as substitute for the &quot;tidybayes::spread_draws&quot; used above to get same result</span></span>
 <span id="cb211-2"><a href="stats_validation.html#cb211-2" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
@@ -1361,7 +1361,7 @@ lowest
 <span id="cb211-17"><a href="stats_validation.html#cb211-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-136">Table 6.4: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts in F-score
+<span id="tab:unnamed-chunk-137">Table 6.4: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts in F-score
 </caption>
 <thead>
 <tr>
@@ -1554,7 +1554,7 @@ ultra high - high
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-138">Table 6.5: </span>summary statistics: F-score by depth map quality and filtering mode
+<span id="tab:unnamed-chunk-139">Table 6.5: </span>summary statistics: F-score by depth map quality and filtering mode
 </caption>
 <thead>
 <tr>
@@ -1987,7 +1987,7 @@ y_{i}  &amp;\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb214-17"><a href="stats_validation.html#cb214-17" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="stats_validation.html#cb215-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod2)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-141-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-142-1.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="stats_validation.html#cb216-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb216-2"><a href="stats_validation.html#cb216-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms_f_mod2) <span class="sc">%&gt;%</span> </span>
@@ -2284,7 +2284,7 @@ user
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-143">Table 6.6: </span>Bayesian two nominal predictors: F-score by depth map quality and filtering mode
+<span id="tab:unnamed-chunk-144">Table 6.6: </span>Bayesian two nominal predictors: F-score by depth map quality and filtering mode
 </caption>
 <thead>
 <tr>
@@ -2909,7 +2909,7 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 <span id="cb218-19"><a href="stats_validation.html#cb218-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb218-20"><a href="stats_validation.html#cb218-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb218-21"><a href="stats_validation.html#cb218-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-144-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-145-1.png" width="1008" /></p>
 <p>how is it compared to the first model?</p>
 <div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="stats_validation.html#cb219-1" tabindex="-1"></a><span class="co"># how is it compared to the first model</span></span>
 <span id="cb219-2"><a href="stats_validation.html#cb219-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
@@ -2921,7 +2921,7 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 <span id="cb219-8"><a href="stats_validation.html#cb219-8" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-145">Table 6.7: </span>brms::brm model noise standard deviation comparison
+<span id="tab:unnamed-chunk-146">Table 6.7: </span>brms::brm model noise standard deviation comparison
 </caption>
 <thead>
 <tr>
@@ -3032,7 +3032,7 @@ hdi
 <span id="cb220-32"><a href="stats_validation.html#cb220-32" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb220-33"><a href="stats_validation.html#cb220-33" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb220-34"><a href="stats_validation.html#cb220-34" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-146-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-147-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons</p>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="stats_validation.html#cb221-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb221-2"><a href="stats_validation.html#cb221-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -3154,7 +3154,7 @@ hdi
 <span id="cb223-38"><a href="stats_validation.html#cb223-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb223-39"><a href="stats_validation.html#cb223-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb223-40"><a href="stats_validation.html#cb223-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-148-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-149-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="stats_validation.html#cb224-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb224-2"><a href="stats_validation.html#cb224-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -3177,7 +3177,7 @@ hdi
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-149">Table 6.8: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-150">Table 6.8: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -3918,7 +3918,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb225-28"><a href="stats_validation.html#cb225-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb225-29"><a href="stats_validation.html#cb225-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb225-30"><a href="stats_validation.html#cb225-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-150-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-151-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_one_pred_mod_bays">one nominal predictor model above</a></p>
 <div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="stats_validation.html#cb226-1" tabindex="-1"></a><span class="co"># let&#39;s compare these results to the results from our [one nominal predictor model above](#one_pred_mod)</span></span>
 <span id="cb226-2"><a href="stats_validation.html#cb226-2" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -3946,7 +3946,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb226-24"><a href="stats_validation.html#cb226-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb226-25"><a href="stats_validation.html#cb226-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb226-26"><a href="stats_validation.html#cb226-26" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-151-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-152-1.png" width="1008" /></p>
 <p>these results are as expected, with <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015)</a> noting:</p>
 <blockquote>
 <p>It is important to realize that the estimates of interaction contrasts are typically much more uncertain than the estimates of simple effects or main effects…This large uncertainty of an interaction contrast is caused by the fact that it involves at least four sources of uncertainty (i.e., at least four groups of data), unlike its component simple effects which each involve only half of those sources of uncertainty. In general, interaction contrasts require a lot of data to estimate accurately. (p. 598)</p>
@@ -3983,7 +3983,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb227-28"><a href="stats_validation.html#cb227-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb227-29"><a href="stats_validation.html#cb227-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb227-30"><a href="stats_validation.html#cb227-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-152-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-153-1.png" width="1008" /></p>
 <p>…it looks like the variation in F-score is driven by the depth map quality setting. We can quantify the variation in F-score by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="stats_validation.html#cb228-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb228-2"><a href="stats_validation.html#cb228-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms_f_mod2) <span class="sc">%&gt;%</span> </span>
@@ -4007,7 +4007,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb228-20"><a href="stats_validation.html#cb228-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb228-21"><a href="stats_validation.html#cb228-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> form_temp) <span class="sc">+</span></span>
 <span id="cb228-22"><a href="stats_validation.html#cb228-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-153-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-154-1.png" width="1008" /></p>
 <p>Finally we can perform model selection via information criteria, from section 10 in <a href="https://bookdown.org/content/3686/metric-predicted-variable-with-one-nominal-predictor.html">Kurz’s ebook supplement</a>:</p>
 <blockquote>
 <p>expected log predictive density (<code>elpd_loo</code>), the estimated effective number of parameters (<code>p_loo</code>), and the Pareto smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO; <code>looic</code>). Each estimate comes with a standard error (i.e., <code>SE</code>). Like other information criteria, the LOO values aren’t of interest in and of themselves. However, the estimate of one model’s LOO relative to that of another can be of great interest. We generally prefer models with lower information criteria. With the <code>brms::loo_compare()</code> function, we can compute a formal difference score between two models…The <code>brms::loo_compare()</code> output rank orders the models such that the best fitting model appears on top.</p>
@@ -4053,7 +4053,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-156">Table 6.9: </span>summary statistics: F-score by depth map quality, filtering mode, and software
+<span id="tab:unnamed-chunk-157">Table 6.9: </span>summary statistics: F-score by depth map quality, filtering mode, and software
 </caption>
 <thead>
 <tr>
@@ -5158,7 +5158,7 @@ OPENDRONEMAP
 <span id="cb233-34"><a href="stats_validation.html#cb233-34" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
 <span id="cb233-35"><a href="stats_validation.html#cb233-35" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb233-36"><a href="stats_validation.html#cb233-36" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-157-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-158-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="stats_validation.html#cb234-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/fscore_comp_quick.png&quot;</span>, <span class="at">height =</span> <span class="dv">9</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 </div>
 <div id="f_three_pred_mod_bays" class="section level3 hasAnchor" number="6.5.2">
@@ -5258,7 +5258,7 @@ y_{i} \sim &amp; {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb236-30"><a href="stats_validation.html#cb236-30" tabindex="-1"></a><span class="co"># https://mc-stan.org/misc/warnings.html#tail-ess </span></span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="stats_validation.html#cb237-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod3)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-160-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-160-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-161-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-161-2.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="stats_validation.html#cb238-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb238-2"><a href="stats_validation.html#cb238-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms_f_mod3) <span class="sc">%&gt;%</span> </span>
@@ -5779,7 +5779,7 @@ user
 <span id="cb240-19"><a href="stats_validation.html#cb240-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb240-20"><a href="stats_validation.html#cb240-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb240-21"><a href="stats_validation.html#cb240-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-163-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-164-1.png" width="1008" /></p>
 <p>how is it compared to our other models?</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="stats_validation.html#cb241-1" tabindex="-1"></a><span class="co"># how is it compared to our other models?</span></span>
 <span id="cb241-2"><a href="stats_validation.html#cb241-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
@@ -5792,7 +5792,7 @@ user
 <span id="cb241-9"><a href="stats_validation.html#cb241-9" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-164">Table 6.10: </span>brms::brm model noise standard deviation comparison
+<span id="tab:unnamed-chunk-165">Table 6.10: </span>brms::brm model noise standard deviation comparison
 </caption>
 <thead>
 <tr>
@@ -5933,7 +5933,7 @@ hdi
 <span id="cb242-38"><a href="stats_validation.html#cb242-38" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb242-39"><a href="stats_validation.html#cb242-39" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb242-40"><a href="stats_validation.html#cb242-40" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-165-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-166-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="stats_validation.html#cb243-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb243-2"><a href="stats_validation.html#cb243-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -6061,7 +6061,7 @@ hdi
 <span id="cb245-38"><a href="stats_validation.html#cb245-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb245-39"><a href="stats_validation.html#cb245-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb245-40"><a href="stats_validation.html#cb245-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-167-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-168-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="stats_validation.html#cb246-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb246-2"><a href="stats_validation.html#cb246-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -6084,7 +6084,7 @@ hdi
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-168">Table 6.11: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-169">Table 6.11: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -6831,7 +6831,7 @@ disabled
 <span id="cb247-38"><a href="stats_validation.html#cb247-38" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb247-39"><a href="stats_validation.html#cb247-39" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb247-40"><a href="stats_validation.html#cb247-40" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-169-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-170-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="stats_validation.html#cb248-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb248-2"><a href="stats_validation.html#cb248-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -6953,7 +6953,7 @@ disabled
 <span id="cb250-38"><a href="stats_validation.html#cb250-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb250-39"><a href="stats_validation.html#cb250-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb250-40"><a href="stats_validation.html#cb250-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-171-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-172-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="stats_validation.html#cb251-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb251-2"><a href="stats_validation.html#cb251-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, software) <span class="sc">%&gt;%</span> </span>
@@ -6976,7 +6976,7 @@ disabled
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-172">Table 6.12: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-173">Table 6.12: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -7339,7 +7339,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb252-28"><a href="stats_validation.html#cb252-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb252-29"><a href="stats_validation.html#cb252-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb252-30"><a href="stats_validation.html#cb252-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-173-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-174-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_one_pred_mod_bays">one nominal predictor model above</a> and <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model</a></p>
 <div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="stats_validation.html#cb253-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb253-2"><a href="stats_validation.html#cb253-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -7374,7 +7374,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb253-31"><a href="stats_validation.html#cb253-31" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb253-32"><a href="stats_validation.html#cb253-32" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb253-33"><a href="stats_validation.html#cb253-33" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-174-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-175-1.png" width="1008" /></p>
 <p>let’s also collapse across the depth map quality and software to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="stats_validation.html#cb254-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -7407,7 +7407,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb254-28"><a href="stats_validation.html#cb254-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb254-29"><a href="stats_validation.html#cb254-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb254-30"><a href="stats_validation.html#cb254-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-175-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-176-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a></p>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="stats_validation.html#cb255-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb255-2"><a href="stats_validation.html#cb255-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -7438,7 +7438,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb255-27"><a href="stats_validation.html#cb255-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb255-28"><a href="stats_validation.html#cb255-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb255-29"><a href="stats_validation.html#cb255-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-176-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-177-1.png" width="1008" /></p>
 <p>to address one of our main questions, let’s also collapse across the depth map quality and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="stats_validation.html#cb256-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -7471,7 +7471,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb256-28"><a href="stats_validation.html#cb256-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb256-29"><a href="stats_validation.html#cb256-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb256-30"><a href="stats_validation.html#cb256-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-177-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-178-1.png" width="1008" /></p>
 <p>Finally, we can quantify the variation in F-score by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="stats_validation.html#cb257-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb257-2"><a href="stats_validation.html#cb257-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms_f_mod3) <span class="sc">%&gt;%</span> </span>
@@ -7495,7 +7495,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb257-20"><a href="stats_validation.html#cb257-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb257-21"><a href="stats_validation.html#cb257-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> form_temp) <span class="sc">+</span></span>
 <span id="cb257-22"><a href="stats_validation.html#cb257-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-178-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-179-1.png" width="1008" /></p>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="stats_validation.html#cb258-1" tabindex="-1"></a>brms_f_mod3 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms_f_mod3, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
 <span id="cb258-2"><a href="stats_validation.html#cb258-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms_f_mod1, brms_f_mod2, brms_f_mod3, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>
@@ -7623,7 +7623,7 @@ y_{i} \sim &amp; {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb263-28"><a href="stats_validation.html#cb263-28" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="stats_validation.html#cb264-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod4)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-184-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-184-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-185-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-185-2.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="stats_validation.html#cb265-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb265-2"><a href="stats_validation.html#cb265-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms_f_mod4) <span class="sc">%&gt;%</span> </span>
@@ -8195,7 +8195,7 @@ user
 <span id="cb267-19"><a href="stats_validation.html#cb267-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb267-20"><a href="stats_validation.html#cb267-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb267-21"><a href="stats_validation.html#cb267-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-187-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-188-1.png" width="1008" /></p>
 <p>how is it compared to our other models?</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="stats_validation.html#cb268-1" tabindex="-1"></a><span class="co"># how is it compared to our other models?</span></span>
 <span id="cb268-2"><a href="stats_validation.html#cb268-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
@@ -8209,7 +8209,7 @@ user
 <span id="cb268-10"><a href="stats_validation.html#cb268-10" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-188">Table 6.13: </span>brms::brm model noise standard deviation comparison
+<span id="tab:unnamed-chunk-189">Table 6.13: </span>brms::brm model noise standard deviation comparison
 </caption>
 <thead>
 <tr>
@@ -8373,7 +8373,7 @@ hdi
 <span id="cb269-38"><a href="stats_validation.html#cb269-38" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb269-39"><a href="stats_validation.html#cb269-39" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb269-40"><a href="stats_validation.html#cb269-40" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-189-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-190-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="stats_validation.html#cb270-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb270-2"><a href="stats_validation.html#cb270-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -8501,7 +8501,7 @@ hdi
 <span id="cb272-38"><a href="stats_validation.html#cb272-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb272-39"><a href="stats_validation.html#cb272-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb272-40"><a href="stats_validation.html#cb272-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-191-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-192-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="stats_validation.html#cb273-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb273-2"><a href="stats_validation.html#cb273-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -8524,7 +8524,7 @@ hdi
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-192">Table 6.14: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-193">Table 6.14: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -9271,7 +9271,7 @@ disabled
 <span id="cb274-38"><a href="stats_validation.html#cb274-38" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb274-39"><a href="stats_validation.html#cb274-39" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb274-40"><a href="stats_validation.html#cb274-40" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-193-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-194-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="stats_validation.html#cb275-1" tabindex="-1"></a><span class="co"># get draws</span></span>
 <span id="cb275-2"><a href="stats_validation.html#cb275-2" tabindex="-1"></a>qlty_sftwr_draws_temp <span class="ot">=</span> ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -9396,7 +9396,7 @@ disabled
 <span id="cb277-38"><a href="stats_validation.html#cb277-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb277-39"><a href="stats_validation.html#cb277-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb277-40"><a href="stats_validation.html#cb277-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-195-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-196-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="stats_validation.html#cb278-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/qlty_sftwr_comp_mod4.png&quot;</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="stats_validation.html#cb279-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -9420,7 +9420,7 @@ disabled
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-196">Table 6.15: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-197">Table 6.15: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -9838,7 +9838,7 @@ PIX4D
 <span id="cb282-45"><a href="stats_validation.html#cb282-45" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb282-46"><a href="stats_validation.html#cb282-46" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb282-47"><a href="stats_validation.html#cb282-47" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-198-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-199-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="stats_validation.html#cb283-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/sftwr_qlty_comp_mod4.png&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="stats_validation.html#cb284-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -9862,7 +9862,7 @@ PIX4D
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-199">Table 6.16: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-200">Table 6.16: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -10140,7 +10140,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb285-28"><a href="stats_validation.html#cb285-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb285-29"><a href="stats_validation.html#cb285-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb285-30"><a href="stats_validation.html#cb285-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-200-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-201-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_one_pred_mod_bays">one nominal predictor model above</a>, <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a>, and <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a></p>
 <div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="stats_validation.html#cb286-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb286-2"><a href="stats_validation.html#cb286-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -10183,7 +10183,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb286-39"><a href="stats_validation.html#cb286-39" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb286-40"><a href="stats_validation.html#cb286-40" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb286-41"><a href="stats_validation.html#cb286-41" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-201-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-202-1.png" width="1008" /></p>
 <p>let’s also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="stats_validation.html#cb287-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -10216,7 +10216,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb287-28"><a href="stats_validation.html#cb287-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb287-29"><a href="stats_validation.html#cb287-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb287-30"><a href="stats_validation.html#cb287-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-202-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-203-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a> and <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a></p>
 <div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="stats_validation.html#cb288-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb288-2"><a href="stats_validation.html#cb288-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -10255,7 +10255,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb288-35"><a href="stats_validation.html#cb288-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb288-36"><a href="stats_validation.html#cb288-36" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb288-37"><a href="stats_validation.html#cb288-37" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-203-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-204-1.png" width="1008" /></p>
 <p>to address one of our main questions, let’s also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="stats_validation.html#cb289-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -10288,7 +10288,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb289-28"><a href="stats_validation.html#cb289-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb289-29"><a href="stats_validation.html#cb289-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb289-30"><a href="stats_validation.html#cb289-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-204-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-205-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a></p>
 <div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="stats_validation.html#cb290-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb290-2"><a href="stats_validation.html#cb290-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(software) <span class="sc">%&gt;%</span> </span>
@@ -10319,7 +10319,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb290-27"><a href="stats_validation.html#cb290-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb290-28"><a href="stats_validation.html#cb290-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb290-29"><a href="stats_validation.html#cb290-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-205-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-206-1.png" width="1008" /></p>
 <p>Finally, we can quantify the variation in F-score by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="stats_validation.html#cb291-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb291-2"><a href="stats_validation.html#cb291-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms_f_mod4) <span class="sc">%&gt;%</span> </span>
@@ -10343,7 +10343,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb291-20"><a href="stats_validation.html#cb291-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb291-21"><a href="stats_validation.html#cb291-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> form_temp) <span class="sc">+</span></span>
 <span id="cb291-22"><a href="stats_validation.html#cb291-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-206-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-207-1.png" width="1008" /></p>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="stats_validation.html#cb292-1" tabindex="-1"></a>brms_f_mod4 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms_f_mod4, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
 <span id="cb292-2"><a href="stats_validation.html#cb292-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>
@@ -10372,7 +10372,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb294-9"><a href="stats_validation.html#cb294-9" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb294-10"><a href="stats_validation.html#cb294-10" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb294-11"><a href="stats_validation.html#cb294-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-209-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-210-1.png" width="1008" /></p>
 <p>and the summary statistics</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="stats_validation.html#cb295-1" tabindex="-1"></a>ptcld_validation_data<span class="sc">$</span>f_score <span class="sc">%&gt;%</span> </span>
 <span id="cb295-2"><a href="stats_validation.html#cb295-2" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
@@ -10433,7 +10433,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
 <span id="cb297-22"><a href="stats_validation.html#cb297-22" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="stats_validation.html#cb298-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod5)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-212-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-212-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-213-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-213-2.png" width="1008" /></p>
 <p>posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="stats_validation.html#cb299-1" tabindex="-1"></a><span class="co"># posterior predictive check</span></span>
 <span id="cb299-2"><a href="stats_validation.html#cb299-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -10444,7 +10444,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
 <span id="cb299-7"><a href="stats_validation.html#cb299-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;posterior-predictive check (overlaid densities)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb299-8"><a href="stats_validation.html#cb299-8" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb299-9"><a href="stats_validation.html#cb299-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>, <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-213-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-214-1.png" width="1008" /></p>
 <p>How’d we do capturing the conditional means and standard deviations by depth map generation quality?</p>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="stats_validation.html#cb300-1" tabindex="-1"></a><span class="co"># means</span></span>
 <span id="cb300-2"><a href="stats_validation.html#cb300-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -10476,7 +10476,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
 <span id="cb300-28"><a href="stats_validation.html#cb300-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
 <span id="cb300-29"><a href="stats_validation.html#cb300-29" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
 <span id="cb300-30"><a href="stats_validation.html#cb300-30" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-214-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-215-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="stats_validation.html#cb301-1" tabindex="-1"></a><span class="co"># brms_f_mod5 %&gt;% </span></span>
 <span id="cb301-2"><a href="stats_validation.html#cb301-2" tabindex="-1"></a><span class="co">#   brms::posterior_summary()</span></span></code></pre></div>
 <p>Both the means and sd’s of the F-score are well represented across the different levels of depth map quality</p>
@@ -11051,7 +11051,7 @@ default
 <span id="cb304-19"><a href="stats_validation.html#cb304-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb304-20"><a href="stats_validation.html#cb304-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb304-21"><a href="stats_validation.html#cb304-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-217-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-218-1.png" width="1008" /></p>
 <p>plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)</p>
 <p>Note that how within <code>tidybayes::add_epred_draws</code>, we used the <code>re_formula</code> argument to average over the random effects of <code>study_site</code> (i.e., we left <code>(1 | study_site)</code> out of the formula) and <code>software</code> (i.e., we left <code>(1 | software)</code> and its interactions out of the formula).</p>
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="stats_validation.html#cb305-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -11094,7 +11094,7 @@ default
 <span id="cb305-38"><a href="stats_validation.html#cb305-38" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb305-39"><a href="stats_validation.html#cb305-39" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb305-40"><a href="stats_validation.html#cb305-40" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-218-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-219-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="stats_validation.html#cb306-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb306-2"><a href="stats_validation.html#cb306-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -11222,7 +11222,7 @@ default
 <span id="cb308-38"><a href="stats_validation.html#cb308-38" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb308-39"><a href="stats_validation.html#cb308-39" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb308-40"><a href="stats_validation.html#cb308-40" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-220-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-221-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="stats_validation.html#cb309-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb309-2"><a href="stats_validation.html#cb309-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -11245,7 +11245,7 @@ default
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-221">Table 6.17: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-222">Table 6.17: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -11992,7 +11992,7 @@ disabled
 <span id="cb310-38"><a href="stats_validation.html#cb310-38" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb310-39"><a href="stats_validation.html#cb310-39" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb310-40"><a href="stats_validation.html#cb310-40" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-222-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-223-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="stats_validation.html#cb311-1" tabindex="-1"></a><span class="co"># get draws</span></span>
 <span id="cb311-2"><a href="stats_validation.html#cb311-2" tabindex="-1"></a>qlty_sftwr_draws_temp <span class="ot">=</span> ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -12117,7 +12117,7 @@ disabled
 <span id="cb313-38"><a href="stats_validation.html#cb313-38" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb313-39"><a href="stats_validation.html#cb313-39" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb313-40"><a href="stats_validation.html#cb313-40" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-224-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-225-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="stats_validation.html#cb314-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/qlty_sftwr_comp_mod5.png&quot;</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="stats_validation.html#cb315-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -12141,7 +12141,7 @@ disabled
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-225">Table 6.18: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-226">Table 6.18: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -12553,7 +12553,7 @@ PIX4D
 <span id="cb318-39"><a href="stats_validation.html#cb318-39" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb318-40"><a href="stats_validation.html#cb318-40" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb318-41"><a href="stats_validation.html#cb318-41" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-227-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-228-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="stats_validation.html#cb319-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/sftwr_qlty_comp_mod5.png&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="stats_validation.html#cb320-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
@@ -12577,7 +12577,7 @@ PIX4D
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-228">Table 6.19: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-229">Table 6.19: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -12855,7 +12855,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb321-28"><a href="stats_validation.html#cb321-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb321-29"><a href="stats_validation.html#cb321-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb321-30"><a href="stats_validation.html#cb321-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-229-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-230-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_one_pred_mod_bays">one nominal predictor model above</a>, <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a>, <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a>, and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site effects model above</a></p>
 <div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="stats_validation.html#cb322-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb322-2"><a href="stats_validation.html#cb322-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -12907,7 +12907,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb322-48"><a href="stats_validation.html#cb322-48" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb322-49"><a href="stats_validation.html#cb322-49" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb322-50"><a href="stats_validation.html#cb322-50" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-230-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-231-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the depth map quality setting effect</p>
 <div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="stats_validation.html#cb323-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb323-2"><a href="stats_validation.html#cb323-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -13026,7 +13026,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb325-37"><a href="stats_validation.html#cb325-37" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb325-38"><a href="stats_validation.html#cb325-38" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb325-39"><a href="stats_validation.html#cb325-39" tabindex="-1"></a>    )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-232-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-233-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="stats_validation.html#cb326-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb326-2"><a href="stats_validation.html#cb326-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -13046,7 +13046,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb326-16"><a href="stats_validation.html#cb326-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-233">Table 6.20: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-234">Table 6.20: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -13239,7 +13239,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb327-28"><a href="stats_validation.html#cb327-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb327-29"><a href="stats_validation.html#cb327-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb327-30"><a href="stats_validation.html#cb327-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-234-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-235-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a>, <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a>, and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site model above</a></p>
 <div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="stats_validation.html#cb328-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb328-2"><a href="stats_validation.html#cb328-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -13286,7 +13286,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb328-43"><a href="stats_validation.html#cb328-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb328-44"><a href="stats_validation.html#cb328-44" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb328-45"><a href="stats_validation.html#cb328-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-235-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-236-1.png" width="1008" /></p>
 <p>to address one of our main questions, let’s also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="stats_validation.html#cb329-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
@@ -13319,7 +13319,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb329-28"><a href="stats_validation.html#cb329-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb329-29"><a href="stats_validation.html#cb329-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb329-30"><a href="stats_validation.html#cb329-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-236-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-237-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a> and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site effects model above</a></p>
 <div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="stats_validation.html#cb330-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb330-2"><a href="stats_validation.html#cb330-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(software) <span class="sc">%&gt;%</span> </span>
@@ -13358,7 +13358,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb330-35"><a href="stats_validation.html#cb330-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb330-36"><a href="stats_validation.html#cb330-36" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb330-37"><a href="stats_validation.html#cb330-37" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-237-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-238-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons after collapsing across the filtering mode, depth map quality setting, and study site to compare the software main effect</p>
 <div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="stats_validation.html#cb331-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb331-2"><a href="stats_validation.html#cb331-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -13443,7 +13443,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb333-37"><a href="stats_validation.html#cb333-37" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb333-38"><a href="stats_validation.html#cb333-38" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb333-39"><a href="stats_validation.html#cb333-39" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-239-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-240-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="stats_validation.html#cb334-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb334-2"><a href="stats_validation.html#cb334-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -13463,7 +13463,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb334-16"><a href="stats_validation.html#cb334-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-240">Table 6.21: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-241">Table 6.21: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
