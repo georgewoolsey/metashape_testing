@@ -979,76 +979,76 @@ Summary of tree true positive ($TP$), commission ($Co$), and omission ($Om$) det
 
 ```{r, fig.height=11}
 plt_fn_temp = function(site = study_site_list[1]){
-ptcld_validation_data %>%
-  dplyr::filter(study_site == site) %>% 
-  dplyr::mutate(
-    plot_lab = forcats::fct_cross(depth_maps_generation_quality,depth_maps_generation_filtering_mode)
-  ) %>% 
-  dplyr::mutate(plot_lab = forcats::fct_reorder(
-      plot_lab
-      , .x = depth_maps_generation_quality
-      , .fun = max
-    ) %>% forcats::fct_rev()
-  ) %>% 
-  dplyr::select(
-    software, plot_lab, 
-    tidyselect::ends_with("_n_trees")
-    & !tidyselect::starts_with("overstory_")
-    & !tidyselect::starts_with("understory_")
-  ) %>% 
-  tidyr::pivot_longer(
-    cols = -c(software,plot_lab)
-    , values_drop_na = F
-  ) %>% 
-  dplyr::group_by(software,plot_lab) %>% 
-  dplyr::mutate(
-    field_uas_group = name %>% 
-      stringr::str_remove_all("_n_trees") %>% 
-      stringr::str_replace_all("_"," ")
-    , pct = dplyr::coalesce(value,0)/sum(dplyr::coalesce(value,0))
-  ) %>%
-  dplyr::ungroup() %>% 
-ggplot(
-  mapping = aes(x = pct, y = plot_lab, fill=field_uas_group, group=field_uas_group)
-) +
-  geom_col(
-    width = 0.7, alpha=0.8
+  ptcld_validation_data %>%
+    dplyr::filter(study_site == site) %>% 
+    dplyr::mutate(
+      plot_lab = forcats::fct_cross(depth_maps_generation_quality,depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::mutate(plot_lab = forcats::fct_reorder(
+        plot_lab
+        , .x = depth_maps_generation_quality
+        , .fun = max
+      ) %>% forcats::fct_rev()
+    ) %>% 
+    dplyr::select(
+      software, plot_lab, 
+      tidyselect::ends_with("_n_trees")
+      & !tidyselect::starts_with("overstory_")
+      & !tidyselect::starts_with("understory_")
+    ) %>% 
+    tidyr::pivot_longer(
+      cols = -c(software,plot_lab)
+      , values_drop_na = F
+    ) %>% 
+    dplyr::group_by(software,plot_lab) %>% 
+    dplyr::mutate(
+      field_uas_group = name %>% 
+        stringr::str_remove_all("_n_trees") %>% 
+        stringr::str_replace_all("_"," ")
+      , pct = dplyr::coalesce(value,0)/sum(dplyr::coalesce(value,0))
+    ) %>%
+    dplyr::ungroup() %>% 
+  ggplot(
+    mapping = aes(x = pct, y = plot_lab, fill=field_uas_group, group=field_uas_group)
   ) +
-  geom_text(
-    mapping = aes(
-        label = scales::percent(ifelse(pct>=0.12,pct,NA), accuracy = 1)
-        , fontface = "bold"
-      )
-    , position = position_stack(vjust = 0.5)
-    , color = "black", size = 2.3
-  ) +
-  facet_grid(cols = vars(software)) +
-  scale_fill_viridis_d(option = "cividis") +
-  scale_x_continuous(labels = scales::percent_format()) +
-  labs(
-    fill = ""
-    , y = ""
-    , x = "Percent of Trees"
-    # , title = "UAS and Stem-Mapped Tree Validation Summary"
-    , subtitle = paste0("plot: ", site)
-  ) +
-  theme_light() +
-  theme(
-    legend.position = "top"
-    , legend.direction  = "horizontal"
-    , legend.title = element_text(size=7)
-    , axis.title.x = element_text(size=8, face = "bold")
-    , axis.title.y = element_blank()
-    , axis.text.x = element_blank()
-    , axis.text.y = element_text(color = "black",size=8)
-    , axis.ticks.x = element_blank()
-    , panel.grid.major.x = element_blank()
-    , panel.grid.minor.x = element_blank()
-    , strip.text = element_text(color = "black", face = "bold")
-  ) +
-  guides(
-    fill = guide_legend(reverse = T, override.aes = list(alpha = 0.9))
-  )
+    geom_col(
+      width = 0.7, alpha=0.8
+    ) +
+    geom_text(
+      mapping = aes(
+          label = scales::percent(ifelse(pct>=0.12,pct,NA), accuracy = 1)
+          , fontface = "bold"
+        )
+      , position = position_stack(vjust = 0.5)
+      , color = "black", size = 2.3
+    ) +
+    facet_grid(cols = vars(software)) +
+    scale_fill_viridis_d(option = "cividis") +
+    scale_x_continuous(labels = scales::percent_format()) +
+    labs(
+      fill = ""
+      , y = ""
+      , x = "Percent of Trees"
+      # , title = "UAS and Stem-Mapped Tree Validation Summary"
+      , subtitle = paste0("plot: ", site)
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "top"
+      , legend.direction  = "horizontal"
+      , legend.title = element_text(size=7)
+      , axis.title.x = element_text(size=8, face = "bold")
+      , axis.title.y = element_blank()
+      , axis.text.x = element_blank()
+      , axis.text.y = element_text(color = "black",size=8)
+      , axis.ticks.x = element_blank()
+      , panel.grid.major.x = element_blank()
+      , panel.grid.minor.x = element_blank()
+      , strip.text = element_text(color = "black", face = "bold")
+    ) +
+    guides(
+      fill = guide_legend(reverse = T, override.aes = list(alpha = 0.9))
+    )
 }
 # map over sites
 plt_list_temp = study_site_list %>% 
@@ -1118,7 +1118,12 @@ plt_list_temp = study_site_list %>%
 patchwork::wrap_plots(plt_list_temp, ncol = 2)
 ```
 
-## Example Validation Process
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
+## Example Validation Process{#valid_ex}
 
 Let's go through one example
 
@@ -1225,7 +1230,7 @@ plot it
 
 ```{r}
 # ggplot rgb
-  plt_rgb <- ggplot() +
+  plt_rgb = ggplot() +
     stars::geom_stars(data = ortho_rgb[]) +
     scale_fill_identity(na.value = "transparent") + # !!! don't take this out or RGB plot will kill your computer
     # add plot boundary
@@ -1639,6 +1644,197 @@ data.frame(
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
+remove(list = ls()[grep("ortho_",ls())])
 gc()
+```
+
+## Mapped validation for all sites
+
+[Above](#valid_ex), we reviewed the process for matching field mapped trees to UAS detected trees to determine true positive (TP) detections, commission (Co), and omission (Om) trees.
+
+Here, we visualize the location of the classified trees for each study site.
+
+We're only going to use point clouds generated via Metashape with the "high" point cloud generation quality setting and the "mild" filtering setting.
+
+### Plotting Function
+
+Let's define a plotting function to map sites over
+
+```{r}
+plt_validation_fn = function(my_site = study_site_list[1]){
+  ############################################
+  # validation plot boundary
+  ############################################
+    plot_bound_temp = validation_plots %>% 
+      dplyr::filter(study_site==my_site)
+  ############################################
+  # field data
+  ############################################
+    field_data_temp = read_field_data(my_study_site = my_site)
+  ############################################
+  # orthomosaic
+  ############################################
+    ortho_list = list.files(
+      "../data/field_validation/orthomosaic/"
+      , pattern = ".*\\.(tif|tiff)$"
+      , full.names = T
+    )
+    # load raster
+    ortho_rast = ortho_list %>% 
+      purrr::pluck(
+        ortho_list %>% 
+          toupper() %>% 
+          stringr::str_which(pattern = my_site) %>% 
+          .[1]
+      ) %>% 
+      terra::rast()
+    # aggregate to lower resolution if needed
+    if(terra::res(ortho_rast)[1]<0.5){
+      ortho_rast = terra::aggregate(
+        ortho_rast
+        , fact = round(0.5/terra::res(ortho_rast)[1])
+        , fun = "median"
+        , cores = round(parallel::detectCores()/2)
+      )
+    }
+    # convert to stars
+    ortho_st = ortho_rast %>%  
+      terra::subset(subset = c(1,2,3)) %>%
+      terra::crop(
+        # stand %>% 
+        plot_bound_temp %>%
+          sf::st_buffer(2) %>% 
+          sf::st_bbox() %>% 
+          sf::st_as_sfc() %>% 
+          terra::vect() %>% 
+          terra::project(terra::crs(ortho_rast))
+      ) %>% 
+      stars::st_as_stars()
+    
+    # convert to rgb
+    ortho_rgb = stars::st_rgb(
+      ortho_st[,,,1:3]
+      , dimension = 3
+      , use_alpha = FALSE
+      # , stretch = "histogram"
+      , probs = c(0.005, 0.995)
+      , stretch = "percent"
+    )
+  ############################################
+  # load validation data ftw
+  ############################################
+  field_uas_comparison_temp = ptcld_validation_data %>% 
+    dplyr::filter(
+      study_site == my_site
+      & tolower(software) == "metashape"
+      & tolower(depth_maps_generation_quality) == "high"
+      & tolower(depth_maps_generation_filtering_mode) == "mild"
+    ) %>% 
+    dplyr::pull(validation_file_full_path) %>% 
+    readr::read_csv() %>% 
+    dplyr::mutate(
+      field_uas_group = factor(
+          field_uas_group
+          , ordered = T
+          , levels = c(
+            "true positive"
+            , "commission"
+            , "omission"
+          )
+        ) %>% forcats::fct_rev()
+      , overstory_understory_grp = overstory_understory_grp %>% factor()
+      , x = ifelse(!is.na(field_tree_utm_x), field_tree_utm_x, uas_tree_utm_x)
+      , y = ifelse(!is.na(field_tree_utm_x), field_tree_utm_y, uas_tree_utm_y)
+    ) %>% 
+    sf::st_as_sf(
+      coords = c("x", "y")
+      , crs = sf::st_crs(field_data_temp)
+      , remove=T
+    )  
+  ############################################
+  # plot it all
+  ############################################
+    # make a label
+    hey_lab = ptcld_validation_data %>% 
+      dplyr::filter(
+        study_site == my_site
+        & tolower(software) == "metashape"
+        & tolower(depth_maps_generation_quality) == "high"
+        & tolower(depth_maps_generation_filtering_mode) == "mild"
+      ) %>% 
+      dplyr::mutate(
+        hey_lab = paste0(
+          "true positive: ", scales::comma(true_positive_n_trees, accuracy = 1)
+          , "\ncommission: ", scales::comma(commission_n_trees, accuracy = 1)
+          , "\nomission: ", scales::comma(omission_n_trees, accuracy = 1)
+          , "\n(F-score: ", scales::comma(f_score, accuracy = 0.01), ")"
+        )
+      ) %>% 
+      dplyr::pull(hey_lab)
+    # ggplot rgb
+      plt_rgb = ggplot() +
+        stars::geom_stars(data = ortho_rgb[]) +
+        scale_fill_identity(na.value = "transparent") + # !!! don't take this out or RGB plot will kill your computer
+        # add plot boundary
+        geom_sf(
+          data =  plot_bound_temp %>%
+            terra::vect() %>% 
+            terra::project(terra::crs(ortho_rast)) %>% 
+            sf::st_as_sf()
+          , alpha = 0
+          , lwd = 1.2
+          , color = "blue"
+        ) +
+        scale_x_continuous(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        labs(
+          x = ""
+          , y = ""
+        ) +
+        theme_void()
+    # combine
+      plt_comparison_temp = plt_rgb + 
+        ggnewscale::new_scale_fill() +
+        geom_sf(
+          data = field_uas_comparison_temp %>% 
+            terra::vect() %>% 
+            terra::project(terra::crs(ortho_rast)) %>% 
+            sf::st_as_sf()
+          , mapping = aes(fill = field_uas_group)
+          , color = "black"
+          , shape = 21
+          , size = 1.4
+        ) +
+        scale_fill_viridis_d(option = "cividis", name = "trees", drop = F, alpha = 0.8) +
+        labs(
+          title = paste0("plot: ", my_site)
+          , subtitle = hey_lab
+        ) +
+        theme(legend.position = "bottom", legend.direction = "horizontal")
+    # return
+    return(plt_comparison_temp)
+}
+# plt_validation_fn(study_site_list[5])
+```
+
+apply the function
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+plt_list_temp = study_site_list %>% 
+  purrr::map(plt_validation_fn)
+```
+
+### Validation Maps
+
+```{r}
+plt_list_temp
+```
+
+### Validation Maps Combined
+
+```{r, fig.height=11}
+# combine
+patchwork::wrap_plots(plt_list_temp, ncol = 2, guides = "collect") &
+  theme(legend.position="bottom", legend.direction = "horizontal", plot.title = element_text(size = 8), plot.subtitle = element_text(size = 7))
 ```
 
