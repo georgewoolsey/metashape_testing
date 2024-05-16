@@ -1025,7 +1025,15 @@ plt_fn_temp = function(site = study_site_list[1]){
     dplyr::mutate(
       field_uas_group = name %>% 
         stringr::str_remove_all("_n_trees") %>% 
-        stringr::str_replace_all("_"," ")
+        stringr::str_replace_all("_"," ") %>% 
+        factor(
+          ordered = T
+          , levels = c(
+            "true positive"
+            , "commission"
+            , "omission"
+          )
+        ) %>% forcats::fct_rev()
       , pct = dplyr::coalesce(value,0)/sum(dplyr::coalesce(value,0))
     ) %>%
     dplyr::ungroup() %>% 
