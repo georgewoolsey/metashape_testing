@@ -1154,22 +1154,22 @@ gc()
 
 ## Example Validation Process{#valid_ex}
 
-Let's go through one example
+Let's go through one example for **`r study_site_list[2]`**
 
 ### Data Load
 
-Data load using functions defined above
+Data load using functions defined above for **`r study_site_list[2]`**
 
 ```{r, results='hide', message=FALSE, warning=FALSE}
 # validation plot boundary
 plot_bound_temp = validation_plots %>% 
-  dplyr::filter(study_site==study_site_list[1])
+  dplyr::filter(study_site==study_site_list[2])
 # read field data
-field_data_temp = read_field_data(my_study_site = study_site_list[1])
+field_data_temp = read_field_data(my_study_site = study_site_list[2])
 # read_uas_data
 uas_data_temp = read_uas_data(
   my_processing_id = ptcld_processing_data %>% 
-    dplyr::filter(study_site==study_site_list[1]) %>% 
+    dplyr::filter(study_site==study_site_list[2]) %>% 
     dplyr::pull(processing_id) %>% 
     .[1]
   , my_crs = sf::st_crs(field_data_temp)
@@ -1201,7 +1201,7 @@ ortho_rast = ortho_list %>%
   purrr::pluck(
     ortho_list %>% 
       toupper() %>% 
-      stringr::str_which(pattern = study_site_list[1]) %>% 
+      stringr::str_which(pattern = study_site_list[2]) %>% 
       .[1]
   ) %>% 
   terra::rast()
@@ -1419,6 +1419,100 @@ combine these
 ```{r, fig.height=9}
 (plt_field_data_temp + theme(legend.position = "none") + plt_uas_data_temp) / plt_comparison_temp
 ggplot2::ggsave("../data/field_uas_comparison.jpg", width = 8, height = 9)
+```
+
+we can also view these with satellite imagery which is *not* what the UAS-derived tree detections are from but can be a good viewing tool
+
+```{r, fig.height=6}
+# load chm
+chm_temp = ptcld_processing_data %>% 
+  dplyr::filter(study_site==study_site_list[2]) %>% 
+  dplyr::filter(dplyr::row_number()==1) %>% 
+  dplyr::mutate(
+    f = paste0(
+      processed_data_dir
+      , "/"
+      , file_name
+      , "_chm_0.25m.tif"
+    )
+  ) %>% 
+  dplyr::pull(f) %>% 
+  terra::rast() %>% 
+  terra::aggregate(2) %>% 
+  stars::st_as_stars()
+
+# map it
+mapview::mapviewOptions(basemaps = c("Esri.WorldImagery", "OpenStreetMap"))
+mapview::mapview(
+  plot_bound_temp
+  , color = "blue"
+  , lwd = 2
+  , alpha.regions = 0
+  , layer.name = "boundary"
+  , label = FALSE
+  , legend = FALSE
+  , popup = FALSE
+) +
+# aggregate raster and map
+  mapview::mapview(
+    chm_temp 
+    , layer.name = "canopy ht. (m)"
+    , col.regions = viridis::plasma(n=50)
+    , alpha.regions = 0.7
+    , na.color = "transparent"
+  ) +
+# validation
+  mapview::mapview(
+    field_uas_comparison_temp
+    , zcol = "field_uas_group"
+    , col.regions = viridis::cividis(n=3)
+    , cex = 2
+    , alpha.regions = 0.8
+    , layer.name = "validation"
+    , popup = leafpop::popupTable(
+      field_uas_comparison_temp
+      , zcol = c(
+        "field_uas_group"
+        , "uas_tree_height_m"
+        , "field_tree_height_m"
+        , "uas_dbh_cm"
+        , "field_dbh_cm"
+      )
+      , row.numbers = FALSE
+      , feature.id = FALSE
+    )
+  ) + 
+# fld
+  mapview::mapview(
+    field_data_temp
+    , zcol = "field_tree_height_m"
+    , cex = 2
+    , alpha.regions = 0.8
+    , layer.name = "field"
+    , hide = T
+  )+ 
+# uas
+  mapview::mapview(
+    uas_data_temp
+    , zcol = "tree_height_m"
+    , cex = 2
+    , alpha.regions = 0.8
+    , layer.name = "uas"
+    , hide = T
+  )
+```
+
+```{r, include=FALSE, eval=FALSE}
+mapview::viewRGB(
+  raster::stack(
+    raster::raster(ortho_rast["red"])
+    , raster::raster(ortho_rast["green"])
+    , raster::raster(ortho_rast["blue"]) 
+  )
+  , r = 1, g = 2, b = 3
+  , layer.name = "orthomosaic"
+  , na.color = "transparent"
+)
 ```
 
 
@@ -1867,3 +1961,145 @@ patchwork::wrap_plots(hey_list_temp, ncol = 2, guides = "collect") &
   theme(legend.position="bottom", legend.direction = "horizontal", plot.title = element_text(size = 8), plot.subtitle = element_text(size = 7))
 ```
 
+## Field Data Descriptive Statistics
+
+Load and combine all field data sets
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+field_data = study_site_list %>% 
+  purrr::map(function(x){
+    read_field_data(x) %>% sf::st_drop_geometry()
+  }) %>% 
+  dplyr::bind_rows() %>% 
+  dplyr::left_join(
+    validation_plots %>% 
+      dplyr::mutate(ha = sf::st_area(.) %>% as.numeric() %>% `/`(10000)) %>% 
+      sf::st_drop_geometry() %>% 
+      dplyr::select(study_site, ha)
+    , by = dplyr::join_by("study_site")
+  )
+```
+
+### Table of Height Summary Statistics
+
+```{r}
+field_data %>% 
+  dplyr::group_by(study_site,ha) %>% 
+  dplyr::summarise(
+    n_trees = dplyr::n()
+    , min_tree_height_m = min(field_tree_height_m, na.rm = T)
+    , max_tree_height_m = max(field_tree_height_m, na.rm = T)
+    , median_tree_height_m = median(field_tree_height_m, na.rm = T)
+    , tree_height_m_25 = quantile(field_tree_height_m, probs = 0.25)
+    , tree_height_m_75 = quantile(field_tree_height_m, probs = 0.75)
+  ) %>% 
+  dplyr::mutate(
+    tph = (n_trees/ha) %>% scales::comma(accuracy = 1)
+    ,  n_trees = n_trees %>% scales::comma(accuracy = 1)
+  ) %>% 
+  dplyr::relocate(tph, .after = n_trees) %>% 
+  dplyr::select(-c(ha)) %>% 
+  kableExtra::kbl(
+    caption = "Field Data: Table of Height Summary Statistics"
+    , col.names = c(
+      "Site"
+      , "# trees"
+      , "TPH"
+      , "Minimum"
+      , "Maximum"
+      , "Median"
+      , "25th percentile"
+      , "75th percentile"
+    )
+    , digits = 1
+  ) %>% 
+  kableExtra::add_header_above(
+    c(
+      " " = 3
+      , "Tree Height (meters)"=5
+    )
+  ) %>%
+  kableExtra::kable_styling()
+
+
+```
+
+### Table of DBH Summary Statistics
+
+```{r}
+field_data %>% 
+  dplyr::group_by(study_site,ha) %>% 
+  dplyr::summarise(
+    n_trees = dplyr::n()
+    , min_dbh_cm = min(field_dbh_cm, na.rm = T)
+    , max_dbh_cm = max(field_dbh_cm, na.rm = T)
+    , median_dbh_cm = median(field_dbh_cm, na.rm = T)
+    , dbh_cm_25 = quantile(field_dbh_cm, probs = 0.25)
+    , dbh_cm_75 = quantile(field_dbh_cm, probs = 0.75)
+  ) %>% 
+  dplyr::mutate(
+    tph = (n_trees/ha) %>% scales::comma(accuracy = 1)
+    ,  n_trees = n_trees %>% scales::comma(accuracy = 1)
+  ) %>% 
+  dplyr::relocate(tph, .after = n_trees) %>% 
+  dplyr::select(-c(ha)) %>% 
+  kableExtra::kbl(
+    caption = "Field Data: Table of DBH Summary Statistics"
+    , col.names = c(
+      "Site"
+      , "# trees"
+      , "TPH"
+      , "Minimum"
+      , "Maximum"
+      , "Median"
+      , "25th percentile"
+      , "75th percentile"
+    )
+    , digits = 1
+  ) %>% 
+  kableExtra::add_header_above(
+    c(
+      " " = 3
+      , "Tree DBH (cm)"=5
+    )
+  ) %>%
+  kableExtra::kable_styling()
+
+```
+
+### Height and DBH Distribution
+
+```{r}
+field_data %>% 
+  dplyr::select(study_site, field_dbh_cm, field_tree_height_m) %>% #
+  tidyr::pivot_longer(
+    cols = -c(study_site)
+  ) %>% 
+  dplyr::mutate(
+    name = dplyr::case_when(
+      name == "field_dbh_cm" ~ "DBH (cm)"
+      , name == "field_tree_height_m" ~ "Height (m)"
+      , T ~ "error"
+    )
+  ) %>% 
+  # plot
+  ggplot(mapping = aes(x = value, y = study_site)) +
+    geom_violin(mapping = aes(fill = name), color = NA) +
+    geom_boxplot(width = 0.1, outlier.shape = NA, fill = NA, color = "black") +
+    facet_grid(cols = vars(name), scales = "free_x") +
+    scale_fill_manual(values = c("skyblue4", "skyblue2")) +
+    scale_x_continuous(breaks = scales::breaks_extended(8)) +
+    labs(x = "", y = "") +
+    theme_light() +
+    theme(legend.position = "none", strip.text = element_text(color = "black", face = "bold"))
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+remove(
+  field_data, validation_data, validation_plots, my_dbh_estimate
+  , read_field_data, read_uas_data, true_positive_trees_fn
+  , validate_file_fn, field_uas_comparison_fn, full_validation_fn
+)
+gc()
+```
