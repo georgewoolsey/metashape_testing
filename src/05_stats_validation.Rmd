@@ -97,7 +97,10 @@ if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
 }
 # replace 0 f-score with very small positive to run models
 ptcld_validation_data = ptcld_validation_data %>% 
-  dplyr::mutate(f_score = ifelse(f_score==0,1e-4,f_score))
+  dplyr::mutate(dplyr::across(
+    .cols = tidyselect::ends_with("f_score")
+    , .fns = ~ ifelse(.x==0,1e-4,.x)
+  ))
 # what is this data?
 ptcld_validation_data %>% dplyr::glimpse()
 # a row is unique by...
@@ -2860,7 +2863,7 @@ gc()
 ```
 
 
-## The beta: Three Nominal Predictors + site effects
+## The beta: Three Nominal Predictors + site effects{#beta_mod}
 
 To this point, we have been modelling F-score presuming a Gaussian likelihood. However, the beta likelihood more accurately represents the F-score data which is continuous and restricted within the range of $(0,1)$.
 
@@ -4093,6 +4096,236 @@ brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod
 remove(list = ls()[grep("_temp",ls())])
 gc()
 ```
+
+## Overstory and Understory Validation
+
+In our [validation data creation process](#field_valid) we calculated F-score for overstory and understory trees separately.
+
+Here, let's add a factor variable with levels for overstory and understory as a predictor to our [final model from above](#beta_mod). 
+
+The overall F-score is not the same as combining the overstory and understory F-score by calculating the mean of these values due to the differing number of observations in each. To build this model we need to convert our data to long format so that a row is also unique by our overstory/understory factor.
+
+Each study site contributes one observation per depth map quality, filtering mode, software, and overstory/understory factor. That is, a row in the underlying data is unique by study site, software, depth map quality, filtering mode, and overstory/understory factor.
+
+### Summary Statistics
+
+```{r}
+ou_ptcld_validation_data =
+  ptcld_validation_data %>% 
+  dplyr::select(
+    study_site, software
+    , depth_maps_generation_quality
+    , depth_maps_generation_filtering_mode
+    # our dependent var in wide format
+    , understory_f_score, overstory_f_score
+  ) %>% 
+  tidyr::pivot_longer(
+    cols = tidyselect::ends_with("_f_score")
+    , names_to = "story"
+    , values_to = "f_score"
+    , values_drop_na = F
+  ) %>% 
+  dplyr::mutate(
+    story = story %>% stringr::str_remove_all("_f_score") %>% factor()
+  )
+# what is this data?
+ou_ptcld_validation_data %>% dplyr::glimpse()
+# a row is unique by...
+identical(
+  nrow(ou_ptcld_validation_data)
+  , ou_ptcld_validation_data %>% 
+    dplyr::distinct(
+      study_site, software
+      , depth_maps_generation_quality
+      , depth_maps_generation_filtering_mode
+      , story
+    ) %>% 
+    nrow()
+)
+# and we should have 2 times the rows as the orignial data
+identical(
+  nrow(ou_ptcld_validation_data) %>% as.numeric() # long data
+  , nrow(ptcld_validation_data)*2 %>% as.numeric() # original wide data
+)
+```
+
+quick summary stats
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::select(tidyselect::ends_with("_f_score")) %>% 
+  summary()
+```
+
+let's check this data with our `geom_tile` plot
+
+```{r, fig.height=12}
+# create function for combining plots with patchwork
+plt_tile_fn_temp = function(ss = "overstory"){
+  ou_ptcld_validation_data %>% 
+    dplyr::filter(tolower(story) == tolower(ss)) %>% 
+    dplyr::group_by(story, software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
+    # collapse across study site
+    dplyr::summarise(
+      mean_f_score = mean(f_score, na.rm = T)
+      # , med_f_score = median(f_score, na.rm = T)
+      , sd_f_score = sd(f_score, na.rm = T)
+      , n = dplyr::n()
+    ) %>% 
+    ggplot(mapping = aes(
+      y = depth_maps_generation_quality
+      , x = depth_maps_generation_filtering_mode
+      , fill = mean_f_score
+      , label = paste0(scales::comma(mean_f_score,accuracy = 0.01), "\n(n=", n,")")
+    )) +
+    geom_tile(color = "white") +
+    geom_text(color = "white", size = 3) +
+    facet_grid(cols = vars(software)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_viridis_c(
+      option = "cividis", begin = 0.3, end = 0.9
+      , limits = c(0,0.75)
+    ) +
+    labs(
+      x = "filtering mode"
+      , y = "depth map quality"
+      , fill = "F-score"
+      , subtitle = "mean F-score and # of study sites"
+      , title = toupper(ss)
+    ) +
+    theme_light() + 
+    theme(
+      legend.position = "none"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , panel.background = element_blank()
+      , panel.grid = element_blank()
+      , plot.subtitle = element_text(hjust = 0.5)
+      , plot.title = element_text(face = "bold")
+      , strip.text = element_text(color = "black", face = "bold")
+    )
+}
+plt_tile_fn_temp("overstory") / plt_tile_fn_temp("understory")
+```
+
+now let's check by our other predictor variables
+
+```{r}
+sum_stats_dta = function(my_var){
+  sum_fns = list(
+    n = ~sum(ifelse(is.na(.x), 0, 1))  
+    , min = ~min(.x, na.rm = TRUE)
+    , max = ~max(.x, na.rm = TRUE)
+    , mean = ~mean(.x, na.rm = TRUE)
+    , median = ~median(.x, na.rm = TRUE)
+    , sd = ~sd(.x, na.rm = TRUE)
+  )
+  # plot
+  (
+    ggplot(
+      data = ou_ptcld_validation_data %>% 
+        dplyr::group_by(.data[[my_var]]) %>%
+        dplyr::mutate(m = median(f_score))
+      , mapping = aes(
+        y = .data[[my_var]]
+        , x = f_score, fill = m)
+      ) +
+      geom_violin(color = NA) + 
+      geom_boxplot(width = 0.1, outlier.shape = NA, fill = NA, color = "black") +
+      geom_rug() +
+      facet_grid(cols = vars(story)) +
+      scale_fill_viridis_c(option = "mako", begin = 0.3, end = 0.9, direction = -1, limits = c(0,0.75)) +
+      labs(
+        x = "F-score"
+        , y = stringr::str_replace_all(my_var, pattern = "_", replacement = " ")
+        , subtitle = stringr::str_replace_all(my_var, pattern = "_", replacement = " ") %>% 
+          stringr::str_to_title()
+      ) +
+      theme_light() +
+      theme(legend.position = "none", strip.text = element_text(color = "black", face = "bold"))
+  )
+  
+}
+# sum_stats_dta("software")
+```
+
+summarize for all variables of interest
+
+```{r}
+c("software", "study_site"
+  , "depth_maps_generation_quality"
+  , "depth_maps_generation_filtering_mode"
+) %>% 
+  purrr::map(sum_stats_dta)
+```
+
+### Bayesian{#f_6_pred_mod_bays}
+
+With the beta likelihood our model with three nominal predictor variables and subject-level effects the model becomes:
+
+\begin{align*}
+y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
+\operatorname{logit}(\mu_{i}) = & \beta_0 \\
+& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+& + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
+& + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
+\beta_{0}  \sim & {\sf Normal} (0,1) \\ 
+\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\phi \sim & {\sf Gamma} (4,0.1) \\ 
+\end{align*}
+
+, where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
+
+Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is ${\sf Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*
+
+*Need to check our prior selection...just go with `brms` defaults for now*
+
+Now fit the model.
+
+```{r, include=FALSE,eval=FALSE}
+xxx
+brms_f_mod6 = brms::brm(
+  formula = f_score ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | story) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    (1 | depth_maps_generation_quality:story) +
+    (1 | depth_maps_generation_filtering_mode:story) +
+    (1 | software:story) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  , data = ptcld_validation_data
+  , family = Beta(link = "logit")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , file = paste0(rootdir, "/fits/brms_f_mod5")
+)
+```
+
+check the trace plots for problems with convergence of the Markov chains
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])

@@ -67,7 +67,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_01cea5-1/data_stars_canopyhtm34ad90.txt"></script>
+<script src="libs/canopy ht. (m)_fcdb18-1/data_stars_canopyhtm57690f.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -296,10 +296,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.6.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-8"><i class="fa fa-check"></i><b>6.6.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="6.6.2" data-path="stats_validation.html"><a href="stats_validation.html#f_4_pred_mod_bays"><i class="fa fa-check"></i><b>6.6.2</b> Bayesian</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="stats_validation.html"><a href="stats_validation.html#the-beta-three-nominal-predictors-site-effects"><i class="fa fa-check"></i><b>6.7</b> The beta: Three Nominal Predictors + site effects</a>
+<li class="chapter" data-level="6.7" data-path="stats_validation.html"><a href="stats_validation.html#beta_mod"><i class="fa fa-check"></i><b>6.7</b> The beta: Three Nominal Predictors + site effects</a>
 <ul>
 <li class="chapter" data-level="6.7.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-9"><i class="fa fa-check"></i><b>6.7.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="6.7.2" data-path="stats_validation.html"><a href="stats_validation.html#f_5_pred_mod_bays"><i class="fa fa-check"></i><b>6.7.2</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="stats_validation.html"><a href="stats_validation.html#overstory-and-understory-validation"><i class="fa fa-check"></i><b>6.8</b> Overstory and Understory Validation</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-10"><i class="fa fa-check"></i><b>6.8.1</b> Summary Statistics</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -407,9 +411,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb195-29"><a href="stats_validation.html#cb195-29" tabindex="-1"></a>}</span>
 <span id="cb195-30"><a href="stats_validation.html#cb195-30" tabindex="-1"></a><span class="co"># replace 0 f-score with very small positive to run models</span></span>
 <span id="cb195-31"><a href="stats_validation.html#cb195-31" tabindex="-1"></a>ptcld_validation_data <span class="ot">=</span> ptcld_validation_data <span class="sc">%&gt;%</span> </span>
-<span id="cb195-32"><a href="stats_validation.html#cb195-32" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">f_score =</span> <span class="fu">ifelse</span>(f_score<span class="sc">==</span><span class="dv">0</span>,<span class="fl">1e-4</span>,f_score))</span>
-<span id="cb195-33"><a href="stats_validation.html#cb195-33" tabindex="-1"></a><span class="co"># what is this data?</span></span>
-<span id="cb195-34"><a href="stats_validation.html#cb195-34" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<span id="cb195-32"><a href="stats_validation.html#cb195-32" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb195-33"><a href="stats_validation.html#cb195-33" tabindex="-1"></a>    <span class="at">.cols =</span> tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;f_score&quot;</span>)</span>
+<span id="cb195-34"><a href="stats_validation.html#cb195-34" tabindex="-1"></a>    , <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">ifelse</span>(.x<span class="sc">==</span><span class="dv">0</span>,<span class="fl">1e-4</span>,.x)</span>
+<span id="cb195-35"><a href="stats_validation.html#cb195-35" tabindex="-1"></a>  ))</span>
+<span id="cb195-36"><a href="stats_validation.html#cb195-36" tabindex="-1"></a><span class="co"># what is this data?</span></span>
+<span id="cb195-37"><a href="stats_validation.html#cb195-37" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 260
 ## Columns: 77
 ## $ tracking_file_full_path              &lt;chr&gt; &quot;D:\\SfM_Software_Comparison\\Met…
@@ -10363,8 +10370,8 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## brms_f_mod2 -92.5      11.2</code></pre>
 </div>
 </div>
-<div id="the-beta-three-nominal-predictors-site-effects" class="section level2 hasAnchor" number="6.7">
-<h2><span class="header-section-number">6.7</span> The beta: Three Nominal Predictors + site effects<a href="stats_validation.html#the-beta-three-nominal-predictors-site-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="beta_mod" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> The beta: Three Nominal Predictors + site effects<a href="stats_validation.html#beta_mod" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To this point, we have been modelling F-score presuming a Gaussian likelihood. However, the beta likelihood more accurately represents the F-score data which is continuous and restricted within the range of <span class="math inline">\((0,1)\)</span>.</p>
 <p>We borrow here from the excellent series on causal inference by <a href="https://solomonkurz.netlify.app/blog/2023-06-25-causal-inference-with-beta-regression/">A. Solomon Kurz</a></p>
 <div id="summary-statistics-9" class="section level3 hasAnchor" number="6.7.1">
@@ -13559,6 +13566,176 @@ PIX4D - OPENDRONEMAP
 ## brms_f_mod1 -92.6      11.2  
 ## brms_f_mod2 -92.7      11.4</code></pre>
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="stats_validation.html#cb342-1" tabindex="-1"></a><span class="co"># brms::model_weights(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4) %&gt;% round(3)</span></span></code></pre></div>
+</div>
+</div>
+<div id="overstory-and-understory-validation" class="section level2 hasAnchor" number="6.8">
+<h2><span class="header-section-number">6.8</span> Overstory and Understory Validation<a href="stats_validation.html#overstory-and-understory-validation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In our <a href="field_valid.html#field_valid">validation data creation process</a> we calculated F-score for overstory and understory trees separately.</p>
+<p>Here, let’s add a factor variable with levels for overstory and understory as a predictor to our <a href="stats_validation.html#beta_mod">final model from above</a>.</p>
+<p>The overall F-score is not the same as combining the overstory and understory F-score by calculating the mean of these values due to the differing number of observations in each. To build this model we need to convert our data to long format so that a row is also unique by our overstory/understory factor.</p>
+<p>Each study site contributes one observation per depth map quality, filtering mode, software, and overstory/understory factor. That is, a row in the underlying data is unique by study site, software, depth map quality, filtering mode, and overstory/understory factor.</p>
+<div id="summary-statistics-10" class="section level3 hasAnchor" number="6.8.1">
+<h3><span class="header-section-number">6.8.1</span> Summary Statistics<a href="stats_validation.html#summary-statistics-10" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="stats_validation.html#cb343-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="ot">=</span></span>
+<span id="cb343-2"><a href="stats_validation.html#cb343-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb343-3"><a href="stats_validation.html#cb343-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb343-4"><a href="stats_validation.html#cb343-4" tabindex="-1"></a>    study_site, software</span>
+<span id="cb343-5"><a href="stats_validation.html#cb343-5" tabindex="-1"></a>    , depth_maps_generation_quality</span>
+<span id="cb343-6"><a href="stats_validation.html#cb343-6" tabindex="-1"></a>    , depth_maps_generation_filtering_mode</span>
+<span id="cb343-7"><a href="stats_validation.html#cb343-7" tabindex="-1"></a>    <span class="co"># our dependent var in wide format</span></span>
+<span id="cb343-8"><a href="stats_validation.html#cb343-8" tabindex="-1"></a>    , understory_f_score, overstory_f_score</span>
+<span id="cb343-9"><a href="stats_validation.html#cb343-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb343-10"><a href="stats_validation.html#cb343-10" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb343-11"><a href="stats_validation.html#cb343-11" tabindex="-1"></a>    <span class="at">cols =</span> tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_f_score&quot;</span>)</span>
+<span id="cb343-12"><a href="stats_validation.html#cb343-12" tabindex="-1"></a>    , <span class="at">names_to =</span> <span class="st">&quot;story&quot;</span></span>
+<span id="cb343-13"><a href="stats_validation.html#cb343-13" tabindex="-1"></a>    , <span class="at">values_to =</span> <span class="st">&quot;f_score&quot;</span></span>
+<span id="cb343-14"><a href="stats_validation.html#cb343-14" tabindex="-1"></a>    , <span class="at">values_drop_na =</span> F</span>
+<span id="cb343-15"><a href="stats_validation.html#cb343-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb343-16"><a href="stats_validation.html#cb343-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb343-17"><a href="stats_validation.html#cb343-17" tabindex="-1"></a>    <span class="at">story =</span> story <span class="sc">%&gt;%</span> stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;_f_score&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">factor</span>()</span>
+<span id="cb343-18"><a href="stats_validation.html#cb343-18" tabindex="-1"></a>  )</span>
+<span id="cb343-19"><a href="stats_validation.html#cb343-19" tabindex="-1"></a><span class="co"># what is this data?</span></span>
+<span id="cb343-20"><a href="stats_validation.html#cb343-20" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 520
+## Columns: 6
+## $ study_site                           &lt;chr&gt; &quot;KAIBAB_HIGH&quot;, &quot;KAIBAB_HIGH&quot;, &quot;KA…
+## $ software                             &lt;chr&gt; &quot;METASHAPE&quot;, &quot;METASHAPE&quot;, &quot;METASH…
+## $ depth_maps_generation_quality        &lt;ord&gt; high, high, high, high, high, hig…
+## $ depth_maps_generation_filtering_mode &lt;ord&gt; aggressive, aggressive, disabled,…
+## $ story                                &lt;fct&gt; understory, overstory, understory…
+## $ f_score                              &lt;dbl&gt; 0.2634731, 0.3461179, 0.4105263, …</code></pre>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="stats_validation.html#cb345-1" tabindex="-1"></a><span class="co"># a row is unique by...</span></span>
+<span id="cb345-2"><a href="stats_validation.html#cb345-2" tabindex="-1"></a><span class="fu">identical</span>(</span>
+<span id="cb345-3"><a href="stats_validation.html#cb345-3" tabindex="-1"></a>  <span class="fu">nrow</span>(ou_ptcld_validation_data)</span>
+<span id="cb345-4"><a href="stats_validation.html#cb345-4" tabindex="-1"></a>  , ou_ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb345-5"><a href="stats_validation.html#cb345-5" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">distinct</span>(</span>
+<span id="cb345-6"><a href="stats_validation.html#cb345-6" tabindex="-1"></a>      study_site, software</span>
+<span id="cb345-7"><a href="stats_validation.html#cb345-7" tabindex="-1"></a>      , depth_maps_generation_quality</span>
+<span id="cb345-8"><a href="stats_validation.html#cb345-8" tabindex="-1"></a>      , depth_maps_generation_filtering_mode</span>
+<span id="cb345-9"><a href="stats_validation.html#cb345-9" tabindex="-1"></a>      , story</span>
+<span id="cb345-10"><a href="stats_validation.html#cb345-10" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb345-11"><a href="stats_validation.html#cb345-11" tabindex="-1"></a>    <span class="fu">nrow</span>()</span>
+<span id="cb345-12"><a href="stats_validation.html#cb345-12" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="stats_validation.html#cb347-1" tabindex="-1"></a><span class="co"># and we should have 2 times the rows as the orignial data</span></span>
+<span id="cb347-2"><a href="stats_validation.html#cb347-2" tabindex="-1"></a><span class="fu">identical</span>(</span>
+<span id="cb347-3"><a href="stats_validation.html#cb347-3" tabindex="-1"></a>  <span class="fu">nrow</span>(ou_ptcld_validation_data) <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>() <span class="co"># long data</span></span>
+<span id="cb347-4"><a href="stats_validation.html#cb347-4" tabindex="-1"></a>  , <span class="fu">nrow</span>(ptcld_validation_data)<span class="sc">*</span><span class="dv">2</span> <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>() <span class="co"># original wide data</span></span>
+<span id="cb347-5"><a href="stats_validation.html#cb347-5" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>quick summary stats</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="stats_validation.html#cb349-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb349-2"><a href="stats_validation.html#cb349-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(tidyselect<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">&quot;_f_score&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb349-3"><a href="stats_validation.html#cb349-3" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>##  overstory_f_score understory_f_score
+##  Min.   :0.0001    Min.   :0.0001    
+##  1st Qu.:0.3250    1st Qu.:0.1372    
+##  Median :0.4992    Median :0.3448    
+##  Mean   :0.5163    Mean   :0.3271    
+##  3rd Qu.:0.7297    3rd Qu.:0.5046    
+##  Max.   :0.9408    Max.   :0.7419</code></pre>
+<p>let’s check this data with our <code>geom_tile</code> plot</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="stats_validation.html#cb351-1" tabindex="-1"></a><span class="co"># create function for combining plots with patchwork</span></span>
+<span id="cb351-2"><a href="stats_validation.html#cb351-2" tabindex="-1"></a>plt_tile_fn_temp <span class="ot">=</span> <span class="cf">function</span>(<span class="at">ss =</span> <span class="st">&quot;overstory&quot;</span>){</span>
+<span id="cb351-3"><a href="stats_validation.html#cb351-3" tabindex="-1"></a>  ou_ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb351-4"><a href="stats_validation.html#cb351-4" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">tolower</span>(story) <span class="sc">==</span> <span class="fu">tolower</span>(ss)) <span class="sc">%&gt;%</span> </span>
+<span id="cb351-5"><a href="stats_validation.html#cb351-5" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(story, software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span></span>
+<span id="cb351-6"><a href="stats_validation.html#cb351-6" tabindex="-1"></a>    <span class="co"># collapse across study site</span></span>
+<span id="cb351-7"><a href="stats_validation.html#cb351-7" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb351-8"><a href="stats_validation.html#cb351-8" tabindex="-1"></a>      <span class="at">mean_f_score =</span> <span class="fu">mean</span>(f_score, <span class="at">na.rm =</span> T)</span>
+<span id="cb351-9"><a href="stats_validation.html#cb351-9" tabindex="-1"></a>      <span class="co"># , med_f_score = median(f_score, na.rm = T)</span></span>
+<span id="cb351-10"><a href="stats_validation.html#cb351-10" tabindex="-1"></a>      , <span class="at">sd_f_score =</span> <span class="fu">sd</span>(f_score, <span class="at">na.rm =</span> T)</span>
+<span id="cb351-11"><a href="stats_validation.html#cb351-11" tabindex="-1"></a>      , <span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb351-12"><a href="stats_validation.html#cb351-12" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb351-13"><a href="stats_validation.html#cb351-13" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb351-14"><a href="stats_validation.html#cb351-14" tabindex="-1"></a>      <span class="at">y =</span> depth_maps_generation_quality</span>
+<span id="cb351-15"><a href="stats_validation.html#cb351-15" tabindex="-1"></a>      , <span class="at">x =</span> depth_maps_generation_filtering_mode</span>
+<span id="cb351-16"><a href="stats_validation.html#cb351-16" tabindex="-1"></a>      , <span class="at">fill =</span> mean_f_score</span>
+<span id="cb351-17"><a href="stats_validation.html#cb351-17" tabindex="-1"></a>      , <span class="at">label =</span> <span class="fu">paste0</span>(scales<span class="sc">::</span><span class="fu">comma</span>(mean_f_score,<span class="at">accuracy =</span> <span class="fl">0.01</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">(n=&quot;</span>, n,<span class="st">&quot;)&quot;</span>)</span>
+<span id="cb351-18"><a href="stats_validation.html#cb351-18" tabindex="-1"></a>    )) <span class="sc">+</span></span>
+<span id="cb351-19"><a href="stats_validation.html#cb351-19" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb351-20"><a href="stats_validation.html#cb351-20" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb351-21"><a href="stats_validation.html#cb351-21" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(software)) <span class="sc">+</span> </span>
+<span id="cb351-22"><a href="stats_validation.html#cb351-22" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb351-23"><a href="stats_validation.html#cb351-23" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb351-24"><a href="stats_validation.html#cb351-24" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>(</span>
+<span id="cb351-25"><a href="stats_validation.html#cb351-25" tabindex="-1"></a>      <span class="at">option =</span> <span class="st">&quot;cividis&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span></span>
+<span id="cb351-26"><a href="stats_validation.html#cb351-26" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.75</span>)</span>
+<span id="cb351-27"><a href="stats_validation.html#cb351-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb351-28"><a href="stats_validation.html#cb351-28" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb351-29"><a href="stats_validation.html#cb351-29" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;filtering mode&quot;</span></span>
+<span id="cb351-30"><a href="stats_validation.html#cb351-30" tabindex="-1"></a>      , <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
+<span id="cb351-31"><a href="stats_validation.html#cb351-31" tabindex="-1"></a>      , <span class="at">fill =</span> <span class="st">&quot;F-score&quot;</span></span>
+<span id="cb351-32"><a href="stats_validation.html#cb351-32" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;mean F-score and # of study sites&quot;</span></span>
+<span id="cb351-33"><a href="stats_validation.html#cb351-33" tabindex="-1"></a>      , <span class="at">title =</span> <span class="fu">toupper</span>(ss)</span>
+<span id="cb351-34"><a href="stats_validation.html#cb351-34" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb351-35"><a href="stats_validation.html#cb351-35" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb351-36"><a href="stats_validation.html#cb351-36" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb351-37"><a href="stats_validation.html#cb351-37" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb351-38"><a href="stats_validation.html#cb351-38" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb351-39"><a href="stats_validation.html#cb351-39" tabindex="-1"></a>      , <span class="at">panel.background =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb351-40"><a href="stats_validation.html#cb351-40" tabindex="-1"></a>      , <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb351-41"><a href="stats_validation.html#cb351-41" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb351-42"><a href="stats_validation.html#cb351-42" tabindex="-1"></a>      , <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb351-43"><a href="stats_validation.html#cb351-43" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb351-44"><a href="stats_validation.html#cb351-44" tabindex="-1"></a>    )</span>
+<span id="cb351-45"><a href="stats_validation.html#cb351-45" tabindex="-1"></a>}</span>
+<span id="cb351-46"><a href="stats_validation.html#cb351-46" tabindex="-1"></a><span class="fu">plt_tile_fn_temp</span>(<span class="st">&quot;overstory&quot;</span>) <span class="sc">/</span> <span class="fu">plt_tile_fn_temp</span>(<span class="st">&quot;understory&quot;</span>)</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-254-1.png" width="1008" /></p>
+<p>now let’s check by our other predictor variables</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="stats_validation.html#cb352-1" tabindex="-1"></a>sum_stats_dta <span class="ot">=</span> <span class="cf">function</span>(my_var){</span>
+<span id="cb352-2"><a href="stats_validation.html#cb352-2" tabindex="-1"></a>  sum_fns <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb352-3"><a href="stats_validation.html#cb352-3" tabindex="-1"></a>    <span class="at">n =</span> <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">ifelse</span>(<span class="fu">is.na</span>(.x), <span class="dv">0</span>, <span class="dv">1</span>))  </span>
+<span id="cb352-4"><a href="stats_validation.html#cb352-4" tabindex="-1"></a>    , <span class="at">min =</span> <span class="sc">~</span><span class="fu">min</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb352-5"><a href="stats_validation.html#cb352-5" tabindex="-1"></a>    , <span class="at">max =</span> <span class="sc">~</span><span class="fu">max</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb352-6"><a href="stats_validation.html#cb352-6" tabindex="-1"></a>    , <span class="at">mean =</span> <span class="sc">~</span><span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb352-7"><a href="stats_validation.html#cb352-7" tabindex="-1"></a>    , <span class="at">median =</span> <span class="sc">~</span><span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb352-8"><a href="stats_validation.html#cb352-8" tabindex="-1"></a>    , <span class="at">sd =</span> <span class="sc">~</span><span class="fu">sd</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb352-9"><a href="stats_validation.html#cb352-9" tabindex="-1"></a>  )</span>
+<span id="cb352-10"><a href="stats_validation.html#cb352-10" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb352-11"><a href="stats_validation.html#cb352-11" tabindex="-1"></a>  (</span>
+<span id="cb352-12"><a href="stats_validation.html#cb352-12" tabindex="-1"></a>    <span class="fu">ggplot</span>(</span>
+<span id="cb352-13"><a href="stats_validation.html#cb352-13" tabindex="-1"></a>      <span class="at">data =</span> ou_ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb352-14"><a href="stats_validation.html#cb352-14" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data[[my_var]]) <span class="sc">%&gt;%</span></span>
+<span id="cb352-15"><a href="stats_validation.html#cb352-15" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">m =</span> <span class="fu">median</span>(f_score))</span>
+<span id="cb352-16"><a href="stats_validation.html#cb352-16" tabindex="-1"></a>      , <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb352-17"><a href="stats_validation.html#cb352-17" tabindex="-1"></a>        <span class="at">y =</span> .data[[my_var]]</span>
+<span id="cb352-18"><a href="stats_validation.html#cb352-18" tabindex="-1"></a>        , <span class="at">x =</span> f_score, <span class="at">fill =</span> m)</span>
+<span id="cb352-19"><a href="stats_validation.html#cb352-19" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb352-20"><a href="stats_validation.html#cb352-20" tabindex="-1"></a>      <span class="fu">geom_violin</span>(<span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb352-21"><a href="stats_validation.html#cb352-21" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb352-22"><a href="stats_validation.html#cb352-22" tabindex="-1"></a>      <span class="fu">geom_rug</span>() <span class="sc">+</span></span>
+<span id="cb352-23"><a href="stats_validation.html#cb352-23" tabindex="-1"></a>      <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(story)) <span class="sc">+</span></span>
+<span id="cb352-24"><a href="stats_validation.html#cb352-24" tabindex="-1"></a>      <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.75</span>)) <span class="sc">+</span></span>
+<span id="cb352-25"><a href="stats_validation.html#cb352-25" tabindex="-1"></a>      <span class="fu">labs</span>(</span>
+<span id="cb352-26"><a href="stats_validation.html#cb352-26" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">&quot;F-score&quot;</span></span>
+<span id="cb352-27"><a href="stats_validation.html#cb352-27" tabindex="-1"></a>        , <span class="at">y =</span> stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(my_var, <span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb352-28"><a href="stats_validation.html#cb352-28" tabindex="-1"></a>        , <span class="at">subtitle =</span> stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(my_var, <span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot; &quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb352-29"><a href="stats_validation.html#cb352-29" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_to_title</span>()</span>
+<span id="cb352-30"><a href="stats_validation.html#cb352-30" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb352-31"><a href="stats_validation.html#cb352-31" tabindex="-1"></a>      <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb352-32"><a href="stats_validation.html#cb352-32" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb352-33"><a href="stats_validation.html#cb352-33" tabindex="-1"></a>  )</span>
+<span id="cb352-34"><a href="stats_validation.html#cb352-34" tabindex="-1"></a>  </span>
+<span id="cb352-35"><a href="stats_validation.html#cb352-35" tabindex="-1"></a>}</span>
+<span id="cb352-36"><a href="stats_validation.html#cb352-36" tabindex="-1"></a><span class="co"># sum_stats_dta(&quot;software&quot;)</span></span></code></pre></div>
+<p>summarize for all variables of interest</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="stats_validation.html#cb353-1" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;software&quot;</span>, <span class="st">&quot;study_site&quot;</span></span>
+<span id="cb353-2"><a href="stats_validation.html#cb353-2" tabindex="-1"></a>  , <span class="st">&quot;depth_maps_generation_quality&quot;</span></span>
+<span id="cb353-3"><a href="stats_validation.html#cb353-3" tabindex="-1"></a>  , <span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span></span>
+<span id="cb353-4"><a href="stats_validation.html#cb353-4" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb353-5"><a href="stats_validation.html#cb353-5" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(sum_stats_dta)</span></code></pre></div>
+<pre><code>## [[1]]</code></pre>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-1.png" width="1008" /></p>
+<pre><code>## 
+## [[2]]</code></pre>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-2.png" width="1008" /></p>
+<pre><code>## 
+## [[3]]</code></pre>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-3.png" width="1008" /></p>
+<pre><code>## 
+## [[4]]</code></pre>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-4.png" width="1008" /></p>
 
 </div>
 </div>

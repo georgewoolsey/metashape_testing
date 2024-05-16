@@ -125,6 +125,8 @@ f_three_pred_mod_bays
 three-nominal-predictors-site-effects
 summary-statistics-8
 f_4_pred_mod_bays
-the-beta-three-nominal-predictors-site-effects
+beta_mod
 summary-statistics-9
 f_5_pred_mod_bays
+overstory-and-understory-validation
+summary-statistics-10
