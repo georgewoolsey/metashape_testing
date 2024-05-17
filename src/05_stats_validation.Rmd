@@ -421,7 +421,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -781,7 +781,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -1398,7 +1398,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -1583,7 +1583,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, software) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -1840,7 +1840,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "software", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -2208,7 +2208,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -2396,7 +2396,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, software) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -2498,7 +2498,7 @@ brms_contrast_temp = qlty_sftwr_draws_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
   dplyr::mutate(
     is_gt_zero = abs(value) > 0.05
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -2780,7 +2780,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "software", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -3186,7 +3186,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -3374,7 +3374,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, software) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -3476,7 +3476,7 @@ brms_contrast_temp = qlty_sftwr_draws_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
   dplyr::mutate(
     is_gt_zero = abs(value) > 0.05
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -3708,7 +3708,7 @@ brms_contrast_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast) %>% 
   dplyr::mutate(
     is_gt_zero = value > 0
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -3903,7 +3903,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "software", x = "f-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -3976,7 +3976,7 @@ brms_contrast_temp =
   dplyr::group_by(contrast) %>% 
   dplyr::mutate(
     is_gt_zero = abs(value) > 0.05
-    , pct_gt_zero = sum(is_gt_zero)/dplyr::n()
+    , pct_gt_zero = mean(is_gt_zero)
     , sig_level = dplyr::case_when(
       pct_gt_zero > 0.99 ~ 0
       , pct_gt_zero > 0.95 ~ 1
@@ -4259,6 +4259,11 @@ c("software", "study_site"
   purrr::map(sum_stats_dta)
 ```
 
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
 ### Bayesian{#f_6_pred_mod_bays}
 
 With the beta likelihood our model with three nominal predictor variables and subject-level effects the model becomes:
@@ -4295,8 +4300,7 @@ Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_familie
 
 Now fit the model.
 
-```{r, include=FALSE,eval=FALSE}
-xxx
+```{r}
 brms_f_mod6 = brms::brm(
   formula = f_score ~ 
     # baseline
@@ -4315,17 +4319,409 @@ brms_f_mod6 = brms::brm(
     (1 | depth_maps_generation_filtering_mode:story) +
     (1 | software:story) +
     # three-way interactions
-    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
-  , data = ptcld_validation_data
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software) +
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:story) +
+    (1 | depth_maps_generation_quality:software:story) +
+    (1 | depth_maps_generation_filtering_mode:software:story) +
+    # four-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software:story)
+  , data = ou_ptcld_validation_data
   , family = Beta(link = "logit")
   , iter = 20000, warmup = 10000, chains = 4
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
-  , file = paste0(rootdir, "/fits/brms_f_mod5")
+  , file = paste0(rootdir, "/fits/brms_f_mod6")
 )
 ```
 
 check the trace plots for problems with convergence of the Markov chains
+
+```{r, fig.height=8}
+plot(brms_f_mod6)
+```
+
+posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data
+
+```{r}
+# posterior predictive check
+brms::pp_check(
+    brms_f_mod6
+    , type = "dens_overlay"
+    , ndraws = 100
+  ) + 
+  labs(subtitle = "posterior-predictive check (overlaid densities)") +
+  theme_light() +
+  theme(legend.position = "top", legend.direction = "horizontal", legend.text = element_text(size = 14))
+```
+
+How’d we do capturing the conditional means and standard deviations by depth map generation quality?
+
+```{r}
+# means
+p1_temp = brms::pp_check(
+    brms_f_mod6
+    , type = "stat_grouped" # "dens_overlay_grouped"
+    , stat = "mean"
+    , group = "depth_maps_generation_quality"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "means") +
+  facet_grid(cols = vars(group), scales = "free") +
+  theme_light()
+# sds
+p2_temp = brms::pp_check(
+    brms_f_mod6
+    , type = "stat_grouped" # "dens_overlay_grouped"
+    , stat = "sd"
+    , group = "depth_maps_generation_quality"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "sd's") +
+  facet_grid(cols = vars(group), scales = "free") +
+  theme_light()
+# combine 
+(p1_temp / p2_temp) &
+  theme(legend.position = "none") &
+  plot_annotation(
+    title = "Posterior-predictive statistical checks\nby depth map quality"
+    , subtitle = expression(
+      "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
+  )
+
+# brms_f_mod6 %>% 
+#   brms::posterior_summary()
+```
+
+Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+
+We can look at the model noise standard deviation (concentration) $\phi$
+
+```{r}
+# get formula
+form_temp = brms_f_mod6$formula$formula[3] %>% 
+  as.character() %>% get_frmla_text(split_chrs = 115) %>% 
+  stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+  stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+# extract the posterior draws
+brms::as_draws_df(brms_f_mod6) %>% 
+# plot
+  ggplot(aes(x = phi, y = 0)) +
+  tidybayes::stat_dotsinterval(
+    point_interval = median_hdi, .width = .95
+    , justification = -0.04
+    , shape = 21, point_size = 3
+    , quantiles = 100
+  ) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  labs(
+    x = latex2exp::TeX("$\\phi$")
+    , caption = form_temp
+  ) +
+  theme_light()
+
+```
+
+First, we'll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, depth map quality setting, study site, and software and then performing a pairwise comparison between overstory and understory
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+ou_ptcld_validation_data %>%
+  dplyr::distinct(story) %>% 
+  tidybayes::add_epred_draws(
+    brms_f_mod6, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | story)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      x = value, y = story
+      , fill = story
+    )
+  ) +
+    tidybayes::stat_halfeye(
+      point_interval = median_hdi, .width = .95
+      , interval_color = "gray66"
+      , shape = 21, point_color = "gray66", point_fill = "black"
+      , justification = -0.01
+    ) +
+    scale_fill_viridis_d(option = "magma", begin = 0.3, end = 0.9, drop = F) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    labs(
+      y = "", x = "f-score"
+      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
+    ) +
+    theme_light() +
+    theme(legend.position = "none")
+```
+
+we can view the posterior HDI of these estimates
+
+```{r}
+ou_ptcld_validation_data %>%
+  dplyr::distinct(story) %>% 
+  tidybayes::add_epred_draws(
+    brms_f_mod6, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | story)
+  ) %>% 
+  dplyr::rename(value = .epred) %>%  
+  dplyr::group_by(story) %>% 
+  tidybayes::median_hdi(value) %>% 
+  select(-c(.point,.interval, .width)) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean F-score"
+    , col.names = c(
+      ""
+      , "f-score"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+compare this to the quick summary stats
+
+```{r}
+ou_ptcld_validation_data %>% 
+  dplyr::group_by(story) %>% 
+  dplyr::summarise(
+    mean_f = mean(f_score)
+    , f_05 = quantile(f_score, probs = 0.05)
+    , f_95 = quantile(f_score, probs = 0.95)
+  ) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "summary statistics of F-score"
+    , col.names = c(
+      ""
+      , "mean f-score"
+      , "5% value", "95% value"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+now we'll make our contrast of overstory/understory
+
+```{r}
+brms_contrast_temp =
+  ou_ptcld_validation_data %>%
+    dplyr::distinct(story) %>% 
+    tidybayes::add_epred_draws(
+      brms_f_mod6, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | story)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = story
+      , comparison = tidybayes::emmeans_comparison("revpairwise")
+    ) %>% 
+    dplyr::rename(contrast = story) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>% 
+  dplyr::mutate(
+    is_gt_zero = value > 0
+    , pct_gt_zero = mean(is_gt_zero)
+    , sig_level = dplyr::case_when(
+      pct_gt_zero > 0.99 ~ 0
+      , pct_gt_zero > 0.95 ~ 1
+      , pct_gt_zero > 0.9 ~ 2
+      , pct_gt_zero > 0.8 ~ 3
+      , T ~ 4
+    ) %>% 
+      factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
+  )
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+# plot it
+brms_contrast_temp %>% 
+  ggplot(
+    mapping = aes(
+      x = value, y = contrast
+      , fill = pct_gt_zero
+    )
+  ) +
+  tidybayes::stat_halfeye(
+    point_interval = median_hdi, .width = c(0.5,0.95)
+    # , slab_fill = "gray22", slab_alpha = 1
+    , interval_color = "black", point_color = "black", point_fill = "black"
+    , justification = -0.01
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
+    , labels = scales::percent
+  ) +
+  scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+  labs(
+    y = "software"
+    , x = "constrast (f-score)"
+    , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+    , fill = "Pr(contrast > 0)"
+    , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(12, "lines")
+  )))
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "overstory contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+
+```
+
+Averaging across all levels of filtering mode, depth map quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a `r brms_contrast_temp$pct_gt_zero[1] %>% scales::percent(accuracy = 0.1)` that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior distribution above)
+
+Now, we'll address the question of "are there differences in F-score based on the processing software used for detecting overstory and understory trees?"
+
+```{r}
+# get draws
+stry_sftwr_draws_temp = ou_ptcld_validation_data %>%
+  dplyr::distinct(software, story) %>% 
+  tidybayes::add_epred_draws(
+    brms_f_mod6, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | story) +
+      (1 | software) + 
+      (1 | software:story)
+  ) %>% 
+  dplyr::rename(value = .epred)
+# calculate contrast
+brms_contrast_temp = stry_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = software
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, story) %>% 
+  dplyr::mutate(
+    is_gt_zero = abs(value) > 0.05
+    , pct_gt_zero = mean(is_gt_zero)
+    , sig_level = dplyr::case_when(
+      pct_gt_zero > 0.99 ~ 0
+      , pct_gt_zero > 0.95 ~ 1
+      , pct_gt_zero > 0.9 ~ 2
+      , pct_gt_zero > 0.8 ~ 3
+      , T ~ 4
+    ) %>% 
+      factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
+  )
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+# plot it
+brms_contrast_temp %>% 
+  ggplot(
+    mapping = aes(
+      x = value, y = contrast
+      , fill = pct_gt_zero
+    )
+  ) +
+  tidybayes::stat_halfeye(
+    point_interval = median_hdi, .width = c(0.5,0.95)
+    # , slab_fill = "gray22", slab_alpha = 1
+    , interval_color = "black", point_color = "black", point_fill = "black"
+    , justification = -0.01
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
+  scale_fill_fermenter(
+    n.breaks = 10, palette = "PuOr"
+    , direction = 1
+    , limits = c(0,1)
+    , labels = scales::percent
+  ) +
+  scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+  facet_wrap(facets = vars(story), ncol = 2) +
+  labs(
+    y = "software"
+    , x = "constrast (f-score)"
+    , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby overstory/understory"
+    , fill = "Pr(abs(contrast) > 0.05)"
+    , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.text = element_text(size = 7)
+    , legend.title = element_text(size = 8)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
+
+ggplot2::ggsave("../data/sftwr_stry_comp_mod6.png", height = 8, width = 6)
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, story) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, story) %>% 
+  dplyr::select(contrast, story, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "software contrast"
+      , "overstory/understory"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])

@@ -67,7 +67,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_fcdb18-1/data_stars_canopyhtm57690f.txt"></script>
+<script src="libs/canopy ht. (m)_21c6d8-1/data_stars_canopyhtm986d1c.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -304,6 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.8" data-path="stats_validation.html"><a href="stats_validation.html#overstory-and-understory-validation"><i class="fa fa-check"></i><b>6.8</b> Overstory and Understory Validation</a>
 <ul>
 <li class="chapter" data-level="6.8.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-10"><i class="fa fa-check"></i><b>6.8.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.8.2" data-path="stats_validation.html"><a href="stats_validation.html#f_6_pred_mod_bays"><i class="fa fa-check"></i><b>6.8.2</b> Bayesian</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1296,7 +1297,7 @@ lowest
 <span id="cb213-75"><a href="stats_validation.html#cb213-75" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
 <span id="cb213-76"><a href="stats_validation.html#cb213-76" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb213-77"><a href="stats_validation.html#cb213-77" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb213-78"><a href="stats_validation.html#cb213-78" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb213-78"><a href="stats_validation.html#cb213-78" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb213-79"><a href="stats_validation.html#cb213-79" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb213-80"><a href="stats_validation.html#cb213-80" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb213-81"><a href="stats_validation.html#cb213-81" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -3102,7 +3103,7 @@ hdi
 <span id="cb226-50"><a href="stats_validation.html#cb226-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb226-51"><a href="stats_validation.html#cb226-51" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb226-52"><a href="stats_validation.html#cb226-52" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb226-53"><a href="stats_validation.html#cb226-53" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb226-53"><a href="stats_validation.html#cb226-53" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb226-54"><a href="stats_validation.html#cb226-54" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb226-55"><a href="stats_validation.html#cb226-55" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb226-56"><a href="stats_validation.html#cb226-56" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -6009,7 +6010,7 @@ hdi
 <span id="cb248-56"><a href="stats_validation.html#cb248-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb248-57"><a href="stats_validation.html#cb248-57" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb248-58"><a href="stats_validation.html#cb248-58" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb248-59"><a href="stats_validation.html#cb248-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb248-59"><a href="stats_validation.html#cb248-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb248-60"><a href="stats_validation.html#cb248-60" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb248-61"><a href="stats_validation.html#cb248-61" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb248-62"><a href="stats_validation.html#cb248-62" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -6901,7 +6902,7 @@ disabled
 <span id="cb253-50"><a href="stats_validation.html#cb253-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, software) <span class="sc">%&gt;%</span> </span>
 <span id="cb253-51"><a href="stats_validation.html#cb253-51" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb253-52"><a href="stats_validation.html#cb253-52" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb253-53"><a href="stats_validation.html#cb253-53" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb253-53"><a href="stats_validation.html#cb253-53" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb253-54"><a href="stats_validation.html#cb253-54" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb253-55"><a href="stats_validation.html#cb253-55" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb253-56"><a href="stats_validation.html#cb253-56" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -7481,7 +7482,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb261-22"><a href="stats_validation.html#cb261-22" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
 <span id="cb261-23"><a href="stats_validation.html#cb261-23" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
 <span id="cb261-24"><a href="stats_validation.html#cb261-24" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb261-25"><a href="stats_validation.html#cb261-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;filtering mode&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb261-25"><a href="stats_validation.html#cb261-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;software&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
 <span id="cb261-26"><a href="stats_validation.html#cb261-26" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior distribution of conditional means with 95% HDI&quot;</span></span>
 <span id="cb261-27"><a href="stats_validation.html#cb261-27" tabindex="-1"></a>      , <span class="at">caption =</span> form_temp</span>
 <span id="cb261-28"><a href="stats_validation.html#cb261-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
@@ -8449,7 +8450,7 @@ hdi
 <span id="cb275-56"><a href="stats_validation.html#cb275-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast,depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb275-57"><a href="stats_validation.html#cb275-57" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb275-58"><a href="stats_validation.html#cb275-58" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb275-59"><a href="stats_validation.html#cb275-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb275-59"><a href="stats_validation.html#cb275-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb275-60"><a href="stats_validation.html#cb275-60" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb275-61"><a href="stats_validation.html#cb275-61" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb275-62"><a href="stats_validation.html#cb275-62" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -9344,7 +9345,7 @@ disabled
 <span id="cb280-53"><a href="stats_validation.html#cb280-53" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, software) <span class="sc">%&gt;%</span> </span>
 <span id="cb280-54"><a href="stats_validation.html#cb280-54" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb280-55"><a href="stats_validation.html#cb280-55" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb280-56"><a href="stats_validation.html#cb280-56" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb280-56"><a href="stats_validation.html#cb280-56" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb280-57"><a href="stats_validation.html#cb280-57" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb280-58"><a href="stats_validation.html#cb280-58" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb280-59"><a href="stats_validation.html#cb280-59" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -9781,7 +9782,7 @@ PIX4D
 <span id="cb285-10"><a href="stats_validation.html#cb285-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
 <span id="cb285-11"><a href="stats_validation.html#cb285-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb285-12"><a href="stats_validation.html#cb285-12" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> <span class="fu">abs</span>(value) <span class="sc">&gt;</span> <span class="fl">0.05</span></span>
-<span id="cb285-13"><a href="stats_validation.html#cb285-13" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb285-13"><a href="stats_validation.html#cb285-13" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb285-14"><a href="stats_validation.html#cb285-14" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb285-15"><a href="stats_validation.html#cb285-15" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb285-16"><a href="stats_validation.html#cb285-16" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -10298,7 +10299,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb294-22"><a href="stats_validation.html#cb294-22" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
 <span id="cb294-23"><a href="stats_validation.html#cb294-23" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
 <span id="cb294-24"><a href="stats_validation.html#cb294-24" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb294-25"><a href="stats_validation.html#cb294-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;filtering mode&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb294-25"><a href="stats_validation.html#cb294-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;software&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
 <span id="cb294-26"><a href="stats_validation.html#cb294-26" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior distribution of conditional means with 95% HDI&quot;</span></span>
 <span id="cb294-27"><a href="stats_validation.html#cb294-27" tabindex="-1"></a>      , <span class="at">caption =</span> form_temp</span>
 <span id="cb294-28"><a href="stats_validation.html#cb294-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
@@ -11170,7 +11171,7 @@ default
 <span id="cb311-56"><a href="stats_validation.html#cb311-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast,depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
 <span id="cb311-57"><a href="stats_validation.html#cb311-57" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb311-58"><a href="stats_validation.html#cb311-58" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb311-59"><a href="stats_validation.html#cb311-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb311-59"><a href="stats_validation.html#cb311-59" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb311-60"><a href="stats_validation.html#cb311-60" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb311-61"><a href="stats_validation.html#cb311-61" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb311-62"><a href="stats_validation.html#cb311-62" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -12065,7 +12066,7 @@ disabled
 <span id="cb316-53"><a href="stats_validation.html#cb316-53" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, software) <span class="sc">%&gt;%</span> </span>
 <span id="cb316-54"><a href="stats_validation.html#cb316-54" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb316-55"><a href="stats_validation.html#cb316-55" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb316-56"><a href="stats_validation.html#cb316-56" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb316-56"><a href="stats_validation.html#cb316-56" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb316-57"><a href="stats_validation.html#cb316-57" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb316-58"><a href="stats_validation.html#cb316-58" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb316-59"><a href="stats_validation.html#cb316-59" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -12502,7 +12503,7 @@ PIX4D
 <span id="cb321-10"><a href="stats_validation.html#cb321-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
 <span id="cb321-11"><a href="stats_validation.html#cb321-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb321-12"><a href="stats_validation.html#cb321-12" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> <span class="fu">abs</span>(value) <span class="sc">&gt;</span> <span class="fl">0.05</span></span>
-<span id="cb321-13"><a href="stats_validation.html#cb321-13" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb321-13"><a href="stats_validation.html#cb321-13" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb321-14"><a href="stats_validation.html#cb321-14" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb321-15"><a href="stats_validation.html#cb321-15" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb321-16"><a href="stats_validation.html#cb321-16" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -12976,7 +12977,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb328-49"><a href="stats_validation.html#cb328-49" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
 <span id="cb328-50"><a href="stats_validation.html#cb328-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb328-51"><a href="stats_validation.html#cb328-51" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb328-52"><a href="stats_validation.html#cb328-52" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb328-52"><a href="stats_validation.html#cb328-52" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb328-53"><a href="stats_validation.html#cb328-53" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb328-54"><a href="stats_validation.html#cb328-54" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb328-55"><a href="stats_validation.html#cb328-55" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -13329,7 +13330,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb334-22"><a href="stats_validation.html#cb334-22" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
 <span id="cb334-23"><a href="stats_validation.html#cb334-23" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
 <span id="cb334-24"><a href="stats_validation.html#cb334-24" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb334-25"><a href="stats_validation.html#cb334-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;filtering mode&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb334-25"><a href="stats_validation.html#cb334-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;software&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
 <span id="cb334-26"><a href="stats_validation.html#cb334-26" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior distribution of conditional means with 95% HDI&quot;</span></span>
 <span id="cb334-27"><a href="stats_validation.html#cb334-27" tabindex="-1"></a>      , <span class="at">caption =</span> form_temp</span>
 <span id="cb334-28"><a href="stats_validation.html#cb334-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
@@ -13395,7 +13396,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb336-17"><a href="stats_validation.html#cb336-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
 <span id="cb336-18"><a href="stats_validation.html#cb336-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb336-19"><a href="stats_validation.html#cb336-19" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> <span class="fu">abs</span>(value) <span class="sc">&gt;</span> <span class="fl">0.05</span></span>
-<span id="cb336-20"><a href="stats_validation.html#cb336-20" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">sum</span>(is_gt_zero)<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb336-20"><a href="stats_validation.html#cb336-20" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
 <span id="cb336-21"><a href="stats_validation.html#cb336-21" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb336-22"><a href="stats_validation.html#cb336-22" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb336-23"><a href="stats_validation.html#cb336-23" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -13736,6 +13737,694 @@ PIX4D - OPENDRONEMAP
 <pre><code>## 
 ## [[4]]</code></pre>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-4.png" width="1008" /></p>
+</div>
+<div id="f_6_pred_mod_bays" class="section level3 hasAnchor" number="6.8.2">
+<h3><span class="header-section-number">6.8.2</span> Bayesian<a href="stats_validation.html#f_6_pred_mod_bays" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>With the beta likelihood our model with three nominal predictor variables and subject-level effects the model becomes:</p>
+<p><span class="math display">\[\begin{align*}
+y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
+\operatorname{logit}(\mu_{i}) = &amp; \beta_0 \\
+&amp; + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+&amp; + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
+&amp; + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
+\beta_{0}  \sim &amp; {\sf Normal} (0,1) \\
+\beta_{1[j]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{1}}) \\
+\beta_{2[k]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{2}}) \\
+\beta_{3[f]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{3}}) \\
+\beta_{4[s]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{4}}) \\
+\beta_{1\times2[j,k]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\
+\beta_{1\times3[j,f]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\
+\beta_{2\times3[k,f]}  \sim &amp; {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\
+\sigma_{\beta_{1}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{2}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{3}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{4}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{1\times2}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{1\times3}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\sigma_{\beta_{2\times3}} \sim &amp; {\sf Gamma} (1.28,0.005) \\
+\phi \sim &amp; {\sf Gamma} (4,0.1) \\
+\end{align*}\]</span></p>
+<p>, where <span class="math inline">\(j\)</span> is the depth map generation quality setting corresponding to observation <span class="math inline">\(i\)</span>, <span class="math inline">\(k\)</span> is the depth map filtering mode setting corresponding to observation <span class="math inline">\(i\)</span>, <span class="math inline">\(f\)</span> is the processing software corresponding to observation <span class="math inline">\(i\)</span>, and <span class="math inline">\(s\)</span> is the study site corresponding to observation <span class="math inline">\(i\)</span></p>
+<p>Per <a href="https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html"><code>brms</code></a>, our <span class="math inline">\(y\)</span> is <span class="math inline">\({\sf Beta}\)</span> distributed with the mean as <span class="math inline">\(\mu\)</span> and the concentration as <span class="math inline">\(\phi\)</span> which is sometimes called the <em>concentration</em>, <em>sample size</em> or <em>precision</em></p>
+<p><em>Need to check our prior selection…just go with <code>brms</code> defaults for now</em></p>
+<p>Now fit the model.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="stats_validation.html#cb358-1" tabindex="-1"></a>brms_f_mod6 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">brm</span>(</span>
+<span id="cb358-2"><a href="stats_validation.html#cb358-2" tabindex="-1"></a>  <span class="at">formula =</span> f_score <span class="sc">~</span> </span>
+<span id="cb358-3"><a href="stats_validation.html#cb358-3" tabindex="-1"></a>    <span class="co"># baseline</span></span>
+<span id="cb358-4"><a href="stats_validation.html#cb358-4" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">+</span> </span>
+<span id="cb358-5"><a href="stats_validation.html#cb358-5" tabindex="-1"></a>    <span class="co"># main effects</span></span>
+<span id="cb358-6"><a href="stats_validation.html#cb358-6" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality) <span class="sc">+</span></span>
+<span id="cb358-7"><a href="stats_validation.html#cb358-7" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_filtering_mode) <span class="sc">+</span> </span>
+<span id="cb358-8"><a href="stats_validation.html#cb358-8" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> software) <span class="sc">+</span></span>
+<span id="cb358-9"><a href="stats_validation.html#cb358-9" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> story) <span class="sc">+</span></span>
+<span id="cb358-10"><a href="stats_validation.html#cb358-10" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> study_site) <span class="sc">+</span> <span class="co"># only fitting main effects of site and not interactions</span></span>
+<span id="cb358-11"><a href="stats_validation.html#cb358-11" tabindex="-1"></a>    <span class="co"># two-way interactions</span></span>
+<span id="cb358-12"><a href="stats_validation.html#cb358-12" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>depth_maps_generation_filtering_mode) <span class="sc">+</span></span>
+<span id="cb358-13"><a href="stats_validation.html#cb358-13" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>software) <span class="sc">+</span></span>
+<span id="cb358-14"><a href="stats_validation.html#cb358-14" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_filtering_mode<span class="sc">:</span>software) <span class="sc">+</span></span>
+<span id="cb358-15"><a href="stats_validation.html#cb358-15" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-16"><a href="stats_validation.html#cb358-16" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_filtering_mode<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-17"><a href="stats_validation.html#cb358-17" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> software<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-18"><a href="stats_validation.html#cb358-18" tabindex="-1"></a>    <span class="co"># three-way interactions</span></span>
+<span id="cb358-19"><a href="stats_validation.html#cb358-19" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>depth_maps_generation_filtering_mode<span class="sc">:</span>software) <span class="sc">+</span></span>
+<span id="cb358-20"><a href="stats_validation.html#cb358-20" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>depth_maps_generation_filtering_mode<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-21"><a href="stats_validation.html#cb358-21" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>software<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-22"><a href="stats_validation.html#cb358-22" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_filtering_mode<span class="sc">:</span>software<span class="sc">:</span>story) <span class="sc">+</span></span>
+<span id="cb358-23"><a href="stats_validation.html#cb358-23" tabindex="-1"></a>    <span class="co"># four-way interactions</span></span>
+<span id="cb358-24"><a href="stats_validation.html#cb358-24" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>depth_maps_generation_filtering_mode<span class="sc">:</span>software<span class="sc">:</span>story)</span>
+<span id="cb358-25"><a href="stats_validation.html#cb358-25" tabindex="-1"></a>  , <span class="at">data =</span> ou_ptcld_validation_data</span>
+<span id="cb358-26"><a href="stats_validation.html#cb358-26" tabindex="-1"></a>  , <span class="at">family =</span> <span class="fu">Beta</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)</span>
+<span id="cb358-27"><a href="stats_validation.html#cb358-27" tabindex="-1"></a>  , <span class="at">iter =</span> <span class="dv">20000</span>, <span class="at">warmup =</span> <span class="dv">10000</span>, <span class="at">chains =</span> <span class="dv">4</span></span>
+<span id="cb358-28"><a href="stats_validation.html#cb358-28" tabindex="-1"></a>  , <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adapt_delta =</span> <span class="fl">0.999</span>, <span class="at">max_treedepth =</span> <span class="dv">13</span>)</span>
+<span id="cb358-29"><a href="stats_validation.html#cb358-29" tabindex="-1"></a>  , <span class="at">cores =</span> <span class="fu">round</span>(parallel<span class="sc">::</span><span class="fu">detectCores</span>()<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb358-30"><a href="stats_validation.html#cb358-30" tabindex="-1"></a>  , <span class="at">file =</span> <span class="fu">paste0</span>(rootdir, <span class="st">&quot;/fits/brms_f_mod6&quot;</span>)</span>
+<span id="cb358-31"><a href="stats_validation.html#cb358-31" tabindex="-1"></a>)</span></code></pre></div>
+<p>check the trace plots for problems with convergence of the Markov chains</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="stats_validation.html#cb359-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod6)</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-259-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-259-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-259-3.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-259-4.png" width="1008" /></p>
+<p>posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="stats_validation.html#cb360-1" tabindex="-1"></a><span class="co"># posterior predictive check</span></span>
+<span id="cb360-2"><a href="stats_validation.html#cb360-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
+<span id="cb360-3"><a href="stats_validation.html#cb360-3" tabindex="-1"></a>    brms_f_mod6</span>
+<span id="cb360-4"><a href="stats_validation.html#cb360-4" tabindex="-1"></a>    , <span class="at">type =</span> <span class="st">&quot;dens_overlay&quot;</span></span>
+<span id="cb360-5"><a href="stats_validation.html#cb360-5" tabindex="-1"></a>    , <span class="at">ndraws =</span> <span class="dv">100</span></span>
+<span id="cb360-6"><a href="stats_validation.html#cb360-6" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb360-7"><a href="stats_validation.html#cb360-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;posterior-predictive check (overlaid densities)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb360-8"><a href="stats_validation.html#cb360-8" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb360-9"><a href="stats_validation.html#cb360-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>, <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-260-1.png" width="1008" /></p>
+<p>How’d we do capturing the conditional means and standard deviations by depth map generation quality?</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="stats_validation.html#cb361-1" tabindex="-1"></a><span class="co"># means</span></span>
+<span id="cb361-2"><a href="stats_validation.html#cb361-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
+<span id="cb361-3"><a href="stats_validation.html#cb361-3" tabindex="-1"></a>    brms_f_mod6</span>
+<span id="cb361-4"><a href="stats_validation.html#cb361-4" tabindex="-1"></a>    , <span class="at">type =</span> <span class="st">&quot;stat_grouped&quot;</span> <span class="co"># &quot;dens_overlay_grouped&quot;</span></span>
+<span id="cb361-5"><a href="stats_validation.html#cb361-5" tabindex="-1"></a>    , <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span></span>
+<span id="cb361-6"><a href="stats_validation.html#cb361-6" tabindex="-1"></a>    , <span class="at">group =</span> <span class="st">&quot;depth_maps_generation_quality&quot;</span></span>
+<span id="cb361-7"><a href="stats_validation.html#cb361-7" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb361-8"><a href="stats_validation.html#cb361-8" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="cn">NULL</span>)) <span class="sc">+</span></span>
+<span id="cb361-9"><a href="stats_validation.html#cb361-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;means&quot;</span>) <span class="sc">+</span></span>
+<span id="cb361-10"><a href="stats_validation.html#cb361-10" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(group), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb361-11"><a href="stats_validation.html#cb361-11" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span>
+<span id="cb361-12"><a href="stats_validation.html#cb361-12" tabindex="-1"></a><span class="co"># sds</span></span>
+<span id="cb361-13"><a href="stats_validation.html#cb361-13" tabindex="-1"></a>p2_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
+<span id="cb361-14"><a href="stats_validation.html#cb361-14" tabindex="-1"></a>    brms_f_mod6</span>
+<span id="cb361-15"><a href="stats_validation.html#cb361-15" tabindex="-1"></a>    , <span class="at">type =</span> <span class="st">&quot;stat_grouped&quot;</span> <span class="co"># &quot;dens_overlay_grouped&quot;</span></span>
+<span id="cb361-16"><a href="stats_validation.html#cb361-16" tabindex="-1"></a>    , <span class="at">stat =</span> <span class="st">&quot;sd&quot;</span></span>
+<span id="cb361-17"><a href="stats_validation.html#cb361-17" tabindex="-1"></a>    , <span class="at">group =</span> <span class="st">&quot;depth_maps_generation_quality&quot;</span></span>
+<span id="cb361-18"><a href="stats_validation.html#cb361-18" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb361-19"><a href="stats_validation.html#cb361-19" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="cn">NULL</span>)) <span class="sc">+</span></span>
+<span id="cb361-20"><a href="stats_validation.html#cb361-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;sd&#39;s&quot;</span>) <span class="sc">+</span></span>
+<span id="cb361-21"><a href="stats_validation.html#cb361-21" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(group), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb361-22"><a href="stats_validation.html#cb361-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span>
+<span id="cb361-23"><a href="stats_validation.html#cb361-23" tabindex="-1"></a><span class="co"># combine </span></span>
+<span id="cb361-24"><a href="stats_validation.html#cb361-24" tabindex="-1"></a>(p1_temp <span class="sc">/</span> p2_temp) <span class="sc">&amp;</span></span>
+<span id="cb361-25"><a href="stats_validation.html#cb361-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">&amp;</span></span>
+<span id="cb361-26"><a href="stats_validation.html#cb361-26" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb361-27"><a href="stats_validation.html#cb361-27" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Posterior-predictive statistical checks</span><span class="sc">\n</span><span class="st">by depth map quality&quot;</span></span>
+<span id="cb361-28"><a href="stats_validation.html#cb361-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
+<span id="cb361-29"><a href="stats_validation.html#cb361-29" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb361-30"><a href="stats_validation.html#cb361-30" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-261-1.png" width="1008" /></p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="stats_validation.html#cb362-1" tabindex="-1"></a><span class="co"># brms_f_mod6 %&gt;% </span></span>
+<span id="cb362-2"><a href="stats_validation.html#cb362-2" tabindex="-1"></a><span class="co">#   brms::posterior_summary()</span></span></code></pre></div>
+<p>Both the means and sd’s of the F-score are well represented across the different levels of depth map quality</p>
+<p>We can look at the model noise standard deviation (concentration) <span class="math inline">\(\phi\)</span></p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="stats_validation.html#cb363-1" tabindex="-1"></a><span class="co"># get formula</span></span>
+<span id="cb363-2"><a href="stats_validation.html#cb363-2" tabindex="-1"></a>form_temp <span class="ot">=</span> brms_f_mod6<span class="sc">$</span>formula<span class="sc">$</span>formula[<span class="dv">3</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb363-3"><a href="stats_validation.html#cb363-3" tabindex="-1"></a>  <span class="fu">as.character</span>() <span class="sc">%&gt;%</span> <span class="fu">get_frmla_text</span>(<span class="at">split_chrs =</span> <span class="dv">115</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb363-4"><a href="stats_validation.html#cb363-4" tabindex="-1"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_quality&quot;</span>, <span class="st">&quot;quality&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb363-5"><a href="stats_validation.html#cb363-5" tabindex="-1"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span>, <span class="st">&quot;filtering&quot;</span>)</span>
+<span id="cb363-6"><a href="stats_validation.html#cb363-6" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
+<span id="cb363-7"><a href="stats_validation.html#cb363-7" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms_f_mod6) <span class="sc">%&gt;%</span> </span>
+<span id="cb363-8"><a href="stats_validation.html#cb363-8" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb363-9"><a href="stats_validation.html#cb363-9" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> phi, <span class="at">y =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb363-10"><a href="stats_validation.html#cb363-10" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">stat_dotsinterval</span>(</span>
+<span id="cb363-11"><a href="stats_validation.html#cb363-11" tabindex="-1"></a>    <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> .<span class="dv">95</span></span>
+<span id="cb363-12"><a href="stats_validation.html#cb363-12" tabindex="-1"></a>    , <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.04</span></span>
+<span id="cb363-13"><a href="stats_validation.html#cb363-13" tabindex="-1"></a>    , <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">point_size =</span> <span class="dv">3</span></span>
+<span id="cb363-14"><a href="stats_validation.html#cb363-14" tabindex="-1"></a>    , <span class="at">quantiles =</span> <span class="dv">100</span></span>
+<span id="cb363-15"><a href="stats_validation.html#cb363-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb363-16"><a href="stats_validation.html#cb363-16" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb363-17"><a href="stats_validation.html#cb363-17" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb363-18"><a href="stats_validation.html#cb363-18" tabindex="-1"></a>    <span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">phi$&quot;</span>)</span>
+<span id="cb363-19"><a href="stats_validation.html#cb363-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
+<span id="cb363-20"><a href="stats_validation.html#cb363-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb363-21"><a href="stats_validation.html#cb363-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-262-1.png" width="1008" /></p>
+<p>First, we’ll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, depth map quality setting, study site, and software and then performing a pairwise comparison between overstory and understory</p>
+<p>In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="stats_validation.html#cb364-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span></span>
+<span id="cb364-2"><a href="stats_validation.html#cb364-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(story) <span class="sc">%&gt;%</span> </span>
+<span id="cb364-3"><a href="stats_validation.html#cb364-3" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">add_epred_draws</span>(</span>
+<span id="cb364-4"><a href="stats_validation.html#cb364-4" tabindex="-1"></a>    brms_f_mod6, <span class="at">allow_new_levels =</span> T</span>
+<span id="cb364-5"><a href="stats_validation.html#cb364-5" tabindex="-1"></a>    <span class="co"># this part is crucial</span></span>
+<span id="cb364-6"><a href="stats_validation.html#cb364-6" tabindex="-1"></a>    , <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> story)</span>
+<span id="cb364-7"><a href="stats_validation.html#cb364-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb364-8"><a href="stats_validation.html#cb364-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value =</span> .epred) <span class="sc">%&gt;%</span> </span>
+<span id="cb364-9"><a href="stats_validation.html#cb364-9" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb364-10"><a href="stats_validation.html#cb364-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb364-11"><a href="stats_validation.html#cb364-11" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb364-12"><a href="stats_validation.html#cb364-12" tabindex="-1"></a>      <span class="at">x =</span> value, <span class="at">y =</span> story</span>
+<span id="cb364-13"><a href="stats_validation.html#cb364-13" tabindex="-1"></a>      , <span class="at">fill =</span> story</span>
+<span id="cb364-14"><a href="stats_validation.html#cb364-14" tabindex="-1"></a>    )</span>
+<span id="cb364-15"><a href="stats_validation.html#cb364-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb364-16"><a href="stats_validation.html#cb364-16" tabindex="-1"></a>    tidybayes<span class="sc">::</span><span class="fu">stat_halfeye</span>(</span>
+<span id="cb364-17"><a href="stats_validation.html#cb364-17" tabindex="-1"></a>      <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> .<span class="dv">95</span></span>
+<span id="cb364-18"><a href="stats_validation.html#cb364-18" tabindex="-1"></a>      , <span class="at">interval_color =</span> <span class="st">&quot;gray66&quot;</span></span>
+<span id="cb364-19"><a href="stats_validation.html#cb364-19" tabindex="-1"></a>      , <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">point_color =</span> <span class="st">&quot;gray66&quot;</span>, <span class="at">point_fill =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb364-20"><a href="stats_validation.html#cb364-20" tabindex="-1"></a>      , <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.01</span></span>
+<span id="cb364-21"><a href="stats_validation.html#cb364-21" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb364-22"><a href="stats_validation.html#cb364-22" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;magma&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb364-23"><a href="stats_validation.html#cb364-23" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb364-24"><a href="stats_validation.html#cb364-24" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb364-25"><a href="stats_validation.html#cb364-25" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb364-26"><a href="stats_validation.html#cb364-26" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior distribution of conditional means with 95% HDI&quot;</span></span>
+<span id="cb364-27"><a href="stats_validation.html#cb364-27" tabindex="-1"></a>      , <span class="at">caption =</span> form_temp</span>
+<span id="cb364-28"><a href="stats_validation.html#cb364-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb364-29"><a href="stats_validation.html#cb364-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb364-30"><a href="stats_validation.html#cb364-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-263-1.png" width="1008" /></p>
+<p>we can view the posterior HDI of these estimates</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="stats_validation.html#cb365-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span></span>
+<span id="cb365-2"><a href="stats_validation.html#cb365-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(story) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-3"><a href="stats_validation.html#cb365-3" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">add_epred_draws</span>(</span>
+<span id="cb365-4"><a href="stats_validation.html#cb365-4" tabindex="-1"></a>    brms_f_mod6, <span class="at">allow_new_levels =</span> T</span>
+<span id="cb365-5"><a href="stats_validation.html#cb365-5" tabindex="-1"></a>    <span class="co"># this part is crucial</span></span>
+<span id="cb365-6"><a href="stats_validation.html#cb365-6" tabindex="-1"></a>    , <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> story)</span>
+<span id="cb365-7"><a href="stats_validation.html#cb365-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-8"><a href="stats_validation.html#cb365-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value =</span> .epred) <span class="sc">%&gt;%</span>  </span>
+<span id="cb365-9"><a href="stats_validation.html#cb365-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(story) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-10"><a href="stats_validation.html#cb365-10" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">median_hdi</span>(value) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-11"><a href="stats_validation.html#cb365-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(.point,.interval, .width)) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-12"><a href="stats_validation.html#cb365-12" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(</span>
+<span id="cb365-13"><a href="stats_validation.html#cb365-13" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span></span>
+<span id="cb365-14"><a href="stats_validation.html#cb365-14" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;brms::brm model: 95% HDI of the posterior distribution of conditional mean F-score&quot;</span></span>
+<span id="cb365-15"><a href="stats_validation.html#cb365-15" tabindex="-1"></a>    , <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb365-16"><a href="stats_validation.html#cb365-16" tabindex="-1"></a>      <span class="st">&quot;&quot;</span></span>
+<span id="cb365-17"><a href="stats_validation.html#cb365-17" tabindex="-1"></a>      , <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb365-18"><a href="stats_validation.html#cb365-18" tabindex="-1"></a>      , <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span></span>
+<span id="cb365-19"><a href="stats_validation.html#cb365-19" tabindex="-1"></a>    )</span>
+<span id="cb365-20"><a href="stats_validation.html#cb365-20" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb365-21"><a href="stats_validation.html#cb365-21" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-264">Table 6.22: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean F-score
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+f-score
+</th>
+<th style="text-align:right;">
+conf.low
+</th>
+<th style="text-align:right;">
+conf.high
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+overstory
+</td>
+<td style="text-align:right;">
+0.47
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+understory
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+</tr>
+</tbody>
+</table>
+<p>compare this to the quick summary stats</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="stats_validation.html#cb366-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb366-2"><a href="stats_validation.html#cb366-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(story) <span class="sc">%&gt;%</span> </span>
+<span id="cb366-3"><a href="stats_validation.html#cb366-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb366-4"><a href="stats_validation.html#cb366-4" tabindex="-1"></a>    <span class="at">mean_f =</span> <span class="fu">mean</span>(f_score)</span>
+<span id="cb366-5"><a href="stats_validation.html#cb366-5" tabindex="-1"></a>    , <span class="at">f_05 =</span> <span class="fu">quantile</span>(f_score, <span class="at">probs =</span> <span class="fl">0.05</span>)</span>
+<span id="cb366-6"><a href="stats_validation.html#cb366-6" tabindex="-1"></a>    , <span class="at">f_95 =</span> <span class="fu">quantile</span>(f_score, <span class="at">probs =</span> <span class="fl">0.95</span>)</span>
+<span id="cb366-7"><a href="stats_validation.html#cb366-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb366-8"><a href="stats_validation.html#cb366-8" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(</span>
+<span id="cb366-9"><a href="stats_validation.html#cb366-9" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span></span>
+<span id="cb366-10"><a href="stats_validation.html#cb366-10" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;summary statistics of F-score&quot;</span></span>
+<span id="cb366-11"><a href="stats_validation.html#cb366-11" tabindex="-1"></a>    , <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb366-12"><a href="stats_validation.html#cb366-12" tabindex="-1"></a>      <span class="st">&quot;&quot;</span></span>
+<span id="cb366-13"><a href="stats_validation.html#cb366-13" tabindex="-1"></a>      , <span class="st">&quot;mean f-score&quot;</span></span>
+<span id="cb366-14"><a href="stats_validation.html#cb366-14" tabindex="-1"></a>      , <span class="st">&quot;5% value&quot;</span>, <span class="st">&quot;95% value&quot;</span></span>
+<span id="cb366-15"><a href="stats_validation.html#cb366-15" tabindex="-1"></a>    )</span>
+<span id="cb366-16"><a href="stats_validation.html#cb366-16" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb366-17"><a href="stats_validation.html#cb366-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-265">Table 6.23: </span>summary statistics of F-score
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+mean f-score
+</th>
+<th style="text-align:right;">
+5% value
+</th>
+<th style="text-align:right;">
+95% value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+overstory
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+understory
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+</tr>
+</tbody>
+</table>
+<p>now we’ll make our contrast of overstory/understory</p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="stats_validation.html#cb367-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
+<span id="cb367-2"><a href="stats_validation.html#cb367-2" tabindex="-1"></a>  ou_ptcld_validation_data <span class="sc">%&gt;%</span></span>
+<span id="cb367-3"><a href="stats_validation.html#cb367-3" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">distinct</span>(story) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-4"><a href="stats_validation.html#cb367-4" tabindex="-1"></a>    tidybayes<span class="sc">::</span><span class="fu">add_epred_draws</span>(</span>
+<span id="cb367-5"><a href="stats_validation.html#cb367-5" tabindex="-1"></a>      brms_f_mod6, <span class="at">allow_new_levels =</span> T</span>
+<span id="cb367-6"><a href="stats_validation.html#cb367-6" tabindex="-1"></a>      <span class="co"># this part is crucial</span></span>
+<span id="cb367-7"><a href="stats_validation.html#cb367-7" tabindex="-1"></a>      , <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> story)</span>
+<span id="cb367-8"><a href="stats_validation.html#cb367-8" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-9"><a href="stats_validation.html#cb367-9" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value =</span> .epred) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-10"><a href="stats_validation.html#cb367-10" tabindex="-1"></a>    tidybayes<span class="sc">::</span><span class="fu">compare_levels</span>(</span>
+<span id="cb367-11"><a href="stats_validation.html#cb367-11" tabindex="-1"></a>      value</span>
+<span id="cb367-12"><a href="stats_validation.html#cb367-12" tabindex="-1"></a>      , <span class="at">by =</span> story</span>
+<span id="cb367-13"><a href="stats_validation.html#cb367-13" tabindex="-1"></a>      , <span class="at">comparison =</span> tidybayes<span class="sc">::</span><span class="fu">emmeans_comparison</span>(<span class="st">&quot;revpairwise&quot;</span>)</span>
+<span id="cb367-14"><a href="stats_validation.html#cb367-14" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-15"><a href="stats_validation.html#cb367-15" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">contrast =</span> story) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-16"><a href="stats_validation.html#cb367-16" tabindex="-1"></a>  <span class="co"># median_hdi summary for coloring </span></span>
+<span id="cb367-17"><a href="stats_validation.html#cb367-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-18"><a href="stats_validation.html#cb367-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb367-19"><a href="stats_validation.html#cb367-19" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> value <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb367-20"><a href="stats_validation.html#cb367-20" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
+<span id="cb367-21"><a href="stats_validation.html#cb367-21" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb367-22"><a href="stats_validation.html#cb367-22" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb367-23"><a href="stats_validation.html#cb367-23" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb367-24"><a href="stats_validation.html#cb367-24" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.9</span> <span class="sc">~</span> <span class="dv">2</span></span>
+<span id="cb367-25"><a href="stats_validation.html#cb367-25" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.8</span> <span class="sc">~</span> <span class="dv">3</span></span>
+<span id="cb367-26"><a href="stats_validation.html#cb367-26" tabindex="-1"></a>      , T <span class="sc">~</span> <span class="dv">4</span></span>
+<span id="cb367-27"><a href="stats_validation.html#cb367-27" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb367-28"><a href="stats_validation.html#cb367-28" tabindex="-1"></a>      <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&gt;99%&quot;</span>,<span class="st">&quot;95%&quot;</span>,<span class="st">&quot;90%&quot;</span>,<span class="st">&quot;80%&quot;</span>,<span class="st">&quot;&lt;80%&quot;</span>), <span class="at">ordered =</span> T)</span>
+<span id="cb367-29"><a href="stats_validation.html#cb367-29" tabindex="-1"></a>  )</span>
+<span id="cb367-30"><a href="stats_validation.html#cb367-30" tabindex="-1"></a></span>
+<span id="cb367-31"><a href="stats_validation.html#cb367-31" tabindex="-1"></a><span class="co"># what?</span></span>
+<span id="cb367-32"><a href="stats_validation.html#cb367-32" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 40,000
+## Columns: 8
+## Groups: contrast [1]
+## $ .chain      &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ .iteration  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ .draw       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+## $ contrast    &lt;chr&gt; &quot;overstory - understory&quot;, &quot;overstory - understory&quot;, &quot;overs…
+## $ value       &lt;dbl&gt; 0.196054724, 0.122289688, 0.166749938, 0.176977802, -0.145…
+## $ is_gt_zero  &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRU…
+## $ pct_gt_zero &lt;dbl&gt; 0.921425, 0.921425, 0.921425, 0.921425, 0.921425, 0.921425…
+## $ sig_level   &lt;ord&gt; 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%…</code></pre>
+<p>plot it</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="stats_validation.html#cb369-1" tabindex="-1"></a><span class="co"># plot it</span></span>
+<span id="cb369-2"><a href="stats_validation.html#cb369-2" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb369-3"><a href="stats_validation.html#cb369-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb369-4"><a href="stats_validation.html#cb369-4" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb369-5"><a href="stats_validation.html#cb369-5" tabindex="-1"></a>      <span class="at">x =</span> value, <span class="at">y =</span> contrast</span>
+<span id="cb369-6"><a href="stats_validation.html#cb369-6" tabindex="-1"></a>      , <span class="at">fill =</span> pct_gt_zero</span>
+<span id="cb369-7"><a href="stats_validation.html#cb369-7" tabindex="-1"></a>    )</span>
+<span id="cb369-8"><a href="stats_validation.html#cb369-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb369-9"><a href="stats_validation.html#cb369-9" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">stat_halfeye</span>(</span>
+<span id="cb369-10"><a href="stats_validation.html#cb369-10" tabindex="-1"></a>    <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.95</span>)</span>
+<span id="cb369-11"><a href="stats_validation.html#cb369-11" tabindex="-1"></a>    <span class="co"># , slab_fill = &quot;gray22&quot;, slab_alpha = 1</span></span>
+<span id="cb369-12"><a href="stats_validation.html#cb369-12" tabindex="-1"></a>    , <span class="at">interval_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_fill =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb369-13"><a href="stats_validation.html#cb369-13" tabindex="-1"></a>    , <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.01</span></span>
+<span id="cb369-14"><a href="stats_validation.html#cb369-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb369-15"><a href="stats_validation.html#cb369-15" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray44&quot;</span>) <span class="sc">+</span></span>
+<span id="cb369-16"><a href="stats_validation.html#cb369-16" tabindex="-1"></a>  <span class="fu">scale_fill_fermenter</span>(</span>
+<span id="cb369-17"><a href="stats_validation.html#cb369-17" tabindex="-1"></a>    <span class="at">n.breaks =</span> <span class="dv">10</span>, <span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span></span>
+<span id="cb369-18"><a href="stats_validation.html#cb369-18" tabindex="-1"></a>    , <span class="at">direction =</span> <span class="dv">1</span></span>
+<span id="cb369-19"><a href="stats_validation.html#cb369-19" tabindex="-1"></a>    , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb369-20"><a href="stats_validation.html#cb369-20" tabindex="-1"></a>    , <span class="at">labels =</span> scales<span class="sc">::</span>percent</span>
+<span id="cb369-21"><a href="stats_validation.html#cb369-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb369-22"><a href="stats_validation.html#cb369-22" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb369-23"><a href="stats_validation.html#cb369-23" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb369-24"><a href="stats_validation.html#cb369-24" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;software&quot;</span></span>
+<span id="cb369-25"><a href="stats_validation.html#cb369-25" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;constrast (f-score)&quot;</span></span>
+<span id="cb369-26"><a href="stats_validation.html#cb369-26" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;95% &amp; 50% HDI of the posterior distribution of conditional mean group constrasts&quot;</span></span>
+<span id="cb369-27"><a href="stats_validation.html#cb369-27" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Pr(contrast &gt; 0)&quot;</span></span>
+<span id="cb369-28"><a href="stats_validation.html#cb369-28" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
+<span id="cb369-29"><a href="stats_validation.html#cb369-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb369-30"><a href="stats_validation.html#cb369-30" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb369-31"><a href="stats_validation.html#cb369-31" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb369-32"><a href="stats_validation.html#cb369-32" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb369-33"><a href="stats_validation.html#cb369-33" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb369-34"><a href="stats_validation.html#cb369-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb369-35"><a href="stats_validation.html#cb369-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb369-36"><a href="stats_validation.html#cb369-36" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb369-37"><a href="stats_validation.html#cb369-37" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb369-38"><a href="stats_validation.html#cb369-38" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">12</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb369-39"><a href="stats_validation.html#cb369-39" tabindex="-1"></a>  )))</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-267-1.png" width="1008" /></p>
+<p>and summarize these contrasts</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="stats_validation.html#cb370-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
+<span id="cb370-2"><a href="stats_validation.html#cb370-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-3"><a href="stats_validation.html#cb370-3" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">median_hdi</span>(value) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-4"><a href="stats_validation.html#cb370-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-5"><a href="stats_validation.html#cb370-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(contrast, value, .lower, .upper) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-6"><a href="stats_validation.html#cb370-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">difference=</span>value) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-7"><a href="stats_validation.html#cb370-7" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(</span>
+<span id="cb370-8"><a href="stats_validation.html#cb370-8" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span></span>
+<span id="cb370-9"><a href="stats_validation.html#cb370-9" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts&quot;</span></span>
+<span id="cb370-10"><a href="stats_validation.html#cb370-10" tabindex="-1"></a>    , <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb370-11"><a href="stats_validation.html#cb370-11" tabindex="-1"></a>      <span class="st">&quot;overstory contrast&quot;</span></span>
+<span id="cb370-12"><a href="stats_validation.html#cb370-12" tabindex="-1"></a>      , <span class="st">&quot;difference (f-score)&quot;</span></span>
+<span id="cb370-13"><a href="stats_validation.html#cb370-13" tabindex="-1"></a>      , <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span></span>
+<span id="cb370-14"><a href="stats_validation.html#cb370-14" tabindex="-1"></a>    )</span>
+<span id="cb370-15"><a href="stats_validation.html#cb370-15" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb370-16"><a href="stats_validation.html#cb370-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-268">Table 6.24: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+overstory contrast
+</th>
+<th style="text-align:right;">
+difference (f-score)
+</th>
+<th style="text-align:right;">
+conf.low
+</th>
+<th style="text-align:right;">
+conf.high
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+overstory - understory
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+-0.06
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+</tr>
+</tbody>
+</table>
+<p>Averaging across all levels of filtering mode, depth map quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a 92.1% that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior distribution above)</p>
+<p>Now, we’ll address the question of “are there differences in F-score based on the processing software used for detecting overstory and understory trees?”</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="stats_validation.html#cb371-1" tabindex="-1"></a><span class="co"># get draws</span></span>
+<span id="cb371-2"><a href="stats_validation.html#cb371-2" tabindex="-1"></a>stry_sftwr_draws_temp <span class="ot">=</span> ou_ptcld_validation_data <span class="sc">%&gt;%</span></span>
+<span id="cb371-3"><a href="stats_validation.html#cb371-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(software, story) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-4"><a href="stats_validation.html#cb371-4" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">add_epred_draws</span>(</span>
+<span id="cb371-5"><a href="stats_validation.html#cb371-5" tabindex="-1"></a>    brms_f_mod6, <span class="at">allow_new_levels =</span> T</span>
+<span id="cb371-6"><a href="stats_validation.html#cb371-6" tabindex="-1"></a>    <span class="co"># this part is crucial</span></span>
+<span id="cb371-7"><a href="stats_validation.html#cb371-7" tabindex="-1"></a>    , <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> story) <span class="sc">+</span></span>
+<span id="cb371-8"><a href="stats_validation.html#cb371-8" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> software) <span class="sc">+</span> </span>
+<span id="cb371-9"><a href="stats_validation.html#cb371-9" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> software<span class="sc">:</span>story)</span>
+<span id="cb371-10"><a href="stats_validation.html#cb371-10" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-11"><a href="stats_validation.html#cb371-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value =</span> .epred)</span>
+<span id="cb371-12"><a href="stats_validation.html#cb371-12" tabindex="-1"></a><span class="co"># calculate contrast</span></span>
+<span id="cb371-13"><a href="stats_validation.html#cb371-13" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span> stry_sftwr_draws_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb371-14"><a href="stats_validation.html#cb371-14" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">compare_levels</span>(</span>
+<span id="cb371-15"><a href="stats_validation.html#cb371-15" tabindex="-1"></a>    value</span>
+<span id="cb371-16"><a href="stats_validation.html#cb371-16" tabindex="-1"></a>    , <span class="at">by =</span> software</span>
+<span id="cb371-17"><a href="stats_validation.html#cb371-17" tabindex="-1"></a>    , <span class="at">comparison =</span> <span class="st">&quot;pairwise&quot;</span></span>
+<span id="cb371-18"><a href="stats_validation.html#cb371-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-19"><a href="stats_validation.html#cb371-19" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">contrast =</span> software) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-20"><a href="stats_validation.html#cb371-20" tabindex="-1"></a>  <span class="co"># median_hdi summary for coloring </span></span>
+<span id="cb371-21"><a href="stats_validation.html#cb371-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, story) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-22"><a href="stats_validation.html#cb371-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb371-23"><a href="stats_validation.html#cb371-23" tabindex="-1"></a>    <span class="at">is_gt_zero =</span> <span class="fu">abs</span>(value) <span class="sc">&gt;</span> <span class="fl">0.05</span></span>
+<span id="cb371-24"><a href="stats_validation.html#cb371-24" tabindex="-1"></a>    , <span class="at">pct_gt_zero =</span> <span class="fu">mean</span>(is_gt_zero)</span>
+<span id="cb371-25"><a href="stats_validation.html#cb371-25" tabindex="-1"></a>    , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb371-26"><a href="stats_validation.html#cb371-26" tabindex="-1"></a>      pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb371-27"><a href="stats_validation.html#cb371-27" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb371-28"><a href="stats_validation.html#cb371-28" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.9</span> <span class="sc">~</span> <span class="dv">2</span></span>
+<span id="cb371-29"><a href="stats_validation.html#cb371-29" tabindex="-1"></a>      , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.8</span> <span class="sc">~</span> <span class="dv">3</span></span>
+<span id="cb371-30"><a href="stats_validation.html#cb371-30" tabindex="-1"></a>      , T <span class="sc">~</span> <span class="dv">4</span></span>
+<span id="cb371-31"><a href="stats_validation.html#cb371-31" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb371-32"><a href="stats_validation.html#cb371-32" tabindex="-1"></a>      <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;&gt;99%&quot;</span>,<span class="st">&quot;95%&quot;</span>,<span class="st">&quot;90%&quot;</span>,<span class="st">&quot;80%&quot;</span>,<span class="st">&quot;&lt;80%&quot;</span>), <span class="at">ordered =</span> T)</span>
+<span id="cb371-33"><a href="stats_validation.html#cb371-33" tabindex="-1"></a>  )</span>
+<span id="cb371-34"><a href="stats_validation.html#cb371-34" tabindex="-1"></a></span>
+<span id="cb371-35"><a href="stats_validation.html#cb371-35" tabindex="-1"></a><span class="co"># what?</span></span>
+<span id="cb371-36"><a href="stats_validation.html#cb371-36" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 240,000
+## Columns: 9
+## Groups: contrast, story [6]
+## $ story       &lt;fct&gt; overstory, overstory, overstory, overstory, overstory, ove…
+## $ .chain      &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ .iteration  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ .draw       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+## $ contrast    &lt;chr&gt; &quot;OPENDRONEMAP - METASHAPE&quot;, &quot;OPENDRONEMAP - METASHAPE&quot;, &quot;O…
+## $ value       &lt;dbl&gt; -0.02997461, -0.07669279, 0.03210288, -0.02801720, -0.0190…
+## $ is_gt_zero  &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALS…
+## $ pct_gt_zero &lt;dbl&gt; 0.52745, 0.52745, 0.52745, 0.52745, 0.52745, 0.52745, 0.52…
+## $ sig_level   &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%…</code></pre>
+<p>plot it</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="stats_validation.html#cb373-1" tabindex="-1"></a><span class="co"># plot it</span></span>
+<span id="cb373-2"><a href="stats_validation.html#cb373-2" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb373-3"><a href="stats_validation.html#cb373-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb373-4"><a href="stats_validation.html#cb373-4" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb373-5"><a href="stats_validation.html#cb373-5" tabindex="-1"></a>      <span class="at">x =</span> value, <span class="at">y =</span> contrast</span>
+<span id="cb373-6"><a href="stats_validation.html#cb373-6" tabindex="-1"></a>      , <span class="at">fill =</span> pct_gt_zero</span>
+<span id="cb373-7"><a href="stats_validation.html#cb373-7" tabindex="-1"></a>    )</span>
+<span id="cb373-8"><a href="stats_validation.html#cb373-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb373-9"><a href="stats_validation.html#cb373-9" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">stat_halfeye</span>(</span>
+<span id="cb373-10"><a href="stats_validation.html#cb373-10" tabindex="-1"></a>    <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.95</span>)</span>
+<span id="cb373-11"><a href="stats_validation.html#cb373-11" tabindex="-1"></a>    <span class="co"># , slab_fill = &quot;gray22&quot;, slab_alpha = 1</span></span>
+<span id="cb373-12"><a href="stats_validation.html#cb373-12" tabindex="-1"></a>    , <span class="at">interval_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_fill =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb373-13"><a href="stats_validation.html#cb373-13" tabindex="-1"></a>    , <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.01</span></span>
+<span id="cb373-14"><a href="stats_validation.html#cb373-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb373-15"><a href="stats_validation.html#cb373-15" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray44&quot;</span>) <span class="sc">+</span></span>
+<span id="cb373-16"><a href="stats_validation.html#cb373-16" tabindex="-1"></a>  <span class="fu">scale_fill_fermenter</span>(</span>
+<span id="cb373-17"><a href="stats_validation.html#cb373-17" tabindex="-1"></a>    <span class="at">n.breaks =</span> <span class="dv">10</span>, <span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span></span>
+<span id="cb373-18"><a href="stats_validation.html#cb373-18" tabindex="-1"></a>    , <span class="at">direction =</span> <span class="dv">1</span></span>
+<span id="cb373-19"><a href="stats_validation.html#cb373-19" tabindex="-1"></a>    , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb373-20"><a href="stats_validation.html#cb373-20" tabindex="-1"></a>    , <span class="at">labels =</span> scales<span class="sc">::</span>percent</span>
+<span id="cb373-21"><a href="stats_validation.html#cb373-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb373-22"><a href="stats_validation.html#cb373-22" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb373-23"><a href="stats_validation.html#cb373-23" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(story), <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb373-24"><a href="stats_validation.html#cb373-24" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb373-25"><a href="stats_validation.html#cb373-25" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;software&quot;</span></span>
+<span id="cb373-26"><a href="stats_validation.html#cb373-26" tabindex="-1"></a>    , <span class="at">x =</span> <span class="st">&quot;constrast (f-score)&quot;</span></span>
+<span id="cb373-27"><a href="stats_validation.html#cb373-27" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;95% &amp; 50% HDI of the posterior distribution of conditional mean group constrasts</span><span class="sc">\n</span><span class="st">by overstory/understory&quot;</span></span>
+<span id="cb373-28"><a href="stats_validation.html#cb373-28" tabindex="-1"></a>    , <span class="at">fill =</span> <span class="st">&quot;Pr(abs(contrast) &gt; 0.05)&quot;</span></span>
+<span id="cb373-29"><a href="stats_validation.html#cb373-29" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
+<span id="cb373-30"><a href="stats_validation.html#cb373-30" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb373-31"><a href="stats_validation.html#cb373-31" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb373-32"><a href="stats_validation.html#cb373-32" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb373-33"><a href="stats_validation.html#cb373-33" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb373-34"><a href="stats_validation.html#cb373-34" tabindex="-1"></a>    , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb373-35"><a href="stats_validation.html#cb373-35" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb373-36"><a href="stats_validation.html#cb373-36" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb373-37"><a href="stats_validation.html#cb373-37" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb373-38"><a href="stats_validation.html#cb373-38" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb373-39"><a href="stats_validation.html#cb373-39" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb373-40"><a href="stats_validation.html#cb373-40" tabindex="-1"></a>  )))</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-270-1.png" width="1008" /></p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="stats_validation.html#cb374-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/sftwr_stry_comp_mod6.png&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p>and summarize these contrasts</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="stats_validation.html#cb375-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
+<span id="cb375-2"><a href="stats_validation.html#cb375-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, story) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-3"><a href="stats_validation.html#cb375-3" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">median_hdi</span>(value) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-4"><a href="stats_validation.html#cb375-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast, story) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-5"><a href="stats_validation.html#cb375-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(contrast, story, value, .lower, .upper) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-6"><a href="stats_validation.html#cb375-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">difference=</span>value) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-7"><a href="stats_validation.html#cb375-7" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(</span>
+<span id="cb375-8"><a href="stats_validation.html#cb375-8" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span></span>
+<span id="cb375-9"><a href="stats_validation.html#cb375-9" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts&quot;</span></span>
+<span id="cb375-10"><a href="stats_validation.html#cb375-10" tabindex="-1"></a>    , <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb375-11"><a href="stats_validation.html#cb375-11" tabindex="-1"></a>      <span class="st">&quot;software contrast&quot;</span></span>
+<span id="cb375-12"><a href="stats_validation.html#cb375-12" tabindex="-1"></a>      , <span class="st">&quot;overstory/understory&quot;</span></span>
+<span id="cb375-13"><a href="stats_validation.html#cb375-13" tabindex="-1"></a>      , <span class="st">&quot;difference (f-score)&quot;</span></span>
+<span id="cb375-14"><a href="stats_validation.html#cb375-14" tabindex="-1"></a>      , <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span></span>
+<span id="cb375-15"><a href="stats_validation.html#cb375-15" tabindex="-1"></a>    )</span>
+<span id="cb375-16"><a href="stats_validation.html#cb375-16" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb375-17"><a href="stats_validation.html#cb375-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb375-18"><a href="stats_validation.html#cb375-18" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;8in&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-271">Table 6.25: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+software contrast
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+overstory/understory
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+difference (f-score)
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+conf.low
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+conf.high
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+OPENDRONEMAP - METASHAPE
+</td>
+<td style="text-align:left;">
+overstory
+</td>
+<td style="text-align:right;">
+-0.02
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OPENDRONEMAP - METASHAPE
+</td>
+<td style="text-align:left;">
+understory
+</td>
+<td style="text-align:right;">
+-0.08
+</td>
+<td style="text-align:right;">
+-0.23
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PIX4D - METASHAPE
+</td>
+<td style="text-align:left;">
+overstory
+</td>
+<td style="text-align:right;">
+-0.02
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PIX4D - METASHAPE
+</td>
+<td style="text-align:left;">
+understory
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+-0.10
+</td>
+<td style="text-align:right;">
+0.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PIX4D - OPENDRONEMAP
+</td>
+<td style="text-align:left;">
+overstory
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+-0.18
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PIX4D - OPENDRONEMAP
+</td>
+<td style="text-align:left;">
+understory
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+-0.01
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 </div>
 </div>
