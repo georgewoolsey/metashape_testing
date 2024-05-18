@@ -4081,7 +4081,7 @@ brms_contrast_temp %>%
 
 Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors
 
-```{r, include=FALSE, eval=FALSE}
+```{r}
 # tidybayes::get_variables(brms_f_mod5)
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod5) %>% 
@@ -4105,7 +4105,6 @@ brms::as_draws_df(brms_f_mod5) %>%
     , quantiles = 100
   ) +
   labs(x = "", y = "", caption = form_temp) +
-  scale_x_continuous(limits = c(-0.1,1.1)) +
   theme_light()
 ```
 
@@ -4769,8 +4768,7 @@ brms_contrast_temp %>%
       , "conf.low", "conf.high"
     )
   ) %>% 
-  kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "8in")
+  kableExtra::kable_styling()
 ```
 
 
