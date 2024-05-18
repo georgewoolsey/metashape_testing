@@ -927,7 +927,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_quality), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[1:2]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:2]) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -1731,7 +1731,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_quality), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[1:3]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:3]) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -1802,7 +1802,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_filtering_mode), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[2:3]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:3]) +
   labs(
     y = "filtering mode", x = "f-score"
     , color = "model"
@@ -2663,7 +2663,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_quality), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[1:4]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:4]) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -2742,7 +2742,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_filtering_mode), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[2:4]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:4]) +
   labs(
     y = "filtering mode", x = "f-score"
     , color = "model"
@@ -2813,7 +2813,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(software), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[3:4]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[3:4]) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -2867,7 +2867,7 @@ gc()
 
 To this point, we have been modelling F-score presuming a Gaussian likelihood. However, the beta likelihood more accurately represents the F-score data which is continuous and restricted within the range of $(0,1)$.
 
-We borrow here from the excellent series on causal inference by [A. Solomon Kurz](https://solomonkurz.netlify.app/blog/2023-06-25-causal-inference-with-beta-regression/)
+We borrow here from the excellent series on causal inference by [A. Solomon Kurz](https://solomonkurz.netlify.app/blog/2023-06-25-causal-inference-with-beta-regression/). We also utilize the guide to Bayesian beta models by [Andrew Heiss](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#b-beta-regression-bayesian-style) while [Nicole Knight](https://rpubs.com/nicoleknight/936037) posted about the Beta for ecological data.
 
 ### Summary Statistics
 
@@ -2924,7 +2924,11 @@ y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
 
 , where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
 
-Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is ${\sf Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*
+Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is ${\sf Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*. We can think of mean ($\mu$) and precision ($\phi$) just like with a normal distribution and its mean and standard deviation.
+
+`brms` allows us to model the precision ($\phi$) but it is not required. If $\phi$ is not modeled, you still get a precision component, but it is universal across all the different coefficients (it doesn’t vary across any variables in the model). [Heiss](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#b-beta-regression-bayesian-style) explains that:
+
+>for whatever mathy reasons, when you don’t explicitly model the precision, the resulting coefficient in the table isn’t on the log scale—it’s a regular non-logged number, so there’s no need to exponentiate.
 
 *Need to check our prior selection...just go with `brms` defaults for now*
 
@@ -2972,7 +2976,11 @@ brms::pp_check(
   ) + 
   labs(subtitle = "posterior-predictive check (overlaid densities)") +
   theme_light() +
-  theme(legend.position = "top", legend.direction = "horizontal", legend.text = element_text(size = 14))
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
 ```
 
 How’d we do capturing the conditional means and standard deviations by depth map generation quality?
@@ -3009,11 +3017,24 @@ p2_temp = brms::pp_check(
       "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
   )
 
-# brms_f_mod5 %>% 
-#   brms::posterior_summary()
 ```
 
 Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+
+What about for the software?
+
+```{r}
+pp_check(brms_f_mod5, "dens_overlay_grouped", group = "software", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby software") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+It looks like our model is making predictions that are consistent with our original data, which is what we want.
 
 check the prior distributions
 
@@ -3050,7 +3071,9 @@ brms_f_mod5 %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
-We can look at the model noise standard deviation (concentration) $\phi$
+We can look at the model noise standard deviation (concentration) $\phi$ and the intercept
+
+We can think of mean ($\mu$) and precision ($\phi$) just like with a normal distribution and its mean and standard deviation.
 
 ```{r}
 # get formula
@@ -3644,7 +3667,7 @@ ptcld_validation_data %>%
   facet_grid(rows = vars(depth_maps_generation_quality), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
   # scale_color_viridis_d(option = "turbo", begin = 0.2, end = 0.8) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -3865,7 +3888,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(depth_maps_generation_filtering_mode), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[2:5]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:5]) +
   labs(
     y = "filtering mode", x = "f-score"
     , color = "model"
@@ -3944,7 +3967,7 @@ ptcld_validation_data %>%
   tidybayes::stat_pointinterval(position = "dodge") +
   facet_grid(rows = vars(software), switch = "y") +
   scale_y_discrete(NULL, breaks = NULL) +
-  scale_color_manual(values = viridis::turbo(n = 5, begin = 0.2, end = 0.8)[3:5]) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[3:5]) +
   labs(
     y = "", x = "f-score"
     , color = "model"
@@ -4056,11 +4079,13 @@ brms_contrast_temp %>%
   kableExtra::kable_styling()
 ```
 
+Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors
+
 ```{r, include=FALSE, eval=FALSE}
-# Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors.
+# tidybayes::get_variables(brms_f_mod5)
 # extract the posterior draws
 brms::as_draws_df(brms_f_mod5) %>% 
-  dplyr::select(c(phi,tidyselect::starts_with("sd_"))) %>% 
+  dplyr::select(c(tidyselect::starts_with("sd_"))) %>% 
   tidyr::pivot_longer(dplyr::everything()) %>% 
   # dplyr::group_by(name) %>% 
   # tidybayes::median_hdi(value) %>% 
@@ -4083,6 +4108,8 @@ brms::as_draws_df(brms_f_mod5) %>%
   scale_x_continuous(limits = c(-0.1,1.1)) +
   theme_light()
 ```
+
+Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
 
 and perform model selection via information criteria with the `brms::loo_compare()` function
 
@@ -4266,36 +4293,6 @@ gc()
 
 ### Bayesian{#f_6_pred_mod_bays}
 
-With the beta likelihood our model with three nominal predictor variables and subject-level effects the model becomes:
-
-\begin{align*}
-y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
-\operatorname{logit}(\mu_{i}) = & \beta_0 \\
-& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
-& + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
-& + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,1) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\phi \sim & {\sf Gamma} (4,0.1) \\ 
-\end{align*}
-
-, where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
-
-Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is ${\sf Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*
-
 *Need to check our prior selection...just go with `brms` defaults for now*
 
 Now fit the model.
@@ -4351,7 +4348,11 @@ brms::pp_check(
   ) + 
   labs(subtitle = "posterior-predictive check (overlaid densities)") +
   theme_light() +
-  theme(legend.position = "top", legend.direction = "horizontal", legend.text = element_text(size = 14))
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
 ```
 
 How’d we do capturing the conditional means and standard deviations by depth map generation quality?
@@ -4392,9 +4393,39 @@ p2_temp = brms::pp_check(
 #   brms::posterior_summary()
 ```
 
-Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+The means and sd's of the F-score are less well represented across the different levels of depth map quality. We may want to look into modelling heterogeneous variances as shown by [Kruschke](https://sites.google.com/site/doingbayesiandataanalysis/) chapter 20 and [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1)
 
-We can look at the model noise standard deviation (concentration) $\phi$
+What about for the software?
+
+```{r}
+pp_check(brms_f_mod6, "dens_overlay_grouped", group = "software", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby software") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+What about for the overstory/understory?
+
+```{r}
+pp_check(brms_f_mod6, "dens_overlay_grouped", group = "story", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby story") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+We may not be capturing the high versus low tree predictive performance that is being driven by differences at the study site level. 
+
+*this should be addressed...is validation really that bad for some study sites?*
+
+We can look at the model noise standard deviation (concentration) $\phi$. 
 
 ```{r}
 # get formula
@@ -4418,10 +4449,30 @@ brms::as_draws_df(brms_f_mod6) %>%
     , caption = form_temp
   ) +
   theme_light()
-
 ```
 
-First, we'll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, depth map quality setting, study site, and software and then performing a pairwise comparison between overstory and understory
+we can compare this to our beta model above without any overstory/understory predictor variable.
+
+```{r}
+dplyr::bind_rows(
+  brms::as_draws_df(brms_f_mod6) %>% dplyr::select(phi) %>% dplyr::mutate(src = "brms_f_mod6")
+  , brms::as_draws_df(brms_f_mod5) %>% dplyr::select(phi) %>% dplyr::mutate(src = "brms_f_mod5")
+) %>% 
+  ggplot(mapping = aes(y = src, x = phi, color = src, group = src)) +
+    tidybayes::stat_pointinterval(position = "dodge") +
+    scale_y_discrete(NULL, breaks = NULL) +
+    scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[5:6]) +
+    labs(
+      y = "", x = latex2exp::TeX("$\\phi$")
+      , color = "model"
+    ) +
+    theme_light() +
+    theme(legend.position = "top", strip.text = element_text(color = "black", face = "bold"))
+```
+
+This indicates that our model including overstory/understory has less dispersion
+
+Now, we'll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, depth map quality setting, study site, and software and then performing a pairwise comparison between overstory and understory
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -4447,7 +4498,7 @@ ou_ptcld_validation_data %>%
       , shape = 21, point_color = "gray66", point_fill = "black"
       , justification = -0.01
     ) +
-    scale_fill_viridis_d(option = "magma", begin = 0.3, end = 0.9, drop = F) +
+    scale_fill_viridis_d(option = "viridis", begin = 0.3, end = 0.7, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "", x = "f-score"
