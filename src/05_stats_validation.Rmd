@@ -4771,6 +4771,52 @@ brms_contrast_temp %>%
   kableExtra::kable_styling()
 ```
 
+What is the difference in F-score between overstory and understory for the differnt levels of depth map quality?
+
+Note that how within tidybayes::add_epred_draws, we used the re_formula argument to average over the effects of study site, software, and filtering mode to compare the depth map quality and story effects.
+
+```{r}
+ou_ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_quality, story) %>% 
+  tidybayes::add_epred_draws(
+    brms_f_mod6, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality) +
+      (1 | story) + 
+      (1 | depth_maps_generation_quality:story)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      y = value, x = story
+      , fill = story
+    )
+  ) +
+  tidybayes::stat_eye(
+    point_interval = median_hdi, .width = .95
+    , slab_alpha = 0.8
+    , interval_color = "black", linewidth = 1
+    , point_color = "black", point_fill = "black", point_size = 1
+  ) +
+  scale_fill_viridis_d(option = "viridis", begin = 0.3, end = 0.7, drop = F) +
+  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  facet_grid(cols = vars(depth_maps_generation_quality)) +
+  labs(
+    x = "story", y = "f-score"
+    , subtitle = "posterior distribution of conditional means with 95% HDI"
+    , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , legend.direction  = "horizontal"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) 
+```
+
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])

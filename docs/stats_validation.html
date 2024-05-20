@@ -67,7 +67,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_f91d38-1/data_stars_canopyhtm8b1f9c.txt"></script>
+<script src="libs/canopy ht. (m)_6d5702-1/data_stars_canopyhtm1d97ce.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -14484,6 +14484,48 @@ understory
 </tr>
 </tbody>
 </table>
+<p>What is the difference in F-score between overstory and understory for the differnt levels of depth map quality?</p>
+<p>Note that how within tidybayes::add_epred_draws, we used the re_formula argument to average over the effects of study site, software, and filtering mode to compare the depth map quality and story effects.</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="stats_validation.html#cb380-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span> </span>
+<span id="cb380-2"><a href="stats_validation.html#cb380-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality, story) <span class="sc">%&gt;%</span> </span>
+<span id="cb380-3"><a href="stats_validation.html#cb380-3" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">add_epred_draws</span>(</span>
+<span id="cb380-4"><a href="stats_validation.html#cb380-4" tabindex="-1"></a>    brms_f_mod6, <span class="at">allow_new_levels =</span> T</span>
+<span id="cb380-5"><a href="stats_validation.html#cb380-5" tabindex="-1"></a>    <span class="co"># this part is crucial</span></span>
+<span id="cb380-6"><a href="stats_validation.html#cb380-6" tabindex="-1"></a>    , <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality) <span class="sc">+</span></span>
+<span id="cb380-7"><a href="stats_validation.html#cb380-7" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> story) <span class="sc">+</span> </span>
+<span id="cb380-8"><a href="stats_validation.html#cb380-8" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> depth_maps_generation_quality<span class="sc">:</span>story)</span>
+<span id="cb380-9"><a href="stats_validation.html#cb380-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb380-10"><a href="stats_validation.html#cb380-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value =</span> .epred) <span class="sc">%&gt;%</span> </span>
+<span id="cb380-11"><a href="stats_validation.html#cb380-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">depth_maps_generation_quality =</span> depth_maps_generation_quality <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb380-12"><a href="stats_validation.html#cb380-12" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb380-13"><a href="stats_validation.html#cb380-13" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb380-14"><a href="stats_validation.html#cb380-14" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb380-15"><a href="stats_validation.html#cb380-15" tabindex="-1"></a>      <span class="at">y =</span> value, <span class="at">x =</span> story</span>
+<span id="cb380-16"><a href="stats_validation.html#cb380-16" tabindex="-1"></a>      , <span class="at">fill =</span> story</span>
+<span id="cb380-17"><a href="stats_validation.html#cb380-17" tabindex="-1"></a>    )</span>
+<span id="cb380-18"><a href="stats_validation.html#cb380-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb380-19"><a href="stats_validation.html#cb380-19" tabindex="-1"></a>  tidybayes<span class="sc">::</span><span class="fu">stat_eye</span>(</span>
+<span id="cb380-20"><a href="stats_validation.html#cb380-20" tabindex="-1"></a>    <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> .<span class="dv">95</span></span>
+<span id="cb380-21"><a href="stats_validation.html#cb380-21" tabindex="-1"></a>    , <span class="at">slab_alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb380-22"><a href="stats_validation.html#cb380-22" tabindex="-1"></a>    , <span class="at">interval_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb380-23"><a href="stats_validation.html#cb380-23" tabindex="-1"></a>    , <span class="at">point_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_fill =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_size =</span> <span class="dv">1</span></span>
+<span id="cb380-24"><a href="stats_validation.html#cb380-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb380-25"><a href="stats_validation.html#cb380-25" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;viridis&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.7</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb380-26"><a href="stats_validation.html#cb380-26" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb380-27"><a href="stats_validation.html#cb380-27" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(depth_maps_generation_quality)) <span class="sc">+</span></span>
+<span id="cb380-28"><a href="stats_validation.html#cb380-28" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb380-29"><a href="stats_validation.html#cb380-29" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;story&quot;</span>, <span class="at">y =</span> <span class="st">&quot;f-score&quot;</span></span>
+<span id="cb380-30"><a href="stats_validation.html#cb380-30" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;posterior distribution of conditional means with 95% HDI&quot;</span></span>
+<span id="cb380-31"><a href="stats_validation.html#cb380-31" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
+<span id="cb380-32"><a href="stats_validation.html#cb380-32" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb380-33"><a href="stats_validation.html#cb380-33" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb380-34"><a href="stats_validation.html#cb380-34" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb380-35"><a href="stats_validation.html#cb380-35" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb380-36"><a href="stats_validation.html#cb380-36" tabindex="-1"></a>    , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb380-37"><a href="stats_validation.html#cb380-37" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb380-38"><a href="stats_validation.html#cb380-38" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb380-39"><a href="stats_validation.html#cb380-39" tabindex="-1"></a>  ) </span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-276-1.png" width="1008" /></p>
 
 </div>
 </div>
