@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # bread-and-butter
 library(tidyverse) # the tidyverse
 library(viridis) # viridis colors
+library(RColorBrewer) # RColorBrewer colors
 library(scales) # work with number and plot scales
 library(latex2exp)
 

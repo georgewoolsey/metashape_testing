@@ -143,10 +143,16 @@ contrast_temp =
     model = lm1_temp
     , variables = list(depth_maps_generation_quality = "revpairwise")
     , comparison = "difference"
+  ) %>% 
+  dplyr::mutate(
+    contrast = contrast %>%
+      stringr::str_remove_all("mean\\(") %>% 
+      stringr::str_remove_all("\\)") 
   )
-  
+
 # separate contrast
-contrast_temp = contrast_temp %>% 
+contrast_temp = 
+  contrast_temp %>% 
   tidyr::separate_wider_delim(
     cols = contrast
     , delim = " - "
@@ -674,6 +680,11 @@ contrast_temp =
     , variables = list(depth_maps_generation_quality = "revpairwise")
     , comparison = "difference"
     , by = "depth_maps_generation_filtering_mode"
+  ) %>% 
+  dplyr::mutate(
+    contrast = contrast %>%
+      stringr::str_remove_all("mean\\(") %>% 
+      stringr::str_remove_all("\\)") 
   )
 
 # separate contrast

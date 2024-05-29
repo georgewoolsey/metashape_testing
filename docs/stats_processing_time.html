@@ -53,6 +53,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 <link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
@@ -67,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_6d5702-1/data_stars_canopyhtm1d97ce.txt"></script>
+<script src="libs/canopy ht. (m)_645e7a-1/data_stars_canopyhtm675408.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -715,75 +717,81 @@ NA
 <span id="cb40-4"><a href="stats_processing_time.html#cb40-4" tabindex="-1"></a>    <span class="at">model =</span> lm1_temp</span>
 <span id="cb40-5"><a href="stats_processing_time.html#cb40-5" tabindex="-1"></a>    , <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">depth_maps_generation_quality =</span> <span class="st">&quot;revpairwise&quot;</span>)</span>
 <span id="cb40-6"><a href="stats_processing_time.html#cb40-6" tabindex="-1"></a>    , <span class="at">comparison =</span> <span class="st">&quot;difference&quot;</span></span>
-<span id="cb40-7"><a href="stats_processing_time.html#cb40-7" tabindex="-1"></a>  )</span>
-<span id="cb40-8"><a href="stats_processing_time.html#cb40-8" tabindex="-1"></a>  </span>
-<span id="cb40-9"><a href="stats_processing_time.html#cb40-9" tabindex="-1"></a><span class="co"># separate contrast</span></span>
-<span id="cb40-10"><a href="stats_processing_time.html#cb40-10" tabindex="-1"></a>contrast_temp <span class="ot">=</span> contrast_temp <span class="sc">%&gt;%</span> </span>
-<span id="cb40-11"><a href="stats_processing_time.html#cb40-11" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_wider_delim</span>(</span>
-<span id="cb40-12"><a href="stats_processing_time.html#cb40-12" tabindex="-1"></a>    <span class="at">cols =</span> contrast</span>
-<span id="cb40-13"><a href="stats_processing_time.html#cb40-13" tabindex="-1"></a>    , <span class="at">delim =</span> <span class="st">&quot; - &quot;</span></span>
-<span id="cb40-14"><a href="stats_processing_time.html#cb40-14" tabindex="-1"></a>    , <span class="at">names =</span> <span class="fu">paste0</span>(</span>
-<span id="cb40-15"><a href="stats_processing_time.html#cb40-15" tabindex="-1"></a>        <span class="st">&quot;sorter&quot;</span></span>
-<span id="cb40-16"><a href="stats_processing_time.html#cb40-16" tabindex="-1"></a>        , <span class="dv">1</span><span class="sc">:</span>(<span class="fu">max</span>(stringr<span class="sc">::</span><span class="fu">str_count</span>(contrast_temp<span class="sc">$</span>contrast, <span class="st">&quot;-&quot;</span>))<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb40-17"><a href="stats_processing_time.html#cb40-17" tabindex="-1"></a>      )</span>
-<span id="cb40-18"><a href="stats_processing_time.html#cb40-18" tabindex="-1"></a>    , <span class="at">too_few =</span> <span class="st">&quot;align_start&quot;</span></span>
-<span id="cb40-19"><a href="stats_processing_time.html#cb40-19" tabindex="-1"></a>    , <span class="at">cols_remove =</span> F</span>
-<span id="cb40-20"><a href="stats_processing_time.html#cb40-20" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-21"><a href="stats_processing_time.html#cb40-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sorter1<span class="sc">!=</span>sorter2) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-22"><a href="stats_processing_time.html#cb40-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb40-23"><a href="stats_processing_time.html#cb40-23" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb40-24"><a href="stats_processing_time.html#cb40-24" tabindex="-1"></a>      tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;sorter&quot;</span>)</span>
-<span id="cb40-25"><a href="stats_processing_time.html#cb40-25" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="cf">function</span>(x){<span class="fu">factor</span>(</span>
-<span id="cb40-26"><a href="stats_processing_time.html#cb40-26" tabindex="-1"></a>        x, <span class="at">ordered =</span> T</span>
-<span id="cb40-27"><a href="stats_processing_time.html#cb40-27" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_quality)</span>
-<span id="cb40-28"><a href="stats_processing_time.html#cb40-28" tabindex="-1"></a>      )}</span>
-<span id="cb40-29"><a href="stats_processing_time.html#cb40-29" tabindex="-1"></a>    )</span>
-<span id="cb40-30"><a href="stats_processing_time.html#cb40-30" tabindex="-1"></a>    , <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
-<span id="cb40-31"><a href="stats_processing_time.html#cb40-31" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="fu">as.numeric</span>(sorter1), <span class="fu">as.numeric</span>(sorter2)) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-32"><a href="stats_processing_time.html#cb40-32" tabindex="-1"></a>        <span class="fu">as.numeric</span>()</span>
-<span id="cb40-33"><a href="stats_processing_time.html#cb40-33" tabindex="-1"></a>      )</span>
-<span id="cb40-34"><a href="stats_processing_time.html#cb40-34" tabindex="-1"></a>    , <span class="at">sig_lvl =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb40-35"><a href="stats_processing_time.html#cb40-35" tabindex="-1"></a>        p.value <span class="sc">&lt;=</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">&quot;0.01&quot;</span></span>
-<span id="cb40-36"><a href="stats_processing_time.html#cb40-36" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">&quot;0.05&quot;</span></span>
-<span id="cb40-37"><a href="stats_processing_time.html#cb40-37" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.1</span> <span class="sc">~</span> <span class="st">&quot;0.10&quot;</span></span>
-<span id="cb40-38"><a href="stats_processing_time.html#cb40-38" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;not significant&quot;</span></span>
-<span id="cb40-39"><a href="stats_processing_time.html#cb40-39" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-40"><a href="stats_processing_time.html#cb40-40" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
-<span id="cb40-41"><a href="stats_processing_time.html#cb40-41" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
-<span id="cb40-42"><a href="stats_processing_time.html#cb40-42" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
-<span id="cb40-43"><a href="stats_processing_time.html#cb40-43" tabindex="-1"></a>          <span class="st">&quot;0.01&quot;</span></span>
-<span id="cb40-44"><a href="stats_processing_time.html#cb40-44" tabindex="-1"></a>          , <span class="st">&quot;0.05&quot;</span></span>
-<span id="cb40-45"><a href="stats_processing_time.html#cb40-45" tabindex="-1"></a>          , <span class="st">&quot;0.10&quot;</span></span>
-<span id="cb40-46"><a href="stats_processing_time.html#cb40-46" tabindex="-1"></a>          , <span class="st">&quot;not significant&quot;</span></span>
-<span id="cb40-47"><a href="stats_processing_time.html#cb40-47" tabindex="-1"></a>        )</span>
-<span id="cb40-48"><a href="stats_processing_time.html#cb40-48" tabindex="-1"></a>      )</span>
-<span id="cb40-49"><a href="stats_processing_time.html#cb40-49" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-50"><a href="stats_processing_time.html#cb40-50" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast)</span>
-<span id="cb40-51"><a href="stats_processing_time.html#cb40-51" tabindex="-1"></a></span>
-<span id="cb40-52"><a href="stats_processing_time.html#cb40-52" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb40-53"><a href="stats_processing_time.html#cb40-53" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> </span>
-<span id="cb40-54"><a href="stats_processing_time.html#cb40-54" tabindex="-1"></a>  <span class="co"># plot</span></span>
-<span id="cb40-55"><a href="stats_processing_time.html#cb40-55" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> contrast)) <span class="sc">+</span></span>
-<span id="cb40-56"><a href="stats_processing_time.html#cb40-56" tabindex="-1"></a>    <span class="fu">geom_linerange</span>(</span>
-<span id="cb40-57"><a href="stats_processing_time.html#cb40-57" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high, <span class="at">color =</span> sig_lvl)</span>
-<span id="cb40-58"><a href="stats_processing_time.html#cb40-58" tabindex="-1"></a>      , <span class="at">linewidth =</span> <span class="dv">5</span></span>
-<span id="cb40-59"><a href="stats_processing_time.html#cb40-59" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.9</span></span>
-<span id="cb40-60"><a href="stats_processing_time.html#cb40-60" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb40-61"><a href="stats_processing_time.html#cb40-61" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb40-62"><a href="stats_processing_time.html#cb40-62" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray44&quot;</span>) <span class="sc">+</span></span>
-<span id="cb40-63"><a href="stats_processing_time.html#cb40-63" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
-<span id="cb40-64"><a href="stats_processing_time.html#cb40-64" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
-<span id="cb40-65"><a href="stats_processing_time.html#cb40-65" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb40-66"><a href="stats_processing_time.html#cb40-66" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
-<span id="cb40-67"><a href="stats_processing_time.html#cb40-67" tabindex="-1"></a>      , <span class="at">x =</span> <span class="st">&quot;constrast (mins.)&quot;</span></span>
-<span id="cb40-68"><a href="stats_processing_time.html#cb40-68" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;Mean group constrasts&quot;</span></span>
-<span id="cb40-69"><a href="stats_processing_time.html#cb40-69" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;sig. level&quot;</span></span>
-<span id="cb40-70"><a href="stats_processing_time.html#cb40-70" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb40-71"><a href="stats_processing_time.html#cb40-71" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb40-72"><a href="stats_processing_time.html#cb40-72" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb40-73"><a href="stats_processing_time.html#cb40-73" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
-<span id="cb40-74"><a href="stats_processing_time.html#cb40-74" tabindex="-1"></a>      , <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb40-75"><a href="stats_processing_time.html#cb40-75" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb40-7"><a href="stats_processing_time.html#cb40-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-8"><a href="stats_processing_time.html#cb40-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb40-9"><a href="stats_processing_time.html#cb40-9" tabindex="-1"></a>    <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span></span>
+<span id="cb40-10"><a href="stats_processing_time.html#cb40-10" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;mean</span><span class="sc">\\</span><span class="st">(&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-11"><a href="stats_processing_time.html#cb40-11" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>) </span>
+<span id="cb40-12"><a href="stats_processing_time.html#cb40-12" tabindex="-1"></a>  )</span>
+<span id="cb40-13"><a href="stats_processing_time.html#cb40-13" tabindex="-1"></a></span>
+<span id="cb40-14"><a href="stats_processing_time.html#cb40-14" tabindex="-1"></a><span class="co"># separate contrast</span></span>
+<span id="cb40-15"><a href="stats_processing_time.html#cb40-15" tabindex="-1"></a>contrast_temp <span class="ot">=</span> </span>
+<span id="cb40-16"><a href="stats_processing_time.html#cb40-16" tabindex="-1"></a>  contrast_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb40-17"><a href="stats_processing_time.html#cb40-17" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_wider_delim</span>(</span>
+<span id="cb40-18"><a href="stats_processing_time.html#cb40-18" tabindex="-1"></a>    <span class="at">cols =</span> contrast</span>
+<span id="cb40-19"><a href="stats_processing_time.html#cb40-19" tabindex="-1"></a>    , <span class="at">delim =</span> <span class="st">&quot; - &quot;</span></span>
+<span id="cb40-20"><a href="stats_processing_time.html#cb40-20" tabindex="-1"></a>    , <span class="at">names =</span> <span class="fu">paste0</span>(</span>
+<span id="cb40-21"><a href="stats_processing_time.html#cb40-21" tabindex="-1"></a>        <span class="st">&quot;sorter&quot;</span></span>
+<span id="cb40-22"><a href="stats_processing_time.html#cb40-22" tabindex="-1"></a>        , <span class="dv">1</span><span class="sc">:</span>(<span class="fu">max</span>(stringr<span class="sc">::</span><span class="fu">str_count</span>(contrast_temp<span class="sc">$</span>contrast, <span class="st">&quot;-&quot;</span>))<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb40-23"><a href="stats_processing_time.html#cb40-23" tabindex="-1"></a>      )</span>
+<span id="cb40-24"><a href="stats_processing_time.html#cb40-24" tabindex="-1"></a>    , <span class="at">too_few =</span> <span class="st">&quot;align_start&quot;</span></span>
+<span id="cb40-25"><a href="stats_processing_time.html#cb40-25" tabindex="-1"></a>    , <span class="at">cols_remove =</span> F</span>
+<span id="cb40-26"><a href="stats_processing_time.html#cb40-26" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-27"><a href="stats_processing_time.html#cb40-27" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sorter1<span class="sc">!=</span>sorter2) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-28"><a href="stats_processing_time.html#cb40-28" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb40-29"><a href="stats_processing_time.html#cb40-29" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb40-30"><a href="stats_processing_time.html#cb40-30" tabindex="-1"></a>      tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;sorter&quot;</span>)</span>
+<span id="cb40-31"><a href="stats_processing_time.html#cb40-31" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="cf">function</span>(x){<span class="fu">factor</span>(</span>
+<span id="cb40-32"><a href="stats_processing_time.html#cb40-32" tabindex="-1"></a>        x, <span class="at">ordered =</span> T</span>
+<span id="cb40-33"><a href="stats_processing_time.html#cb40-33" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_quality)</span>
+<span id="cb40-34"><a href="stats_processing_time.html#cb40-34" tabindex="-1"></a>      )}</span>
+<span id="cb40-35"><a href="stats_processing_time.html#cb40-35" tabindex="-1"></a>    )</span>
+<span id="cb40-36"><a href="stats_processing_time.html#cb40-36" tabindex="-1"></a>    , <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
+<span id="cb40-37"><a href="stats_processing_time.html#cb40-37" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="fu">as.numeric</span>(sorter1), <span class="fu">as.numeric</span>(sorter2)) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-38"><a href="stats_processing_time.html#cb40-38" tabindex="-1"></a>        <span class="fu">as.numeric</span>()</span>
+<span id="cb40-39"><a href="stats_processing_time.html#cb40-39" tabindex="-1"></a>      )</span>
+<span id="cb40-40"><a href="stats_processing_time.html#cb40-40" tabindex="-1"></a>    , <span class="at">sig_lvl =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb40-41"><a href="stats_processing_time.html#cb40-41" tabindex="-1"></a>        p.value <span class="sc">&lt;=</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">&quot;0.01&quot;</span></span>
+<span id="cb40-42"><a href="stats_processing_time.html#cb40-42" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">&quot;0.05&quot;</span></span>
+<span id="cb40-43"><a href="stats_processing_time.html#cb40-43" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.1</span> <span class="sc">~</span> <span class="st">&quot;0.10&quot;</span></span>
+<span id="cb40-44"><a href="stats_processing_time.html#cb40-44" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;not significant&quot;</span></span>
+<span id="cb40-45"><a href="stats_processing_time.html#cb40-45" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-46"><a href="stats_processing_time.html#cb40-46" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
+<span id="cb40-47"><a href="stats_processing_time.html#cb40-47" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
+<span id="cb40-48"><a href="stats_processing_time.html#cb40-48" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb40-49"><a href="stats_processing_time.html#cb40-49" tabindex="-1"></a>          <span class="st">&quot;0.01&quot;</span></span>
+<span id="cb40-50"><a href="stats_processing_time.html#cb40-50" tabindex="-1"></a>          , <span class="st">&quot;0.05&quot;</span></span>
+<span id="cb40-51"><a href="stats_processing_time.html#cb40-51" tabindex="-1"></a>          , <span class="st">&quot;0.10&quot;</span></span>
+<span id="cb40-52"><a href="stats_processing_time.html#cb40-52" tabindex="-1"></a>          , <span class="st">&quot;not significant&quot;</span></span>
+<span id="cb40-53"><a href="stats_processing_time.html#cb40-53" tabindex="-1"></a>        )</span>
+<span id="cb40-54"><a href="stats_processing_time.html#cb40-54" tabindex="-1"></a>      )</span>
+<span id="cb40-55"><a href="stats_processing_time.html#cb40-55" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-56"><a href="stats_processing_time.html#cb40-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast)</span>
+<span id="cb40-57"><a href="stats_processing_time.html#cb40-57" tabindex="-1"></a></span>
+<span id="cb40-58"><a href="stats_processing_time.html#cb40-58" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb40-59"><a href="stats_processing_time.html#cb40-59" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb40-60"><a href="stats_processing_time.html#cb40-60" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb40-61"><a href="stats_processing_time.html#cb40-61" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> contrast)) <span class="sc">+</span></span>
+<span id="cb40-62"><a href="stats_processing_time.html#cb40-62" tabindex="-1"></a>    <span class="fu">geom_linerange</span>(</span>
+<span id="cb40-63"><a href="stats_processing_time.html#cb40-63" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high, <span class="at">color =</span> sig_lvl)</span>
+<span id="cb40-64"><a href="stats_processing_time.html#cb40-64" tabindex="-1"></a>      , <span class="at">linewidth =</span> <span class="dv">5</span></span>
+<span id="cb40-65"><a href="stats_processing_time.html#cb40-65" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.9</span></span>
+<span id="cb40-66"><a href="stats_processing_time.html#cb40-66" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb40-67"><a href="stats_processing_time.html#cb40-67" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb40-68"><a href="stats_processing_time.html#cb40-68" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray44&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-69"><a href="stats_processing_time.html#cb40-69" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;mako&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb40-70"><a href="stats_processing_time.html#cb40-70" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb40-71"><a href="stats_processing_time.html#cb40-71" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb40-72"><a href="stats_processing_time.html#cb40-72" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">&quot;depth map quality&quot;</span></span>
+<span id="cb40-73"><a href="stats_processing_time.html#cb40-73" tabindex="-1"></a>      , <span class="at">x =</span> <span class="st">&quot;constrast (mins.)&quot;</span></span>
+<span id="cb40-74"><a href="stats_processing_time.html#cb40-74" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;Mean group constrasts&quot;</span></span>
+<span id="cb40-75"><a href="stats_processing_time.html#cb40-75" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;sig. level&quot;</span></span>
+<span id="cb40-76"><a href="stats_processing_time.html#cb40-76" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb40-77"><a href="stats_processing_time.html#cb40-77" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb40-78"><a href="stats_processing_time.html#cb40-78" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb40-79"><a href="stats_processing_time.html#cb40-79" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
+<span id="cb40-80"><a href="stats_processing_time.html#cb40-80" tabindex="-1"></a>      , <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb40-81"><a href="stats_processing_time.html#cb40-81" tabindex="-1"></a>    )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-13-1.png" width="1008" /></p>
 <p>and view the contrasts in a table</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="stats_processing_time.html#cb41-1" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> </span>
@@ -3484,63 +3492,68 @@ ns
 <span id="cb58-9"><a href="stats_processing_time.html#cb58-9" tabindex="-1"></a>    , <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">depth_maps_generation_quality =</span> <span class="st">&quot;revpairwise&quot;</span>)</span>
 <span id="cb58-10"><a href="stats_processing_time.html#cb58-10" tabindex="-1"></a>    , <span class="at">comparison =</span> <span class="st">&quot;difference&quot;</span></span>
 <span id="cb58-11"><a href="stats_processing_time.html#cb58-11" tabindex="-1"></a>    , <span class="at">by =</span> <span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span></span>
-<span id="cb58-12"><a href="stats_processing_time.html#cb58-12" tabindex="-1"></a>  )</span>
-<span id="cb58-13"><a href="stats_processing_time.html#cb58-13" tabindex="-1"></a></span>
-<span id="cb58-14"><a href="stats_processing_time.html#cb58-14" tabindex="-1"></a><span class="co"># separate contrast</span></span>
-<span id="cb58-15"><a href="stats_processing_time.html#cb58-15" tabindex="-1"></a>contrast_temp <span class="ot">=</span> contrast_temp <span class="sc">%&gt;%</span> </span>
-<span id="cb58-16"><a href="stats_processing_time.html#cb58-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb58-17"><a href="stats_processing_time.html#cb58-17" tabindex="-1"></a>    <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> </span>
-<span id="cb58-18"><a href="stats_processing_time.html#cb58-18" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;mean</span><span class="sc">\\</span><span class="st">(&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-19"><a href="stats_processing_time.html#cb58-19" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>)</span>
-<span id="cb58-20"><a href="stats_processing_time.html#cb58-20" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-21"><a href="stats_processing_time.html#cb58-21" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_wider_delim</span>(</span>
-<span id="cb58-22"><a href="stats_processing_time.html#cb58-22" tabindex="-1"></a>    <span class="at">cols =</span> contrast</span>
-<span id="cb58-23"><a href="stats_processing_time.html#cb58-23" tabindex="-1"></a>    , <span class="at">delim =</span> <span class="st">&quot; - &quot;</span></span>
-<span id="cb58-24"><a href="stats_processing_time.html#cb58-24" tabindex="-1"></a>    , <span class="at">names =</span> <span class="fu">paste0</span>(</span>
-<span id="cb58-25"><a href="stats_processing_time.html#cb58-25" tabindex="-1"></a>        <span class="st">&quot;sorter&quot;</span></span>
-<span id="cb58-26"><a href="stats_processing_time.html#cb58-26" tabindex="-1"></a>        , <span class="dv">1</span><span class="sc">:</span>(<span class="fu">max</span>(stringr<span class="sc">::</span><span class="fu">str_count</span>(contrast_temp<span class="sc">$</span>contrast, <span class="st">&quot;-&quot;</span>))<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb58-27"><a href="stats_processing_time.html#cb58-27" tabindex="-1"></a>      )</span>
-<span id="cb58-28"><a href="stats_processing_time.html#cb58-28" tabindex="-1"></a>    , <span class="at">too_few =</span> <span class="st">&quot;align_start&quot;</span></span>
-<span id="cb58-29"><a href="stats_processing_time.html#cb58-29" tabindex="-1"></a>    , <span class="at">cols_remove =</span> F</span>
-<span id="cb58-30"><a href="stats_processing_time.html#cb58-30" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-31"><a href="stats_processing_time.html#cb58-31" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sorter1<span class="sc">!=</span>sorter2) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-32"><a href="stats_processing_time.html#cb58-32" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb58-33"><a href="stats_processing_time.html#cb58-33" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb58-34"><a href="stats_processing_time.html#cb58-34" tabindex="-1"></a>      tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;sorter&quot;</span>)</span>
-<span id="cb58-35"><a href="stats_processing_time.html#cb58-35" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="cf">function</span>(x){<span class="fu">factor</span>(</span>
-<span id="cb58-36"><a href="stats_processing_time.html#cb58-36" tabindex="-1"></a>        x, <span class="at">ordered =</span> T</span>
-<span id="cb58-37"><a href="stats_processing_time.html#cb58-37" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_quality)</span>
-<span id="cb58-38"><a href="stats_processing_time.html#cb58-38" tabindex="-1"></a>      )}</span>
-<span id="cb58-39"><a href="stats_processing_time.html#cb58-39" tabindex="-1"></a>    )</span>
-<span id="cb58-40"><a href="stats_processing_time.html#cb58-40" tabindex="-1"></a>    , <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
-<span id="cb58-41"><a href="stats_processing_time.html#cb58-41" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="fu">as.numeric</span>(sorter1), <span class="fu">as.numeric</span>(sorter2)) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-42"><a href="stats_processing_time.html#cb58-42" tabindex="-1"></a>        <span class="fu">as.numeric</span>()</span>
-<span id="cb58-43"><a href="stats_processing_time.html#cb58-43" tabindex="-1"></a>      )</span>
-<span id="cb58-44"><a href="stats_processing_time.html#cb58-44" tabindex="-1"></a>    , <span class="at">sig_lvl =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb58-45"><a href="stats_processing_time.html#cb58-45" tabindex="-1"></a>        p.value <span class="sc">&lt;=</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">&quot;0.01&quot;</span></span>
-<span id="cb58-46"><a href="stats_processing_time.html#cb58-46" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">&quot;0.05&quot;</span></span>
-<span id="cb58-47"><a href="stats_processing_time.html#cb58-47" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.1</span> <span class="sc">~</span> <span class="st">&quot;0.10&quot;</span></span>
-<span id="cb58-48"><a href="stats_processing_time.html#cb58-48" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;not significant&quot;</span></span>
-<span id="cb58-49"><a href="stats_processing_time.html#cb58-49" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-50"><a href="stats_processing_time.html#cb58-50" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
-<span id="cb58-51"><a href="stats_processing_time.html#cb58-51" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
-<span id="cb58-52"><a href="stats_processing_time.html#cb58-52" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
-<span id="cb58-53"><a href="stats_processing_time.html#cb58-53" tabindex="-1"></a>          <span class="st">&quot;0.01&quot;</span></span>
-<span id="cb58-54"><a href="stats_processing_time.html#cb58-54" tabindex="-1"></a>          , <span class="st">&quot;0.05&quot;</span></span>
-<span id="cb58-55"><a href="stats_processing_time.html#cb58-55" tabindex="-1"></a>          , <span class="st">&quot;0.10&quot;</span></span>
-<span id="cb58-56"><a href="stats_processing_time.html#cb58-56" tabindex="-1"></a>          , <span class="st">&quot;not significant&quot;</span></span>
-<span id="cb58-57"><a href="stats_processing_time.html#cb58-57" tabindex="-1"></a>        )</span>
-<span id="cb58-58"><a href="stats_processing_time.html#cb58-58" tabindex="-1"></a>      )</span>
-<span id="cb58-59"><a href="stats_processing_time.html#cb58-59" tabindex="-1"></a>    , <span class="at">depth_maps_generation_filtering_mode =</span> depth_maps_generation_filtering_mode <span class="sc">%&gt;%</span> </span>
-<span id="cb58-60"><a href="stats_processing_time.html#cb58-60" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
-<span id="cb58-61"><a href="stats_processing_time.html#cb58-61" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
-<span id="cb58-62"><a href="stats_processing_time.html#cb58-62" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_filtering_mode)</span>
+<span id="cb58-12"><a href="stats_processing_time.html#cb58-12" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-13"><a href="stats_processing_time.html#cb58-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb58-14"><a href="stats_processing_time.html#cb58-14" tabindex="-1"></a>    <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span></span>
+<span id="cb58-15"><a href="stats_processing_time.html#cb58-15" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;mean</span><span class="sc">\\</span><span class="st">(&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-16"><a href="stats_processing_time.html#cb58-16" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>) </span>
+<span id="cb58-17"><a href="stats_processing_time.html#cb58-17" tabindex="-1"></a>  )</span>
+<span id="cb58-18"><a href="stats_processing_time.html#cb58-18" tabindex="-1"></a></span>
+<span id="cb58-19"><a href="stats_processing_time.html#cb58-19" tabindex="-1"></a><span class="co"># separate contrast</span></span>
+<span id="cb58-20"><a href="stats_processing_time.html#cb58-20" tabindex="-1"></a>contrast_temp <span class="ot">=</span> contrast_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb58-21"><a href="stats_processing_time.html#cb58-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb58-22"><a href="stats_processing_time.html#cb58-22" tabindex="-1"></a>    <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> </span>
+<span id="cb58-23"><a href="stats_processing_time.html#cb58-23" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;mean</span><span class="sc">\\</span><span class="st">(&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-24"><a href="stats_processing_time.html#cb58-24" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">)&quot;</span>)</span>
+<span id="cb58-25"><a href="stats_processing_time.html#cb58-25" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-26"><a href="stats_processing_time.html#cb58-26" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_wider_delim</span>(</span>
+<span id="cb58-27"><a href="stats_processing_time.html#cb58-27" tabindex="-1"></a>    <span class="at">cols =</span> contrast</span>
+<span id="cb58-28"><a href="stats_processing_time.html#cb58-28" tabindex="-1"></a>    , <span class="at">delim =</span> <span class="st">&quot; - &quot;</span></span>
+<span id="cb58-29"><a href="stats_processing_time.html#cb58-29" tabindex="-1"></a>    , <span class="at">names =</span> <span class="fu">paste0</span>(</span>
+<span id="cb58-30"><a href="stats_processing_time.html#cb58-30" tabindex="-1"></a>        <span class="st">&quot;sorter&quot;</span></span>
+<span id="cb58-31"><a href="stats_processing_time.html#cb58-31" tabindex="-1"></a>        , <span class="dv">1</span><span class="sc">:</span>(<span class="fu">max</span>(stringr<span class="sc">::</span><span class="fu">str_count</span>(contrast_temp<span class="sc">$</span>contrast, <span class="st">&quot;-&quot;</span>))<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb58-32"><a href="stats_processing_time.html#cb58-32" tabindex="-1"></a>      )</span>
+<span id="cb58-33"><a href="stats_processing_time.html#cb58-33" tabindex="-1"></a>    , <span class="at">too_few =</span> <span class="st">&quot;align_start&quot;</span></span>
+<span id="cb58-34"><a href="stats_processing_time.html#cb58-34" tabindex="-1"></a>    , <span class="at">cols_remove =</span> F</span>
+<span id="cb58-35"><a href="stats_processing_time.html#cb58-35" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-36"><a href="stats_processing_time.html#cb58-36" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sorter1<span class="sc">!=</span>sorter2) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-37"><a href="stats_processing_time.html#cb58-37" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb58-38"><a href="stats_processing_time.html#cb58-38" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb58-39"><a href="stats_processing_time.html#cb58-39" tabindex="-1"></a>      tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;sorter&quot;</span>)</span>
+<span id="cb58-40"><a href="stats_processing_time.html#cb58-40" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="cf">function</span>(x){<span class="fu">factor</span>(</span>
+<span id="cb58-41"><a href="stats_processing_time.html#cb58-41" tabindex="-1"></a>        x, <span class="at">ordered =</span> T</span>
+<span id="cb58-42"><a href="stats_processing_time.html#cb58-42" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_quality)</span>
+<span id="cb58-43"><a href="stats_processing_time.html#cb58-43" tabindex="-1"></a>      )}</span>
+<span id="cb58-44"><a href="stats_processing_time.html#cb58-44" tabindex="-1"></a>    )</span>
+<span id="cb58-45"><a href="stats_processing_time.html#cb58-45" tabindex="-1"></a>    , <span class="at">contrast =</span> contrast <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
+<span id="cb58-46"><a href="stats_processing_time.html#cb58-46" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="fu">as.numeric</span>(sorter1), <span class="fu">as.numeric</span>(sorter2)) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-47"><a href="stats_processing_time.html#cb58-47" tabindex="-1"></a>        <span class="fu">as.numeric</span>()</span>
+<span id="cb58-48"><a href="stats_processing_time.html#cb58-48" tabindex="-1"></a>      )</span>
+<span id="cb58-49"><a href="stats_processing_time.html#cb58-49" tabindex="-1"></a>    , <span class="at">sig_lvl =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb58-50"><a href="stats_processing_time.html#cb58-50" tabindex="-1"></a>        p.value <span class="sc">&lt;=</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">&quot;0.01&quot;</span></span>
+<span id="cb58-51"><a href="stats_processing_time.html#cb58-51" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">&quot;0.05&quot;</span></span>
+<span id="cb58-52"><a href="stats_processing_time.html#cb58-52" tabindex="-1"></a>        , p.value <span class="sc">&lt;=</span> <span class="fl">0.1</span> <span class="sc">~</span> <span class="st">&quot;0.10&quot;</span></span>
+<span id="cb58-53"><a href="stats_processing_time.html#cb58-53" tabindex="-1"></a>        , T <span class="sc">~</span> <span class="st">&quot;not significant&quot;</span></span>
+<span id="cb58-54"><a href="stats_processing_time.html#cb58-54" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-55"><a href="stats_processing_time.html#cb58-55" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
+<span id="cb58-56"><a href="stats_processing_time.html#cb58-56" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
+<span id="cb58-57"><a href="stats_processing_time.html#cb58-57" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb58-58"><a href="stats_processing_time.html#cb58-58" tabindex="-1"></a>          <span class="st">&quot;0.01&quot;</span></span>
+<span id="cb58-59"><a href="stats_processing_time.html#cb58-59" tabindex="-1"></a>          , <span class="st">&quot;0.05&quot;</span></span>
+<span id="cb58-60"><a href="stats_processing_time.html#cb58-60" tabindex="-1"></a>          , <span class="st">&quot;0.10&quot;</span></span>
+<span id="cb58-61"><a href="stats_processing_time.html#cb58-61" tabindex="-1"></a>          , <span class="st">&quot;not significant&quot;</span></span>
+<span id="cb58-62"><a href="stats_processing_time.html#cb58-62" tabindex="-1"></a>        )</span>
 <span id="cb58-63"><a href="stats_processing_time.html#cb58-63" tabindex="-1"></a>      )</span>
-<span id="cb58-64"><a href="stats_processing_time.html#cb58-64" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-65"><a href="stats_processing_time.html#cb58-65" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast, depth_maps_generation_filtering_mode)</span>
-<span id="cb58-66"><a href="stats_processing_time.html#cb58-66" tabindex="-1"></a></span>
-<span id="cb58-67"><a href="stats_processing_time.html#cb58-67" tabindex="-1"></a><span class="co"># what?</span></span>
-<span id="cb58-68"><a href="stats_processing_time.html#cb58-68" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
+<span id="cb58-64"><a href="stats_processing_time.html#cb58-64" tabindex="-1"></a>    , <span class="at">depth_maps_generation_filtering_mode =</span> depth_maps_generation_filtering_mode <span class="sc">%&gt;%</span> </span>
+<span id="cb58-65"><a href="stats_processing_time.html#cb58-65" tabindex="-1"></a>      <span class="fu">factor</span>(</span>
+<span id="cb58-66"><a href="stats_processing_time.html#cb58-66" tabindex="-1"></a>        <span class="at">ordered =</span> T</span>
+<span id="cb58-67"><a href="stats_processing_time.html#cb58-67" tabindex="-1"></a>        , <span class="at">levels =</span> <span class="fu">levels</span>(ptime_data<span class="sc">$</span>depth_maps_generation_filtering_mode)</span>
+<span id="cb58-68"><a href="stats_processing_time.html#cb58-68" tabindex="-1"></a>      )</span>
+<span id="cb58-69"><a href="stats_processing_time.html#cb58-69" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-70"><a href="stats_processing_time.html#cb58-70" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast, depth_maps_generation_filtering_mode)</span>
+<span id="cb58-71"><a href="stats_processing_time.html#cb58-71" tabindex="-1"></a></span>
+<span id="cb58-72"><a href="stats_processing_time.html#cb58-72" tabindex="-1"></a><span class="co"># what?</span></span>
+<span id="cb58-73"><a href="stats_processing_time.html#cb58-73" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div>
 <pre><code>## Rows: 40
 ## Columns: 16
 ## $ term                                 &lt;chr&gt; &quot;depth_maps_generation_quality&quot;, …
