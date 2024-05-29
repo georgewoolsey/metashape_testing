@@ -2961,6 +2961,10 @@ Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_familie
 
 >for whatever mathy reasons, when you don’t explicitly model the precision, the resulting coefficient in the table isn’t on the log scale—it’s a regular non-logged number, so there’s no need to exponentiate.
 
+in thie `brms` [community post](https://discourse.mc-stan.org/t/understanding-parameters-of-beta-family-in-brms/21640/8) it is similarly noted that:
+
+>If you don’t predict the parameters, you give priors for them on non-transformed scale. When you predict them, the predictors become linear coefficients as any other and work on the transformed scale - the transformations are specified by the link_XX parameters of the families (and you can change them if you need).
+
 *Need to check our prior selection...just go with `brms` defaults for now*
 
 Now fit the model.
@@ -2988,12 +2992,63 @@ brms_f_mod5 = brms::brm(
   , cores = round(parallel::detectCores()/2)
   , file = paste0(rootdir, "/fits/brms_f_mod5")
 )
+# brms::make_stancode(brms_f_mod5)
+# print(brms_f_mod5)
 ```
+
+#### Posterior Predictive Checks
+
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Plummer, 2003) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+
+To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
 check the trace plots for problems with convergence of the Markov chains
 
 ```{r, fig.height=8}
 plot(brms_f_mod5)
+```
+
+and check our $\hat{R}$ values
+
+```{r}
+brms_f_mod5 %>% 
+  brms::rhat() %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column(var = "parameter") %>%
+  dplyr::rename_with(tolower) %>% 
+  dplyr::rename(rhat = 2) %>% 
+  dplyr::filter(
+    stringr::str_starts(parameter, "b_") 
+    | stringr::str_starts(parameter, "r_") 
+    | stringr::str_starts(parameter, "sd_") 
+    | parameter == "phi"
+  ) %>%
+  dplyr::mutate(
+    parameter = parameter %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+    , chk = (rhat <= 1*0.998 | rhat >= 1*1.002)
+  ) %>% 
+  ggplot(aes(x = rhat, y = parameter, color = chk, fill = chk)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray44", lwd = 1.2) +
+  geom_vline(xintercept = 1*0.998, lwd = 1.5) +
+  geom_vline(xintercept = 1*1.002, lwd = 1.5) +
+  geom_vline(xintercept = 1*0.999, lwd = 1.2, color = "gray33") +
+  geom_vline(xintercept = 1*1.001, lwd = 1.2, color = "gray33") +
+  geom_point() +
+  scale_fill_manual(values = c("navy", "firebrick")) +
+  scale_color_manual(values = c("navy", "firebrick")) +
+  labs(
+    x = latex2exp::TeX("$\\hat{R}$")
+    , subtitle = latex2exp::TeX("posterior-predictive check for parameter $\\hat{R}$ estimates")
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.text.y = element_text(size = 4)
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+  )
 ```
 
 posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data
@@ -3014,6 +3069,18 @@ brms::pp_check(
   )
 
 ggplot2::ggsave("../data/ppchk_ovrll_mod5.png", height = 7, width = 10.5)
+```
+
+another way
+
+```{r}
+brms::pp_check(brms_f_mod5, type = "ecdf_overlay", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (ECDF: empirical cumulative distribution function)") + 
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
 ```
 
 How’d we do capturing the conditional means and standard deviations by depth map generation quality?
@@ -3070,6 +3137,19 @@ pp_check(brms_f_mod5, "dens_overlay_grouped", group = "software", ndraws = 100) 
 ggplot2::ggsave("../data/ppchk_sftwr_mod5.png", height = 7, width = 10.5)
 ```
 
+and what about for the filtering mode?
+
+```{r}
+pp_check(brms_f_mod5, "dens_overlay_grouped", group = "depth_maps_generation_filtering_mode", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby filtering mode") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
 It looks like our model is making predictions that are consistent with our original data, which is what we want.
 
 check the prior distributions
@@ -3102,7 +3182,7 @@ brms_f_mod5 %>%
       stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
       stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
   ) %>% 
-  kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors + study site effects for F-score") %>% 
+  kableExtra::kbl(digits = 2, caption = "Bayesian final model for F-score") %>% 
   kableExtra::kable_styling() %>% 
   kableExtra::scroll_box(height = "8in")
 ```
@@ -3137,9 +3217,13 @@ brms::as_draws_df(brms_f_mod5) %>%
 ggplot2::ggsave("../data/phi_posterior_mod5.png", height = 7, width = 10.5)
 ```
 
-plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
+#### Quality:Filtering - interaction
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `study_site` (i.e., we left `(1 | study_site)` out of the formula) and `software` (i.e., we left `(1 | software)` and its interactions out of the formula).
+Are there differences in F-score based on dense point cloud generation quality within each level of filtering mode?
+
+Here, we collapse across the study site and software to compare the combined depth map quality and filtering mode effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
 qlty_filter_draws_temp = 
@@ -3285,9 +3369,15 @@ kableExtra::kbl(
   kableExtra::scroll_box(height = "8in")
 ```
 
+#### Software:Quality - interaction
+
 It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `depth_maps_generation_filtering_mode`. For this model we have to collapse across the filtering mode effects to compare the depth map quality and software setting effects.
+Are there differences in F-score based on dense point cloud generation quality within each different processing software? We will also address the similar but slightly different question of "are there differences in F-score based on the processing software used at a given dense point cloud generation quality?"
+
+Here, we collapse across the study site and filtering mode to compare the combined depth map quality and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
 ptcld_validation_data %>% 
@@ -3536,6 +3626,14 @@ brms_contrast_temp %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
+#### Software:Filtering - interaction
+
+Are there differences in F-score based on dense point cloud filtering mode within each processing software?
+
+Here, we collapse across the study site and depth map generation quality to compare the combined filtering mode and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
 Even though filtering mode had a small effect on the SfM predictive ability when averaging across all softwares, there might still be differences in filtering mode within software when we average across all depth map generation quality settings. Let's check the difference in F-score by depth map filtering mode and software.
 
 ```{r}
@@ -3673,9 +3771,15 @@ brms_contrast_temp %>%
   kableExtra::scroll_box(height = "6in")
 ```
 
-The contrasts above address the question "are there differences in F-score based on dense point cloud filtering mode within each software?". Although the impact of filtering mode is small, it is highly probable when averaging across all quality settings. What if we don't average out the impact of quality and instead get the full, three-way interaction between software, quality, and filtering mode?
+#### Software:Quality:Filtering - interaction
+
+The contrasts immediately above address the question "are there differences in F-score based on dense point cloud filtering mode within each software?". Although the impact of filtering mode is small, it is highly probable when averaging across all quality settings. What if we don't average out the impact of quality and instead get the full, three-way interaction between software, quality, and filtering mode?
 
 Let's get the model's answer to the question "For each software, are there differences in F-score based on dense point cloud filtering mode within each point cloud generation quality?".
+
+Here, we collapse across the study site to compare the depth map quality, filtering mode, and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
 # get draws
@@ -3831,6 +3935,8 @@ brms_contrast_temp %>%
   
 ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_mod5.png", height = 7, width = 10.5)
 ```
+
+#### Quality - main effect
 
 let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
@@ -4013,7 +4119,9 @@ kableExtra::kbl(
   kableExtra::kable_styling()
 ```
 
-let's also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
+#### Filtering - main effect
+
+let's collapse across the depth map quality, software, and study site to compare the depth map quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -4187,6 +4295,8 @@ kableExtra::kbl(
   kableExtra::kable_styling()
 ```
 
+#### Software - main effect
+
 to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -4322,7 +4432,13 @@ brms_contrast_temp %>%
   kableExtra::kable_styling()
 ```
 
-Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors
+#### $\sigma$ posteriors
+
+Finally, we can quantify the variation in F-score by comparing the $\sigma$ (`sd`) posteriors
+
+*unsure about the scale of the $\sigma$ parameters are on in the beta model. Here, we invert the logit `sd` values from the model using `plogis()` which converts the parameter values to a probability/proportion (e.g.; 0-1) because they are parameters of the intercept and interaction effects so must be on the transformed (`link = "logit"`) scale...double check*
+
+For a phenomenally excellent overview of binary logistic regression and how to interpret coefficients, see Steven Miller’s most excellent lab [script here](https://post8000.svmiller.com/lab-scripts/logistic-regression-lab.html)
 
 ```{r}
 # tidybayes::get_variables(brms_f_mod5)
@@ -6047,7 +6163,11 @@ brms_contrast_temp %>%
 
 #### $\sigma$ posteriors
 
-Finally, we can quantify the variation in F-score by comparing the $\sigma$ posteriors
+Finally, we can quantify the variation in F-score by comparing the $\sigma$ (`sd`) posteriors
+
+*unsure about the scale of the $\sigma$ parameters are on in the beta model. Here, we invert the logit `sd` values from the model using `plogis()` which converts the parameter values to a probability/proportion (e.g.; 0-1) because they are parameters of the intercept and interaction effects so must be on the transformed (`link = "logit"`) scale...double check*
+
+For a phenomenally excellent overview of binary logistic regression and how to interpret coefficients, see Steven Miller’s most excellent lab [script here](https://post8000.svmiller.com/lab-scripts/logistic-regression-lab.html)
 
 ```{r}
 # tidybayes::get_variables(brms_f_mod6)
@@ -6076,15 +6196,23 @@ brms::as_draws_df(brms_f_mod6) %>%
   theme_light()
 ```
 
-Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
+Determining overstory or understory seems to have the strongest effect on our ability to accurately detect trees but this effect is highly uncertain. Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
 
-and perform model selection via information criteria with the `brms::loo_compare()` function
+and perform model selection via ~information criteria with the `brms::loo_compare()` function~ the [R-squared for Bayesian](https://stat.columbia.edu/~gelman/research/published/bayes_R2_v3.pdf) regression models using `brms::bayes_R2()` since we can't compare models with different number of observations using information criteria
 
 ```{r}
 brms_f_mod6 = brms::add_criterion(brms_f_mod6, criterion = c("loo", "waic"))
-# brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod5, brms_f_mod6, criterion = "loo")
-# brms::model_weights(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4) %>% round(3)
+# r-squared
+dplyr::bind_rows(
+  brms::bayes_R2(brms_f_mod6) %>% dplyr::as_tibble() %>% dplyr::mutate(model = "brms_f_mod6") %>% dplyr::relocate(model)
+  , brms::bayes_R2(brms_f_mod5) %>% dplyr::as_tibble() %>% dplyr::mutate(model = "brms_f_mod5") %>% dplyr::relocate(model)
+) %>% 
+dplyr::rename_with(tolower) %>% 
+dplyr::arrange(desc(estimate)) %>% 
+dplyr::rename(R2.estimate = estimate)
 ```
+
+Our model without the effects of overstory/understory is a better parsimonious fit of the data in this case...let's roll with `brms_f_mod5` [model](#f_5_pred_mod_bays) for the research article even though our model including overstory/understory has less dispersion (see our $\phi$ [posterior](#f_6_pred_mod_bays))
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
