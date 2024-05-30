@@ -739,6 +739,81 @@ remove(list = ls()[grep("_temp",ls())])
 gc()
 ```
 
+```{r, include=FALSE, eval=FALSE}
+# bayesian p-value
+# http://www.stat.columbia.edu/~gelman/research/published/STS149A.pdf
+# https://mc-stan.org/docs/stan-users-guide/posterior-predictive-checks.html
+
+# It is the probability that a test statistic in the reference distribution exceeds its value in the data [p.value(y) = Pr(T(y.rep) > T(y))].
+
+# Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standaard deviation of the observed data. Large (> 0.90) or small (< 0.10) values indicate lack of fit.
+
+brms::pp_check(brms_f_mod1, type = "stat_2d")
+brms::pp_check(brms_f_mod1, type = "stat", stat = "sd")
+brms::pp_check(brms_f_mod1, type = "stat", stat = "mean")
+# vars to fit what's in the model
+ptcld_validation_data %>% 
+  dplyr::rename(y = f_score) %>% 
+  dplyr::select(depth_maps_generation_quality, y) %>% 
+  tidybayes::add_epred_draws(brms_f_mod1) %>% 
+  dplyr::rename(y_rep = .epred) %>% 
+  # get sd's
+  dplyr::inner_join(
+    brms::as_draws_df(brms_f_mod1) %>% dplyr::select(.draw,sigma)
+    , by = dplyr::join_by(.draw)
+  )  %>% 
+  # group by draw
+  dplyr::group_by(.draw) %>% 
+  # make test statistic
+  dplyr::summarise(
+    # test statistics y
+    mean_y = mean(y)
+    , sd_y = sd(y)
+    # test statistics y_sim
+    , mean_y_rep = mean(y_rep)
+    , sd_y_rep = mean(sigma)
+    # , sd_y_rep = sd(y_rep)
+  ) %>% 
+  # summary()
+  # ggplot() + geom_density(aes(x = mean_y_rep)) + geom_vline(xintercept = mean(ptcld_validation_data$f_score), lwd = 2)
+  # p-values
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    p_val_mean = as.numeric(mean_y_rep > mean_y)
+    , p_val_sd = as.numeric(sd_y_rep > sd_y)
+  ) %>% 
+  dplyr::select(.draw, tidyselect::starts_with("p_val_")) %>% 
+  tidyr::pivot_longer(tidyselect::starts_with("p_val_"), names_prefix = "p_val_") %>% 
+  dplyr::group_by(name) %>% 
+  dplyr::summarise(
+    mean = mean(value)
+    , sd = sd(value) # not sure why this sd doesn't match what's shown in the brms::pp_check??????
+    , `2.5%` = quantile(value, probs = 0.025)
+    , `50%` = quantile(value, probs = 0.50)
+    , `97.5%` = quantile(value, probs = 1-0.025)
+  )
+
+
+# the p-value should be centered on 0.5...
+# ggplot()+
+# geom_hist(ifelse(mean(yrep)-mean(y)>=0,1,0)) + 
+# geom_vline(xintercept = 0.5, linetype = "dashed", color = "gray44") +
+# geom_rect(aes(xmin = 0.9, xmax = 1, ymin = -Inf, ymax = Inf), fill = "orange3", alpha = 0.7) +
+#   geom_rect(aes(xmin = 0, xmax = 0.1, ymin = -Inf, ymax = Inf), fill = "orange3", alpha = 0.7) +
+#   annotate(
+#     geom = "text"
+#     , x = c(0,0.9)
+#     , y = 0
+#     , label = "lack of fit"
+#     , color = "orangered4"
+#     , fontface = "bold"
+#     , size = 2.5
+#   ) +
+#   scale_y_continuous(NULL, breaks = c(NULL)) +
+#   scale_x_continuous(limits = c(0,1)) 
+
+```
+
 ## Two Nominal Predictors{#f_two_pred_mod}
 
 Now, we'll determine the combined influence of the depth map generation quality and the depth map filtering parameters on the SfM-derived tree detection performance based on the F-score.
@@ -3076,6 +3151,49 @@ another way
 ```{r}
 brms::pp_check(brms_f_mod5, type = "ecdf_overlay", ndraws = 100) +
   labs(subtitle = "posterior-predictive check (ECDF: empirical cumulative distribution function)") + 
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+and another posterior predictive check for the overall model
+
+```{r}
+# means
+p1_temp = brms::pp_check(
+    brms_f_mod5
+    , type = "stat"
+    , stat = "mean"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "means") +
+  theme_light()
+# sds
+p2_temp = brms::pp_check(
+    brms_f_mod5
+    , type = "stat"
+    , stat = "sd"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "sd's") +
+  theme_light()
+
+# combine 
+(p1_temp + p2_temp) &
+  theme(legend.position = "none") &
+  plot_annotation(
+    title = "Posterior-predictive statistical checks\noverall model"
+    , subtitle = expression(
+      "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
+  )
+```
+
+and another posterior predictive check for the overall model combining mean and sd
+
+```{r}
+brms::pp_check(brms_f_mod5, type = "stat_2d") +
   theme_light() +
   theme(
     legend.position = "top", legend.direction = "horizontal"
