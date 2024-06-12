@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_28d59e-1/data_stars_canopyhtm4fd23b.txt"></script>
+<script src="libs/canopy ht. (m)_ec1749-1/data_stars_canopyhtmfc3917.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -303,10 +303,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.7.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-9"><i class="fa fa-check"></i><b>6.7.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="6.7.2" data-path="stats_validation.html"><a href="stats_validation.html#f_5_pred_mod_bays"><i class="fa fa-check"></i><b>6.7.2</b> Bayesian</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="stats_validation.html"><a href="stats_validation.html#overstory-and-understory-validation"><i class="fa fa-check"></i><b>6.8</b> Overstory and Understory Validation</a>
+<li class="chapter" data-level="6.8" data-path="stats_validation.html"><a href="stats_validation.html#heterogeneous-variances-and-robustness-against-outliers"><i class="fa fa-check"></i><b>6.8</b> Heterogeneous variances and robustness against outliers</a>
 <ul>
-<li class="chapter" data-level="6.8.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-10"><i class="fa fa-check"></i><b>6.8.1</b> Summary Statistics</a></li>
-<li class="chapter" data-level="6.8.2" data-path="stats_validation.html"><a href="stats_validation.html#f_6_pred_mod_bays"><i class="fa fa-check"></i><b>6.8.2</b> Bayesian</a></li>
+<li class="chapter" data-level="6.8.1" data-path="stats_validation.html"><a href="stats_validation.html#f_5_5_pred_mod_bays"><i class="fa fa-check"></i><b>6.8.1</b> Bayesian</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="stats_validation.html"><a href="stats_validation.html#overstory-and-understory-validation"><i class="fa fa-check"></i><b>6.9</b> Overstory and Understory Validation</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="stats_validation.html"><a href="stats_validation.html#summary-statistics-10"><i class="fa fa-check"></i><b>6.9.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="6.9.2" data-path="stats_validation.html"><a href="stats_validation.html#f_6_pred_mod_bays"><i class="fa fa-check"></i><b>6.9.2</b> Bayesian</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -429,24 +433,10 @@ metashape_depthmap_filtering
 KAIBAB_HIGH
 </td>
 <td style="text-align:left;">
-HIGH_MILD
+LOW_MODERATE
 </td>
 <td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_HIGH
-</td>
-<td style="text-align:left;">
-LOWEST_MODERATE
-</td>
-<td style="text-align:left;">
-LOWEST
+LOW
 </td>
 <td style="text-align:left;">
 MODERATE
@@ -454,13 +444,27 @@ MODERATE
 </tr>
 <tr>
 <td style="text-align:left;">
-KAIBAB_LOW
+KAIBAB_HIGH
 </td>
 <td style="text-align:left;">
-LOW_AGGRESSIVE
+MEDIUM_MODERATE
 </td>
 <td style="text-align:left;">
-LOW
+MEDIUM
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
 </td>
 <td style="text-align:left;">
 AGGRESSIVE
@@ -485,68 +489,26 @@ MILD
 KAIBAB_LOW
 </td>
 <td style="text-align:left;">
-MEDIUM_MILD
+MEDIUM_DISABLED
 </td>
 <td style="text-align:left;">
 MEDIUM
 </td>
 <td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-LOW_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-LOW_DISABLED
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
 DISABLED
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-SQ09_02
+N1
 </td>
 <td style="text-align:left;">
-HIGH_DISABLED
+HIGH_MILD
 </td>
 <td style="text-align:left;">
 HIGH
 </td>
 <td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-LOWEST_MILD
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
 MILD
 </td>
 </tr>
@@ -555,10 +517,10 @@ MILD
 SQ09_02
 </td>
 <td style="text-align:left;">
-LOW_AGGRESSIVE
+MEDIUM_AGGRESSIVE
 </td>
 <td style="text-align:left;">
-LOW
+MEDIUM
 </td>
 <td style="text-align:left;">
 AGGRESSIVE
@@ -569,10 +531,10 @@ AGGRESSIVE
 SQ09_02
 </td>
 <td style="text-align:left;">
-LOW_DISABLED
+MEDIUM_DISABLED
 </td>
 <td style="text-align:left;">
-LOW
+MEDIUM
 </td>
 <td style="text-align:left;">
 DISABLED
@@ -597,13 +559,41 @@ MILD
 WA85_02
 </td>
 <td style="text-align:left;">
-LOWEST_MODERATE
+LOWEST_AGGRESSIVE
 </td>
 <td style="text-align:left;">
 LOWEST
 </td>
 <td style="text-align:left;">
-MODERATE
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+LOWEST_MILD
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+LOW_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+AGGRESSIVE
 </td>
 </tr>
 <tr>
@@ -611,13 +601,27 @@ MODERATE
 NA
 </td>
 <td style="text-align:left;">
-LOW_DISABLED
+LOWEST_AGGRESSIVE
 </td>
 <td style="text-align:left;">
-LOW
+LOWEST
 </td>
 <td style="text-align:left;">
-DISABLED
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+MEDIUM_MILD
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+MILD
 </td>
 </tr>
 <tr>

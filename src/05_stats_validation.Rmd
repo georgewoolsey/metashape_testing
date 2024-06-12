@@ -3071,7 +3071,7 @@ brms_f_mod5 = brms::brm(
 # print(brms_f_mod5)
 ```
 
-#### Posterior Predictive Checks
+#### Posterior Predictive Checks{#ppcheck_mod5}
 
 Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Plummer, 2003) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
@@ -4594,6 +4594,433 @@ brms_f_mod5 = brms::add_criterion(brms_f_mod5, criterion = c("loo", "waic"))
 brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod5, criterion = "loo")
 # brms::model_weights(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4) %>% round(3)
 ```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
+
+## Heterogeneous variances and robustness against outliers
+
+In our previous model of the data $y_i$ described by a beta distribution with [three nominal predictors and site effects](#beta_mod) our [posterior predictive checks](#ppcheck_mod5) indicated potential improvements for our model fit.
+
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes: 
+
+>As was mentioned earlier in the chapter, we have assumed normally distributed data within groups, and equal variances across the groups, merely for simplicity and for consistency with traditional ANOVA. We can relax those assumptions in Bayesian software. In this section, we use t distributed noise instead of normal distributions, and we provide every group with its own standard-deviation parameter. Moreover, we put a hierarchical prior on the standard-deviation parameters, so that each group mutually informs the standard deviations of the other groups via the higher-level distribution...Instead of there being a single $\sigma_y$ parameter that applies to all groups, each group has its own scale parameter, $\sigma_j$. (p. 573-574)
+
+and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1)
+
+### Bayesian{#f_5_5_pred_mod_bays}
+
+With the beta likelihood our model with three nominal predictor variables, subject-level effects, and heterogeneous variances and robustness against outliers the model becomes:
+
+\begin{align*}
+y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
+\operatorname{logit}(\mu_{i}) = & \beta_0 \\
+& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+& + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
+& + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
+\beta_{0}  \sim & {\sf Normal} (0,1) \\ 
+\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\phi_{[jkf](i)} \sim & {\sf Gamma} (\alpha,\theta) \\
+\alpha \sim & {\sf XXX} (xxx,xxx) \\
+\theta \sim & {\sf XXX} (xxx,xxx)
+\end{align*}
+
+*!!!! Need to check how our $\phi_{[jkf](i)}$ is distributed*
+
+, where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
+
+`brms` allows us to model the precision ($\phi$) but it is not required. If $\phi$ is not modeled, you still get a precision component, but it is universal across all the different coefficients (it doesn’t vary across any variables in the model). [Heiss](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#b-beta-regression-bayesian-style) explains that:
+
+>for whatever mathy reasons, when you don’t explicitly model the precision, the resulting coefficient in the table isn’t on the log scale—it’s a regular non-logged number, so there’s no need to exponentiate.
+
+in thie `brms` [community post](https://discourse.mc-stan.org/t/understanding-parameters-of-beta-family-in-brms/21640/8) it is similarly noted that:
+
+>If you don’t predict the parameters, you give priors for them on non-transformed scale. When you predict them, the predictors become linear coefficients as any other and work on the transformed scale - the transformations are specified by the link_XX parameters of the families (and you can change them if you need).
+
+*Need to check our prior selection...just go with `brms` defaults for now*
+
+Now fit the model.
+
+```{r}
+brms_f_mod5_5 = brms::brm(
+  formula = brms::bf(
+  ### model for y
+    f_score ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  ### model for phi
+    , phi  ~ 1 + (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  )
+  , data = ptcld_validation_data
+  , family = Beta(link = "logit")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , file = paste0(rootdir, "/fits/brms_f_mod5_5")
+)
+# brms::make_stancode(brms_f_mod5_5)
+# print(brms_f_mod5_5)
+# brms::prior_summary(brms_f_mod5_5)
+```
+
+```{r, include=F, eval=F}
+# bayesian p-value
+# http://www.stat.columbia.edu/~gelman/research/published/STS149A.pdf
+# https://mc-stan.org/docs/stan-users-guide/posterior-predictive-checks.html
+
+# It is the probability that a test statistic in the reference distribution exceeds its value in the data [p.value(y) = Pr(T(y.rep) > T(y))].
+
+# Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standaard deviation of the observed data. Large (> 0.90) or small (< 0.10) values indicate lack of fit.
+
+brms::pp_check(brms_f_mod1, type = "stat_2d")
+brms::pp_check(brms_f_mod1, type = "stat", stat = "sd")
+brms::pp_check(brms_f_mod1, type = "stat", stat = "mean")
+# try it ourself!
+tidybayes::get_variables(brms_f_mod5_5)
+# get draws from the posterior predictive distribution
+brms::posterior_predict(brms_f_mod5_5, ndraws = 1000) %>% 
+  dplyr::as_tibble() %>% 
+  dplyr::mutate(draw = dplyr::row_number()) %>% 
+  tidyr::pivot_longer(cols = -draw, values_to = "y_rep") %>% 
+  dplyr::mutate(y_n = readr::parse_number(name)) %>% 
+  # join with original data
+  dplyr::inner_join(
+    ptcld_validation_data %>% 
+      dplyr::select(f_score) %>% 
+      dplyr::rename(y=f_score) %>% 
+      dplyr::mutate(y_n = dplyr::row_number())
+    , by = dplyr::join_by("y_n")
+  ) %>% 
+  dplyr::select(-c(y_n)) %>% 
+  dplyr::group_by(draw) %>% 
+  # make test statistic
+  dplyr::summarise(
+    # test statistics y
+    mean_y = mean(y)
+    , sd_y = sd(y)
+    # test statistics y_sim
+    , mean_y_rep = mean(y_rep)
+    , sd_y_rep = sd(y_rep)
+  ) %>% 
+  # summary()
+  # ggplot() + geom_density(aes(x = sd_y_rep)) + geom_vline(xintercept = sd(ptcld_validation_data$f_score), lwd = 2)
+  # p-values
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    p_val_mean = as.numeric(mean_y_rep > mean_y)
+    , p_val_sd = as.numeric(sd_y_rep > sd_y)
+  ) %>% 
+  dplyr::select(draw, tidyselect::starts_with("p_val_")) %>% 
+  tidyr::pivot_longer(tidyselect::starts_with("p_val_"), names_prefix = "p_val_") %>% 
+  dplyr::group_by(name) %>% 
+  # summarize p-vals
+  dplyr::summarise(
+    mean = mean(value)
+    , sd = sd(value) # not sure why this sd doesn't match what's shown in the brms::pp_check??????
+    , `2.5%` = quantile(value, probs = 0.025)
+    , `50%` = quantile(value, probs = 0.50)
+    , `97.5%` = quantile(value, probs = 1-0.025)
+  )
+
+```
+
+
+#### Posterior Predictive Checks
+
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Plummer, 2003) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+
+To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
+
+check the trace plots for problems with convergence of the Markov chains
+
+```{r, fig.height=8}
+plot(brms_f_mod5_5)
+```
+
+and check our $\hat{R}$ values
+
+```{r}
+brms_f_mod5_5 %>% 
+  brms::rhat() %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column(var = "parameter") %>%
+  dplyr::rename_with(tolower) %>% 
+  dplyr::rename(rhat = 2) %>% 
+  dplyr::filter(
+    stringr::str_starts(parameter, "b_") 
+    | stringr::str_starts(parameter, "r_") 
+    | stringr::str_starts(parameter, "sd_") 
+    | parameter == "phi"
+  ) %>%
+  dplyr::mutate(
+    parameter = parameter %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+    , chk = (rhat <= 1*0.998 | rhat >= 1*1.002)
+  ) %>% 
+  ggplot(aes(x = rhat, y = parameter, color = chk, fill = chk)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray44", lwd = 1.2) +
+  geom_vline(xintercept = 1*0.998, lwd = 1.5) +
+  geom_vline(xintercept = 1*1.002, lwd = 1.5) +
+  geom_vline(xintercept = 1*0.999, lwd = 1.2, color = "gray33") +
+  geom_vline(xintercept = 1*1.001, lwd = 1.2, color = "gray33") +
+  geom_point() +
+  scale_fill_manual(values = c("navy", "firebrick")) +
+  scale_color_manual(values = c("navy", "firebrick")) +
+  labs(
+    x = latex2exp::TeX("$\\hat{R}$")
+    , subtitle = latex2exp::TeX("posterior-predictive check for parameter $\\hat{R}$ estimates")
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.text.y = element_text(size = 4)
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+  )
+```
+
+posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data
+
+```{r}
+# posterior predictive check
+brms::pp_check(
+    brms_f_mod5_5
+    , type = "dens_overlay"
+    , ndraws = 100
+  ) + 
+  labs(subtitle = "posterior-predictive check (overlaid densities)") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+
+ggplot2::ggsave("../data/ppchk_ovrll_mod5_5.png", height = 7, width = 10.5)
+```
+
+another way
+
+```{r}
+brms::pp_check(brms_f_mod5_5, type = "ecdf_overlay", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (ECDF: empirical cumulative distribution function)") + 
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+and another posterior predictive check for the overall model
+
+```{r}
+# means
+p1_temp = brms::pp_check(
+    brms_f_mod5_5
+    , type = "stat"
+    , stat = "mean"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "means") +
+  theme_light()
+# sds
+p2_temp = brms::pp_check(
+    brms_f_mod5_5
+    , type = "stat"
+    , stat = "sd"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "sd's") +
+  theme_light()
+
+# combine 
+(p1_temp + p2_temp) &
+  theme(legend.position = "none") &
+  plot_annotation(
+    title = "Posterior-predictive statistical checks\noverall model"
+    , subtitle = expression(
+      "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
+  )
+```
+
+and another posterior predictive check for the overall model combining mean and sd
+
+```{r}
+brms::pp_check(brms_f_mod5_5, type = "stat_2d") +
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+How’d we do capturing the conditional means and standard deviations by depth map generation quality?
+
+```{r}
+# means
+p1_temp = brms::pp_check(
+    brms_f_mod5_5
+    , type = "stat_grouped" # "dens_overlay_grouped"
+    , stat = "mean"
+    , group = "depth_maps_generation_quality"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "means") +
+  facet_grid(cols = vars(group), scales = "free") +
+  theme_light()
+# sds
+p2_temp = brms::pp_check(
+    brms_f_mod5_5
+    , type = "stat_grouped" # "dens_overlay_grouped"
+    , stat = "sd"
+    , group = "depth_maps_generation_quality"
+  ) + 
+  scale_y_continuous(NULL, breaks = c(NULL)) +
+  labs(subtitle = "sd's") +
+  facet_grid(cols = vars(group), scales = "free") +
+  theme_light()
+# combine 
+(p1_temp / p2_temp) &
+  theme(legend.position = "none") &
+  plot_annotation(
+    title = "Posterior-predictive statistical checks\nby depth map quality"
+    , subtitle = expression(
+      "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
+  )
+
+ggplot2::ggsave("../data/ppchk_qlty_mod5_5.png", height = 7, width = 10.5)
+```
+
+Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+
+What about for the software?
+
+```{r}
+pp_check(brms_f_mod5_5, "dens_overlay_grouped", group = "software", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby software") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+
+ggplot2::ggsave("../data/ppchk_sftwr_mod5_5.png", height = 7, width = 10.5)
+```
+
+and what about for the filtering mode?
+
+```{r}
+pp_check(brms_f_mod5_5, "dens_overlay_grouped", group = "depth_maps_generation_filtering_mode", ndraws = 100) +
+  labs(subtitle = "posterior-predictive check (overlaid densities)\nby filtering mode") +
+  theme_light() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+    , legend.text = element_text(size = 14)
+  )
+```
+
+We didn't see much change in our posterior predictive checks compared to our previous model of the data $y_i$ described by a beta distribution with [three nominal predictors and site effects](#beta_mod) our [posterior predictive checks](#ppcheck_mod5).
+
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data: $p.value(y) = Pr(T(y.rep) > T(y))$ 
+
+>Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large (> 0.90) or small (< 0.10) values indicate lack of fit. [Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
+
+Lets' check the Bayesian p-values between the two models
+
+```{r}
+get_mod_p_val = function(my_mod, ndraws = 1000){
+  # get draws from the posterior predictive distribution
+  brms::posterior_predict(my_mod, ndraws = ndraws) %>% 
+    dplyr::as_tibble() %>% 
+    dplyr::mutate(draw = dplyr::row_number()) %>% 
+    tidyr::pivot_longer(cols = -draw, values_to = "y_rep") %>% 
+    dplyr::mutate(y_n = readr::parse_number(name)) %>% 
+    # join with original data
+    dplyr::inner_join(
+      ptcld_validation_data %>% 
+        dplyr::select(f_score) %>% 
+        dplyr::rename(y=f_score) %>% 
+        dplyr::mutate(y_n = dplyr::row_number())
+      , by = dplyr::join_by("y_n")
+    ) %>% 
+    dplyr::select(-c(y_n)) %>% 
+    dplyr::group_by(draw) %>% 
+    # make test statistic
+    dplyr::summarise(
+      # test statistics y
+      mean_y = mean(y)
+      , sd_y = sd(y)
+      # test statistics y_sim
+      , mean_y_rep = mean(y_rep)
+      , sd_y_rep = sd(y_rep)
+    ) %>% 
+    # p-values
+    dplyr::ungroup() %>% 
+    dplyr::mutate(
+      p_val_mean = as.numeric(mean_y_rep > mean_y)
+      , p_val_sd = as.numeric(sd_y_rep > sd_y)
+    ) %>% 
+    # summarize p-vals
+    dplyr::summarise(
+      P.mean = mean(p_val_mean)
+      , P.sd = mean(p_val_sd)
+    )
+}
+# get the model p-values
+dplyr::bind_rows(
+    get_mod_p_val(brms_f_mod4, ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_f_mod4")
+    , get_mod_p_val(brms_f_mod5, ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_f_mod5")
+    , get_mod_p_val(brms_f_mod5_5, ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_f_mod5_5")
+  ) %>% 
+  dplyr::relocate(model) %>% 
+  kableExtra::kbl(digits = 3) %>% 
+  kableExtra::kable_styling()
+```
+
+perhaps we should use `brms_f_mod4` in which we [modeled F-score presuming a Gaussian likelihood](#f_4_pred_mod_bays)??? What are the pros and cons? Surely, an accurate representation of the $y_i$ data (as represented by the beta distribution) is meaningful even if lower p-values are found.
+
+let's perform model selection via information criteria with the `brms::loo_compare()` function to check
+
+```{r}
+brms_f_mod5_5 = brms::add_criterion(brms_f_mod5_5, criterion = c("loo", "waic"))
+brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod5, brms_f_mod5_5, criterion = "loo")
+# brms::model_weights(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4) %>% round(3)
+```
+
+The information criteria suggests that we continue with `brms_f_mod5` in which $y_i$ is described by a beta distribution with [three nominal predictors and site effects](#beta_mod) and we did not model dispersion, instead using a single $\phi_y$ parameter that applies to all groups
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
