@@ -105,19 +105,19 @@ For comparison across software, the SfM point cloud generation processing parame
             )
           ) %>% forcats::fct_rev()
         , depth_maps_generation_filtering_mode = dplyr::case_when(
-            tolower(fff) %in% c("lowest") & 
+            tolower(fff) %in% c("high") & 
               tolower(software) %in% c("opendronemap") ~ "disabled"
             , tolower(fff) %in% c("high")
               & tolower(software) %in% c("pix4d") ~ "disabled"
-            , tolower(fff) %in% c("low")
+            , tolower(fff) %in% c("medium")
               & tolower(software) %in% c("opendronemap") ~ "mild"
             , tolower(fff) %in% c("optimal")
               & tolower(software) %in% c("pix4d") ~ "mild"
-            , tolower(fff) %in% c("medium")
+            , tolower(fff) %in% c("low")
               & tolower(software) %in% c("opendronemap") ~ "moderate"
             , tolower(fff) %in% c("low")
               & tolower(software) %in% c("pix4d") ~ "moderate"
-            , tolower(fff) %in% c("high")
+            , tolower(fff) %in% c("lowest")
               & tolower(software) %in% c("opendronemap") ~ "aggressive"
             , T ~ tolower(fff)
           ) %>% 
@@ -138,6 +138,18 @@ what have we done?
 ```{r}
 ptcld_processing_data %>% dplyr::glimpse()
 ```
+
+```{r, include=F, eval=F}
+ptcld_processing_data %>% 
+  dplyr::filter(software == "OPENDRONEMAP" & 
+    depth_maps_generation_filtering_mode %in% c("aggressive", "disabled")
+                  ) %>% 
+  ggplot(aes(x = depth_maps_generation_quality, y = number_of_points, color = depth_maps_generation_filtering_mode)) + 
+  geom_point() +
+  scale_y_log10() +
+  facet_wrap(facets = vars(study_site), ncol = 2)
+```
+
 
 what is this mapping?
 

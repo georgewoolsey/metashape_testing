@@ -12,7 +12,7 @@ All of the predictor variables of interest in this study are categorical (a.k.a.
 
 The following analysis will expand the traditional mixed ANOVA approach following the methods outlined by Kassambara in the [*Comparing Multiple Means in R*](https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/) online course to build a Bayesian approach based on [Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/). This analysis was greatly enhanced by [A. Solomon Kurz's ebook supplement](https://solomonkurz.netlify.app/book/) to [Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/).
 
-For this example we'll use data from Agisoft Metashape only
+**For this example we'll use data from Agisoft Metashape only**
 
 ```{r}
 ptime_data = ptcld_processing_data %>% 

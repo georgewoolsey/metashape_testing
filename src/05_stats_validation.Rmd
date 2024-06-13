@@ -490,7 +490,7 @@ brms_contrast_temp %>%
         dplyr::ungroup() %>% 
         dplyr::count(contrast, pct_gt_zero_lab, pct_gt_zero_lab_pos, pct_gt_zero)
       , mapping = aes(x = pct_gt_zero_lab_pos, label = pct_gt_zero_lab)
-      , vjust = -1, hjust = 0, size = 3
+      , vjust = -1, hjust = 0, size = 2.5
     ) +
     scale_fill_fermenter(
       n.breaks = 10, palette = "PuOr"
@@ -498,7 +498,7 @@ brms_contrast_temp %>%
       , limits = c(0,1)
       , labels = scales::percent
     ) +
-    scale_x_continuous(breaks = scales::extended_breaks(n=8), expand = expansion(mult = c(0.1,0.1))) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8), expand = expansion(mult = c(0.1,0.2))) +
     labs(
       y = "depth map quality"
       , x = "constrast (F-score)"
@@ -515,6 +515,7 @@ brms_contrast_temp %>%
       legend.key.width  = unit(1, "lines"),
       legend.key.height = unit(12, "lines")
     )))
+
 ```
 
 and summarize these contrasts
@@ -562,6 +563,7 @@ plt_contrast <- function(
         point_interval = median_hdi, .width = c(0.5,0.95)
         # , slab_fill = "gray22", slab_alpha = 1
         , interval_color = "black", point_color = "black", point_fill = "black"
+        , point_size = 1.5
         , justification = -0.01
       ) +
       geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
@@ -3620,8 +3622,8 @@ plt_contrast(
   brms_contrast_temp, caption_text = form_temp
   , y_axis_title = "depth map quality"
   , facet = "software"
-  , label_size = 2.2
-  , x_expand = c(0,0.7)
+  , label_size = 2.0
+  , x_expand = c(0.56,0.9) # c(0,0.7)
 ) +
   labs(
     subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
@@ -3855,8 +3857,8 @@ plt_contrast(
   brms_contrast_temp, caption_text = form_temp
   , y_axis_title = "filtering mode"
   , facet = "software"
-  , label_size = 2.1
-  , x_expand = c(1,1.4)
+  , label_size = 2.0
+  , x_expand = c(1.8,1.8) # c(1,1.4)
 ) +
   labs(
     subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
@@ -6161,8 +6163,8 @@ plt_contrast(
   brms_contrast_temp, caption_text = form_temp
   , y_axis_title = "filtering mode"
   , facet = "software"
-  , label_size = 2.1
-  , x_expand = c(1,1.4)
+  , label_size = 2.0
+  , x_expand = c(0.85,0.8) # c(1,1.4)
 ) +
   labs(
     subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
@@ -6743,7 +6745,7 @@ brms::as_draws_df(brms_f_mod6) %>%
 
 Determining overstory or understory seems to have the strongest effect on our ability to accurately detect trees but this effect is highly uncertain. Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
 
-and perform model selection via ~information criteria with the `brms::loo_compare()` function~ the [R-squared for Bayesian](https://stat.columbia.edu/~gelman/research/published/bayes_R2_v3.pdf) regression models using `brms::bayes_R2()` since we can't compare models with different number of observations using information criteria
+and perform model selection via the [R-squared for Bayesian](https://stat.columbia.edu/~gelman/research/published/bayes_R2_v3.pdf) regression models using `brms::bayes_R2()` since we can't compare models with different number of observations using information criteria (we could also use the p-value approach as done above)
 
 ```{r}
 brms_f_mod6 = brms::add_criterion(brms_f_mod6, criterion = c("loo", "waic"))

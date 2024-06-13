@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_ec1749-1/data_stars_canopyhtmfc3917.txt"></script>
+<script src="libs/canopy ht. (m)_6417e5-1/data_stars_canopyhtme6fac2.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -434,19 +434,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-98"><a href="ptcld_analysis.html#cb16-98" tabindex="-1"></a>            )</span>
 <span id="cb16-99"><a href="ptcld_analysis.html#cb16-99" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>()</span>
 <span id="cb16-100"><a href="ptcld_analysis.html#cb16-100" tabindex="-1"></a>        , <span class="at">depth_maps_generation_filtering_mode =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb16-101"><a href="ptcld_analysis.html#cb16-101" tabindex="-1"></a>            <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;lowest&quot;</span>) <span class="sc">&amp;</span> </span>
+<span id="cb16-101"><a href="ptcld_analysis.html#cb16-101" tabindex="-1"></a>            <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;high&quot;</span>) <span class="sc">&amp;</span> </span>
 <span id="cb16-102"><a href="ptcld_analysis.html#cb16-102" tabindex="-1"></a>              <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;opendronemap&quot;</span>) <span class="sc">~</span> <span class="st">&quot;disabled&quot;</span></span>
 <span id="cb16-103"><a href="ptcld_analysis.html#cb16-103" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;high&quot;</span>)</span>
 <span id="cb16-104"><a href="ptcld_analysis.html#cb16-104" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;pix4d&quot;</span>) <span class="sc">~</span> <span class="st">&quot;disabled&quot;</span></span>
-<span id="cb16-105"><a href="ptcld_analysis.html#cb16-105" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>)</span>
+<span id="cb16-105"><a href="ptcld_analysis.html#cb16-105" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>)</span>
 <span id="cb16-106"><a href="ptcld_analysis.html#cb16-106" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;opendronemap&quot;</span>) <span class="sc">~</span> <span class="st">&quot;mild&quot;</span></span>
 <span id="cb16-107"><a href="ptcld_analysis.html#cb16-107" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;optimal&quot;</span>)</span>
 <span id="cb16-108"><a href="ptcld_analysis.html#cb16-108" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;pix4d&quot;</span>) <span class="sc">~</span> <span class="st">&quot;mild&quot;</span></span>
-<span id="cb16-109"><a href="ptcld_analysis.html#cb16-109" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>)</span>
+<span id="cb16-109"><a href="ptcld_analysis.html#cb16-109" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>)</span>
 <span id="cb16-110"><a href="ptcld_analysis.html#cb16-110" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;opendronemap&quot;</span>) <span class="sc">~</span> <span class="st">&quot;moderate&quot;</span></span>
 <span id="cb16-111"><a href="ptcld_analysis.html#cb16-111" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>)</span>
 <span id="cb16-112"><a href="ptcld_analysis.html#cb16-112" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;pix4d&quot;</span>) <span class="sc">~</span> <span class="st">&quot;moderate&quot;</span></span>
-<span id="cb16-113"><a href="ptcld_analysis.html#cb16-113" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;high&quot;</span>)</span>
+<span id="cb16-113"><a href="ptcld_analysis.html#cb16-113" tabindex="-1"></a>            , <span class="fu">tolower</span>(fff) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;lowest&quot;</span>)</span>
 <span id="cb16-114"><a href="ptcld_analysis.html#cb16-114" tabindex="-1"></a>              <span class="sc">&amp;</span> <span class="fu">tolower</span>(software) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;opendronemap&quot;</span>) <span class="sc">~</span> <span class="st">&quot;aggressive&quot;</span></span>
 <span id="cb16-115"><a href="ptcld_analysis.html#cb16-115" tabindex="-1"></a>            , T <span class="sc">~</span> <span class="fu">tolower</span>(fff)</span>
 <span id="cb16-116"><a href="ptcld_analysis.html#cb16-116" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> </span>
@@ -513,7 +513,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb19-13"><a href="ptcld_analysis.html#cb19-13" tabindex="-1"></a>      , <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
 <span id="cb19-14"><a href="ptcld_analysis.html#cb19-14" tabindex="-1"></a>      , <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
 <span id="cb19-15"><a href="ptcld_analysis.html#cb19-15" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-6-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-7-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ptcld_analysis.html#cb20-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_quality.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="ptcld_analysis.html#cb21-1" tabindex="-1"></a><span class="co"># filtering</span></span>
 <span id="cb21-2"><a href="ptcld_analysis.html#cb21-2" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span> </span>
@@ -530,7 +530,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-13"><a href="ptcld_analysis.html#cb21-13" tabindex="-1"></a>      , <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
 <span id="cb21-14"><a href="ptcld_analysis.html#cb21-14" tabindex="-1"></a>      , <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
 <span id="cb21-15"><a href="ptcld_analysis.html#cb21-15" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-7-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-8-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ptcld_analysis.html#cb22-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/mapped_filtering_mode.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">6</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="ptcld_analysis.html#cb23-1" tabindex="-1"></a><span class="co"># !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Filtering</span></span>
 <span id="cb23-2"><a href="ptcld_analysis.html#cb23-2" tabindex="-1"></a><span class="co"># !!!! keep only one kind of pix4d, all metashape and odm ???????</span></span>
@@ -573,7 +573,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb24-26"><a href="ptcld_analysis.html#cb24-26" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
 <span id="cb24-27"><a href="ptcld_analysis.html#cb24-27" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb24-28"><a href="ptcld_analysis.html#cb24-28" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-9-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-10-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="ptcld_analysis.html#cb25-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/n_sites_comp_quick.png&quot;</span>, <span class="at">height =</span> <span class="dv">9</span>, <span class="at">width =</span> <span class="dv">8</span>)</span></code></pre></div>
 </div>
 <div id="processing-time-summary" class="section level2 hasAnchor" number="3.2">

@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_ec1749-1/data_stars_canopyhtmfc3917.txt"></script>
+<script src="libs/canopy ht. (m)_6417e5-1/data_stars_canopyhtme6fac2.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -340,7 +340,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The traditional treatment of this sort of data structure is called multifactor analysis of variance (ANOVA). Our Bayesian approach will be a hierarchical generalization of the traditional ANOVA model. The chapter also considers generalizations of the traditional models, because it is straight forward in Bayesian software to implement heavy-tailed distributions to accommodate outliers, along with hierarchical structure to accommodate heterogeneous variances in the different groups. <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015, pp.583–584)</a></p>
 </blockquote>
 <p>The following analysis will expand the traditional mixed ANOVA approach following the methods outlined by Kassambara in the <a href="https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/"><em>Comparing Multiple Means in R</em></a> online course to build a Bayesian approach based on <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015)</a>. This analysis was greatly enhanced by <a href="https://solomonkurz.netlify.app/book/">A. Solomon Kurz’s ebook supplement</a> to <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015)</a>.</p>
-<p>For this example we’ll use data from Agisoft Metashape only</p>
+<p><strong>For this example we’ll use data from Agisoft Metashape only</strong></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="stats_processing_time.html#cb31-1" tabindex="-1"></a>ptime_data <span class="ot">=</span> ptcld_processing_data <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="stats_processing_time.html#cb31-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">tolower</span>(software)<span class="sc">==</span><span class="st">&quot;metashape&quot;</span>)</span></code></pre></div>
 <div id="one_pred_mod" class="section level2 hasAnchor" number="4.1">
@@ -610,7 +610,7 @@ lowest
 <span id="cb34-30"><a href="stats_processing_time.html#cb34-30" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;depth map quality&quot;</span>, <span class="at">y =</span> <span class="st">&quot;point cloud processing mins.&quot;</span>) <span class="sc">+</span></span>
 <span id="cb34-31"><a href="stats_processing_time.html#cb34-31" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb34-32"><a href="stats_processing_time.html#cb34-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-12-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-13-1.png" width="1008" /></p>
 </div>
 <div id="anova" class="section level3 hasAnchor" number="4.1.3">
 <h3><span class="header-section-number">4.1.3</span> ANOVA<a href="stats_processing_time.html#anova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -796,7 +796,7 @@ NA
 <span id="cb40-79"><a href="stats_processing_time.html#cb40-79" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span></span>
 <span id="cb40-80"><a href="stats_processing_time.html#cb40-80" tabindex="-1"></a>      , <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb40-81"><a href="stats_processing_time.html#cb40-81" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-13-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-14-1.png" width="1008" /></p>
 <p>and view the contrasts in a table</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="stats_processing_time.html#cb41-1" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="stats_processing_time.html#cb41-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -810,7 +810,7 @@ NA
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-14">Table 4.4: </span>Mean group effects: depth map quality processing time constrasts
+<span id="tab:unnamed-chunk-15">Table 4.4: </span>Mean group effects: depth map quality processing time constrasts
 </caption>
 <thead>
 <tr>
@@ -1034,7 +1034,7 @@ y_{i}  &amp;\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb42-8"><a href="stats_processing_time.html#cb42-8" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="stats_processing_time.html#cb43-1" tabindex="-1"></a><span class="fu">plot</span>(brms1_mod)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-15-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-16-1.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="stats_processing_time.html#cb44-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb44-2"><a href="stats_processing_time.html#cb44-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms1_mod) <span class="sc">%&gt;%</span> </span>
@@ -1253,16 +1253,16 @@ q97.5
 b_Intercept
 </td>
 <td style="text-align:right;">
-12.69
+12.09
 </td>
 <td style="text-align:right;">
-8.91
+8.69
 </td>
 <td style="text-align:right;">
--3.22
+-3.91
 </td>
 <td style="text-align:right;">
-31.72
+30.55
 </td>
 </tr>
 <tr>
@@ -1270,16 +1270,16 @@ b_Intercept
 sigma
 </td>
 <td style="text-align:right;">
-12.65
+12.67
 </td>
 <td style="text-align:right;">
-0.92
+0.93
 </td>
 <td style="text-align:right;">
-11.01
+11.00
 </td>
 <td style="text-align:right;">
-14.62
+14.65
 </td>
 </tr>
 <tr>
@@ -1287,16 +1287,16 @@ sigma
 [ultra.high,Intercept]
 </td>
 <td style="text-align:right;">
-70.09
+70.66
 </td>
 <td style="text-align:right;">
-9.34
+9.13
 </td>
 <td style="text-align:right;">
-50.84
+51.67
 </td>
 <td style="text-align:right;">
-87.18
+87.34
 </td>
 </tr>
 <tr>
@@ -1304,16 +1304,16 @@ sigma
 [high,Intercept]
 </td>
 <td style="text-align:right;">
-7.46
+8.10
 </td>
 <td style="text-align:right;">
-9.26
+9.15
 </td>
 <td style="text-align:right;">
--12.49
+-10.79
 </td>
 <td style="text-align:right;">
-24.69
+25.05
 </td>
 </tr>
 <tr>
@@ -1321,16 +1321,16 @@ sigma
 [medium,Intercept]
 </td>
 <td style="text-align:right;">
--5.91
+-5.33
 </td>
 <td style="text-align:right;">
-9.20
+9.00
 </td>
 <td style="text-align:right;">
--25.62
+-24.25
 </td>
 <td style="text-align:right;">
-10.67
+11.58
 </td>
 </tr>
 <tr>
@@ -1338,16 +1338,16 @@ sigma
 [low,Intercept]
 </td>
 <td style="text-align:right;">
--10.37
+-9.81
 </td>
 <td style="text-align:right;">
-9.25
+9.09
 </td>
 <td style="text-align:right;">
--29.79
+-28.62
 </td>
 <td style="text-align:right;">
-6.35
+7.16
 </td>
 </tr>
 <tr>
@@ -1355,16 +1355,16 @@ sigma
 [lowest,Intercept]
 </td>
 <td style="text-align:right;">
--11.54
+-10.87
 </td>
 <td style="text-align:right;">
-9.29
+9.10
 </td>
 <td style="text-align:right;">
--31.33
+-29.81
 </td>
 <td style="text-align:right;">
-4.92
+5.89
 </td>
 </tr>
 </tbody>
@@ -1408,16 +1408,16 @@ Q97.5.Intercept
 ultra high
 </td>
 <td style="text-align:right;">
-82.78
+82.75
 </td>
 <td style="text-align:right;">
 2.90
 </td>
 <td style="text-align:right;">
-77.09
+76.96
 </td>
 <td style="text-align:right;">
-88.40
+88.42
 </td>
 </tr>
 <tr>
@@ -1425,16 +1425,16 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-20.14
+20.19
 </td>
 <td style="text-align:right;">
-2.78
+2.85
 </td>
 <td style="text-align:right;">
-14.68
+14.58
 </td>
 <td style="text-align:right;">
-25.48
+25.77
 </td>
 </tr>
 <tr>
@@ -1442,16 +1442,16 @@ high
 medium
 </td>
 <td style="text-align:right;">
-6.78
+6.76
 </td>
 <td style="text-align:right;">
-2.81
+2.88
 </td>
 <td style="text-align:right;">
-1.30
+1.02
 </td>
 <td style="text-align:right;">
-12.20
+12.36
 </td>
 </tr>
 <tr>
@@ -1459,16 +1459,16 @@ medium
 low
 </td>
 <td style="text-align:right;">
-2.31
+2.28
 </td>
 <td style="text-align:right;">
-2.80
+2.90
 </td>
 <td style="text-align:right;">
--3.19
+-3.45
 </td>
 <td style="text-align:right;">
-7.81
+7.92
 </td>
 </tr>
 <tr>
@@ -1476,16 +1476,16 @@ low
 lowest
 </td>
 <td style="text-align:right;">
-1.15
+1.21
 </td>
 <td style="text-align:right;">
-2.84
+2.85
 </td>
 <td style="text-align:right;">
--4.43
+-4.33
 </td>
 <td style="text-align:right;">
-6.70
+6.81
 </td>
 </tr>
 </tbody>
@@ -1504,7 +1504,7 @@ lowest
 <span id="cb47-11"><a href="stats_processing_time.html#cb47-11" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb47-12"><a href="stats_processing_time.html#cb47-12" tabindex="-1"></a>  <span class="fu">xlab</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">sigma_y$&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb47-13"><a href="stats_processing_time.html#cb47-13" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-16-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-17-1.png" width="1008" /></p>
 <p>plot the posterior distributions of the conditional means with the median processing time and the 95% highest posterior density interval (HDI)</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="stats_processing_time.html#cb48-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
 <span id="cb48-2"><a href="stats_processing_time.html#cb48-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -1536,7 +1536,7 @@ lowest
 <span id="cb48-28"><a href="stats_processing_time.html#cb48-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb48-29"><a href="stats_processing_time.html#cb48-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb48-30"><a href="stats_processing_time.html#cb48-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-17-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-18-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="stats_processing_time.html#cb49-1" tabindex="-1"></a><span class="co"># define comparisons to make</span></span>
 <span id="cb49-2"><a href="stats_processing_time.html#cb49-2" tabindex="-1"></a>contrast_temp <span class="ot">=</span> contrast_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast)</span>
@@ -1625,7 +1625,7 @@ lowest
 ## $ .iteration                    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1…
 ## $ .draw                         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1…
 ## $ depth_maps_generation_quality &lt;chr&gt; &quot;ultra high - high&quot;, &quot;ultra high - high&quot;…
-## $ value                         &lt;dbl&gt; 61.00539, 66.34872, 59.40312, 61.64876, …
+## $ value                         &lt;dbl&gt; 58.31630, 69.37204, 54.19820, 60.82334, …
 ## $ contrast                      &lt;ord&gt; ultra high - high, ultra high - high, ul…
 ## $ sig_level                     &lt;fct&gt; 0%, 0%, 0%, 0%, 0%, 0%, 0%, 0%, 0%, 0%, …
 ## $ is_gt_zero                    &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE…
@@ -1659,7 +1659,7 @@ lowest
 <span id="cb51-25"><a href="stats_processing_time.html#cb51-25" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
 <span id="cb51-26"><a href="stats_processing_time.html#cb51-26" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb51-27"><a href="stats_processing_time.html#cb51-27" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-19-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-20-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="stats_processing_time.html#cb52-1" tabindex="-1"></a><span class="co"># # can also use the following as substitute for the &quot;tidybayes::spread_draws&quot; used above to get same result</span></span>
 <span id="cb52-2"><a href="stats_processing_time.html#cb52-2" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
@@ -1672,7 +1672,7 @@ lowest
 <span id="cb52-9"><a href="stats_processing_time.html#cb52-9" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-20">Table 4.7: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-21">Table 4.7: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -1699,13 +1699,13 @@ difference
 low - lowest
 </td>
 <td style="text-align:right;">
-1.2
+1.1
 </td>
 <td style="text-align:right;">
--6.7
+-6.8
 </td>
 <td style="text-align:right;">
-8.8
+8.9
 </td>
 <td style="text-align:right;">
 0.9
@@ -1716,13 +1716,13 @@ low - lowest
 medium - lowest
 </td>
 <td style="text-align:right;">
-5.7
+5.6
 </td>
 <td style="text-align:right;">
--2.4
+-2.0
 </td>
 <td style="text-align:right;">
-13.2
+13.9
 </td>
 <td style="text-align:right;">
 0.9
@@ -1736,10 +1736,10 @@ medium - low
 4.5
 </td>
 <td style="text-align:right;">
--3.2
+-3.9
 </td>
 <td style="text-align:right;">
-12.1
+12.3
 </td>
 <td style="text-align:right;">
 0.9
@@ -1756,7 +1756,7 @@ high - lowest
 11.1
 </td>
 <td style="text-align:right;">
-26.5
+26.7
 </td>
 <td style="text-align:right;">
 0.9
@@ -1767,13 +1767,13 @@ high - lowest
 high - low
 </td>
 <td style="text-align:right;">
-17.8
+17.9
 </td>
 <td style="text-align:right;">
-10.3
+10.1
 </td>
 <td style="text-align:right;">
-25.9
+25.8
 </td>
 <td style="text-align:right;">
 0.9
@@ -1784,13 +1784,13 @@ high - low
 high - medium
 </td>
 <td style="text-align:right;">
-13.3
+13.4
 </td>
 <td style="text-align:right;">
-5.8
+5.6
 </td>
 <td style="text-align:right;">
-21.2
+21.5
 </td>
 <td style="text-align:right;">
 0.9
@@ -1801,13 +1801,13 @@ high - medium
 ultra high - lowest
 </td>
 <td style="text-align:right;">
-81.7
+81.6
 </td>
 <td style="text-align:right;">
-73.7
+73.6
 </td>
 <td style="text-align:right;">
-89.6
+89.5
 </td>
 <td style="text-align:right;">
 0.9
@@ -1821,10 +1821,10 @@ ultra high - low
 80.5
 </td>
 <td style="text-align:right;">
-73.0
+72.1
 </td>
 <td style="text-align:right;">
-88.8
+88.2
 </td>
 <td style="text-align:right;">
 0.9
@@ -1835,13 +1835,13 @@ ultra high - low
 ultra high - medium
 </td>
 <td style="text-align:right;">
-76.1
+76.0
 </td>
 <td style="text-align:right;">
-68.3
+68.2
 </td>
 <td style="text-align:right;">
-83.9
+84.1
 </td>
 <td style="text-align:right;">
 0.9
@@ -1852,13 +1852,13 @@ ultra high - medium
 ultra high - high
 </td>
 <td style="text-align:right;">
-62.7
+62.6
 </td>
 <td style="text-align:right;">
-55.1
+54.5
 </td>
 <td style="text-align:right;">
-70.6
+70.4
 </td>
 <td style="text-align:right;">
 0.9
@@ -2710,7 +2710,7 @@ disabled
 <span id="cb55-38"><a href="stats_processing_time.html#cb55-38" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
 <span id="cb55-39"><a href="stats_processing_time.html#cb55-39" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">0.9</span>))</span>
 <span id="cb55-40"><a href="stats_processing_time.html#cb55-40" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-22-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-23-1.png" width="1008" /></p>
 </div>
 <div id="anova-1" class="section level3 hasAnchor" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> ANOVA<a href="stats_processing_time.html#anova-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -2854,7 +2854,7 @@ NA
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-23">Table 4.11: </span>Pairwise comparisons between filtering mode at each depth map quality group
+<span id="tab:unnamed-chunk-24">Table 4.11: </span>Pairwise comparisons between filtering mode at each depth map quality group
 </caption>
 <thead>
 <tr>
@@ -3602,7 +3602,7 @@ ns
 <span id="cb60-23"><a href="stats_processing_time.html#cb60-23" tabindex="-1"></a>      , <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb60-24"><a href="stats_processing_time.html#cb60-24" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb60-25"><a href="stats_processing_time.html#cb60-25" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-25-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-26-1.png" width="1008" /></p>
 <p>and view the contrasts in a table</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="stats_processing_time.html#cb61-1" tabindex="-1"></a>contrast_temp <span class="sc">%&gt;%</span> </span>
 <span id="cb61-2"><a href="stats_processing_time.html#cb61-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -3622,7 +3622,7 @@ ns
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-26">Table 4.12: </span>Mean group effects: depth map quality processing time constrasts
+<span id="tab:unnamed-chunk-27">Table 4.12: </span>Mean group effects: depth map quality processing time constrasts
 </caption>
 <thead>
 <tr>
@@ -4518,7 +4518,7 @@ y_{i}  &amp;\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 <span id="cb63-17"><a href="stats_processing_time.html#cb63-17" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="stats_processing_time.html#cb64-1" tabindex="-1"></a><span class="fu">plot</span>(brms2_mod)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-28-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-29-1.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="stats_processing_time.html#cb65-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb65-2"><a href="stats_processing_time.html#cb65-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms2_mod) <span class="sc">%&gt;%</span> </span>
@@ -4842,16 +4842,16 @@ q97.5
 b_Intercept
 </td>
 <td style="text-align:right;">
-22.57
+22.69
 </td>
 <td style="text-align:right;">
-21.82
+22.14
 </td>
 <td style="text-align:right;">
--23.93
+-22.31
 </td>
 <td style="text-align:right;">
-66.78
+67.96
 </td>
 </tr>
 <tr>
@@ -4859,16 +4859,16 @@ b_Intercept
 sd_filtering__Intercept
 </td>
 <td style="text-align:right;">
-9.04
+9.47
 </td>
 <td style="text-align:right;">
-8.68
+8.99
 </td>
 <td style="text-align:right;">
-0.77
+0.82
 </td>
 <td style="text-align:right;">
-31.81
+33.84
 </td>
 </tr>
 <tr>
@@ -4876,16 +4876,16 @@ sd_filtering__Intercept
 sd_quality__Intercept
 </td>
 <td style="text-align:right;">
-44.77
+45.16
 </td>
 <td style="text-align:right;">
-19.36
+19.70
 </td>
 <td style="text-align:right;">
-21.12
+20.89
 </td>
 <td style="text-align:right;">
-93.99
+97.64
 </td>
 </tr>
 <tr>
@@ -4893,16 +4893,16 @@ sd_quality__Intercept
 sd_quality:filtering__Intercept
 </td>
 <td style="text-align:right;">
-8.82
+8.93
 </td>
 <td style="text-align:right;">
-2.52
+2.60
 </td>
 <td style="text-align:right;">
-4.77
+4.80
 </td>
 <td style="text-align:right;">
-14.68
+14.93
 </td>
 </tr>
 <tr>
@@ -4913,10 +4913,10 @@ sigma
 10.03
 </td>
 <td style="text-align:right;">
-0.81
+0.82
 </td>
 <td style="text-align:right;">
-8.59
+8.56
 </td>
 <td style="text-align:right;">
 11.77
@@ -4927,16 +4927,16 @@ sigma
 r_filtering[aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--4.40
+-4.45
 </td>
 <td style="text-align:right;">
-6.78
+7.22
 </td>
 <td style="text-align:right;">
--19.57
+-20.85
 </td>
 <td style="text-align:right;">
-7.19
+8.06
 </td>
 </tr>
 <tr>
@@ -4944,16 +4944,16 @@ r_filtering[aggressive,Intercept]
 r_filtering[moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.48
+-0.50
 </td>
 <td style="text-align:right;">
-6.39
+6.90
 </td>
 <td style="text-align:right;">
--13.26
+-15.04
 </td>
 <td style="text-align:right;">
-12.52
+13.80
 </td>
 </tr>
 <tr>
@@ -4961,16 +4961,16 @@ r_filtering[moderate,Intercept]
 r_filtering[mild,Intercept]
 </td>
 <td style="text-align:right;">
-0.45
+0.52
 </td>
 <td style="text-align:right;">
-6.55
+6.96
 </td>
 <td style="text-align:right;">
--12.92
+-13.65
 </td>
 <td style="text-align:right;">
-14.32
+15.25
 </td>
 </tr>
 <tr>
@@ -4978,16 +4978,16 @@ r_filtering[mild,Intercept]
 r_filtering[disabled,Intercept]
 </td>
 <td style="text-align:right;">
-4.30
+4.28
 </td>
 <td style="text-align:right;">
-6.67
+7.13
 </td>
 <td style="text-align:right;">
--7.14
+-8.62
 </td>
 <td style="text-align:right;">
-19.52
+19.95
 </td>
 </tr>
 <tr>
@@ -4995,16 +4995,16 @@ r_filtering[disabled,Intercept]
 r_quality[ultra.high,Intercept]
 </td>
 <td style="text-align:right;">
-59.82
+59.63
 </td>
 <td style="text-align:right;">
-21.54
+21.61
 </td>
 <td style="text-align:right;">
-17.57
+16.21
 </td>
 <td style="text-align:right;">
-105.60
+104.73
 </td>
 </tr>
 <tr>
@@ -5012,16 +5012,16 @@ r_quality[ultra.high,Intercept]
 r_quality[high,Intercept]
 </td>
 <td style="text-align:right;">
--2.19
+-2.31
 </td>
 <td style="text-align:right;">
-21.33
+21.60
 </td>
 <td style="text-align:right;">
--44.44
+-46.77
 </td>
 <td style="text-align:right;">
-43.35
+41.48
 </td>
 </tr>
 <tr>
@@ -5029,16 +5029,16 @@ r_quality[high,Intercept]
 r_quality[medium,Intercept]
 </td>
 <td style="text-align:right;">
--15.46
+-15.58
 </td>
 <td style="text-align:right;">
-21.49
+21.48
 </td>
 <td style="text-align:right;">
--59.25
+-60.28
 </td>
 <td style="text-align:right;">
-30.55
+27.91
 </td>
 </tr>
 <tr>
@@ -5046,16 +5046,16 @@ r_quality[medium,Intercept]
 r_quality[low,Intercept]
 </td>
 <td style="text-align:right;">
--19.90
+-20.14
 </td>
 <td style="text-align:right;">
-21.47
+21.54
 </td>
 <td style="text-align:right;">
--63.25
+-65.01
 </td>
 <td style="text-align:right;">
-25.19
+23.93
 </td>
 </tr>
 <tr>
@@ -5063,16 +5063,16 @@ r_quality[low,Intercept]
 r_quality[lowest,Intercept]
 </td>
 <td style="text-align:right;">
--21.11
+-21.14
 </td>
 <td style="text-align:right;">
-21.47
+21.68
 </td>
 <td style="text-align:right;">
--64.67
+-65.81
 </td>
 <td style="text-align:right;">
-24.97
+22.52
 </td>
 </tr>
 <tr>
@@ -5080,16 +5080,16 @@ r_quality[lowest,Intercept]
 r_quality:filtering[high_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--1.62
+-1.60
 </td>
 <td style="text-align:right;">
-6.38
+6.41
 </td>
 <td style="text-align:right;">
--14.22
+-14.49
 </td>
 <td style="text-align:right;">
-11.06
+10.84
 </td>
 </tr>
 <tr>
@@ -5097,16 +5097,16 @@ r_quality:filtering[high_aggressive,Intercept]
 r_quality:filtering[high_disabled,Intercept]
 </td>
 <td style="text-align:right;">
-2.24
+2.32
 </td>
 <td style="text-align:right;">
-6.44
+6.53
 </td>
 <td style="text-align:right;">
--10.08
+-10.57
 </td>
 <td style="text-align:right;">
-15.49
+15.62
 </td>
 </tr>
 <tr>
@@ -5114,16 +5114,16 @@ r_quality:filtering[high_disabled,Intercept]
 r_quality:filtering[high_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.06
+-0.12
 </td>
 <td style="text-align:right;">
-6.16
+6.22
 </td>
 <td style="text-align:right;">
--12.25
+-12.47
 </td>
 <td style="text-align:right;">
-12.20
+12.45
 </td>
 </tr>
 <tr>
@@ -5131,16 +5131,16 @@ r_quality:filtering[high_mild,Intercept]
 r_quality:filtering[high_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.93
+-0.95
 </td>
 <td style="text-align:right;">
-6.22
+6.29
 </td>
 <td style="text-align:right;">
--13.22
+-13.59
 </td>
 <td style="text-align:right;">
-11.47
+11.16
 </td>
 </tr>
 <tr>
@@ -5148,16 +5148,16 @@ r_quality:filtering[high_moderate,Intercept]
 r_quality:filtering[low_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.78
+3.00
 </td>
 <td style="text-align:right;">
-6.43
+6.40
 </td>
 <td style="text-align:right;">
--10.07
+-9.57
 </td>
 <td style="text-align:right;">
-15.65
+15.79
 </td>
 </tr>
 <tr>
@@ -5165,16 +5165,16 @@ r_quality:filtering[low_aggressive,Intercept]
 r_quality:filtering[low_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--3.45
+-3.34
 </td>
 <td style="text-align:right;">
-6.44
+6.50
 </td>
 <td style="text-align:right;">
--16.29
+-16.54
 </td>
 <td style="text-align:right;">
-9.36
+9.21
 </td>
 </tr>
 <tr>
@@ -5182,16 +5182,16 @@ r_quality:filtering[low_disabled,Intercept]
 r_quality:filtering[low_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.68
+-0.71
 </td>
 <td style="text-align:right;">
 6.17
 </td>
 <td style="text-align:right;">
--13.04
+-12.77
 </td>
 <td style="text-align:right;">
-11.19
+11.50
 </td>
 </tr>
 <tr>
@@ -5199,16 +5199,16 @@ r_quality:filtering[low_mild,Intercept]
 r_quality:filtering[low_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.10
+-0.01
 </td>
 <td style="text-align:right;">
-6.13
+6.12
 </td>
 <td style="text-align:right;">
--12.38
+-12.46
 </td>
 <td style="text-align:right;">
-11.81
+12.03
 </td>
 </tr>
 <tr>
@@ -5216,16 +5216,16 @@ r_quality:filtering[low_moderate,Intercept]
 r_quality:filtering[lowest_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.89
+2.94
 </td>
 <td style="text-align:right;">
-6.37
+6.32
 </td>
 <td style="text-align:right;">
--9.62
+-9.42
 </td>
 <td style="text-align:right;">
-15.57
+15.77
 </td>
 </tr>
 <tr>
@@ -5233,16 +5233,16 @@ r_quality:filtering[lowest_aggressive,Intercept]
 r_quality:filtering[lowest_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--3.49
+-3.57
 </td>
 <td style="text-align:right;">
-6.30
+6.38
 </td>
 <td style="text-align:right;">
--15.99
+-16.58
 </td>
 <td style="text-align:right;">
-8.92
+8.70
 </td>
 </tr>
 <tr>
@@ -5250,16 +5250,16 @@ r_quality:filtering[lowest_disabled,Intercept]
 r_quality:filtering[lowest_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.64
+-0.80
 </td>
 <td style="text-align:right;">
-6.18
+6.21
 </td>
 <td style="text-align:right;">
--12.70
+-13.19
 </td>
 <td style="text-align:right;">
-11.70
+11.55
 </td>
 </tr>
 <tr>
@@ -5267,16 +5267,16 @@ r_quality:filtering[lowest_mild,Intercept]
 r_quality:filtering[lowest_moderate,Intercept]
 </td>
 <td style="text-align:right;">
-0.06
+-0.09
 </td>
 <td style="text-align:right;">
-6.17
+6.21
 </td>
 <td style="text-align:right;">
--12.16
+-12.65
 </td>
 <td style="text-align:right;">
-12.00
+12.31
 </td>
 </tr>
 <tr>
@@ -5284,16 +5284,16 @@ r_quality:filtering[lowest_moderate,Intercept]
 r_quality:filtering[medium_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.22
+2.20
 </td>
 <td style="text-align:right;">
-6.35
+6.39
 </td>
 <td style="text-align:right;">
--10.37
+-10.77
 </td>
 <td style="text-align:right;">
-15.12
+15.22
 </td>
 </tr>
 <tr>
@@ -5301,16 +5301,16 @@ r_quality:filtering[medium_aggressive,Intercept]
 r_quality:filtering[medium_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--2.36
+-2.31
 </td>
 <td style="text-align:right;">
 6.32
 </td>
 <td style="text-align:right;">
--15.07
+-14.91
 </td>
 <td style="text-align:right;">
-9.96
+10.39
 </td>
 </tr>
 <tr>
@@ -5318,16 +5318,16 @@ r_quality:filtering[medium_disabled,Intercept]
 r_quality:filtering[medium_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.75
+-0.83
 </td>
 <td style="text-align:right;">
-6.20
+6.29
 </td>
 <td style="text-align:right;">
--13.51
+-13.32
 </td>
 <td style="text-align:right;">
-11.35
+11.63
 </td>
 </tr>
 <tr>
@@ -5335,16 +5335,16 @@ r_quality:filtering[medium_mild,Intercept]
 r_quality:filtering[medium_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.32
+-0.25
 </td>
 <td style="text-align:right;">
-6.12
+6.28
 </td>
 <td style="text-align:right;">
--12.39
+-13.18
 </td>
 <td style="text-align:right;">
-11.85
+12.06
 </td>
 </tr>
 <tr>
@@ -5352,16 +5352,16 @@ r_quality:filtering[medium_moderate,Intercept]
 r_quality:filtering[ultra.high_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--16.70
+-16.56
 </td>
 <td style="text-align:right;">
-6.84
+6.96
 </td>
 <td style="text-align:right;">
--31.37
+-30.88
 </td>
 <td style="text-align:right;">
--4.08
+-3.72
 </td>
 </tr>
 <tr>
@@ -5369,16 +5369,16 @@ r_quality:filtering[ultra.high_aggressive,Intercept]
 r_quality:filtering[ultra.high_disabled,Intercept]
 </td>
 <td style="text-align:right;">
-16.73
+16.89
 </td>
 <td style="text-align:right;">
-7.22
+7.13
 </td>
 <td style="text-align:right;">
-3.67
+4.10
 </td>
 <td style="text-align:right;">
-32.48
+32.41
 </td>
 </tr>
 <tr>
@@ -5386,16 +5386,16 @@ r_quality:filtering[ultra.high_disabled,Intercept]
 r_quality:filtering[ultra.high_mild,Intercept]
 </td>
 <td style="text-align:right;">
-3.10
+3.13
 </td>
 <td style="text-align:right;">
-6.30
+6.48
 </td>
 <td style="text-align:right;">
--8.96
+-9.55
 </td>
 <td style="text-align:right;">
-16.07
+16.47
 </td>
 </tr>
 <tr>
@@ -5403,16 +5403,16 @@ r_quality:filtering[ultra.high_mild,Intercept]
 r_quality:filtering[ultra.high_moderate,Intercept]
 </td>
 <td style="text-align:right;">
-0.46
+0.55
 </td>
 <td style="text-align:right;">
-6.30
+6.46
 </td>
 <td style="text-align:right;">
--11.80
+-11.94
 </td>
 <td style="text-align:right;">
-13.26
+13.63
 </td>
 </tr>
 </tbody>
@@ -5432,7 +5432,7 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 <span id="cb67-11"><a href="stats_processing_time.html#cb67-11" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb67-12"><a href="stats_processing_time.html#cb67-12" tabindex="-1"></a>  <span class="fu">xlab</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">sigma_y$&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb67-13"><a href="stats_processing_time.html#cb67-13" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-29-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-30-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="stats_processing_time.html#cb68-1" tabindex="-1"></a><span class="co"># how is it compared to the first model</span></span>
 <span id="cb68-2"><a href="stats_processing_time.html#cb68-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
 <span id="cb68-3"><a href="stats_processing_time.html#cb68-3" tabindex="-1"></a>    brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms1_mod) <span class="sc">%&gt;%</span> tidybayes<span class="sc">::</span><span class="fu">median_hdi</span>(sigma) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&quot;one nominal predictor&quot;</span>)</span>
@@ -5443,7 +5443,7 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 <span id="cb68-8"><a href="stats_processing_time.html#cb68-8" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-29">Table 4.14: </span>brms::brm model noise standard deviation comparison
+<span id="tab:unnamed-chunk-30">Table 4.14: </span>brms::brm model noise standard deviation comparison
 </caption>
 <thead>
 <tr>
@@ -5476,13 +5476,13 @@ sigma
 one nominal predictor
 </td>
 <td style="text-align:right;">
-12.59
+12.60
 </td>
 <td style="text-align:right;">
-10.94
+10.89
 </td>
 <td style="text-align:right;">
-14.53
+14.50
 </td>
 <td style="text-align:right;">
 0.95
@@ -5499,13 +5499,13 @@ hdi
 two nominal predictor
 </td>
 <td style="text-align:right;">
-9.97
+9.98
 </td>
 <td style="text-align:right;">
-8.49
+8.45
 </td>
 <td style="text-align:right;">
-11.61
+11.64
 </td>
 <td style="text-align:right;">
 0.95
@@ -5553,7 +5553,7 @@ hdi
 <span id="cb69-31"><a href="stats_processing_time.html#cb69-31" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb69-32"><a href="stats_processing_time.html#cb69-32" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb69-33"><a href="stats_processing_time.html#cb69-33" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-31-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-32-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="stats_processing_time.html#cb70-1" tabindex="-1"></a>    <span class="co"># guides(</span></span>
 <span id="cb70-2"><a href="stats_processing_time.html#cb70-2" tabindex="-1"></a>    <span class="co">#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))</span></span>
 <span id="cb70-3"><a href="stats_processing_time.html#cb70-3" tabindex="-1"></a>    <span class="co"># )</span></span></code></pre></div>
@@ -5633,7 +5633,7 @@ hdi
 ## $ sorter1                              &lt;ord&gt; ultra high, ultra high, ultra hig…
 ## $ sorter2                              &lt;ord&gt; high, high, high, high, high, hig…
 ## $ contrast                             &lt;fct&gt; ultra high - high, ultra high - h…
-## $ value                                &lt;dbl&gt; 45.22728, 42.47674, 43.90442, 45.…
+## $ value                                &lt;dbl&gt; 49.69898, 36.26862, 45.16237, 43.…
 ## $ is_gt_zero                           &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
 ## $ pct_gt_zero                          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 ## $ sig_level2                           &lt;ord&gt; &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99…</code></pre>
@@ -5680,7 +5680,7 @@ hdi
 <span id="cb73-40"><a href="stats_processing_time.html#cb73-40" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
 <span id="cb73-41"><a href="stats_processing_time.html#cb73-41" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb73-42"><a href="stats_processing_time.html#cb73-42" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-33-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-34-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="stats_processing_time.html#cb74-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb74-2"><a href="stats_processing_time.html#cb74-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -5703,7 +5703,7 @@ hdi
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-34">Table 4.15: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-35">Table 4.15: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -5733,13 +5733,13 @@ ultra high - high
 aggressive
 </td>
 <td style="text-align:right;">
-47.0
+46.9
 </td>
 <td style="text-align:right;">
 34.6
 </td>
 <td style="text-align:right;">
-58.6
+59.3
 </td>
 </tr>
 <tr>
@@ -5753,10 +5753,10 @@ moderate
 63.4
 </td>
 <td style="text-align:right;">
-52.0
+52.3
 </td>
 <td style="text-align:right;">
-74.7
+75.0
 </td>
 </tr>
 <tr>
@@ -5767,13 +5767,13 @@ ultra high - high
 mild
 </td>
 <td style="text-align:right;">
-65.1
+65.2
 </td>
 <td style="text-align:right;">
-53.3
+53.7
 </td>
 <td style="text-align:right;">
-75.8
+76.4
 </td>
 </tr>
 <tr>
@@ -5784,13 +5784,13 @@ ultra high - high
 disabled
 </td>
 <td style="text-align:right;">
-76.6
+76.5
 </td>
 <td style="text-align:right;">
-64.3
+64.2
 </td>
 <td style="text-align:right;">
-88.5
+87.9
 </td>
 </tr>
 <tr>
@@ -5801,13 +5801,13 @@ ultra high - medium
 aggressive
 </td>
 <td style="text-align:right;">
-56.3
+56.4
 </td>
 <td style="text-align:right;">
-44.1
+43.8
 </td>
 <td style="text-align:right;">
-69.1
+68.6
 </td>
 </tr>
 <tr>
@@ -5818,13 +5818,13 @@ ultra high - medium
 moderate
 </td>
 <td style="text-align:right;">
-76.0
+76.1
 </td>
 <td style="text-align:right;">
-64.9
+65.0
 </td>
 <td style="text-align:right;">
-87.2
+87.4
 </td>
 </tr>
 <tr>
@@ -5841,7 +5841,7 @@ mild
 67.7
 </td>
 <td style="text-align:right;">
-91.2
+90.5
 </td>
 </tr>
 <tr>
@@ -5855,10 +5855,10 @@ disabled
 94.4
 </td>
 <td style="text-align:right;">
-82.4
+81.8
 </td>
 <td style="text-align:right;">
-106.8
+106.7
 </td>
 </tr>
 <tr>
@@ -5869,13 +5869,13 @@ ultra high - low
 aggressive
 </td>
 <td style="text-align:right;">
-60.3
+60.1
 </td>
 <td style="text-align:right;">
 47.6
 </td>
 <td style="text-align:right;">
-73.1
+73.0
 </td>
 </tr>
 <tr>
@@ -5886,13 +5886,13 @@ ultra high - low
 moderate
 </td>
 <td style="text-align:right;">
-80.3
+80.4
 </td>
 <td style="text-align:right;">
-69.2
+69.0
 </td>
 <td style="text-align:right;">
-91.3
+91.5
 </td>
 </tr>
 <tr>
@@ -5903,13 +5903,13 @@ ultra high - low
 mild
 </td>
 <td style="text-align:right;">
-83.5
+83.7
 </td>
 <td style="text-align:right;">
-72.6
+72.2
 </td>
 <td style="text-align:right;">
-95.1
+94.7
 </td>
 </tr>
 <tr>
@@ -5920,10 +5920,10 @@ ultra high - low
 disabled
 </td>
 <td style="text-align:right;">
-100.0
+100.2
 </td>
 <td style="text-align:right;">
-87.3
+87.8
 </td>
 <td style="text-align:right;">
 112.4
@@ -5937,13 +5937,13 @@ ultra high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-61.4
+61.2
 </td>
 <td style="text-align:right;">
-48.9
+48.3
 </td>
 <td style="text-align:right;">
-73.7
+73.6
 </td>
 </tr>
 <tr>
@@ -5954,13 +5954,13 @@ ultra high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-81.3
+81.4
 </td>
 <td style="text-align:right;">
-69.6
+69.9
 </td>
 <td style="text-align:right;">
-92.1
+92.7
 </td>
 </tr>
 <tr>
@@ -5974,10 +5974,10 @@ mild
 84.7
 </td>
 <td style="text-align:right;">
-73.2
+73.3
 </td>
 <td style="text-align:right;">
-95.4
+95.9
 </td>
 </tr>
 <tr>
@@ -5991,10 +5991,10 @@ disabled
 101.2
 </td>
 <td style="text-align:right;">
-88.7
+89.1
 </td>
 <td style="text-align:right;">
-113.0
+113.7
 </td>
 </tr>
 <tr>
@@ -6008,10 +6008,10 @@ aggressive
 9.5
 </td>
 <td style="text-align:right;">
--1.2
+-2.3
 </td>
 <td style="text-align:right;">
-21.3
+20.4
 </td>
 </tr>
 <tr>
@@ -6022,13 +6022,13 @@ high - medium
 moderate
 </td>
 <td style="text-align:right;">
-12.7
+12.6
 </td>
 <td style="text-align:right;">
-0.3
+1.6
 </td>
 <td style="text-align:right;">
-23.6
+24.1
 </td>
 </tr>
 <tr>
@@ -6042,10 +6042,10 @@ mild
 14.0
 </td>
 <td style="text-align:right;">
-2.4
+2.5
 </td>
 <td style="text-align:right;">
-25.2
+25.3
 </td>
 </tr>
 <tr>
@@ -6059,10 +6059,10 @@ disabled
 17.9
 </td>
 <td style="text-align:right;">
-6.0
+6.6
 </td>
 <td style="text-align:right;">
-28.5
+29.7
 </td>
 </tr>
 <tr>
@@ -6073,13 +6073,13 @@ high - low
 aggressive
 </td>
 <td style="text-align:right;">
-13.3
+13.2
 </td>
 <td style="text-align:right;">
-1.8
+1.5
 </td>
 <td style="text-align:right;">
-24.9
+24.7
 </td>
 </tr>
 <tr>
@@ -6090,13 +6090,13 @@ high - low
 moderate
 </td>
 <td style="text-align:right;">
-16.9
+17.0
 </td>
 <td style="text-align:right;">
-5.5
+5.8
 </td>
 <td style="text-align:right;">
-27.8
+28.1
 </td>
 </tr>
 <tr>
@@ -6107,10 +6107,10 @@ high - low
 mild
 </td>
 <td style="text-align:right;">
-18.4
+18.5
 </td>
 <td style="text-align:right;">
-7.1
+6.9
 </td>
 <td style="text-align:right;">
 29.8
@@ -6124,13 +6124,13 @@ high - low
 disabled
 </td>
 <td style="text-align:right;">
-23.4
+23.5
 </td>
 <td style="text-align:right;">
 11.7
 </td>
 <td style="text-align:right;">
-34.6
+34.1
 </td>
 </tr>
 <tr>
@@ -6141,13 +6141,13 @@ high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-14.5
+14.3
 </td>
 <td style="text-align:right;">
-3.2
+2.1
 </td>
 <td style="text-align:right;">
-26.1
+25.2
 </td>
 </tr>
 <tr>
@@ -6161,10 +6161,10 @@ moderate
 17.9
 </td>
 <td style="text-align:right;">
-6.6
+6.5
 </td>
 <td style="text-align:right;">
-29.9
+29.0
 </td>
 </tr>
 <tr>
@@ -6178,10 +6178,10 @@ mild
 19.5
 </td>
 <td style="text-align:right;">
-8.4
+8.3
 </td>
 <td style="text-align:right;">
-31.4
+30.6
 </td>
 </tr>
 <tr>
@@ -6192,13 +6192,13 @@ high - lowest
 disabled
 </td>
 <td style="text-align:right;">
-24.7
+24.8
 </td>
 <td style="text-align:right;">
-13.6
+13.3
 </td>
 <td style="text-align:right;">
-36.6
+36.3
 </td>
 </tr>
 <tr>
@@ -6209,13 +6209,13 @@ medium - low
 aggressive
 </td>
 <td style="text-align:right;">
-3.9
+3.7
 </td>
 <td style="text-align:right;">
--7.4
+-7.2
 </td>
 <td style="text-align:right;">
-15.5
+15.2
 </td>
 </tr>
 <tr>
@@ -6226,13 +6226,13 @@ medium - low
 moderate
 </td>
 <td style="text-align:right;">
-4.2
+4.4
 </td>
 <td style="text-align:right;">
--7.2
+-6.7
 </td>
 <td style="text-align:right;">
-15.4
+16.1
 </td>
 </tr>
 <tr>
@@ -6243,13 +6243,13 @@ medium - low
 mild
 </td>
 <td style="text-align:right;">
-4.4
+4.5
 </td>
 <td style="text-align:right;">
--6.8
+-6.5
 </td>
 <td style="text-align:right;">
-15.9
+15.6
 </td>
 </tr>
 <tr>
@@ -6260,13 +6260,13 @@ medium - low
 disabled
 </td>
 <td style="text-align:right;">
-5.5
+5.6
 </td>
 <td style="text-align:right;">
--5.3
+-5.7
 </td>
 <td style="text-align:right;">
-17.4
+16.9
 </td>
 </tr>
 <tr>
@@ -6277,13 +6277,13 @@ medium - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-5.0
+4.8
 </td>
 <td style="text-align:right;">
--6.7
+-6.0
 </td>
 <td style="text-align:right;">
-15.9
+16.7
 </td>
 </tr>
 <tr>
@@ -6294,10 +6294,10 @@ medium - lowest
 moderate
 </td>
 <td style="text-align:right;">
-5.3
+5.4
 </td>
 <td style="text-align:right;">
--6.0
+-6.1
 </td>
 <td style="text-align:right;">
 16.6
@@ -6311,10 +6311,10 @@ medium - lowest
 mild
 </td>
 <td style="text-align:right;">
-5.4
+5.6
 </td>
 <td style="text-align:right;">
--6.1
+-5.7
 </td>
 <td style="text-align:right;">
 16.7
@@ -6328,13 +6328,13 @@ medium - lowest
 disabled
 </td>
 <td style="text-align:right;">
-6.7
+6.9
 </td>
 <td style="text-align:right;">
 -4.5
 </td>
 <td style="text-align:right;">
-18.7
+17.9
 </td>
 </tr>
 <tr>
@@ -6345,13 +6345,13 @@ low - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-1.1
+1.0
 </td>
 <td style="text-align:right;">
--9.7
+-10.2
 </td>
 <td style="text-align:right;">
-13.2
+12.1
 </td>
 </tr>
 <tr>
@@ -6362,13 +6362,13 @@ low - lowest
 moderate
 </td>
 <td style="text-align:right;">
-1.0
+1.1
 </td>
 <td style="text-align:right;">
--10.8
+-10.4
 </td>
 <td style="text-align:right;">
-11.6
+12.2
 </td>
 </tr>
 <tr>
@@ -6382,10 +6382,10 @@ mild
 1.2
 </td>
 <td style="text-align:right;">
--9.7
+-10.5
 </td>
 <td style="text-align:right;">
-12.4
+12.2
 </td>
 </tr>
 <tr>
@@ -6396,13 +6396,13 @@ low - lowest
 disabled
 </td>
 <td style="text-align:right;">
-1.3
+1.2
 </td>
 <td style="text-align:right;">
 -10.0
 </td>
 <td style="text-align:right;">
-12.4
+12.3
 </td>
 </tr>
 </tbody>
@@ -6443,7 +6443,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb75-27"><a href="stats_processing_time.html#cb75-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb75-28"><a href="stats_processing_time.html#cb75-28" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb75-29"><a href="stats_processing_time.html#cb75-29" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-35-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-36-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_processing_time.html#one_pred_mod_bays">one nominal predictor model above</a></p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="stats_processing_time.html#cb76-1" tabindex="-1"></a><span class="co"># let&#39;s compare these results to the results from our [one nominal predictor model above](#one_pred_mod)</span></span>
 <span id="cb76-2"><a href="stats_processing_time.html#cb76-2" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
@@ -6471,7 +6471,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb76-24"><a href="stats_processing_time.html#cb76-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb76-25"><a href="stats_processing_time.html#cb76-25" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb76-26"><a href="stats_processing_time.html#cb76-26" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-36-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-37-1.png" width="1008" /></p>
 <p>these results are as expected, with <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015)</a> noting:</p>
 <blockquote>
 <p>It is important to realize that the estimates of interaction contrasts are typically much more uncertain than the estimates of simple effects or main effects…This large uncertainty of an interaction contrast is caused by the fact that it involves at least four sources of uncertainty (i.e., at least four groups of data), unlike its component simple effects which each involve only half of those sources of uncertainty. In general, interaction contrasts require a lot of data to estimate accurately. (p. 598)</p>
@@ -6507,7 +6507,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb77-27"><a href="stats_processing_time.html#cb77-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb77-28"><a href="stats_processing_time.html#cb77-28" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb77-29"><a href="stats_processing_time.html#cb77-29" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-37-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-38-1.png" width="1008" /></p>
 <p>…it looks like the variation in processing time is driven by the depth map quality setting. We can quantify the variation in processing time by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="stats_processing_time.html#cb78-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb78-2"><a href="stats_processing_time.html#cb78-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms2_mod) <span class="sc">%&gt;%</span> </span>
@@ -6531,7 +6531,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb78-20"><a href="stats_processing_time.html#cb78-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb78-21"><a href="stats_processing_time.html#cb78-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb78-22"><a href="stats_processing_time.html#cb78-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-38-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-39-1.png" width="1008" /></p>
 <p>Finally we can perform model selection via information criteria, from section 10 in <a href="https://bookdown.org/content/3686/metric-predicted-variable-with-one-nominal-predictor.html">Kurz’s ebook supplement</a>:</p>
 <blockquote>
 <p>expected log predictive density (<code>elpd_loo</code>), the estimated effective number of parameters (<code>p_loo</code>), and the Pareto smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO; <code>looic</code>). Each estimate comes with a standard error (i.e., <code>SE</code>). Like other information criteria, the LOO values aren’t of interest in and of themselves. However, the estimate of one model’s LOO relative to that of another can be of great interest. We generally prefer models with lower information criteria. With the <code>brms::loo_compare()</code> function, we can compute a formal difference score between two models…The <code>brms::loo_compare()</code> output rank orders the models such that the best fitting model appears on top.</p>
@@ -6541,7 +6541,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb79-3"><a href="stats_processing_time.html#cb79-3" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms1_mod, brms2_mod, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>
 <pre><code>##           elpd_diff se_diff
 ## brms2_mod   0.0       0.0  
-## brms1_mod -16.7      11.7</code></pre>
+## brms1_mod -16.4      11.9</code></pre>
 </div>
 </div>
 <div id="two-nominal-predictors-site-effects" class="section level2 hasAnchor" number="4.3">
@@ -6604,7 +6604,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb83-33"><a href="stats_processing_time.html#cb83-33" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
 <span id="cb83-34"><a href="stats_processing_time.html#cb83-34" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb83-35"><a href="stats_processing_time.html#cb83-35" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-42-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-43-1.png" width="1008" /></p>
 </div>
 <div id="id_3_pred_mod_bays" class="section level3 hasAnchor" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> Bayesian<a href="stats_processing_time.html#id_3_pred_mod_bays" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -6677,7 +6677,7 @@ y = &amp; \; \beta_0 \\
 <span id="cb85-18"><a href="stats_processing_time.html#cb85-18" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="stats_processing_time.html#cb86-1" tabindex="-1"></a><span class="fu">plot</span>(brms3_mod)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-45-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-45-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-46-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-46-2.png" width="1008" /></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="stats_processing_time.html#cb87-1" tabindex="-1"></a><span class="co"># check priors</span></span>
 <span id="cb87-2"><a href="stats_processing_time.html#cb87-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">prior_summary</span>(brms3_mod) <span class="sc">%&gt;%</span> </span>
@@ -7025,7 +7025,7 @@ user
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-47">Table 4.16: </span>Bayesian two nominal predictors + study site effects for point cloud processing time
+<span id="tab:unnamed-chunk-48">Table 4.16: </span>Bayesian two nominal predictors + study site effects for point cloud processing time
 </caption>
 <thead>
 <tr>
@@ -7052,16 +7052,16 @@ q97.5
 b_Intercept
 </td>
 <td style="text-align:right;">
-22.36
+22.32
 </td>
 <td style="text-align:right;">
-22.38
+22.53
 </td>
 <td style="text-align:right;">
--24.00
+-23.77
 </td>
 <td style="text-align:right;">
-67.73
+67.69
 </td>
 </tr>
 <tr>
@@ -7069,16 +7069,16 @@ b_Intercept
 sd_filtering__Intercept
 </td>
 <td style="text-align:right;">
-9.05
+9.26
 </td>
 <td style="text-align:right;">
-8.95
+8.88
 </td>
 <td style="text-align:right;">
-0.66
+0.71
 </td>
 <td style="text-align:right;">
-33.90
+33.16
 </td>
 </tr>
 <tr>
@@ -7086,16 +7086,16 @@ sd_filtering__Intercept
 sd_quality__Intercept
 </td>
 <td style="text-align:right;">
-45.18
+44.93
 </td>
 <td style="text-align:right;">
-19.44
+19.97
 </td>
 <td style="text-align:right;">
-21.41
+21.31
 </td>
 <td style="text-align:right;">
-93.82
+97.68
 </td>
 </tr>
 <tr>
@@ -7103,16 +7103,16 @@ sd_quality__Intercept
 sd_quality:filtering__Intercept
 </td>
 <td style="text-align:right;">
-9.11
+9.04
 </td>
 <td style="text-align:right;">
-2.47
+2.42
 </td>
 <td style="text-align:right;">
-5.29
+5.22
 </td>
 <td style="text-align:right;">
-14.89
+14.65
 </td>
 </tr>
 <tr>
@@ -7120,16 +7120,16 @@ sd_quality:filtering__Intercept
 sd_study_site__Intercept
 </td>
 <td style="text-align:right;">
-6.32
+6.09
 </td>
 <td style="text-align:right;">
-5.17
+4.47
 </td>
 <td style="text-align:right;">
-1.58
+1.67
 </td>
 <td style="text-align:right;">
-18.47
+17.50
 </td>
 </tr>
 <tr>
@@ -7146,7 +7146,7 @@ sigma
 7.95
 </td>
 <td style="text-align:right;">
-11.00
+11.01
 </td>
 </tr>
 <tr>
@@ -7154,16 +7154,16 @@ sigma
 r_filtering[aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--4.14
+-4.29
 </td>
 <td style="text-align:right;">
-6.85
+6.86
 </td>
 <td style="text-align:right;">
--19.35
+-19.55
 </td>
 <td style="text-align:right;">
-7.82
+7.94
 </td>
 </tr>
 <tr>
@@ -7171,16 +7171,16 @@ r_filtering[aggressive,Intercept]
 r_filtering[moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.33
+-0.30
 </td>
 <td style="text-align:right;">
-6.56
+6.55
 </td>
 <td style="text-align:right;">
--13.93
+-13.86
 </td>
 <td style="text-align:right;">
-13.42
+13.28
 </td>
 </tr>
 <tr>
@@ -7188,16 +7188,16 @@ r_filtering[moderate,Intercept]
 r_filtering[mild,Intercept]
 </td>
 <td style="text-align:right;">
-0.51
+0.55
 </td>
 <td style="text-align:right;">
-6.57
+6.56
 </td>
 <td style="text-align:right;">
--13.01
+-12.14
 </td>
 <td style="text-align:right;">
-14.65
+14.80
 </td>
 </tr>
 <tr>
@@ -7205,16 +7205,16 @@ r_filtering[mild,Intercept]
 r_filtering[disabled,Intercept]
 </td>
 <td style="text-align:right;">
-4.17
+4.39
 </td>
 <td style="text-align:right;">
-6.99
+6.88
 </td>
 <td style="text-align:right;">
--7.58
+-6.86
 </td>
 <td style="text-align:right;">
-20.33
+19.95
 </td>
 </tr>
 <tr>
@@ -7222,16 +7222,16 @@ r_filtering[disabled,Intercept]
 r_quality[ultra.high,Intercept]
 </td>
 <td style="text-align:right;">
-59.94
+59.88
 </td>
 <td style="text-align:right;">
-21.59
+21.87
 </td>
 <td style="text-align:right;">
-16.97
+16.82
 </td>
 <td style="text-align:right;">
-104.84
+105.55
 </td>
 </tr>
 <tr>
@@ -7239,16 +7239,16 @@ r_quality[ultra.high,Intercept]
 r_quality[high,Intercept]
 </td>
 <td style="text-align:right;">
--2.06
+-2.00
 </td>
 <td style="text-align:right;">
-21.38
+21.92
 </td>
 <td style="text-align:right;">
--44.13
+-45.98
 </td>
 <td style="text-align:right;">
-41.00
+43.30
 </td>
 </tr>
 <tr>
@@ -7256,16 +7256,16 @@ r_quality[high,Intercept]
 r_quality[medium,Intercept]
 </td>
 <td style="text-align:right;">
--15.32
+-15.36
 </td>
 <td style="text-align:right;">
-21.65
+21.92
 </td>
 <td style="text-align:right;">
--59.02
+-59.34
 </td>
 <td style="text-align:right;">
-30.32
+28.81
 </td>
 </tr>
 <tr>
@@ -7273,16 +7273,16 @@ r_quality[medium,Intercept]
 r_quality[low,Intercept]
 </td>
 <td style="text-align:right;">
--19.80
+-19.83
 </td>
 <td style="text-align:right;">
-21.52
+22.09
 </td>
 <td style="text-align:right;">
--64.21
+-64.57
 </td>
 <td style="text-align:right;">
-24.74
+25.85
 </td>
 </tr>
 <tr>
@@ -7293,13 +7293,13 @@ r_quality[lowest,Intercept]
 -20.87
 </td>
 <td style="text-align:right;">
-21.58
+22.01
 </td>
 <td style="text-align:right;">
--64.71
+-65.27
 </td>
 <td style="text-align:right;">
-23.60
+23.19
 </td>
 </tr>
 <tr>
@@ -7307,16 +7307,16 @@ r_quality[lowest,Intercept]
 r_quality:filtering[high_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--1.83
+-1.69
 </td>
 <td style="text-align:right;">
-6.49
+6.38
 </td>
 <td style="text-align:right;">
--15.02
+-14.52
 </td>
 <td style="text-align:right;">
-10.63
+10.70
 </td>
 </tr>
 <tr>
@@ -7324,16 +7324,16 @@ r_quality:filtering[high_aggressive,Intercept]
 r_quality:filtering[high_disabled,Intercept]
 </td>
 <td style="text-align:right;">
-2.54
+2.33
 </td>
 <td style="text-align:right;">
-6.41
+6.35
 </td>
 <td style="text-align:right;">
--9.88
+-10.03
 </td>
 <td style="text-align:right;">
-15.50
+15.09
 </td>
 </tr>
 <tr>
@@ -7341,16 +7341,16 @@ r_quality:filtering[high_disabled,Intercept]
 r_quality:filtering[high_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.02
+-0.08
 </td>
 <td style="text-align:right;">
 6.19
 </td>
 <td style="text-align:right;">
--12.21
+-12.18
 </td>
 <td style="text-align:right;">
-12.01
+12.18
 </td>
 </tr>
 <tr>
@@ -7358,16 +7358,16 @@ r_quality:filtering[high_mild,Intercept]
 r_quality:filtering[high_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--1.07
+-1.09
 </td>
 <td style="text-align:right;">
-6.24
+6.07
 </td>
 <td style="text-align:right;">
--13.47
+-13.09
 </td>
 <td style="text-align:right;">
-11.37
+11.02
 </td>
 </tr>
 <tr>
@@ -7375,16 +7375,16 @@ r_quality:filtering[high_moderate,Intercept]
 r_quality:filtering[low_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.89
+3.06
 </td>
 <td style="text-align:right;">
-6.52
+6.43
 </td>
 <td style="text-align:right;">
--9.97
+-9.41
 </td>
 <td style="text-align:right;">
-15.64
+15.83
 </td>
 </tr>
 <tr>
@@ -7392,16 +7392,16 @@ r_quality:filtering[low_aggressive,Intercept]
 r_quality:filtering[low_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--3.34
+-3.52
 </td>
 <td style="text-align:right;">
-6.39
+6.37
 </td>
 <td style="text-align:right;">
--16.00
+-16.45
 </td>
 <td style="text-align:right;">
-9.35
+8.99
 </td>
 </tr>
 <tr>
@@ -7409,16 +7409,16 @@ r_quality:filtering[low_disabled,Intercept]
 r_quality:filtering[low_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.62
+-0.69
 </td>
 <td style="text-align:right;">
-6.31
+6.05
 </td>
 <td style="text-align:right;">
--13.44
+-12.66
 </td>
 <td style="text-align:right;">
-11.84
+11.57
 </td>
 </tr>
 <tr>
@@ -7426,16 +7426,16 @@ r_quality:filtering[low_mild,Intercept]
 r_quality:filtering[low_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.04
+-0.09
 </td>
 <td style="text-align:right;">
-6.24
+6.23
 </td>
 <td style="text-align:right;">
--12.06
+-12.69
 </td>
 <td style="text-align:right;">
-12.39
+12.34
 </td>
 </tr>
 <tr>
@@ -7443,16 +7443,16 @@ r_quality:filtering[low_moderate,Intercept]
 r_quality:filtering[lowest_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.86
+3.03
 </td>
 <td style="text-align:right;">
-6.46
+6.48
 </td>
 <td style="text-align:right;">
--9.94
+-9.99
 </td>
 <td style="text-align:right;">
-15.42
+15.88
 </td>
 </tr>
 <tr>
@@ -7460,16 +7460,16 @@ r_quality:filtering[lowest_aggressive,Intercept]
 r_quality:filtering[lowest_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--3.53
+-3.74
 </td>
 <td style="text-align:right;">
-6.51
+6.44
 </td>
 <td style="text-align:right;">
--16.56
+-16.55
 </td>
 <td style="text-align:right;">
-9.18
+8.76
 </td>
 </tr>
 <tr>
@@ -7477,16 +7477,16 @@ r_quality:filtering[lowest_disabled,Intercept]
 r_quality:filtering[lowest_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.79
+-0.74
 </td>
 <td style="text-align:right;">
-6.22
+6.34
 </td>
 <td style="text-align:right;">
--13.22
+-13.51
 </td>
 <td style="text-align:right;">
-11.37
+11.56
 </td>
 </tr>
 <tr>
@@ -7494,16 +7494,16 @@ r_quality:filtering[lowest_mild,Intercept]
 r_quality:filtering[lowest_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.13
+-0.11
 </td>
 <td style="text-align:right;">
-6.25
+6.30
 </td>
 <td style="text-align:right;">
--12.79
+-12.83
 </td>
 <td style="text-align:right;">
-12.15
+12.61
 </td>
 </tr>
 <tr>
@@ -7511,16 +7511,16 @@ r_quality:filtering[lowest_moderate,Intercept]
 r_quality:filtering[medium_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
-2.21
+2.39
 </td>
 <td style="text-align:right;">
-6.50
+6.48
 </td>
 <td style="text-align:right;">
--10.56
+-10.44
 </td>
 <td style="text-align:right;">
-15.30
+15.13
 </td>
 </tr>
 <tr>
@@ -7528,16 +7528,16 @@ r_quality:filtering[medium_aggressive,Intercept]
 r_quality:filtering[medium_disabled,Intercept]
 </td>
 <td style="text-align:right;">
--2.25
+-2.33
 </td>
 <td style="text-align:right;">
 6.49
 </td>
 <td style="text-align:right;">
--14.96
+-15.04
 </td>
 <td style="text-align:right;">
-10.25
+10.73
 </td>
 </tr>
 <tr>
@@ -7545,16 +7545,16 @@ r_quality:filtering[medium_disabled,Intercept]
 r_quality:filtering[medium_mild,Intercept]
 </td>
 <td style="text-align:right;">
--0.76
+-0.72
 </td>
 <td style="text-align:right;">
-6.18
+6.26
 </td>
 <td style="text-align:right;">
--13.22
+-13.26
 </td>
 <td style="text-align:right;">
-11.16
+11.59
 </td>
 </tr>
 <tr>
@@ -7562,16 +7562,16 @@ r_quality:filtering[medium_mild,Intercept]
 r_quality:filtering[medium_moderate,Intercept]
 </td>
 <td style="text-align:right;">
--0.39
+-0.27
 </td>
 <td style="text-align:right;">
-6.29
+6.28
 </td>
 <td style="text-align:right;">
--12.75
+-12.89
 </td>
 <td style="text-align:right;">
-12.00
+12.39
 </td>
 </tr>
 <tr>
@@ -7579,16 +7579,16 @@ r_quality:filtering[medium_moderate,Intercept]
 r_quality:filtering[ultra.high_aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--17.50
+-17.33
 </td>
 <td style="text-align:right;">
-6.89
+6.73
 </td>
 <td style="text-align:right;">
--31.58
+-30.77
 </td>
 <td style="text-align:right;">
--4.68
+-4.71
 </td>
 </tr>
 <tr>
@@ -7596,16 +7596,16 @@ r_quality:filtering[ultra.high_aggressive,Intercept]
 r_quality:filtering[ultra.high_disabled,Intercept]
 </td>
 <td style="text-align:right;">
-17.72
+17.58
 </td>
 <td style="text-align:right;">
-7.19
+6.98
 </td>
 <td style="text-align:right;">
-4.58
+4.84
 </td>
 <td style="text-align:right;">
-32.86
+32.18
 </td>
 </tr>
 <tr>
@@ -7613,16 +7613,16 @@ r_quality:filtering[ultra.high_disabled,Intercept]
 r_quality:filtering[ultra.high_mild,Intercept]
 </td>
 <td style="text-align:right;">
-3.30
+3.41
 </td>
 <td style="text-align:right;">
-6.39
+6.41
 </td>
 <td style="text-align:right;">
--9.25
+-8.76
 </td>
 <td style="text-align:right;">
-16.20
+16.85
 </td>
 </tr>
 <tr>
@@ -7630,16 +7630,16 @@ r_quality:filtering[ultra.high_mild,Intercept]
 r_quality:filtering[ultra.high_moderate,Intercept]
 </td>
 <td style="text-align:right;">
-0.43
+0.44
 </td>
 <td style="text-align:right;">
-6.27
+6.24
 </td>
 <td style="text-align:right;">
--11.75
+-11.81
 </td>
 <td style="text-align:right;">
-13.42
+13.09
 </td>
 </tr>
 <tr>
@@ -7647,16 +7647,16 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 r_study_site[KAIBAB_HIGH,Intercept]
 </td>
 <td style="text-align:right;">
--2.02
+-1.93
 </td>
 <td style="text-align:right;">
-4.09
+3.67
 </td>
 <td style="text-align:right;">
--10.03
+-9.41
 </td>
 <td style="text-align:right;">
-5.08
+5.02
 </td>
 </tr>
 <tr>
@@ -7664,16 +7664,16 @@ r_study_site[KAIBAB_HIGH,Intercept]
 r_study_site[KAIBAB_LOW,Intercept]
 </td>
 <td style="text-align:right;">
--5.21
+-5.14
 </td>
 <td style="text-align:right;">
-4.24
+3.82
 </td>
 <td style="text-align:right;">
--13.83
+-13.38
 </td>
 <td style="text-align:right;">
-1.71
+1.60
 </td>
 </tr>
 <tr>
@@ -7681,16 +7681,16 @@ r_study_site[KAIBAB_LOW,Intercept]
 r_study_site[N1,Intercept]
 </td>
 <td style="text-align:right;">
-2.12
+2.18
 </td>
 <td style="text-align:right;">
-4.10
+3.76
 </td>
 <td style="text-align:right;">
--5.30
+-4.89
 </td>
 <td style="text-align:right;">
-9.85
+10.04
 </td>
 </tr>
 <tr>
@@ -7698,16 +7698,16 @@ r_study_site[N1,Intercept]
 r_study_site[SQ09_02,Intercept]
 </td>
 <td style="text-align:right;">
-2.31
+2.35
 </td>
 <td style="text-align:right;">
-4.10
+3.68
 </td>
 <td style="text-align:right;">
--4.87
+-4.57
 </td>
 <td style="text-align:right;">
-10.07
+10.03
 </td>
 </tr>
 <tr>
@@ -7715,16 +7715,16 @@ r_study_site[SQ09_02,Intercept]
 r_study_site[WA85_02,Intercept]
 </td>
 <td style="text-align:right;">
-2.39
+2.46
 </td>
 <td style="text-align:right;">
-4.10
+3.72
 </td>
 <td style="text-align:right;">
--4.88
+-4.60
 </td>
 <td style="text-align:right;">
-10.21
+10.47
 </td>
 </tr>
 </tbody>
@@ -7744,7 +7744,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb89-11"><a href="stats_processing_time.html#cb89-11" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb89-12"><a href="stats_processing_time.html#cb89-12" tabindex="-1"></a>  <span class="fu">xlab</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">sigma_y$&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb89-13"><a href="stats_processing_time.html#cb89-13" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-48-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-49-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="stats_processing_time.html#cb90-1" tabindex="-1"></a><span class="co"># how is it compared to our other models?</span></span>
 <span id="cb90-2"><a href="stats_processing_time.html#cb90-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
 <span id="cb90-3"><a href="stats_processing_time.html#cb90-3" tabindex="-1"></a>    brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms1_mod) <span class="sc">%&gt;%</span> tidybayes<span class="sc">::</span><span class="fu">median_hdi</span>(sigma) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&quot;one nominal predictor&quot;</span>)</span>
@@ -7756,7 +7756,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb90-9"><a href="stats_processing_time.html#cb90-9" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-48">Table 4.17: </span>brms::brm model noise standard deviation comparison
+<span id="tab:unnamed-chunk-49">Table 4.17: </span>brms::brm model noise standard deviation comparison
 </caption>
 <thead>
 <tr>
@@ -7789,13 +7789,13 @@ sigma
 one nominal predictor
 </td>
 <td style="text-align:right;">
-12.59
+12.60
 </td>
 <td style="text-align:right;">
-10.94
+10.89
 </td>
 <td style="text-align:right;">
-14.53
+14.50
 </td>
 <td style="text-align:right;">
 0.95
@@ -7812,13 +7812,13 @@ hdi
 two nominal predictor
 </td>
 <td style="text-align:right;">
-9.97
+9.98
 </td>
 <td style="text-align:right;">
-8.49
+8.45
 </td>
 <td style="text-align:right;">
-11.61
+11.64
 </td>
 <td style="text-align:right;">
 0.95
@@ -7835,13 +7835,13 @@ hdi
 two nominal predictor + site effect
 </td>
 <td style="text-align:right;">
-9.26
+9.27
 </td>
 <td style="text-align:right;">
-7.90
+7.81
 </td>
 <td style="text-align:right;">
-10.89
+10.82
 </td>
 <td style="text-align:right;">
 0.95
@@ -7896,7 +7896,7 @@ hdi
 <span id="cb91-37"><a href="stats_processing_time.html#cb91-37" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb91-38"><a href="stats_processing_time.html#cb91-38" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb91-39"><a href="stats_processing_time.html#cb91-39" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-49-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-50-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="stats_processing_time.html#cb92-1" tabindex="-1"></a>    <span class="co"># guides(</span></span>
 <span id="cb92-2"><a href="stats_processing_time.html#cb92-2" tabindex="-1"></a>    <span class="co">#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))</span></span>
 <span id="cb92-3"><a href="stats_processing_time.html#cb92-3" tabindex="-1"></a>    <span class="co"># )</span></span></code></pre></div>
@@ -7982,7 +7982,7 @@ hdi
 ## $ sorter1                              &lt;ord&gt; ultra high, ultra high, ultra hig…
 ## $ sorter2                              &lt;ord&gt; high, high, high, high, high, hig…
 ## $ contrast                             &lt;fct&gt; ultra high - high, ultra high - h…
-## $ value                                &lt;dbl&gt; 39.94274, 46.16737, 40.47797, 46.…
+## $ value                                &lt;dbl&gt; 56.16488, 38.73338, 50.98472, 48.…
 ## $ is_gt_zero                           &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
 ## $ pct_gt_zero                          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 ## $ sig_level2                           &lt;ord&gt; &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99…</code></pre>
@@ -8029,7 +8029,7 @@ hdi
 <span id="cb95-40"><a href="stats_processing_time.html#cb95-40" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
 <span id="cb95-41"><a href="stats_processing_time.html#cb95-41" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb95-42"><a href="stats_processing_time.html#cb95-42" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-51-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-52-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="stats_processing_time.html#cb96-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb96-2"><a href="stats_processing_time.html#cb96-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -8052,7 +8052,7 @@ hdi
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-52">Table 4.18: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-53">Table 4.18: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -8085,10 +8085,10 @@ aggressive
 46.3
 </td>
 <td style="text-align:right;">
-35.6
+34.6
 </td>
 <td style="text-align:right;">
-58.1
+57.6
 </td>
 </tr>
 <tr>
@@ -8099,13 +8099,13 @@ ultra high - high
 moderate
 </td>
 <td style="text-align:right;">
-63.5
+63.4
 </td>
 <td style="text-align:right;">
-52.4
+52.6
 </td>
 <td style="text-align:right;">
-73.5
+74.0
 </td>
 </tr>
 <tr>
@@ -8116,13 +8116,13 @@ ultra high - high
 mild
 </td>
 <td style="text-align:right;">
-65.3
+65.4
 </td>
 <td style="text-align:right;">
-54.7
+54.5
 </td>
 <td style="text-align:right;">
-76.5
+76.2
 </td>
 </tr>
 <tr>
@@ -8133,13 +8133,13 @@ ultra high - high
 disabled
 </td>
 <td style="text-align:right;">
-77.2
+77.1
 </td>
 <td style="text-align:right;">
-66.2
+66.1
 </td>
 <td style="text-align:right;">
-88.5
+88.9
 </td>
 </tr>
 <tr>
@@ -8153,10 +8153,10 @@ aggressive
 55.5
 </td>
 <td style="text-align:right;">
-44.1
+43.5
 </td>
 <td style="text-align:right;">
-67.5
+66.6
 </td>
 </tr>
 <tr>
@@ -8167,13 +8167,13 @@ ultra high - medium
 moderate
 </td>
 <td style="text-align:right;">
-76.1
+75.9
 </td>
 <td style="text-align:right;">
-65.4
+64.8
 </td>
 <td style="text-align:right;">
-86.5
+86.0
 </td>
 </tr>
 <tr>
@@ -8184,13 +8184,13 @@ ultra high - medium
 mild
 </td>
 <td style="text-align:right;">
-79.3
+79.4
 </td>
 <td style="text-align:right;">
-68.6
+69.1
 </td>
 <td style="text-align:right;">
-90.2
+90.6
 </td>
 </tr>
 <tr>
@@ -8204,7 +8204,7 @@ disabled
 95.2
 </td>
 <td style="text-align:right;">
-83.9
+83.8
 </td>
 <td style="text-align:right;">
 106.6
@@ -8221,10 +8221,10 @@ aggressive
 59.3
 </td>
 <td style="text-align:right;">
-47.8
+48.0
 </td>
 <td style="text-align:right;">
-70.9
+71.1
 </td>
 </tr>
 <tr>
@@ -8238,7 +8238,7 @@ moderate
 80.2
 </td>
 <td style="text-align:right;">
-69.2
+69.8
 </td>
 <td style="text-align:right;">
 90.8
@@ -8252,13 +8252,13 @@ ultra high - low
 mild
 </td>
 <td style="text-align:right;">
-83.7
+83.8
 </td>
 <td style="text-align:right;">
-73.7
+73.4
 </td>
 <td style="text-align:right;">
-95.0
+94.5
 </td>
 </tr>
 <tr>
@@ -8269,13 +8269,13 @@ ultra high - low
 disabled
 </td>
 <td style="text-align:right;">
-100.8
+100.9
 </td>
 <td style="text-align:right;">
-89.4
+89.2
 </td>
 <td style="text-align:right;">
-112.0
+112.8
 </td>
 </tr>
 <tr>
@@ -8286,13 +8286,13 @@ ultra high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-60.5
+60.4
 </td>
 <td style="text-align:right;">
-48.9
+48.6
 </td>
 <td style="text-align:right;">
-71.7
+72.0
 </td>
 </tr>
 <tr>
@@ -8303,13 +8303,13 @@ ultra high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-81.4
+81.3
 </td>
 <td style="text-align:right;">
-71.4
+70.5
 </td>
 <td style="text-align:right;">
-92.3
+92.0
 </td>
 </tr>
 <tr>
@@ -8323,10 +8323,10 @@ mild
 84.9
 </td>
 <td style="text-align:right;">
-74.2
+73.9
 </td>
 <td style="text-align:right;">
-95.8
+95.4
 </td>
 </tr>
 <tr>
@@ -8340,10 +8340,10 @@ disabled
 102.0
 </td>
 <td style="text-align:right;">
-90.4
+90.5
 </td>
 <td style="text-align:right;">
-113.7
+113.9
 </td>
 </tr>
 <tr>
@@ -8357,10 +8357,10 @@ aggressive
 9.3
 </td>
 <td style="text-align:right;">
--1.5
+-1.8
 </td>
 <td style="text-align:right;">
-19.7
+19.9
 </td>
 </tr>
 <tr>
@@ -8374,10 +8374,10 @@ moderate
 12.6
 </td>
 <td style="text-align:right;">
-2.2
+1.9
 </td>
 <td style="text-align:right;">
-23.1
+23.4
 </td>
 </tr>
 <tr>
@@ -8388,13 +8388,13 @@ high - medium
 mild
 </td>
 <td style="text-align:right;">
-14.0
+14.1
 </td>
 <td style="text-align:right;">
-3.3
+2.9
 </td>
 <td style="text-align:right;">
-24.5
+24.3
 </td>
 </tr>
 <tr>
@@ -8405,10 +8405,10 @@ high - medium
 disabled
 </td>
 <td style="text-align:right;">
-18.1
+18.0
 </td>
 <td style="text-align:right;">
-6.9
+7.5
 </td>
 <td style="text-align:right;">
 28.9
@@ -8425,10 +8425,10 @@ aggressive
 13.1
 </td>
 <td style="text-align:right;">
-2.2
+3.0
 </td>
 <td style="text-align:right;">
-23.3
+24.3
 </td>
 </tr>
 <tr>
@@ -8439,13 +8439,13 @@ high - low
 moderate
 </td>
 <td style="text-align:right;">
-16.7
+16.9
 </td>
 <td style="text-align:right;">
-6.4
+6.5
 </td>
 <td style="text-align:right;">
-27.4
+28.1
 </td>
 </tr>
 <tr>
@@ -8459,10 +8459,10 @@ mild
 18.4
 </td>
 <td style="text-align:right;">
-8.2
+7.7
 </td>
 <td style="text-align:right;">
-29.3
+29.1
 </td>
 </tr>
 <tr>
@@ -8473,13 +8473,13 @@ high - low
 disabled
 </td>
 <td style="text-align:right;">
-23.6
+23.7
 </td>
 <td style="text-align:right;">
-12.6
+13.0
 </td>
 <td style="text-align:right;">
-34.1
+34.5
 </td>
 </tr>
 <tr>
@@ -8490,13 +8490,13 @@ high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-14.1
+14.2
 </td>
 <td style="text-align:right;">
-3.7
+3.3
 </td>
 <td style="text-align:right;">
-24.8
+24.7
 </td>
 </tr>
 <tr>
@@ -8510,7 +8510,7 @@ moderate
 17.9
 </td>
 <td style="text-align:right;">
-7.6
+7.3
 </td>
 <td style="text-align:right;">
 28.6
@@ -8524,13 +8524,13 @@ high - lowest
 mild
 </td>
 <td style="text-align:right;">
-19.6
+19.5
 </td>
 <td style="text-align:right;">
-9.1
+9.0
 </td>
 <td style="text-align:right;">
-30.5
+30.6
 </td>
 </tr>
 <tr>
@@ -8541,13 +8541,13 @@ high - lowest
 disabled
 </td>
 <td style="text-align:right;">
-24.9
+25.0
 </td>
 <td style="text-align:right;">
-13.9
+14.2
 </td>
 <td style="text-align:right;">
-36.0
+35.9
 </td>
 </tr>
 <tr>
@@ -8558,13 +8558,13 @@ medium - low
 aggressive
 </td>
 <td style="text-align:right;">
-3.8
+3.9
 </td>
 <td style="text-align:right;">
--7.0
+-6.8
 </td>
 <td style="text-align:right;">
-14.1
+14.6
 </td>
 </tr>
 <tr>
@@ -8575,13 +8575,13 @@ medium - low
 moderate
 </td>
 <td style="text-align:right;">
-4.1
+4.3
 </td>
 <td style="text-align:right;">
--6.4
+-6.3
 </td>
 <td style="text-align:right;">
-14.5
+15.4
 </td>
 </tr>
 <tr>
@@ -8595,10 +8595,10 @@ mild
 4.4
 </td>
 <td style="text-align:right;">
--6.1
+-6.2
 </td>
 <td style="text-align:right;">
-15.1
+15.0
 </td>
 </tr>
 <tr>
@@ -8612,10 +8612,10 @@ disabled
 5.6
 </td>
 <td style="text-align:right;">
--5.1
+-5.6
 </td>
 <td style="text-align:right;">
-15.9
+15.7
 </td>
 </tr>
 <tr>
@@ -8626,27 +8626,10 @@ medium - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-5.0
+4.9
 </td>
 <td style="text-align:right;">
--6.0
-</td>
-<td style="text-align:right;">
-15.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - lowest
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-5.3
-</td>
-<td style="text-align:right;">
--5.1
+-5.9
 </td>
 <td style="text-align:right;">
 15.4
@@ -8657,16 +8640,33 @@ moderate
 medium - lowest
 </td>
 <td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+-4.9
+</td>
+<td style="text-align:right;">
+16.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - lowest
+</td>
+<td style="text-align:left;">
 mild
 </td>
 <td style="text-align:right;">
-5.6
+5.5
 </td>
 <td style="text-align:right;">
 -5.7
 </td>
 <td style="text-align:right;">
-16.0
+15.9
 </td>
 </tr>
 <tr>
@@ -8677,13 +8677,13 @@ medium - lowest
 disabled
 </td>
 <td style="text-align:right;">
-6.8
+6.9
 </td>
 <td style="text-align:right;">
--4.0
+-3.8
 </td>
 <td style="text-align:right;">
-18.0
+17.5
 </td>
 </tr>
 <tr>
@@ -8697,10 +8697,10 @@ aggressive
 1.1
 </td>
 <td style="text-align:right;">
--9.5
+-10.2
 </td>
 <td style="text-align:right;">
-11.6
+11.1
 </td>
 </tr>
 <tr>
@@ -8711,13 +8711,13 @@ low - lowest
 moderate
 </td>
 <td style="text-align:right;">
-1.2
+1.0
 </td>
 <td style="text-align:right;">
--9.3
+-9.5
 </td>
 <td style="text-align:right;">
-11.7
+12.1
 </td>
 </tr>
 <tr>
@@ -8728,13 +8728,13 @@ low - lowest
 mild
 </td>
 <td style="text-align:right;">
-1.2
+1.1
 </td>
 <td style="text-align:right;">
--9.4
+-9.1
 </td>
 <td style="text-align:right;">
-11.7
+12.1
 </td>
 </tr>
 <tr>
@@ -8748,10 +8748,10 @@ disabled
 1.3
 </td>
 <td style="text-align:right;">
--8.9
+-9.4
 </td>
 <td style="text-align:right;">
-12.3
+11.8
 </td>
 </tr>
 </tbody>
@@ -8788,7 +8788,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb97-27"><a href="stats_processing_time.html#cb97-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb97-28"><a href="stats_processing_time.html#cb97-28" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb97-29"><a href="stats_processing_time.html#cb97-29" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-53-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-54-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_processing_time.html#one_pred_mod_bays">one nominal predictor model above</a> and <a href="stats_processing_time.html#two_pred_mod_bays">two nominal predictor model without site effects above</a></p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="stats_processing_time.html#cb98-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
 <span id="cb98-2"><a href="stats_processing_time.html#cb98-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -8824,7 +8824,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb98-32"><a href="stats_processing_time.html#cb98-32" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb98-33"><a href="stats_processing_time.html#cb98-33" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb98-34"><a href="stats_processing_time.html#cb98-34" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-54-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-55-1.png" width="1008" /></p>
 <p>For completeness, let’s also collapse across the depth map quality to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the <code>re_formula</code> argument within <code>tidybayes::add_epred_draws</code></p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="stats_processing_time.html#cb99-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
@@ -8856,7 +8856,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb99-27"><a href="stats_processing_time.html#cb99-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb99-28"><a href="stats_processing_time.html#cb99-28" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb99-29"><a href="stats_processing_time.html#cb99-29" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-55-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-56-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_processing_time.html#one_pred_mod_bays">one nominal predictor model above</a> and <a href="stats_processing_time.html#two_pred_mod_bays">two nominal predictor model without site effects above</a></p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="stats_processing_time.html#cb100-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
 <span id="cb100-2"><a href="stats_processing_time.html#cb100-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -8887,7 +8887,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb100-27"><a href="stats_processing_time.html#cb100-27" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb100-28"><a href="stats_processing_time.html#cb100-28" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb100-29"><a href="stats_processing_time.html#cb100-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-56-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-57-1.png" width="1008" /></p>
 <p>Finally, we can quantify the variation in processing time by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="stats_processing_time.html#cb101-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb101-2"><a href="stats_processing_time.html#cb101-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms3_mod) <span class="sc">%&gt;%</span> </span>
@@ -8911,14 +8911,14 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb101-20"><a href="stats_processing_time.html#cb101-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb101-21"><a href="stats_processing_time.html#cb101-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb101-22"><a href="stats_processing_time.html#cb101-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-57-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-58-1.png" width="1008" /></p>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="stats_processing_time.html#cb102-1" tabindex="-1"></a>brms3_mod <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms3_mod, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
 <span id="cb102-2"><a href="stats_processing_time.html#cb102-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms1_mod, brms2_mod, brms3_mod, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>
 <pre><code>##           elpd_diff se_diff
 ## brms3_mod   0.0       0.0  
-## brms2_mod  -5.4       2.4  
-## brms1_mod -22.0      11.0</code></pre>
+## brms2_mod  -6.6       2.4  
+## brms1_mod -23.0      11.4</code></pre>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="stats_processing_time.html#cb104-1" tabindex="-1"></a><span class="co"># brms::model_weights(brms1_mod, brms2_mod, brms3_mod) %&gt;% round(3)</span></span></code></pre></div>
 </div>
 </div>
@@ -8939,7 +8939,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb105-8"><a href="stats_processing_time.html#cb105-8" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb105-9"><a href="stats_processing_time.html#cb105-9" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb105-10"><a href="stats_processing_time.html#cb105-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-60-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-61-1.png" width="1008" /></p>
 <p>and the summary statistics</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="stats_processing_time.html#cb106-1" tabindex="-1"></a>ptime_data<span class="sc">$</span>timer_total_time_mins <span class="sc">%&gt;%</span> </span>
 <span id="cb106-2"><a href="stats_processing_time.html#cb106-2" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
@@ -8986,7 +8986,7 @@ log(\mu_{i}) &amp;= \beta_0 + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2
 <span id="cb108-18"><a href="stats_processing_time.html#cb108-18" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="stats_processing_time.html#cb109-1" tabindex="-1"></a><span class="fu">plot</span>(brms4_mod)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-63-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-63-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-64-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-64-2.png" width="1008" /></p>
 <p>posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="stats_processing_time.html#cb110-1" tabindex="-1"></a><span class="co"># posterior predictive check</span></span>
 <span id="cb110-2"><a href="stats_processing_time.html#cb110-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -8997,7 +8997,7 @@ log(\mu_{i}) &amp;= \beta_0 + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2
 <span id="cb110-7"><a href="stats_processing_time.html#cb110-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;posterior-predictive check (overlaid densities)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb110-8"><a href="stats_processing_time.html#cb110-8" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb110-9"><a href="stats_processing_time.html#cb110-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>, <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-64-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-65-1.png" width="1008" /></p>
 <p>How’d we do capturing the conditional means and standard deviations by depth map generation quality?</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="stats_processing_time.html#cb111-1" tabindex="-1"></a><span class="co"># means</span></span>
 <span id="cb111-2"><a href="stats_processing_time.html#cb111-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -9029,7 +9029,7 @@ log(\mu_{i}) &amp;= \beta_0 + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2
 <span id="cb111-28"><a href="stats_processing_time.html#cb111-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
 <span id="cb111-29"><a href="stats_processing_time.html#cb111-29" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
 <span id="cb111-30"><a href="stats_processing_time.html#cb111-30" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-65-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-66-1.png" width="1008" /></p>
 <p>The means are decent, the sd’s are terrible…see the section “Heterogeneous variances and robustness against outliers” in <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke (2015)</a> on p.602 and in <a href="https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1">Kurz’s ebook companion</a></p>
 <p>check the prior distributions</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="stats_processing_time.html#cb112-1" tabindex="-1"></a><span class="co"># check priors</span></span>
@@ -9378,7 +9378,7 @@ default
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-67">Table 4.19: </span>Bayesian two nominal predictors + study site effects for point cloud processing time
+<span id="tab:unnamed-chunk-68">Table 4.19: </span>Bayesian two nominal predictors + study site effects for point cloud processing time
 </caption>
 <thead>
 <tr>
@@ -9405,16 +9405,16 @@ q97.5
 b_Intercept
 </td>
 <td style="text-align:right;">
-1.99
+2.02
 </td>
 <td style="text-align:right;">
 0.89
 </td>
 <td style="text-align:right;">
-0.15
+0.25
 </td>
 <td style="text-align:right;">
-3.75
+3.82
 </td>
 </tr>
 <tr>
@@ -9425,13 +9425,13 @@ sd_filtering__Intercept
 0.31
 </td>
 <td style="text-align:right;">
-0.28
+0.26
 </td>
 <td style="text-align:right;">
 0.09
 </td>
 <td style="text-align:right;">
-1.07
+1.04
 </td>
 </tr>
 <tr>
@@ -9439,16 +9439,16 @@ sd_filtering__Intercept
 sd_quality__Intercept
 </td>
 <td style="text-align:right;">
-2.08
+2.07
 </td>
 <td style="text-align:right;">
-0.80
+0.78
 </td>
 <td style="text-align:right;">
-1.08
+1.06
 </td>
 <td style="text-align:right;">
-4.15
+4.01
 </td>
 </tr>
 <tr>
@@ -9465,7 +9465,7 @@ sd_quality:filtering__Intercept
 0.02
 </td>
 <td style="text-align:right;">
-0.17
+0.18
 </td>
 </tr>
 <tr>
@@ -9476,7 +9476,7 @@ sd_study_site__Intercept
 0.18
 </td>
 <td style="text-align:right;">
-0.13
+0.12
 </td>
 <td style="text-align:right;">
 0.06
@@ -9490,16 +9490,16 @@ sd_study_site__Intercept
 shape
 </td>
 <td style="text-align:right;">
-41.38
+41.53
 </td>
 <td style="text-align:right;">
-6.91
+6.81
 </td>
 <td style="text-align:right;">
-28.98
+29.30
 </td>
 <td style="text-align:right;">
-55.97
+55.69
 </td>
 </tr>
 <tr>
@@ -9507,13 +9507,13 @@ shape
 r_filtering[aggressive,Intercept]
 </td>
 <td style="text-align:right;">
--0.19
+-0.18
 </td>
 <td style="text-align:right;">
 0.20
 </td>
 <td style="text-align:right;">
--0.58
+-0.57
 </td>
 <td style="text-align:right;">
 0.20
@@ -9533,7 +9533,7 @@ r_filtering[moderate,Intercept]
 -0.42
 </td>
 <td style="text-align:right;">
-0.35
+0.37
 </td>
 </tr>
 <tr>
@@ -9541,16 +9541,16 @@ r_filtering[moderate,Intercept]
 r_filtering[mild,Intercept]
 </td>
 <td style="text-align:right;">
-0.02
+0.03
 </td>
 <td style="text-align:right;">
-0.20
+0.19
 </td>
 <td style="text-align:right;">
 -0.35
 </td>
 <td style="text-align:right;">
-0.42
+0.43
 </td>
 </tr>
 <tr>
@@ -9564,10 +9564,10 @@ r_filtering[disabled,Intercept]
 0.20
 </td>
 <td style="text-align:right;">
--0.19
+-0.17
 </td>
 <td style="text-align:right;">
-0.59
+0.60
 </td>
 </tr>
 <tr>
@@ -9575,16 +9575,16 @@ r_filtering[disabled,Intercept]
 r_quality[ultra.high,Intercept]
 </td>
 <td style="text-align:right;">
-2.41
+2.38
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 <td style="text-align:right;">
-0.66
+0.58
 </td>
 <td style="text-align:right;">
-4.22
+4.11
 </td>
 </tr>
 <tr>
@@ -9592,16 +9592,16 @@ r_quality[ultra.high,Intercept]
 r_quality[high,Intercept]
 </td>
 <td style="text-align:right;">
-0.99
+0.95
 </td>
 <td style="text-align:right;">
 0.87
 </td>
 <td style="text-align:right;">
--0.77
+-0.86
 </td>
 <td style="text-align:right;">
-2.78
+2.68
 </td>
 </tr>
 <tr>
@@ -9609,16 +9609,16 @@ r_quality[high,Intercept]
 r_quality[medium,Intercept]
 </td>
 <td style="text-align:right;">
--0.10
+-0.13
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 <td style="text-align:right;">
--1.88
+-1.93
 </td>
 <td style="text-align:right;">
-1.69
+1.59
 </td>
 </tr>
 <tr>
@@ -9626,16 +9626,16 @@ r_quality[medium,Intercept]
 r_quality[low,Intercept]
 </td>
 <td style="text-align:right;">
--1.21
+-1.24
 </td>
 <td style="text-align:right;">
 0.87
 </td>
 <td style="text-align:right;">
--2.96
+-3.04
 </td>
 <td style="text-align:right;">
-0.58
+0.48
 </td>
 </tr>
 <tr>
@@ -9643,16 +9643,16 @@ r_quality[low,Intercept]
 r_quality[lowest,Intercept]
 </td>
 <td style="text-align:right;">
--1.94
+-1.97
 </td>
 <td style="text-align:right;">
 0.87
 </td>
 <td style="text-align:right;">
--3.70
+-3.77
 </td>
 <td style="text-align:right;">
--0.15
+-0.23
 </td>
 </tr>
 <tr>
@@ -9669,7 +9669,7 @@ r_quality:filtering[high_aggressive,Intercept]
 -0.28
 </td>
 <td style="text-align:right;">
-0.04
+0.05
 </td>
 </tr>
 <tr>
@@ -9697,7 +9697,7 @@ r_quality:filtering[high_mild,Intercept]
 0.02
 </td>
 <td style="text-align:right;">
-0.07
+0.08
 </td>
 <td style="text-align:right;">
 -0.13
@@ -9714,10 +9714,10 @@ r_quality:filtering[high_moderate,Intercept]
 -0.01
 </td>
 <td style="text-align:right;">
-0.08
+0.07
 </td>
 <td style="text-align:right;">
--0.17
+-0.16
 </td>
 <td style="text-align:right;">
 0.14
@@ -9754,7 +9754,7 @@ r_quality:filtering[low_disabled,Intercept]
 -0.22
 </td>
 <td style="text-align:right;">
-0.09
+0.08
 </td>
 </tr>
 <tr>
@@ -9802,7 +9802,7 @@ r_quality:filtering[lowest_aggressive,Intercept]
 0.08
 </td>
 <td style="text-align:right;">
--0.08
+-0.09
 </td>
 <td style="text-align:right;">
 0.23
@@ -9819,7 +9819,7 @@ r_quality:filtering[lowest_disabled,Intercept]
 0.08
 </td>
 <td style="text-align:right;">
--0.22
+-0.23
 </td>
 <td style="text-align:right;">
 0.08
@@ -9833,13 +9833,13 @@ r_quality:filtering[lowest_mild,Intercept]
 0.00
 </td>
 <td style="text-align:right;">
-0.07
+0.08
 </td>
 <td style="text-align:right;">
 -0.16
 </td>
 <td style="text-align:right;">
-0.14
+0.15
 </td>
 </tr>
 <tr>
@@ -9856,7 +9856,7 @@ r_quality:filtering[lowest_moderate,Intercept]
 -0.16
 </td>
 <td style="text-align:right;">
-0.15
+0.14
 </td>
 </tr>
 <tr>
@@ -9870,7 +9870,7 @@ r_quality:filtering[medium_aggressive,Intercept]
 0.07
 </td>
 <td style="text-align:right;">
--0.13
+-0.14
 </td>
 <td style="text-align:right;">
 0.17
@@ -9884,13 +9884,13 @@ r_quality:filtering[medium_disabled,Intercept]
 0.02
 </td>
 <td style="text-align:right;">
-0.07
+0.08
 </td>
 <td style="text-align:right;">
 -0.12
 </td>
 <td style="text-align:right;">
-0.18
+0.19
 </td>
 </tr>
 <tr>
@@ -9901,13 +9901,13 @@ r_quality:filtering[medium_mild,Intercept]
 -0.02
 </td>
 <td style="text-align:right;">
-0.07
+0.08
 </td>
 <td style="text-align:right;">
--0.17
+-0.18
 </td>
 <td style="text-align:right;">
-0.12
+0.13
 </td>
 </tr>
 <tr>
@@ -9924,7 +9924,7 @@ r_quality:filtering[medium_moderate,Intercept]
 -0.16
 </td>
 <td style="text-align:right;">
-0.13
+0.14
 </td>
 </tr>
 <tr>
@@ -9938,7 +9938,7 @@ r_quality:filtering[ultra.high_aggressive,Intercept]
 0.08
 </td>
 <td style="text-align:right;">
--0.28
+-0.29
 </td>
 <td style="text-align:right;">
 0.04
@@ -9969,7 +9969,7 @@ r_quality:filtering[ultra.high_mild,Intercept]
 0.02
 </td>
 <td style="text-align:right;">
-0.07
+0.08
 </td>
 <td style="text-align:right;">
 -0.12
@@ -9989,7 +9989,7 @@ r_quality:filtering[ultra.high_moderate,Intercept]
 0.07
 </td>
 <td style="text-align:right;">
--0.11
+-0.12
 </td>
 <td style="text-align:right;">
 0.19
@@ -10023,7 +10023,7 @@ r_study_site[KAIBAB_LOW,Intercept]
 0.10
 </td>
 <td style="text-align:right;">
--0.34
+-0.33
 </td>
 <td style="text-align:right;">
 0.06
@@ -10040,10 +10040,10 @@ r_study_site[N1,Intercept]
 0.10
 </td>
 <td style="text-align:right;">
--0.12
+-0.11
 </td>
 <td style="text-align:right;">
-0.28
+0.27
 </td>
 </tr>
 <tr>
@@ -10057,7 +10057,7 @@ r_study_site[SQ09_02,Intercept]
 0.10
 </td>
 <td style="text-align:right;">
--0.06
+-0.07
 </td>
 <td style="text-align:right;">
 0.32
@@ -10097,7 +10097,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb114-11"><a href="stats_processing_time.html#cb114-11" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb114-12"><a href="stats_processing_time.html#cb114-12" tabindex="-1"></a>  <span class="fu">xlab</span>(latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">alpha$&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb114-13"><a href="stats_processing_time.html#cb114-13" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-68-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-69-1.png" width="1008" /></p>
 <p>plot the posterior distributions of the conditional means with the median processing time and the 95% highest posterior density interval (HDI)</p>
 <p>Note that how within <code>tidybayes::add_epred_draws</code>, we used the <code>re_formula</code> argument to average over the random effects of <code>study_site</code> (i.e., we left <code>(1 | study_site)</code> out of the formula). For this model we have to collapse across the study site effects to compare the depth map quality and filtering mode setting effects.</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="stats_processing_time.html#cb115-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
@@ -10142,7 +10142,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb115-40"><a href="stats_processing_time.html#cb115-40" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb115-41"><a href="stats_processing_time.html#cb115-41" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb115-42"><a href="stats_processing_time.html#cb115-42" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-69-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-70-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="stats_processing_time.html#cb116-1" tabindex="-1"></a>    <span class="co"># guides(</span></span>
 <span id="cb116-2"><a href="stats_processing_time.html#cb116-2" tabindex="-1"></a>    <span class="co">#   fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))</span></span>
 <span id="cb116-3"><a href="stats_processing_time.html#cb116-3" tabindex="-1"></a>    <span class="co"># )</span></span></code></pre></div>
@@ -10229,7 +10229,7 @@ r_study_site[WA85_02,Intercept]
 ## $ sorter1                              &lt;ord&gt; ultra high, ultra high, ultra hig…
 ## $ sorter2                              &lt;ord&gt; high, high, high, high, high, hig…
 ## $ contrast                             &lt;fct&gt; ultra high - high, ultra high - h…
-## $ value                                &lt;dbl&gt; 43.72398, 44.80745, 45.23944, 40.…
+## $ value                                &lt;dbl&gt; 53.82774, 42.97583, 42.28363, 46.…
 ## $ is_gt_zero                           &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRU…
 ## $ pct_gt_zero                          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 ## $ sig_level2                           &lt;ord&gt; &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99%, &gt;99…</code></pre>
@@ -10282,7 +10282,7 @@ r_study_site[WA85_02,Intercept]
 <span id="cb119-46"><a href="stats_processing_time.html#cb119-46" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
 <span id="cb119-47"><a href="stats_processing_time.html#cb119-47" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb119-48"><a href="stats_processing_time.html#cb119-48" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-71-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-72-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="stats_processing_time.html#cb120-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb120-2"><a href="stats_processing_time.html#cb120-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -10305,7 +10305,7 @@ r_study_site[WA85_02,Intercept]
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-72">Table 4.20: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
+<span id="tab:unnamed-chunk-73">Table 4.20: </span>brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts
 </caption>
 <thead>
 <tr>
@@ -10335,13 +10335,13 @@ ultra high - high
 aggressive
 </td>
 <td style="text-align:right;">
-46.0
+45.8
 </td>
 <td style="text-align:right;">
-34.8
+35.1
 </td>
 <td style="text-align:right;">
-58.3
+58.5
 </td>
 </tr>
 <tr>
@@ -10352,13 +10352,13 @@ ultra high - high
 moderate
 </td>
 <td style="text-align:right;">
-62.0
+61.9
 </td>
 <td style="text-align:right;">
-47.7
+47.0
 </td>
 <td style="text-align:right;">
-77.6
+77.1
 </td>
 </tr>
 <tr>
@@ -10369,13 +10369,13 @@ ultra high - high
 mild
 </td>
 <td style="text-align:right;">
-64.8
+64.7
 </td>
 <td style="text-align:right;">
-49.5
+49.3
 </td>
 <td style="text-align:right;">
-80.9
+80.5
 </td>
 </tr>
 <tr>
@@ -10389,10 +10389,10 @@ disabled
 77.9
 </td>
 <td style="text-align:right;">
-60.3
+60.0
 </td>
 <td style="text-align:right;">
-98.0
+97.9
 </td>
 </tr>
 <tr>
@@ -10403,13 +10403,13 @@ ultra high - medium
 aggressive
 </td>
 <td style="text-align:right;">
-55.3
+55.0
 </td>
 <td style="text-align:right;">
-42.9
+43.2
 </td>
 <td style="text-align:right;">
-69.0
+69.1
 </td>
 </tr>
 <tr>
@@ -10420,13 +10420,13 @@ ultra high - medium
 moderate
 </td>
 <td style="text-align:right;">
-74.5
+74.2
 </td>
 <td style="text-align:right;">
-57.6
+58.7
 </td>
 <td style="text-align:right;">
-91.2
+92.5
 </td>
 </tr>
 <tr>
@@ -10437,13 +10437,13 @@ ultra high - medium
 mild
 </td>
 <td style="text-align:right;">
-78.6
+78.5
 </td>
 <td style="text-align:right;">
-62.0
+62.2
 </td>
 <td style="text-align:right;">
-97.0
+97.1
 </td>
 </tr>
 <tr>
@@ -10457,10 +10457,10 @@ disabled
 95.7
 </td>
 <td style="text-align:right;">
-75.7
+75.5
 </td>
 <td style="text-align:right;">
-118.7
+118.6
 </td>
 </tr>
 <tr>
@@ -10471,13 +10471,13 @@ ultra high - low
 aggressive
 </td>
 <td style="text-align:right;">
-58.9
+58.5
 </td>
 <td style="text-align:right;">
-46.2
+45.7
 </td>
 <td style="text-align:right;">
-73.3
+72.7
 </td>
 </tr>
 <tr>
@@ -10488,13 +10488,13 @@ ultra high - low
 moderate
 </td>
 <td style="text-align:right;">
-78.7
+78.4
 </td>
 <td style="text-align:right;">
-61.7
+63.2
 </td>
 <td style="text-align:right;">
-96.5
+98.2
 </td>
 </tr>
 <tr>
@@ -10505,13 +10505,13 @@ ultra high - low
 mild
 </td>
 <td style="text-align:right;">
-83.0
+82.9
 </td>
 <td style="text-align:right;">
-65.1
+65.2
 </td>
 <td style="text-align:right;">
-101.7
+101.3
 </td>
 </tr>
 <tr>
@@ -10525,10 +10525,10 @@ disabled
 101.4
 </td>
 <td style="text-align:right;">
-79.8
+80.2
 </td>
 <td style="text-align:right;">
-124.6
+125.0
 </td>
 </tr>
 <tr>
@@ -10539,13 +10539,13 @@ ultra high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-59.9
+59.6
 </td>
 <td style="text-align:right;">
-47.0
+46.8
 </td>
 <td style="text-align:right;">
-74.4
+74.0
 </td>
 </tr>
 <tr>
@@ -10556,13 +10556,13 @@ ultra high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-79.8
+79.5
 </td>
 <td style="text-align:right;">
-62.1
+64.1
 </td>
 <td style="text-align:right;">
-97.1
+99.5
 </td>
 </tr>
 <tr>
@@ -10573,13 +10573,13 @@ ultra high - lowest
 mild
 </td>
 <td style="text-align:right;">
-84.1
+84.0
 </td>
 <td style="text-align:right;">
-65.7
+66.7
 </td>
 <td style="text-align:right;">
-102.4
+103.0
 </td>
 </tr>
 <tr>
@@ -10593,10 +10593,10 @@ disabled
 102.7
 </td>
 <td style="text-align:right;">
-81.6
+81.8
 </td>
 <td style="text-align:right;">
-126.9
+127.0
 </td>
 </tr>
 <tr>
@@ -10610,10 +10610,10 @@ aggressive
 9.2
 </td>
 <td style="text-align:right;">
-6.7
+6.4
 </td>
 <td style="text-align:right;">
-12.0
+11.8
 </td>
 </tr>
 <tr>
@@ -10624,7 +10624,7 @@ high - medium
 moderate
 </td>
 <td style="text-align:right;">
-12.4
+12.3
 </td>
 <td style="text-align:right;">
 9.3
@@ -10644,7 +10644,7 @@ mild
 13.7
 </td>
 <td style="text-align:right;">
-10.3
+10.4
 </td>
 <td style="text-align:right;">
 17.4
@@ -10658,13 +10658,13 @@ high - medium
 disabled
 </td>
 <td style="text-align:right;">
-17.7
+17.6
 </td>
 <td style="text-align:right;">
-13.1
+13.3
 </td>
 <td style="text-align:right;">
-22.4
+22.6
 </td>
 </tr>
 <tr>
@@ -10675,13 +10675,13 @@ high - low
 aggressive
 </td>
 <td style="text-align:right;">
-12.9
+12.8
 </td>
 <td style="text-align:right;">
-9.9
+9.7
 </td>
 <td style="text-align:right;">
-16.1
+15.9
 </td>
 </tr>
 <tr>
@@ -10695,10 +10695,10 @@ moderate
 16.6
 </td>
 <td style="text-align:right;">
-12.8
+13.0
 </td>
 <td style="text-align:right;">
-20.3
+20.4
 </td>
 </tr>
 <tr>
@@ -10743,13 +10743,13 @@ high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-13.9
+13.8
 </td>
 <td style="text-align:right;">
-10.8
+10.7
 </td>
 <td style="text-align:right;">
-17.3
+17.1
 </td>
 </tr>
 <tr>
@@ -10760,10 +10760,10 @@ high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-17.7
+17.6
 </td>
 <td style="text-align:right;">
-13.8
+13.9
 </td>
 <td style="text-align:right;">
 21.7
@@ -10797,10 +10797,10 @@ disabled
 24.6
 </td>
 <td style="text-align:right;">
-19.3
+19.7
 </td>
 <td style="text-align:right;">
-30.4
+30.8
 </td>
 </tr>
 <tr>
@@ -10814,7 +10814,7 @@ aggressive
 3.6
 </td>
 <td style="text-align:right;">
-2.8
+2.7
 </td>
 <td style="text-align:right;">
 4.6
@@ -10831,7 +10831,7 @@ moderate
 4.2
 </td>
 <td style="text-align:right;">
-3.1
+3.2
 </td>
 <td style="text-align:right;">
 5.3
@@ -10851,7 +10851,7 @@ mild
 3.3
 </td>
 <td style="text-align:right;">
-5.6
+5.5
 </td>
 </tr>
 <tr>
@@ -10865,10 +10865,10 @@ disabled
 5.6
 </td>
 <td style="text-align:right;">
-4.4
+4.3
 </td>
 <td style="text-align:right;">
-7.3
+7.2
 </td>
 </tr>
 <tr>
@@ -10899,10 +10899,10 @@ moderate
 5.3
 </td>
 <td style="text-align:right;">
-4.1
+4.2
 </td>
 <td style="text-align:right;">
-6.5
+6.6
 </td>
 </tr>
 <tr>
@@ -10919,7 +10919,7 @@ mild
 4.3
 </td>
 <td style="text-align:right;">
-6.9
+6.8
 </td>
 </tr>
 <tr>
@@ -10933,10 +10933,10 @@ disabled
 6.9
 </td>
 <td style="text-align:right;">
-5.5
+5.4
 </td>
 <td style="text-align:right;">
-8.8
+8.6
 </td>
 </tr>
 <tr>
@@ -10953,7 +10953,7 @@ aggressive
 0.7
 </td>
 <td style="text-align:right;">
-1.3
+1.4
 </td>
 </tr>
 <tr>
@@ -11047,7 +11047,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb121-32"><a href="stats_processing_time.html#cb121-32" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb121-33"><a href="stats_processing_time.html#cb121-33" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb121-34"><a href="stats_processing_time.html#cb121-34" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-73-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-74-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_processing_time.html#one_pred_mod_bays">one nominal predictor model above</a> and <a href="stats_processing_time.html#two_pred_mod_bays">two nominal predictor model without site effects above</a> and <a href="stats_processing_time.html#id_3_pred_mod_bays">two nominal predictor model with site effects above</a></p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="stats_processing_time.html#cb122-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
 <span id="cb122-2"><a href="stats_processing_time.html#cb122-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -11100,7 +11100,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb122-49"><a href="stats_processing_time.html#cb122-49" tabindex="-1"></a>      , <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">lwd =</span> <span class="cn">NA</span>)</span>
 <span id="cb122-50"><a href="stats_processing_time.html#cb122-50" tabindex="-1"></a>    )</span>
 <span id="cb122-51"><a href="stats_processing_time.html#cb122-51" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-74-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-75-1.png" width="1008" /></p>
 <p>Notice that our gamma likelihood model constrains the processing time estimate to strictly positive values while the other models which utilized a Gaussian likelihood predict nonsensical negative processing times. The gamma distribution also does a nice job representing the right-skew observed in the processing time data.</p>
 <p>Let’s check the posterior distribution for the overall grand mean <span class="math inline">\(\beta_{0}\)</span> to see how well the right-skew is represented (we also saw this in our posterior predictive checks). We’ll make use of <code>brms::fixef</code> and we use the <span class="math inline">\(exp()\)</span> to transform the predicted values because we are using the log link with the gamma likelihood</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="stats_processing_time.html#cb123-1" tabindex="-1"></a><span class="co"># we can make use of brms::fixef</span></span>
@@ -11121,7 +11121,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb123-16"><a href="stats_processing_time.html#cb123-16" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb123-17"><a href="stats_processing_time.html#cb123-17" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="dv">15</span>)) <span class="sc">+</span></span>
 <span id="cb123-18"><a href="stats_processing_time.html#cb123-18" tabindex="-1"></a>    <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-75-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-76-1.png" width="1008" /></p>
 <p>and get the summary statistics of the grand mean using <code>brms::as_draws_df</code> and <code>posterior::summarise_draws</code></p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="stats_processing_time.html#cb124-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms4_mod) <span class="sc">%&gt;%</span> </span>
 <span id="cb124-2"><a href="stats_processing_time.html#cb124-2" tabindex="-1"></a>  <span class="fu">select</span>(b_Intercept) <span class="sc">%&gt;%</span> </span>
@@ -11131,7 +11131,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb124-6"><a href="stats_processing_time.html#cb124-6" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-76">Table 4.21: </span>brms::brm model: summary statiscits of the grand mean
+<span id="tab:unnamed-chunk-77">Table 4.21: </span>brms::brm model: summary statiscits of the grand mean
 </caption>
 <thead>
 <tr>
@@ -11173,31 +11173,31 @@ ess_tail
 b_Intercept
 </td>
 <td style="text-align:right;">
-11.2
+11.4
 </td>
 <td style="text-align:right;">
-7.4
+7.5
 </td>
 <td style="text-align:right;">
-17.7
+15.6
 </td>
 <td style="text-align:right;">
-5.6
+5.7
 </td>
 <td style="text-align:right;">
-1.7
+1.8
 </td>
 <td style="text-align:right;">
-30.1
+32.4
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-2170.9
+2117.1
 </td>
 <td style="text-align:right;">
-2883
+3176.9
 </td>
 </tr>
 </tbody>
@@ -11238,7 +11238,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb125-32"><a href="stats_processing_time.html#cb125-32" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb125-33"><a href="stats_processing_time.html#cb125-33" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb125-34"><a href="stats_processing_time.html#cb125-34" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-77-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-78-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_processing_time.html#one_pred_mod_bays">one nominal predictor model above</a> and <a href="stats_processing_time.html#two_pred_mod_bays">two nominal predictor model without site effects above</a> and <a href="stats_processing_time.html#id_3_pred_mod_bays">two nominal predictor model with site effects above</a></p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="stats_processing_time.html#cb126-1" tabindex="-1"></a>ptime_data <span class="sc">%&gt;%</span> </span>
 <span id="cb126-2"><a href="stats_processing_time.html#cb126-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -11287,7 +11287,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb126-45"><a href="stats_processing_time.html#cb126-45" tabindex="-1"></a>      , <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">lwd =</span> <span class="cn">NA</span>)</span>
 <span id="cb126-46"><a href="stats_processing_time.html#cb126-46" tabindex="-1"></a>    )</span>
 <span id="cb126-47"><a href="stats_processing_time.html#cb126-47" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-78-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-79-1.png" width="1008" /></p>
 <p>Finally, we can quantify the variation in processing time by comparing the <span class="math inline">\(\sigma\)</span> posteriors.</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="stats_processing_time.html#cb127-1" tabindex="-1"></a><span class="co"># extract the posterior draws</span></span>
 <span id="cb127-2"><a href="stats_processing_time.html#cb127-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms4_mod) <span class="sc">%&gt;%</span> </span>
@@ -11311,15 +11311,15 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb127-20"><a href="stats_processing_time.html#cb127-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb127-21"><a href="stats_processing_time.html#cb127-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb127-22"><a href="stats_processing_time.html#cb127-22" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-79-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-80-1.png" width="1008" /></p>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="stats_processing_time.html#cb128-1" tabindex="-1"></a>brms4_mod <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms4_mod, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
 <span id="cb128-2"><a href="stats_processing_time.html#cb128-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">loo_compare</span>(brms1_mod, brms2_mod, brms3_mod, brms4_mod, <span class="at">criterion =</span> <span class="st">&quot;loo&quot;</span>)</span></code></pre></div>
 <pre><code>##           elpd_diff se_diff
 ## brms4_mod    0.0       0.0 
-## brms3_mod -210.5      17.3 
-## brms2_mod -215.9      16.8 
-## brms1_mod -232.6      18.6</code></pre>
+## brms3_mod -210.3      17.0 
+## brms2_mod -216.9      16.9 
+## brms1_mod -233.3      18.7</code></pre>
 <div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="stats_processing_time.html#cb130-1" tabindex="-1"></a><span class="co"># brms::model_weights(brms1_mod, brms2_mod, brms3_mod, brms4_mod) %&gt;% round(3)</span></span></code></pre></div>
 
 </div>
