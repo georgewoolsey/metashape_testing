@@ -3075,7 +3075,7 @@ brms_f_mod5 = brms::brm(
 
 #### Posterior Predictive Checks{#ppcheck_mod5}
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Plummer, 2003) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
@@ -3924,7 +3924,16 @@ fltr_sftwr_draws_temp =
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   ) %>% 
   dplyr::rename(value = .epred)
-
+# let's add the grand mean to the plot for reference
+grand_mean_temp = brms::posterior_summary(brms_f_mod5) %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column(var = "parameter") %>%
+  dplyr::rename_with(tolower) %>% 
+  dplyr::filter(
+    parameter == "Intercept"
+  ) %>% 
+  dplyr::mutate(dplyr::across(-c(parameter), ~plogis(.))) %>% 
+  dplyr::pull(estimate)
 # plot
 fltr_sftwr_draws_temp %>% 
   dplyr::inner_join(
@@ -3939,6 +3948,7 @@ fltr_sftwr_draws_temp %>%
       , fill = depth_maps_generation_filtering_mode
     )
   ) +
+  geom_hline(yintercept = grand_mean_temp, color = "gray33") +
   tidybayes::stat_eye(
     point_interval = median_hdi, .width = .95
     , slab_alpha = 0.8
@@ -3953,17 +3963,20 @@ fltr_sftwr_draws_temp %>%
     # , switch = "y"
   ) +
   labs(
-    fill = "filtering mode"
+    fill = ""
     , x = "filtering mode", y = "f-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    # , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    , subtitle = "depth map quality"
     # , caption = form_temp
   ) +
   theme_light() +
   theme(
-    legend.position = "top"
+    legend.position = "bottom"
     , legend.direction  = "horizontal"
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
+    , plot.subtitle = element_text(hjust = 0.5)
+    , panel.grid = element_blank()
     # , strip.placement = "outside"
   ) +
   guides(
@@ -3972,6 +3985,20 @@ fltr_sftwr_draws_temp %>%
 
 ggplot2::ggsave("../data/qlty_fltr_sftwr_mod5.png", height = 7, width = 10.5)
 ```
+
+let's add a table of the results
+
+```{r}
+fltr_sftwr_draws_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>%
+  tidybayes::median_hdi(value) %>% 
+  print(n = 66)
+```
+
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
 
@@ -4756,7 +4783,7 @@ brms::posterior_predict(brms_f_mod5_5, ndraws = 1000) %>%
 
 #### Posterior Predictive Checks
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Plummer, 2003) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
@@ -4953,9 +4980,9 @@ pp_check(brms_f_mod5_5, "dens_overlay_grouped", group = "depth_maps_generation_f
 
 We didn't see much change in our posterior predictive checks compared to our previous model of the data $y_i$ described by a beta distribution with [three nominal predictors and site effects](#beta_mod) our [posterior predictive checks](#ppcheck_mod5).
 
-The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data: $p.value(y) = Pr(T(y.rep) > T(y))$ 
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_new$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_new) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
 
->Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large (> 0.90) or small (< 0.10) values indicate lack of fit. [Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
+>Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large ($\gtrapprox 0.90$) or small ($\lessapprox 0.10$) values indicate lack of fit. [Hobbs and Hooten (2015)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6);[Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
 
 Lets' check the Bayesian p-values between the two models
 

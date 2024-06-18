@@ -88,7 +88,11 @@ validation_plots = sf::st_read("../data/field_validation/Field_Data_Boundary.shp
   dplyr::filter(study_site %in% study_site_list) %>% 
   dplyr::group_by(study_site) %>% 
   dplyr::filter(dplyr::row_number() == 1) %>% 
-  dplyr::ungroup()
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    area_ha = sf::st_area(.) %>% as.numeric() %>% `/`(10000)
+    , area_acres = area_ha*2.471
+  )
 
 # where is the uas processed data?
 ptcld_processing_data =
@@ -153,11 +157,77 @@ read_field_data <- function(my_study_site) {
       field_tree_id = dplyr::row_number()
       , tree_utm_x = sf::st_coordinates(geometry)[,1] #lon
       , tree_utm_y = sf::st_coordinates(geometry)[,2] #lat
+      # basal area
+      , basal_area_m2 = pi * field_dbh_cm^2 / (4*10000)
     ) %>% 
     dplyr::relocate(field_tree_id)
     
 }
 ```
+
+summary of field validation plot data
+
+```{r}
+validation_plots %>% 
+  dplyr::pull(study_site) %>% 
+  purrr::map(function(x){
+    read_field_data(x) %>% 
+      sf::st_drop_geometry() %>% 
+      dplyr::select(study_site,field_dbh_cm,field_tree_height_m,basal_area_m2)
+  }) %>% 
+  dplyr::bind_rows() %>% 
+  dplyr::group_by(study_site) %>% 
+  dplyr::summarise(
+    dplyr::across(
+      tidyselect::starts_with("field_")
+      , .fns = list(mean = mean, sd = sd)
+    )
+    , n_trees = dplyr::n()
+    , basal_area_m2 = sum(basal_area_m2)
+  ) %>% 
+  # add area
+  dplyr::inner_join(
+    validation_plots %>% dplyr::select(study_site, area_ha)
+    , by = "study_site"
+  ) %>% 
+  dplyr::mutate(
+    ht = paste0(
+      field_tree_height_m_mean %>% 
+        round(1) %>% 
+        scales::comma(accuracy = 0.1)
+      , "<br>("
+      , field_tree_height_m_sd %>% 
+          round(1) %>% 
+          scales::comma(accuracy = 0.1)
+      , ")"
+    )
+    , dbh = paste0(
+      field_dbh_cm_mean %>% round(1) %>% scales::comma(accuracy = 0.1)
+      , "<br>("
+      , field_dbh_cm_sd %>% round(1) %>% scales::comma(accuracy = 0.1)
+      , ")"
+    )
+    , trees_ha = n_trees/area_ha
+    , basal_area_m2_per_ha = basal_area_m2/area_ha
+    , area_ha = area_ha %>% round(1) %>% scales::comma(accuracy = 0.1)
+  ) %>% 
+  dplyr::select(
+    study_site, area_ha, trees_ha, basal_area_m2_per_ha, ht, dbh
+  ) %>% 
+  kableExtra::kbl(
+    escape = F
+    , digits = 1
+    , col.names = c(
+      ""
+      , "Hectares"
+      , "Trees<br>$\\text{ha}^{-1}$"
+      , "Basal Area<br>$\\text{m}^2 \\cdot \\text{ha}^{-1}$"
+      , "Height (m)", "DBH (cm)"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
 
 uas data
 
@@ -747,12 +817,16 @@ function returns:
             # thx Metrics pkg!!
             dplyr::summarise(
               # tree_height_m
-              tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
+              tree_height_m_me = mean(uas_tree_height_m-field_tree_height_m, na.rm = T)
+              , tree_height_m_mpe = mean((uas_tree_height_m-field_tree_height_m)/field_tree_height_m, na.rm = T)
+              , tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mape = Metrics::mape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_smape = Metrics::smape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mse = Metrics::mse(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_rmse = Metrics::rmse(field_tree_height_m, uas_tree_height_m)
               # dbh_cm
+              , dbh_cm_me = mean(uas_dbh_cm-field_dbh_cm, na.rm = T)
+              , dbh_cm_mpe = mean((uas_dbh_cm-field_dbh_cm)/field_dbh_cm, na.rm = T)
               , dbh_cm_mae = Metrics::mae(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_mape = Metrics::mape(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_smape = Metrics::smape(field_dbh_cm, uas_dbh_cm)
@@ -820,12 +894,16 @@ function returns:
             # thx Metrics pkg!!
             dplyr::summarise(
               # tree_height_m
-              tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
+              tree_height_m_me = mean(uas_tree_height_m-field_tree_height_m, na.rm = T)
+              , tree_height_m_mpe = mean((uas_tree_height_m-field_tree_height_m)/field_tree_height_m, na.rm = T)
+              , tree_height_m_mae = Metrics::mae(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mape = Metrics::mape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_smape = Metrics::smape(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_mse = Metrics::mse(field_tree_height_m, uas_tree_height_m)
               , tree_height_m_rmse = Metrics::rmse(field_tree_height_m, uas_tree_height_m)
               # dbh_cm
+              , dbh_cm_me = mean(uas_dbh_cm-field_dbh_cm, na.rm = T)
+              , dbh_cm_mpe = mean((uas_dbh_cm-field_dbh_cm)/field_dbh_cm, na.rm = T)
               , dbh_cm_mae = Metrics::mae(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_mape = Metrics::mape(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_smape = Metrics::smape(field_dbh_cm, uas_dbh_cm)

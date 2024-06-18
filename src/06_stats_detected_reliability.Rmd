@@ -1,0 +1,2515 @@
+# Statistical Analysis: Detected Tree Reliability{#stats_detected}
+
+In this section, we'll evaluate the influence of the processing parameters on UAS-detected tree height and DBH reliability.
+
+The UAS and Field validation data was built and described in [this section](#field_valid). For this section we will only look at data from "matched" UAS-field tree pairs (i.e. true positive trees). For successfully matched trees, the UAS tree height and DBH values were compared to field survey tree values to determine the mean error and root mean square error (RMSE). The mean error quantifies the bias of the UAS data while the RMSE quantifies the precision of the UAS data. 
+
+We will utilize our "full" model presented in the [prior section](#f_4_pred_mod_bays) in which we modeled the F-score which is a measure of how well the UAS detected trees represent the field survey trees.
+
+For a more in-depth review of the traditional treatment of this sort of data structure called multifactor analysis of variance (ANOVA) compared to the Bayesian hierarchical generalization of the traditional ANOVA model used here see [this previous section](#stats_processing_time).
+
+## Setup
+
+load the data if needed 
+
+```{r}
+# load data if needed
+if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
+ ptcld_validation_data = readr::read_csv("../data/ptcld_full_analysis_data.csv") %>% 
+   dplyr::mutate(
+      depth_maps_generation_quality = factor(
+          depth_maps_generation_quality %>% 
+            tolower() %>% 
+            stringr::str_replace_all("ultrahigh", "ultra high")
+          , ordered = TRUE
+          , levels = c(
+            "lowest"
+            , "low"
+            , "medium"
+            , "high"
+            , "ultra high"
+          )
+        ) %>% forcats::fct_rev()
+      , depth_maps_generation_filtering_mode = factor(
+          depth_maps_generation_filtering_mode %>% tolower()
+          , ordered = TRUE
+          , levels = c(
+            "disabled"
+            , "mild"
+            , "moderate"
+            , "aggressive"
+          )
+        ) %>% forcats::fct_rev()
+    )
+}
+```
+
+What is this data?
+
+```{r}
+# what is this data?
+ptcld_validation_data %>% dplyr::glimpse()
+# a row is unique by...
+identical(
+  nrow(ptcld_validation_data)
+  , ptcld_validation_data %>% 
+    dplyr::distinct(
+      study_site, software
+      , depth_maps_generation_quality
+      , depth_maps_generation_filtering_mode
+      , processing_attribute3 # need to align all by software so this will go away or be filled
+    ) %>% 
+    nrow()
+)
+```
+
+load our plotting functions if needed (not showing these functions here but see the [prior section](#stats_validation) for function definitions)
+
+```{r, include=FALSE}
+# function to pull the formula for labeling below
+get_frmla_text = function(frmla_chr, split_chrs = 100){
+  cumsum_group = function(x, threshold) {
+    cumsum = 0
+    group = 1
+    result = numeric()
+    for (i in 1:length(x)) {
+      cumsum = cumsum + x[i]
+      if (cumsum > threshold) {
+        group = group + 1
+        cumsum = x[i]
+      }
+      result = c(result, group)
+    }
+    return (result)
+  }
+  
+  r = stringr::str_sub(
+    frmla_chr
+    , # get the two column matrix of start end
+      frmla_chr %>% 
+        stringr::str_locate_all("\\+") %>% 
+        .[[1]] %>% 
+        dplyr::as_tibble() %>% 
+        dplyr::select(start) %>% 
+        dplyr::mutate(
+          len = dplyr::coalesce(start-dplyr::lag(start),0)
+          , ld = dplyr::coalesce(dplyr::lead(start)-1, stringr::str_length(frmla_chr))
+          , cum = cumsum_group(len, split_chrs)
+          , start = ifelse(dplyr::row_number()==1,1,start)
+        ) %>% 
+        dplyr::group_by(cum) %>% 
+        dplyr::summarise(start = min(start), end = max(ld)) %>% 
+        dplyr::ungroup() %>% 
+        dplyr::select(-cum) %>% 
+        as.matrix()
+    ) %>% 
+    stringr::str_squish() %>% 
+    paste0(collapse = "\n")
+  
+  return(r)
+}
+
+# plot contrast function
+plt_contrast <- function(
+    my_data
+    , x = "value"
+    , y = "contrast"
+    , fill = "pct_gt_zero"
+    , label = "pct_gt_zero_lab"
+    , label_pos = "pct_gt_zero_lab_pos"
+    , label_size = 3
+    , x_expand = c(0.1, 0.1)
+    , facet = NA
+    , y_axis_title = ""
+    , caption_text = "" # form_temp
+    ) {
+  plt = 
+    my_data %>%
+    ggplot(aes(x = .data[[x]], y = .data[[y]], fill = .data[[fill]])) +
+      tidybayes::stat_halfeye(
+        point_interval = median_hdi, .width = c(0.5,0.95)
+        # , slab_fill = "gray22", slab_alpha = 1
+        , interval_color = "black", point_color = "black", point_fill = "black"
+        , point_size = 1.5
+        , justification = -0.01
+      ) +
+      geom_vline(xintercept = 0, linetype = "dashed", color = "gray44") +
+      # scale_fill_fermenter(
+      #   n.breaks = 5 # 10 use 10 if can go full range 0-1
+      #   , palette = "PuOr" # "RdYlBu"
+      #   , direction = 1
+      #   , limits = c(0.5,1) # use c(0,1) if can go full range 0-1
+      #   , labels = scales::percent
+      # ) +
+      scale_fill_stepsn(
+        n.breaks = 5 # 10 use 10 if can go full range 0-1
+        , colors = RColorBrewer::brewer.pal(11,"PuOr")[c(3,4,8,10,11)]
+        , limits = c(0.5,1) # use c(0,1) if can go full range 0-1
+        , labels = scales::percent
+      ) +
+      scale_x_continuous(expand = expansion(mult = x_expand)) +
+      labs(
+        y = y_axis_title
+        , x = "constrast"
+        , fill = "Pr(contrast)"
+        , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+        , caption = caption_text
+      ) +
+      theme_light() +
+      theme(
+        legend.text = element_text(size = 7)
+        , legend.title = element_text(size = 8)
+        , axis.text.x = element_text(angle = 90)
+        , strip.text = element_text(color = "black", face = "bold")
+      ) +
+      guides(fill = guide_colorbar(theme = theme(
+        legend.key.width  = unit(1, "lines"),
+        legend.key.height = unit(12, "lines")
+      )))
+  # return facet or not
+  if(max(is.na(facet))==0){
+    return(
+      plt +
+        geom_text(
+          data = my_data %>%
+            dplyr::filter(pct_gt_zero_lab_pos>=0) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::select(tidyselect::all_of(c(
+              y
+              , fill
+              , label
+              , label_pos
+              , facet
+            ))) %>% 
+            dplyr::distinct()
+          , mapping = aes(x = .data[[label_pos]], label = .data[[label]])
+          , vjust = -1, hjust = 0, size = label_size
+        ) +
+        geom_text(
+          data = my_data %>%
+            dplyr::filter(pct_gt_zero_lab_pos<0) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::select(tidyselect::all_of(c(
+              y
+              , fill
+              , label
+              , label_pos
+              , facet
+            ))) %>% 
+            dplyr::distinct()
+          , mapping = aes(x = .data[[label_pos]], label = .data[[label]])
+          , vjust = -1, hjust = +1, size = label_size
+        ) +
+        facet_grid(cols = vars(.data[[facet]]))
+        
+    )
+  }
+  else{
+    return(
+      plt +
+        geom_text(
+          data = my_data %>%
+            dplyr::filter(pct_gt_zero_lab_pos>=0) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::select(tidyselect::all_of(c(
+              y
+              , fill
+              , label
+              , label_pos
+            ))) %>% 
+            dplyr::distinct()
+          , mapping = aes(x = .data[[label_pos]], label = .data[[label]])
+          , vjust = -1, hjust = 0, size = label_size
+        )+
+        geom_text(
+          data = my_data %>%
+            dplyr::filter(pct_gt_zero_lab_pos<0) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::select(tidyselect::all_of(c(
+              y
+              , fill
+              , label
+              , label_pos
+            ))) %>% 
+            dplyr::distinct()
+          , mapping = aes(x = .data[[label_pos]], label = .data[[label]])
+          , vjust = -1, hjust = +1, size = label_size
+        )
+    )
+  }
+}
+# plt_contrast(brms_contrast_temp)
+
+# calculate contrast vars
+make_contrast_vars = function(my_data){
+  my_data %>%
+    dplyr::mutate(
+      # get median_hdi
+      median_hdi_est = tidybayes::median_hdci(value)$y
+      , median_hdi_lower = tidybayes::median_hdci(value)$ymin
+      , median_hdi_upper = tidybayes::median_hdci(value)$ymax
+      # check probability that this direction is true
+      , is_gt_zero = dplyr::case_when(
+        median_hdi_est > 0 ~ value > 0
+        , median_hdi_est < 0 ~ value < 0
+      )
+      , pct_gt_zero = mean(is_gt_zero)
+      # make a label
+      , pct_gt_zero_lab = dplyr::case_when(
+          median_hdi_est > 0 ~ paste0(
+            "Pr("
+            , stringr::word(contrast, 1, sep = fixed("-")) %>% 
+              stringr::str_squish()
+            , ">"
+            , stringr::word(contrast, 2, sep = fixed("-")) %>% 
+              stringr::str_squish()
+            , ")="
+            , pct_gt_zero %>% scales::percent(accuracy = 1)
+          )
+          , median_hdi_est < 0 ~ paste0(
+            "Pr("
+            , stringr::word(contrast, 2, sep = fixed("-")) %>% 
+              stringr::str_squish()
+            , ">"
+            , stringr::word(contrast, 1, sep = fixed("-")) %>% 
+              stringr::str_squish()
+            , ")="
+            , pct_gt_zero %>% scales::percent(accuracy = 1)
+          )
+        ) %>% 
+        stringr::str_replace_all("OPENDRONEMAP", "ODM") %>% 
+        stringr::str_replace_all("METASHAPE", "MtaShp") %>% 
+        stringr::str_replace_all("PIX4D", "Pix4D")
+      , pct_gt_zero_lab_pos = dplyr::case_when(
+        median_hdi_est > 0 ~ median_hdi_upper
+        , median_hdi_est < 0 ~ median_hdi_lower
+      ) * 1.12
+      , sig_level = dplyr::case_when(
+        pct_gt_zero > 0.99 ~ 0
+        , pct_gt_zero > 0.95 ~ 1
+        , pct_gt_zero > 0.9 ~ 2
+        , pct_gt_zero > 0.8 ~ 3
+        , T ~ 4
+      ) %>% 
+      factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
+    )
+}
+# brms_contrast_temp %>% dplyr::group_by(contrast) %>% make_contrast_vars() %>% dplyr::glimpse()
+
+# bayesian p-value
+get_mod_p_val = function(my_mod, my_var, ndraws = 1000){
+  # get draws from the posterior predictive distribution
+  my_mod %>% 
+    brms::posterior_predict(ndraws = ndraws) %>% 
+    dplyr::as_tibble() %>% 
+    dplyr::mutate(draw = dplyr::row_number()) %>% 
+    tidyr::pivot_longer(cols = -draw, values_to = "y_rep") %>% 
+    dplyr::mutate(y_n = readr::parse_number(name)) %>% 
+    # join with original data
+    dplyr::inner_join(
+      ptcld_validation_data %>% 
+        dplyr::select(dplyr::all_of(my_var)) %>%
+        dplyr::rename(y=1) %>% 
+        dplyr::filter(!is.na(y)) %>% 
+        dplyr::mutate(y_n = dplyr::row_number())
+      , by = dplyr::join_by("y_n")
+    ) %>% 
+    dplyr::select(-c(y_n)) %>% 
+    dplyr::group_by(draw) %>% 
+    # make test statistic
+    dplyr::summarise(
+      # test statistics y
+      mean_y = mean(y)
+      , sd_y = sd(y)
+      # test statistics y_sim
+      , mean_y_rep = mean(y_rep)
+      , sd_y_rep = sd(y_rep)
+    ) %>% 
+    # p-values
+    dplyr::ungroup() %>% 
+    dplyr::mutate(
+      p_val_mean = as.numeric(mean_y_rep > mean_y)
+      , p_val_sd = as.numeric(sd_y_rep > sd_y)
+    ) %>% 
+    # summarize p-vals
+    dplyr::summarise(
+      P.mean = mean(p_val_mean)
+      , P.sd = mean(p_val_sd)
+    )
+}
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
+## Tree Height
+
+### Summary Statistics
+
+#### Height Mean Error (bias)
+
+```{r, fig.height=8}
+  # summarize data
+  dta_temp = ptcld_validation_data %>% 
+    dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
+    # collapse across study site
+    dplyr::summarise(
+      tree_height_m_me = mean(tree_height_m_me, na.rm = T)
+      , n = dplyr::n()
+    )
+  # set limits for color scale
+  lmt_tree_height_m_me = ceiling(10*max(abs(range(dta_temp$tree_height_m_me, na.rm = T))))/10
+  # scales::show_col(scales::pal_dichromat("BluetoOrange.10")(10))
+  # scales::show_col(scales::pal_div_gradient()(seq(0, 1, length.out = 7)))
+  # plot it
+  dta_temp %>% 
+    ggplot(mapping = aes(
+      y = depth_maps_generation_quality
+      , x = depth_maps_generation_filtering_mode
+      , fill = tree_height_m_me
+      , label = paste0(scales::comma(tree_height_m_me,accuracy = 0.01), "\n(n=", n,")")
+    )) +
+    geom_tile(color = "white") +
+    geom_text(color = "white", size = 3) +
+    facet_grid(cols = vars(software)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    labs(
+      x = "filtering mode"
+      , y = "depth map quality"
+      , fill = "Ht. Mean Error (m)"
+      , title = "mean height mean error (m) and # of study sites"
+      , subtitle = paste(
+        "negative values = UAS tree height < field tree height"
+        , " || "
+        , "positive values = UAS tree height > field tree height"
+      )
+    ) +
+    theme_light() + 
+    theme(
+      legend.position = "none"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , panel.background = element_blank()
+      , panel.grid = element_blank()
+      # , plot.title = element_text(hjust = 0.5)
+      # , plot.subtitle = element_text(hjust = 0.5)
+      , strip.text = element_text(color = "black", face = "bold")
+    )
+```
+
+#### Height RMSE (precision)
+
+```{r, fig.height=8}
+  # summarize data
+  dta_temp = ptcld_validation_data %>% 
+    dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
+    # collapse across study site
+    dplyr::summarise(
+      tree_height_m_rmse = mean(tree_height_m_rmse, na.rm = T)
+      , n = dplyr::n()
+    )
+  # set limits for color scale
+  lmt_tree_height_m_rmse = ceiling(1.02*10*max(abs(range(dta_temp$tree_height_m_rmse, na.rm = T))))/10
+  # scales::show_col(viridis::mako(n = 10, begin = 0.2, end = 0.9, direction = -1))
+  # scales::show_col(scales::pal_div_gradient()(seq(0, 1, length.out = 7)))
+  # plot it
+  dta_temp %>% 
+    ggplot(mapping = aes(
+      y = depth_maps_generation_quality
+      , x = depth_maps_generation_filtering_mode
+      , fill = tree_height_m_rmse
+      , label = paste0(scales::comma(tree_height_m_rmse,accuracy = 0.01), "\n(n=", n,")")
+    )) +
+    geom_tile(color = "white") +
+    geom_text(color = "white", size = 3) +
+    facet_grid(cols = vars(software)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_stepsn(
+      n.breaks = 5
+      , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
+      , limits = c(0,lmt_tree_height_m_rmse)
+      , labels = scales::comma_format(accuracy = 0.01)
+      , show.limits = T
+    ) +
+    labs(
+      x = "filtering mode"
+      , y = "depth map quality"
+      , fill = "Ht. RMSE (m)"
+      , title = "mean height RMSE (m) and # of study sites"
+    ) +
+    theme_light() + 
+    theme(
+      legend.position = "none"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , panel.background = element_blank()
+      , panel.grid = element_blank()
+      # , plot.title = element_text(hjust = 0.5)
+      # , plot.subtitle = element_text(hjust = 0.5)
+      , strip.text = element_text(color = "black", face = "bold")
+    )
+```
+
+### Model: Height Mean Error (bias)
+
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) describes the Hierarchical Bayesian approach to describe groups of metric data with multiple nominal predictors when every subject ("study site" in our research) only contributes one observation per cell/condition: 
+
+> \begin{align*}
+> y = & \; \beta_0 \\
+> & + \overrightarrow \beta_1 \overrightarrow x_1 + \overrightarrow \beta_2 \overrightarrow x_2 + \overrightarrow \beta_{1 \times 2} \overrightarrow x_{1 \times 2} \\
+> & + \overrightarrow \beta_S \overrightarrow x_S
+> \end{align*}
+
+> In other words, we assume a main effect of subject, but no interaction of subject with other predictors. In this model, the subject effect (deflection) is constant across treatments, and the treatment effects (deflections) are constant across subjects. Notice that the model makes no requirement that every subject contributes a datum to every condition. Indeed, the model allows zero or multiple data per subject per condition. Bayesian estimation makes no assumptions or requirements that the design is balanced (i.e., has equal numbers of measurement in each cell). (p. 608)
+
+and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html)
+
+The metric predicted variable with three nominal predictor variables and subject-level effects model has the form:
+
+\begin{align*}
+y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
+\mu_{i} = & \beta_0 \\
+& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+& + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
+& + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
+\beta_{0}  \sim & {\sf Normal} (0,100) \\ 
+\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\sigma_{y} \sim & {\sf Cauchy} (0,109) \\ 
+\end{align*}
+
+, where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
+
+*for this model, we'll define the priors following [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#implementation-in-jags-brms.-1)*:
+
+```{r}
+# from Kurz: 
+gamma_a_b_from_omega_sigma = function(mode, sd) {
+  if (mode <= 0) stop("mode must be > 0")
+  if (sd   <= 0) stop("sd must be > 0")
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
+  return(list(shape = shape, rate = rate))
+}
+
+mean_y_temp = mean(ptcld_validation_data$tree_height_m_me, na.rm = T)
+sd_y_temp   = sd(ptcld_validation_data$tree_height_m_me, na.rm = T)
+
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
+
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+
+stanvars_temp = 
+  brms::stanvar(mean_y_temp,    name = "mean_y") + 
+  brms::stanvar(sd_y_temp,      name = "sd_y") +
+  brms::stanvar(s_r_temp$shape, name = "alpha") +
+  brms::stanvar(s_r_temp$rate,  name = "beta")
+```
+
+Now fit the model.
+
+```{r}
+brms_ht_me_mod = brms::brm(
+  formula = tree_height_m_me ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  , data = ptcld_validation_data
+  , family = brms::brmsfamily(family = "gaussian")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , prior = c(
+    brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
+    , brms::prior(gamma(alpha, beta), class = "sd")
+    , brms::prior(cauchy(0, sd_y), class = "sigma")
+  )
+  , stanvars = stanvars_temp
+  , file = paste0(rootdir, "/fits/brms_ht_me_mod")
+)
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
+#### Quality:Filtering - interaction
+
+Are there differences in F-score based on dense point cloud generation quality within each level of filtering mode?
+
+Here, we collapse across the study site and software to compare the combined depth map quality and filtering mode effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+draws_temp = 
+  ptcld_validation_data %>% 
+    dplyr::distinct(depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_quality) +
+        (1 | depth_maps_generation_filtering_mode) + 
+        (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    dplyr::mutate(med = tidybayes::median_hdci(value)$y)
+# plot
+  draws_temp %>% 
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      y = value, x = depth_maps_generation_filtering_mode
+      , fill = med
+    )
+  ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.8
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    facet_grid(cols = vars(depth_maps_generation_quality)) +
+    labs(
+      x = "filtering mode", y = "Ht. Mean Error (m)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+    ) 
+```
+
+and a table of these 95% HDI values
+
+```{r}
+draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Ht. Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality", "filtering"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+#### Software:Quality - interaction
+
+```{r}
+draws_temp = 
+  ptcld_validation_data %>% 
+    dplyr::distinct(depth_maps_generation_quality, software) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_quality) +
+        (1 | software) + 
+        (1 | depth_maps_generation_quality:software)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    dplyr::mutate(med = tidybayes::median_hdci(value)$y)
+# plot
+  draws_temp %>%
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      y = value, x = software
+      , fill = med
+    )
+  ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.8
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    facet_grid(cols = vars(depth_maps_generation_quality)) +
+    labs(
+      x = "software", y = "Ht. Mean Error (m)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+    ) 
+```
+
+and a table of these 95% HDI values
+
+```{r}
+draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Ht. Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality", "software"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+#### Software:Filtering - interaction
+
+```{r}
+draws_temp = 
+  ptcld_validation_data %>% 
+    dplyr::distinct(depth_maps_generation_filtering_mode, software) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_filtering_mode) +
+        (1 | software) + 
+        (1 | depth_maps_generation_filtering_mode:software)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    dplyr::mutate(med = tidybayes::median_hdci(value)$y)
+# plot
+  draws_temp %>%
+  # plot
+  ggplot(
+    mapping = aes(
+      y = value, x = software
+      , fill = med
+    )
+  ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.8
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
+    labs(
+      x = "software", y = "Ht. Mean Error (m)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+    ) 
+```
+
+and a table of these 95% HDI values
+
+```{r}
+draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Ht. Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "filtering", "software"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+#### Software:Quality:Filtering - interaction
+
+```{r}
+# get draws
+fltr_sftwr_draws_temp =
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , depth_maps_generation_filtering_mode = unique(ptcld_validation_data$depth_maps_generation_filtering_mode)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality) + # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y)
+
+# plot
+fltr_sftwr_draws_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  ggplot(
+    mapping = aes(
+      y = value
+      , x = depth_maps_generation_filtering_mode
+      , fill = med
+    )
+  ) +
+  geom_hline(yintercept = 0, color = "gray33") +
+  tidybayes::stat_eye(
+    point_interval = median_hdi, .width = .95
+    , slab_alpha = 0.8
+    , interval_color = "black", linewidth = 1
+    , point_color = "black", point_fill = "black", point_size = 1
+  ) +
+  scale_fill_stepsn(
+    n.breaks = 7
+    , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+    , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+    , labels = scales::comma_format(accuracy = 0.1)
+    , show.limits = T
+  ) +
+  facet_grid(
+    rows = vars(software)
+    , cols = vars(depth_maps_generation_quality)
+    # , switch = "y"
+  ) +
+  labs(
+    fill = "filtering mode"
+    , x = "filtering mode", y = "Ht. Mean Error (m)"
+    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    # , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , legend.direction  = "horizontal"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , strip.text = element_text(color = "black", face = "bold")
+    , panel.grid = element_blank()
+    # , strip.placement = "outside"
+  ) +
+  guides(
+    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
+  )
+
+```
+and a table of these 95% HDI values
+
+```{r}
+draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Ht. Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "filtering", "software"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+### Model: Height RMSE (precision)
+
+Define priors
+
+```{r}
+# from Kurz: 
+gamma_a_b_from_omega_sigma = function(mode, sd) {
+  if (mode <= 0) stop("mode must be > 0")
+  if (sd   <= 0) stop("sd must be > 0")
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
+  return(list(shape = shape, rate = rate))
+}
+
+mean_y_temp = mean(ptcld_validation_data$tree_height_m_rmse, na.rm = T)
+sd_y_temp   = sd(ptcld_validation_data$tree_height_m_rmse, na.rm = T)
+
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
+
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+
+stanvars_temp = 
+  brms::stanvar(mean_y_temp,    name = "mean_y") + 
+  brms::stanvar(sd_y_temp,      name = "sd_y") +
+  brms::stanvar(s_r_temp$shape, name = "alpha") +
+  brms::stanvar(s_r_temp$rate,  name = "beta")
+```
+
+Now fit the model.
+
+```{r}
+brms_ht_rmse_mod = brms::brm(
+  formula = tree_height_m_rmse ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  , data = ptcld_validation_data
+  , family = brms::brmsfamily(family = "gaussian")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , prior = c(
+    brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
+    , brms::prior(gamma(alpha, beta), class = "sd")
+    , brms::prior(cauchy(0, sd_y), class = "sigma")
+  )
+  , stanvars = stanvars_temp
+  , file = paste0(rootdir, "/fits/brms_ht_rmse_mod")
+)
+```
+
+## Tree DBH
+
+### Summary Statistics
+
+#### DBH Mean Error (bias)
+
+```{r, fig.height=8}
+  # summarize data
+  dta_temp = ptcld_validation_data %>% 
+    dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
+    # collapse across study site
+    dplyr::summarise(
+      dbh_cm_me = mean(dbh_cm_me, na.rm = T)
+      , n = dplyr::n()
+    )
+  # set limits for color scale
+  lmt_dbh_cm_me = ceiling(10*max(abs(range(dta_temp$dbh_cm_me, na.rm = T))))/10
+  # scales::show_col(scales::pal_dichromat("BluetoOrange.10")(10))
+  # scales::show_col(scales::pal_div_gradient()(seq(0, 1, length.out = 7)))
+  # plot it
+  dta_temp %>% 
+    ggplot(mapping = aes(
+      y = depth_maps_generation_quality
+      , x = depth_maps_generation_filtering_mode
+      , fill = dbh_cm_me
+      , label = paste0(scales::comma(dbh_cm_me,accuracy = 0.01), "\n(n=", n,")")
+    )) +
+    geom_tile(color = "white") +
+    geom_text(color = "white", size = 3) +
+    facet_grid(cols = vars(software)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    labs(
+      x = "filtering mode"
+      , y = "depth map quality"
+      , fill = "DBH Mean Error (cm)"
+      , title = "mean DBH mean error (cm) and # of study sites"
+      , subtitle = paste(
+        "negative values = UAS tree DBH < field tree DBH"
+        , " || "
+        , "positive values = UAS tree DBH > field tree DBH"
+      )
+    ) +
+    theme_light() + 
+    theme(
+      legend.position = "none"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , panel.background = element_blank()
+      , panel.grid = element_blank()
+      # , plot.title = element_text(hjust = 0.5)
+      # , plot.subtitle = element_text(hjust = 0.5)
+      , strip.text = element_text(color = "black", face = "bold")
+    )
+```
+
+#### DBH RMSE (precision)
+
+```{r, fig.height=8}
+  # summarize data
+  dta_temp = ptcld_validation_data %>% 
+    dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
+    # collapse across study site
+    dplyr::summarise(
+      dbh_cm_rmse = mean(dbh_cm_rmse, na.rm = T)
+      , n = dplyr::n()
+    )
+  # set limits for color scale
+  lmt_dbh_cm_rmse = ceiling(1.02*10*max(abs(range(dta_temp$dbh_cm_rmse, na.rm = T))))/10
+  # scales::show_col(viridis::mako(n = 10, begin = 0.2, end = 0.9, direction = -1))
+  # scales::show_col(scales::pal_div_gradient()(seq(0, 1, length.out = 7)))
+  # plot it
+  dta_temp %>% 
+    ggplot(mapping = aes(
+      y = depth_maps_generation_quality
+      , x = depth_maps_generation_filtering_mode
+      , fill = dbh_cm_rmse
+      , label = paste0(scales::comma(dbh_cm_rmse,accuracy = 0.1), "\n(n=", n,")")
+    )) +
+    geom_tile(color = "white") +
+    geom_text(color = "white", size = 3) +
+    facet_grid(cols = vars(software)) + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    scale_fill_stepsn(
+      n.breaks = 5
+      , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
+      , limits = c(0,lmt_dbh_cm_rmse)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    labs(
+      x = "filtering mode"
+      , y = "depth map quality"
+      , fill = "DBH RMSE (cm)"
+      , title = "mean DBH RMSE (cm) and # of study sites"
+    ) +
+    theme_light() + 
+    theme(
+      legend.position = "none"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , panel.background = element_blank()
+      , panel.grid = element_blank()
+      # , plot.title = element_text(hjust = 0.5)
+      # , plot.subtitle = element_text(hjust = 0.5)
+      , strip.text = element_text(color = "black", face = "bold")
+    )
+```
+
+### Model: DBH Mean Error (bias)
+
+Define priors
+
+```{r}
+# from Kurz: 
+gamma_a_b_from_omega_sigma = function(mode, sd) {
+  if (mode <= 0) stop("mode must be > 0")
+  if (sd   <= 0) stop("sd must be > 0")
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
+  return(list(shape = shape, rate = rate))
+}
+
+mean_y_temp = mean(ptcld_validation_data$dbh_cm_me, na.rm = T)
+sd_y_temp   = sd(ptcld_validation_data$dbh_cm_me, na.rm = T)
+
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
+
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+
+stanvars_temp = 
+  brms::stanvar(mean_y_temp,    name = "mean_y") + 
+  brms::stanvar(sd_y_temp,      name = "sd_y") +
+  brms::stanvar(s_r_temp$shape, name = "alpha") +
+  brms::stanvar(s_r_temp$rate,  name = "beta")
+```
+
+Now fit the model.
+
+```{r}
+brms_dbh_me_mod = brms::brm(
+  formula = dbh_cm_me ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  , data = ptcld_validation_data
+  , family = brms::brmsfamily(family = "gaussian")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , prior = c(
+    brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
+    , brms::prior(gamma(alpha, beta), class = "sd")
+    , brms::prior(cauchy(0, sd_y), class = "sigma")
+  )
+  , stanvars = stanvars_temp
+  , file = paste0(rootdir, "/fits/brms_dbh_me_mod")
+)
+```
+
+### Model: DBH RMSE (precision)
+
+Define priors
+
+```{r}
+# from Kurz: 
+gamma_a_b_from_omega_sigma = function(mode, sd) {
+  if (mode <= 0) stop("mode must be > 0")
+  if (sd   <= 0) stop("sd must be > 0")
+  rate = (mode + sqrt(mode^2 + 4 * sd^2)) / (2 * sd^2)
+  shape = 1 + mode * rate
+  return(list(shape = shape, rate = rate))
+}
+
+mean_y_temp = mean(ptcld_validation_data$dbh_cm_rmse, na.rm = T)
+sd_y_temp   = sd(ptcld_validation_data$dbh_cm_rmse, na.rm = T)
+
+omega_temp = sd_y_temp / 2
+sigma_temp = 2 * sd_y_temp
+
+s_r_temp = gamma_a_b_from_omega_sigma(mode = omega_temp, sd = sigma_temp)
+
+stanvars_temp = 
+  brms::stanvar(mean_y_temp,    name = "mean_y") + 
+  brms::stanvar(sd_y_temp,      name = "sd_y") +
+  brms::stanvar(s_r_temp$shape, name = "alpha") +
+  brms::stanvar(s_r_temp$rate,  name = "beta")
+```
+
+Now fit the model.
+
+```{r}
+brms_dbh_rmse_mod = brms::brm(
+  formula = dbh_cm_rmse ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  , data = ptcld_validation_data
+  , family = brms::brmsfamily(family = "gaussian")
+  , iter = 20000, warmup = 10000, chains = 4
+  , control = list(adapt_delta = 0.999, max_treedepth = 13)
+  , cores = round(parallel::detectCores()/2)
+  , prior = c(
+    brms::prior(normal(mean_y, sd_y * 5), class = "Intercept")
+    , brms::prior(gamma(alpha, beta), class = "sd")
+    , brms::prior(cauchy(0, sd_y), class = "sigma")
+  )
+  , stanvars = stanvars_temp
+  , file = paste0(rootdir, "/fits/brms_dbh_rmse_mod")
+)
+```
+
+## Posterior Predictive Checks
+
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+
+To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
+
+### Trace-plots
+
+check the trace plots for problems with convergence of the Markov chains
+
+```{r, fig.height=8}
+# height mean error
+plot(brms_ht_me_mod)
+# height rmse
+plot(brms_ht_rmse_mod)
+# dbh me
+plot(brms_dbh_me_mod)
+# dbh rmse
+plot(brms_dbh_rmse_mod)
+```
+
+### $\hat{R}$ values
+
+```{r, fig.height=8}
+plt_rhat_temp <- function(my_mod) {
+  my_mod %>% 
+    brms::rhat() %>% 
+    as.data.frame() %>% 
+    tibble::rownames_to_column(var = "parameter") %>%
+    dplyr::rename_with(tolower) %>% 
+    dplyr::rename(rhat = 2) %>% 
+    dplyr::filter(
+      stringr::str_starts(parameter, "b_") 
+      | stringr::str_starts(parameter, "r_") 
+      | stringr::str_starts(parameter, "sd_") 
+      | parameter == "phi"
+      | parameter == "sigma"
+    ) %>%
+    dplyr::mutate(
+      parameter = parameter %>% 
+        stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+        stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+      , chk = (rhat <= 1*0.998 | rhat >= 1*1.002)
+    ) %>% 
+    ggplot(aes(x = rhat, y = parameter, color = chk, fill = chk)) +
+    geom_vline(xintercept = 1, linetype = "dashed", color = "gray44", lwd = 1.2) +
+    geom_vline(xintercept = 1*0.998, lwd = 1.5) +
+    geom_vline(xintercept = 1*1.002, lwd = 1.5) +
+    geom_vline(xintercept = 1*0.999, lwd = 1.2, color = "gray33") +
+    geom_vline(xintercept = 1*1.001, lwd = 1.2, color = "gray33") +
+    geom_point() +
+    scale_fill_manual(values = c("navy", "firebrick")) +
+    scale_color_manual(values = c("navy", "firebrick")) +
+    labs(
+      x = latex2exp::TeX("$\\hat{R}$")
+      # , subtitle = latex2exp::TeX("posterior-predictive check for parameter $\\hat{R}$ estimates")
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , axis.text.y = element_text(size = 3)
+      , panel.grid.major.x = element_blank()
+      , panel.grid.minor.x = element_blank()
+      , plot.title = element_text(size = 9)
+      , plot.subtitle = element_text(size = 8)
+      , axis.title.y = element_blank()
+      , axis.title.x = element_text(size = 9)
+      , panel.grid = element_blank()
+    )
+}
+# plot together with patchwork
+# height mean error
+brms_ht_me_mod %>% plt_rhat_temp() + labs(title = "brms_ht_me_mod") +
+# height rmse
+brms_ht_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_ht_rmse_mod") +
+# dbh me
+brms_dbh_me_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_me_mod") +
+# dbh rmse
+brms_dbh_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_rmse_mod")
+```
+
+### Mean and SD
+
+posterior predictive check for the overall model combining mean and sd
+
+```{r}
+plt_pp_temp <- function(my_mod) {
+  my_mod %>% 
+  brms::pp_check(type = "stat_2d", ndraws = 5000) +
+    theme_light() +
+    theme(
+      legend.position = "top", legend.direction = "horizontal"
+      , legend.text = element_text(size = 8)
+      , plot.title = element_text(size = 9)
+    )
+}
+# plot together with patchwork
+# height mean error
+brms_ht_me_mod %>% plt_pp_temp() + labs(title = "brms_ht_me_mod") +
+# height rmse
+brms_ht_rmse_mod %>% plt_pp_temp() + labs(title = "brms_ht_rmse_mod") +
+# dbh me
+brms_dbh_me_mod %>% plt_pp_temp() + labs(title = "brms_dbh_me_mod") +
+# dbh rmse
+brms_dbh_rmse_mod %>% plt_pp_temp() + labs(title = "brms_dbh_rmse_mod")
+```
+
+#### Bayesian p-value
+
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_new$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_new) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
+
+>Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large ($\gtrapprox 0.90$) or small ($\lessapprox 0.10$) values indicate lack of fit. [Hobbs and Hooten (2015)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6);[Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
+
+Lets' check the Bayesian p-values between the models
+
+```{r}
+# get the model p-values
+dplyr::bind_rows(
+    get_mod_p_val(brms_ht_me_mod, my_var = "tree_height_m_me", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_ht_me_mod")
+    , get_mod_p_val(brms_ht_rmse_mod, my_var = "tree_height_m_rmse", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_ht_rmse_mod")
+    , get_mod_p_val(brms_dbh_me_mod, my_var = "dbh_cm_me", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_dbh_me_mod")
+    , get_mod_p_val(brms_dbh_rmse_mod, my_var = "dbh_cm_rmse", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_dbh_rmse_mod")
+  ) %>% 
+  dplyr::relocate(model) %>% 
+  kableExtra::kbl(digits = 3) %>% 
+  kableExtra::kable_styling()
+```
+
+we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
+
+```{r}
+brms_contrast_temp = qlty_filter_draws_temp %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_quality
+      , comparison = 
+        contrast_list
+        # tidybayes::emmeans_comparison("revpairwise") 
+        #"pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      )
+    , depth_maps_generation_filtering_mode = depth_maps_generation_filtering_mode %>% 
+      factor(
+        levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+        , ordered = T
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "depth map quality"
+  , facet = "depth_maps_generation_filtering_mode"
+  , label_size = 2.0
+  , x_expand = c(0,0.6)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 7)
+  )
+
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
+  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "quality contrast"
+      , "filtering mode"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+#### Software:Quality - interaction
+
+It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
+
+Are there differences in F-score based on dense point cloud generation quality within each different processing software? We will also address the similar but slightly different question of "are there differences in F-score based on the processing software used at a given dense point cloud generation quality?"
+
+Here, we collapse across the study site and filtering mode to compare the combined depth map quality and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_quality, software) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality) +
+      (1 | software) + 
+      (1 | depth_maps_generation_quality:software)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      y = value, x = software
+      , fill = software
+    )
+  ) +
+  tidybayes::stat_eye(
+    point_interval = median_hdi, .width = .95
+    , slab_alpha = 0.8
+    , interval_color = "black", linewidth = 1
+    , point_color = "black", point_fill = "black", point_size = 1
+  ) +
+  scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  facet_grid(cols = vars(depth_maps_generation_quality)) +
+  labs(
+    x = "software", y = "f-score"
+    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , legend.direction  = "horizontal"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) 
+```
+
+we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
+
+```{r}
+# get draws
+qlty_sftwr_draws_temp = 
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality) +
+      (1 | software) + 
+      (1 | depth_maps_generation_quality:software)
+  ) %>% 
+  dplyr::rename(value = .epred)
+
+# calculate contrast
+brms_contrast_temp = qlty_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_quality
+    , comparison = contrast_list
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter1 == depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter2 == depth_maps_generation_quality)
+  )
+  
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "depth map quality"
+  , facet = "software"
+  , label_size = 2.0
+  , x_expand = c(0.56,0.9) # c(0,0.7)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+  )
+
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "quality contrast"
+      , "software"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "6in")
+```
+
+The contrasts above address the question "are there differences in F-score based on dense point cloud generation quality within each software?".
+
+To address the different question of "are there differences in F-score based on the processing software used at a given dense point cloud generation quality?" we need to utilize a different formulation of the `comparison` parameter within our call to the `tidybayes::compare_levels` function and calculate the contrast by `software` instead
+
+```{r}
+# calculate contrast
+brms_contrast_temp = qlty_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = software
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter1 == software, depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter2 == software, depth_maps_generation_quality)
+  )
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "software"
+  , facet = "depth_maps_generation_quality"
+  , label_size = 2.0
+  , x_expand = c(0.17,0.14)
+) +
+  facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+  ) +
+  theme(
+    legend.position = c(.75, .13)
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
+
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "software contrast"
+      , "depth map quality"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+#### Software:Filtering - interaction
+
+Are there differences in F-score based on dense point cloud filtering mode within each processing software?
+
+Here, we collapse across the study site and depth map generation quality to compare the combined filtering mode and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+Even though filtering mode had a small effect on the SfM predictive ability when averaging across all softwares, there might still be differences in filtering mode within software when we average across all depth map generation quality settings. Let's check the difference in F-score by depth map filtering mode and software.
+
+```{r}
+# get draws
+fltr_sftwr_draws_temp = ptcld_validation_data %>%
+  dplyr::distinct(depth_maps_generation_filtering_mode, software) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_filtering_mode) +
+      (1 | software) + 
+      (1 | depth_maps_generation_filtering_mode:software)
+  ) %>% 
+  dplyr::rename(value = .epred)
+
+  # plot
+fltr_sftwr_draws_temp %>% 
+  ggplot(
+    mapping = aes(
+      y = value, x = software
+      , fill = software
+    )
+  ) +
+  tidybayes::stat_eye(
+    point_interval = median_hdi, .width = .95
+    , slab_alpha = 0.8
+    , interval_color = "black", linewidth = 1
+    , point_color = "black", point_fill = "black", point_size = 1
+  ) +
+  scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
+  labs(
+    x = "software", y = "f-score"
+    , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+    , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , legend.direction  = "horizontal"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , strip.text = element_text(color = "black", face = "bold")
+  ) 
+```
+
+we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
+
+```{r}
+# calculate contrast
+brms_contrast_temp = fltr_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "filtering mode"
+  , facet = "software"
+  , label_size = 2.0
+  , x_expand = c(1.8,1.8) # c(1,1.4)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+  )
+
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "filtering contrast"
+      , "software"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "6in")
+```
+
+#### Software:Quality:Filtering - interaction
+
+The contrasts immediately above address the question "are there differences in F-score based on dense point cloud filtering mode within each software?". Although the impact of filtering mode is small, it is highly probable when averaging across all quality settings. What if we don't average out the impact of quality and instead get the full, three-way interaction between software, quality, and filtering mode?
+
+Let's get the model's answer to the question "For each software, are there differences in F-score based on dense point cloud filtering mode within each point cloud generation quality?".
+
+Here, we collapse across the study site to compare the depth map quality, filtering mode, and software effect.
+
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+# get draws
+fltr_sftwr_draws_temp =
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , depth_maps_generation_filtering_mode = unique(ptcld_validation_data$depth_maps_generation_filtering_mode)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod, allow_new_levels = T
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality) + # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+  ) %>% 
+  dplyr::rename(value = .epred)
+
+# plot
+fltr_sftwr_draws_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  ggplot(
+    mapping = aes(
+      y = value
+      , x = depth_maps_generation_filtering_mode
+      , fill = depth_maps_generation_filtering_mode
+    )
+  ) +
+  tidybayes::stat_eye(
+    point_interval = median_hdi, .width = .95
+    , slab_alpha = 0.8
+    , interval_color = "black", linewidth = 1
+    , point_color = "black", point_fill = "black", point_size = 1
+  ) +
+  scale_fill_viridis_d(option = "plasma", drop = F) +
+  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  facet_grid(
+    rows = vars(software)
+    , cols = vars(depth_maps_generation_quality)
+    # , switch = "y"
+  ) +
+  labs(
+    fill = "filtering mode"
+    , x = "filtering mode", y = "f-score"
+    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    # , caption = form_temp
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "top"
+    , legend.direction  = "horizontal"
+    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    , strip.text = element_text(color = "black", face = "bold")
+    # , strip.placement = "outside"
+  ) +
+  guides(
+    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
+  )
+
+```
+
+we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
+
+```{r}
+# calculate contrast
+brms_contrast_temp = fltr_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter1==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter2==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev())
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+brms_contrast_temp %>% 
+  plt_contrast(
+    facet = c("depth_maps_generation_quality", "software")
+    , y_axis_title = "filtering mode"
+    , label_size = 0
+    , x_expand = c(-0.1,-0.1)
+  ) +
+  facet_grid(
+    rows = vars(software)
+    , cols = vars(depth_maps_generation_quality)
+  ) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+  )
+  
+```
+
+#### Quality - main effect
+
+let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_quality) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      x = value, y = depth_maps_generation_quality
+      , fill = depth_maps_generation_quality
+    )
+  ) +
+    tidybayes::stat_halfeye(
+      point_interval = median_hdi, .width = .95
+      , interval_color = "gray66"
+      , shape = 21, point_color = "gray66", point_fill = "black"
+      , justification = -0.01
+    ) +
+    scale_fill_viridis_d(option = "inferno", drop = F) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    labs(
+      y = "depth map quality", x = "f-score"
+      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
+    ) +
+    theme_light() +
+    theme(legend.position = "none")
+```
+
+let's compare these results to the results from our [one nominal predictor model above](#f_one_pred_mod_bays), [two nominal predictor model above](#f_two_pred_mod_bays), [three nominal predictor model above](#f_three_pred_mod_bays), and [three nominal predictor + site effects model above](#f_4_pred_mod_bays)
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_quality) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_quality)
+  ) %>% 
+  dplyr::mutate(value = .epred, src = "brms_ht_me_mod") %>%
+  dplyr::bind_rows(
+    ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_quality) %>% 
+      tidybayes::add_epred_draws(
+        brms_ht_me_mod
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_quality)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_ht_me_mod")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_quality) %>% 
+      tidybayes::add_epred_draws(
+        brms_f_mod3
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_quality)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod3")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_quality) %>% 
+      tidybayes::add_epred_draws(
+        brms_f_mod2
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_quality)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod2")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_quality) %>% 
+      tidybayes::add_epred_draws(brms_f_mod1) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod1")
+  ) %>% 
+  ggplot(mapping = aes(y = src, x = value, color = src, group = src)) +
+  tidybayes::stat_pointinterval(position = "dodge") +
+  facet_grid(rows = vars(depth_maps_generation_quality), switch = "y") +
+  scale_y_discrete(NULL, breaks = NULL) +
+  # scale_color_viridis_d(option = "turbo", begin = 0.2, end = 0.8) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)) +
+  labs(
+    y = "", x = "f-score"
+    , color = "model"
+  ) +
+  theme_light() +
+  theme(legend.position = "top", strip.text = element_text(color = "black", face = "bold"))
+  
+```
+
+we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the depth map quality setting effect
+
+```{r}
+brms_contrast_temp =
+  ptcld_validation_data %>%
+    dplyr::distinct(depth_maps_generation_quality) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_quality)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_quality
+      , comparison = 
+        contrast_list
+        # tidybayes::emmeans_comparison("revpairwise") 
+        #"pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>% 
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "depth map quality"
+)
+
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "quality contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+#### Filtering - main effect
+
+let's collapse across the depth map quality, software, and study site to compare the depth map quality setting effect.
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      x = value, y = depth_maps_generation_filtering_mode
+      , fill = depth_maps_generation_filtering_mode
+    )
+  ) +
+    tidybayes::stat_halfeye(
+      point_interval = median_hdi, .width = .95
+      , interval_color = "gray66"
+      , shape = 21, point_color = "gray66", point_fill = "black"
+      , justification = -0.01
+    ) +
+    scale_fill_viridis_d(option = "plasma", drop = F) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    labs(
+      y = "filtering mode", x = "f-score"
+      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
+    ) +
+    theme_light() +
+    theme(legend.position = "none")
+```
+
+let's compare these results to the results from our [two nominal predictor model above](#f_two_pred_mod_bays), [three nominal predictor model above](#f_three_pred_mod_bays), and [three nominal predictor + site model above](#f_4_pred_mod_bays)
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(value = .epred, src = "brms_ht_me_mod") %>%
+  dplyr::bind_rows(
+    ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+      tidybayes::add_epred_draws(
+        brms_ht_me_mod
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_ht_me_mod")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+      tidybayes::add_epred_draws(
+        brms_f_mod3
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod3")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+      tidybayes::add_epred_draws(
+        brms_f_mod2
+        # this part is crucial
+        , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod2")
+  ) %>% 
+  ggplot(mapping = aes(y = src, x = value, color = src, group = src)) +
+  tidybayes::stat_pointinterval(position = "dodge") +
+  facet_grid(rows = vars(depth_maps_generation_filtering_mode), switch = "y") +
+  scale_y_discrete(NULL, breaks = NULL) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:5]) +
+  labs(
+    y = "filtering mode", x = "f-score"
+    , color = "model"
+  ) +
+  theme_light() +
+  theme(legend.position = "top", strip.text = element_text(color = "black", face = "bold"))
+  
+```
+
+we can also perform pairwise comparisons after collapsing across the depth map quality, software, and study site to compare the filtering mode setting effect.
+
+```{r}
+brms_contrast_temp =
+  ptcld_validation_data %>%
+    dplyr::distinct(depth_maps_generation_filtering_mode) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_filtering_mode
+      , comparison = "pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>% 
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "filtering mode"
+)
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "filtering mode contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+#### Software - main effect
+
+to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
+In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(software) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | software)
+  ) %>% 
+  dplyr::rename(value = .epred) %>% 
+  # plot
+  ggplot(
+    mapping = aes(
+      x = value, y = software
+      , fill = software
+    )
+  ) +
+    tidybayes::stat_halfeye(
+      point_interval = median_hdi, .width = .95
+      , interval_color = "gray66"
+      , shape = 21, point_color = "gray66", point_fill = "black"
+      , justification = -0.01
+    ) +
+    scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    labs(
+      y = "software", x = "f-score"
+      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , caption = form_temp
+    ) +
+    theme_light() +
+    theme(legend.position = "none")
+```
+
+let's compare these results to the results from our [three nominal predictor model above](#f_three_pred_mod_bays) and [three nominal predictor + site effects model above](#f_4_pred_mod_bays)
+
+```{r}
+ptcld_validation_data %>% 
+  dplyr::distinct(software) %>% 
+  tidybayes::add_epred_draws(
+    brms_ht_me_mod
+    # this part is crucial
+    , re_formula = ~ (1 | software)
+  ) %>% 
+  dplyr::mutate(value = .epred, src = "brms_ht_me_mod") %>%
+  dplyr::bind_rows(
+    ptcld_validation_data %>% 
+      dplyr::distinct(software) %>% 
+      tidybayes::add_epred_draws(
+        brms_ht_me_mod
+        # this part is crucial
+        , re_formula = ~ (1 | software)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_ht_me_mod")
+    , ptcld_validation_data %>% 
+      dplyr::distinct(software) %>% 
+      tidybayes::add_epred_draws(
+        brms_f_mod3
+        # this part is crucial
+        , re_formula = ~ (1 | software)
+      ) %>% 
+      dplyr::mutate(value = .epred, src = "brms_f_mod3")
+  ) %>% 
+  ggplot(mapping = aes(y = src, x = value, color = src, group = src)) +
+  tidybayes::stat_pointinterval(position = "dodge") +
+  facet_grid(rows = vars(software), switch = "y") +
+  scale_y_discrete(NULL, breaks = NULL) +
+  scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[3:5]) +
+  labs(
+    y = "", x = "f-score"
+    , color = "model"
+  ) +
+  theme_light() +
+  theme(legend.position = "top", strip.text = element_text(color = "black", face = "bold"))
+  
+```
+
+we can also perform pairwise comparisons after collapsing across the filtering mode, depth map quality setting, and study site to compare the software main effect
+
+```{r}
+brms_contrast_temp =
+  ptcld_validation_data %>%
+    dplyr::distinct(software) %>% 
+    tidybayes::add_epred_draws(
+      brms_ht_me_mod, allow_new_levels = T
+      # this part is crucial
+      , re_formula = ~ (1 | software)
+    ) %>% 
+    dplyr::rename(value = .epred) %>% 
+    tidybayes::compare_levels(
+      value
+      , by = software
+      , comparison = "pairwise"
+    ) %>% 
+    dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast) %>%
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp, caption_text = form_temp
+  , y_axis_title = "software"
+)
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast) %>% 
+  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , col.names = c(
+      "software contrast"
+      , "difference (f-score)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
+#### $\sigma$ posteriors
+
+Finally, we can quantify the variation in F-score by comparing the $\sigma$ (`sd`) posteriors
+
+*unsure about the scale of the $\sigma$ parameters are on in the beta model. Here, we invert the logit `sd` values from the model using `plogis()` which converts the parameter values to a probability/proportion (e.g.; 0-1) because they are parameters of the intercept and interaction effects so must be on the transformed (`link = "logit"`) scale...double check*
+
+For a phenomenally excellent overview of binary logistic regression and how to interpret coefficients, see Steven Miller’s most excellent lab [script here](https://post8000.svmiller.com/lab-scripts/logistic-regression-lab.html)
+
+```{r}
+# tidybayes::get_variables(brms_ht_me_mod)
+# extract the posterior draws
+brms::as_draws_df(brms_ht_me_mod) %>% 
+  dplyr::select(c(tidyselect::starts_with("sd_"))) %>% 
+  tidyr::pivot_longer(dplyr::everything()) %>% 
+  # dplyr::group_by(name) %>% 
+  # tidybayes::median_hdi(value) %>% 
+  dplyr::mutate(
+    name = name %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering") %>% 
+      forcats::fct_reorder(value)
+    , value = plogis(value)
+  ) %>%
+# plot
+  ggplot(aes(x = value, y = name)) +
+  tidybayes::stat_dotsinterval(
+    point_interval = median_hdi, .width = .95
+    , justification = -0.04
+    , shape = 21 #, point_size = 3
+    , quantiles = 100
+  ) +
+  labs(x = "", y = "", caption = form_temp) +
+  theme_light()
+```
+
+Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
+
+
