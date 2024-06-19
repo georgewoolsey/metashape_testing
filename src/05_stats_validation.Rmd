@@ -1028,7 +1028,7 @@ ptcld_validation_data %>%
     scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
-      x = "filtering mode", y = "f-score"
+      x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
       , caption = form_temp
@@ -1597,7 +1597,7 @@ ptcld_validation_data %>%
     scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
-      x = "filtering mode", y = "f-score"
+      x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
       , caption = form_temp
@@ -1751,7 +1751,7 @@ qlty_sftwr_draws_temp %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     , caption = form_temp
   ) +
@@ -2321,7 +2321,7 @@ qlty_filter_draws_temp %>%
     scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
-      x = "filtering mode", y = "f-score"
+      x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
       , caption = form_temp
@@ -2463,7 +2463,7 @@ ptcld_validation_data %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     , caption = form_temp
   ) +
@@ -3377,7 +3377,7 @@ qlty_filter_draws_temp =
     scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
-      x = "filtering mode", y = "f-score"
+      x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
       , caption = form_temp
@@ -3528,7 +3528,7 @@ ptcld_validation_data %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     , caption = form_temp
   ) +
@@ -3787,7 +3787,7 @@ fltr_sftwr_draws_temp %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
     , caption = form_temp
   ) +
@@ -3964,7 +3964,7 @@ fltr_sftwr_draws_temp %>%
   ) +
   labs(
     fill = ""
-    , x = "filtering mode", y = "f-score"
+    , x = "filtering mode", y = "F-score"
     # , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
     , subtitle = "depth map quality"
     # , caption = form_temp
@@ -5035,11 +5035,11 @@ dplyr::bind_rows(
       dplyr::mutate(model = "brms_f_mod5_5")
   ) %>% 
   dplyr::relocate(model) %>% 
-  kableExtra::kbl(digits = 3) %>% 
+  kableExtra::kbl(digits = 2) %>% 
   kableExtra::kable_styling()
 ```
 
-perhaps we should use `brms_f_mod4` in which we [modeled F-score presuming a Gaussian likelihood](#f_4_pred_mod_bays)??? What are the pros and cons? Surely, an accurate representation of the $y_i$ data (as represented by the beta distribution) is meaningful even if lower p-values are found.
+perhaps we should use `brms_f_mod4` in which we [modeled F-score presuming a Gaussian likelihood](#f_4_pred_mod_bays)??? What are the pros and cons? Surely, an accurate representation of the $y_i$ data (as represented by the beta distribution) is meaningful even if "worse" p-values are found.
 
 let's perform model selection via information criteria with the `brms::loo_compare()` function to check
 
@@ -5657,7 +5657,7 @@ ou_ptcld_validation_data %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
-    x = "story", y = "f-score"
+    x = "story", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     , caption = form_temp
   ) +
@@ -5710,7 +5710,7 @@ qlty_filter_draws_temp =
     scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
-      x = "filtering mode", y = "f-score"
+      x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
       , caption = form_temp
@@ -5861,7 +5861,7 @@ ptcld_validation_data %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     , caption = form_temp
   ) +
@@ -6120,7 +6120,7 @@ fltr_sftwr_draws_temp %>%
   scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
   facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
   labs(
-    x = "software", y = "f-score"
+    x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
     , caption = form_temp
   ) +
@@ -6287,7 +6287,7 @@ fltr_sftwr_draws_temp %>%
   ) +
   labs(
     fill = "filtering mode"
-    , x = "filtering mode", y = "f-score"
+    , x = "filtering mode", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
     # , caption = form_temp
   ) +

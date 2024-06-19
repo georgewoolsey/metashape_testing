@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_6417e5-1/data_stars_canopyhtme6fac2.txt"></script>
+<script src="libs/canopy ht. (m)_4ac2b9-1/data_stars_canopyhtm4d3691.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -313,6 +313,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.9.2" data-path="stats_validation.html"><a href="stats_validation.html#f_6_pred_mod_bays"><i class="fa fa-check"></i><b>6.9.2</b> Bayesian</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="stats_detected.html"><a href="stats_detected.html"><i class="fa fa-check"></i><b>7</b> Statistical Analysis: Detected Tree Reliability</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="stats_detected.html"><a href="stats_detected.html#model-definition"><i class="fa fa-check"></i><b>7.1</b> Model Definition</a></li>
+<li class="chapter" data-level="7.2" data-path="stats_detected.html"><a href="stats_detected.html#setup-2"><i class="fa fa-check"></i><b>7.2</b> Setup</a></li>
+<li class="chapter" data-level="7.3" data-path="stats_detected.html"><a href="stats_detected.html#tree-height"><i class="fa fa-check"></i><b>7.3</b> Tree Height</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="stats_detected.html"><a href="stats_detected.html#summary-statistics-11"><i class="fa fa-check"></i><b>7.3.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="7.3.2" data-path="stats_detected.html"><a href="stats_detected.html#model-height-mean-error-bias"><i class="fa fa-check"></i><b>7.3.2</b> Model: Height Mean Error (bias)</a></li>
+<li class="chapter" data-level="7.3.3" data-path="stats_detected.html"><a href="stats_detected.html#model-height-rmse-precision"><i class="fa fa-check"></i><b>7.3.3</b> Model: Height RMSE (precision)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="stats_detected.html"><a href="stats_detected.html#tree-dbh"><i class="fa fa-check"></i><b>7.4</b> Tree DBH</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="stats_detected.html"><a href="stats_detected.html#summary-statistics-12"><i class="fa fa-check"></i><b>7.4.1</b> Summary Statistics</a></li>
+<li class="chapter" data-level="7.4.2" data-path="stats_detected.html"><a href="stats_detected.html#model-dbh-mean-error-bias"><i class="fa fa-check"></i><b>7.4.2</b> Model: DBH Mean Error (bias)</a></li>
+<li class="chapter" data-level="7.4.3" data-path="stats_detected.html"><a href="stats_detected.html#model-dbh-rmse-precision"><i class="fa fa-check"></i><b>7.4.3</b> Model: DBH RMSE (precision)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="stats_detected.html"><a href="stats_detected.html#posterior-predictive-checks-1"><i class="fa fa-check"></i><b>7.5</b> Posterior Predictive Checks</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="stats_detected.html"><a href="stats_detected.html#trace-plots"><i class="fa fa-check"></i><b>7.5.1</b> Trace-plots</a></li>
+<li class="chapter" data-level="7.5.2" data-path="stats_detected.html"><a href="stats_detected.html#hatr-values"><i class="fa fa-check"></i><b>7.5.2</b> <span class="math inline">\(\hat{R}\)</span> values</a></li>
+<li class="chapter" data-level="7.5.3" data-path="stats_detected.html"><a href="stats_detected.html#mean-and-sd"><i class="fa fa-check"></i><b>7.5.3</b> Mean and SD</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -433,6 +456,76 @@ metashape_depthmap_filtering
 KAIBAB_HIGH
 </td>
 <td style="text-align:left;">
+HIGH_DISABLED
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+HIGH_MODERATE
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+LOWEST_DISABLED
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_HIGH
+</td>
+<td style="text-align:left;">
+LOWEST_MODERATE
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_LOW
+</td>
+<td style="text-align:left;">
+HIGH_MODERATE
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N1
+</td>
+<td style="text-align:left;">
 LOW_MILD
 </td>
 <td style="text-align:left;">
@@ -444,21 +537,21 @@ MILD
 </tr>
 <tr>
 <td style="text-align:left;">
-KAIBAB_HIGH
+SQ09_02
 </td>
 <td style="text-align:left;">
-ULTRAHIGH_AGGRESSIVE
+MEDIUM_MILD
 </td>
 <td style="text-align:left;">
-ULTRAHIGH
+MEDIUM
 </td>
 <td style="text-align:left;">
-AGGRESSIVE
+MILD
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-KAIBAB_LOW
+WA85_02
 </td>
 <td style="text-align:left;">
 HIGH_MILD
@@ -468,76 +561,6 @@ HIGH
 </td>
 <td style="text-align:left;">
 MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_LOW
-</td>
-<td style="text-align:left;">
-LOWEST_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-HIGH_MILD
-</td>
-<td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-ULTRAHIGH_MILD
-</td>
-<td style="text-align:left;">
-ULTRAHIGH
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-HIGH_MODERATE
-</td>
-<td style="text-align:left;">
-HIGH
-</td>
-<td style="text-align:left;">
-MODERATE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-ULTRAHIGH_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-ULTRAHIGH
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
 </td>
 </tr>
 <tr>
@@ -570,16 +593,16 @@ AGGRESSIVE
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
+WA85_02
 </td>
 <td style="text-align:left;">
-HIGH_MODERATE
+ULTRAHIGH_DISABLED
 </td>
 <td style="text-align:left;">
-HIGH
+ULTRAHIGH
 </td>
 <td style="text-align:left;">
-MODERATE
+DISABLED
 </td>
 </tr>
 <tr>
@@ -587,13 +610,13 @@ MODERATE
 NA
 </td>
 <td style="text-align:left;">
-LOW_AGGRESSIVE
+HIGH_MILD
 </td>
 <td style="text-align:left;">
-LOW
+HIGH
 </td>
 <td style="text-align:left;">
-AGGRESSIVE
+MILD
 </td>
 </tr>
 <tr>
@@ -615,13 +638,13 @@ MILD
 NA
 </td>
 <td style="text-align:left;">
-MEDIUM_MODERATE
+ULTRAHIGH_AGGRESSIVE
 </td>
 <td style="text-align:left;">
-MEDIUM
+ULTRAHIGH
 </td>
 <td style="text-align:left;">
-MODERATE
+AGGRESSIVE
 </td>
 </tr>
 <tr>
@@ -629,13 +652,13 @@ MODERATE
 NA
 </td>
 <td style="text-align:left;">
-ULTRAHIGH_MODERATE
+ULTRAHIGH_MILD
 </td>
 <td style="text-align:left;">
 ULTRAHIGH
 </td>
 <td style="text-align:left;">
-MODERATE
+MILD
 </td>
 </tr>
 </tbody>
