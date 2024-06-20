@@ -463,8 +463,233 @@ ggplot(
 ggplot2::ggsave("../data/processing_time_brkdown.png", width = 8.5, height = 6)
 ```
 
+
+## Summary of point cloud data
+
+Use flight boundary to calculate the per ha metrics but all of the flight boundaries based on the SfM data are different ;\ so will just use the Metashape "high" quality area median across filtering modes applied to all.
+
+### Table
+
+```{r, results='asis'}
+table_temp =
+  ptcld_processing_data %>% 
+  dplyr::select(
+    # unique vars
+    software, tidyselect::starts_with("depth_maps"), study_site
+    # vars
+    , number_of_points, timer_total_time_mins
+  ) %>% 
+  # add area
+  dplyr::inner_join(
+    ptcld_processing_data %>% 
+      dplyr::mutate(
+        las_area_m2 = dplyr::case_when(
+          tolower(software)=="metashape"
+            & tolower(depth_maps_generation_quality)=="high" ~ las_area_m2
+          , T ~ NA
+        )
+      ) %>% 
+      dplyr::group_by(study_site) %>% 
+      dplyr::summarise(las_area_m2 = median(las_area_m2, na.rm = T))
+    , by = "study_site"
+  ) %>% 
+  # calculate per area metrics
+  dplyr::mutate(
+    number_of_points_m2 = number_of_points/las_area_m2
+    , timer_total_time_mins_ha = timer_total_time_mins/(las_area_m2/10000)
+  ) %>%
+  # summary
+  dplyr::rename_with(
+    .fn = function(x){
+      x %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+    }
+  ) %>% 
+  # plot it?
+  # ggplot(mapping = aes(fill = software)) +
+  #   geom_boxplot(mapping = aes(x = software, y = timer_total_time_mins_ha)) + 
+  #   facet_wrap(facets = vars(quality, filtering), ncol = 10) +
+  #   scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+  #   scale_y_log10(
+  #     labels = scales::comma_format(suffix = " mins", accuracy = 0.1)
+  #     , breaks = scales::breaks_log(n = 9)
+  #   ) +
+  #   theme_light() 
+  # or table it
+  dplyr::group_by(software, quality, filtering) %>% 
+  dplyr::summarise(
+    dplyr::across(
+      c(number_of_points_m2, timer_total_time_mins_ha)
+      , .fns = list(mean = mean, sd = sd)
+    )
+    , n = dplyr::n()
+  ) %>% 
+  # combine mean/sd
+  dplyr::mutate(
+    pts = paste0(
+      number_of_points_m2_mean %>% 
+        round(1) %>% 
+        scales::comma(accuracy = 1)
+      , "<br>("
+      , number_of_points_m2_sd %>% 
+          round(1) %>% 
+          scales::comma(accuracy = 1)
+      , ")"
+    )
+    , mins = paste0(
+      timer_total_time_mins_ha_mean %>% round(1) %>% scales::comma(accuracy = 0.1)
+      , "<br>("
+      , timer_total_time_mins_ha_sd %>% round(1) %>% scales::comma(accuracy = 0.1)
+      , ")"
+    )
+  ) %>% 
+  dplyr::ungroup() %>% 
+  select(software,quality,filtering,pts,mins)
+table_temp =
+  dplyr::bind_rows(
+    table_temp %>% dplyr::select(-c(mins)) %>% tidyr::pivot_wider(names_from = filtering, values_from = pts) %>% 
+      dplyr::mutate(metric = "Points m<sup>-2</sup>")
+    , table_temp %>% dplyr::select(-c(pts)) %>% tidyr::pivot_wider(names_from = filtering, values_from = mins) %>% 
+      dplyr::mutate(metric = "Processing time<br>mins ha<sup>-1</sup>")
+  ) %>% 
+  dplyr::relocate(software) %>% 
+  dplyr::relocate(metric)
+# table
+table_temp %>% 
+  kableExtra::kbl(escape = F) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::collapse_rows(columns = 1:2, valign = "top")
+```
+
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
 gc()
+```
+
+### Plot summary
+
+```{r, fig.height=10}
+table_temp = ptcld_processing_data %>% 
+  dplyr::select(
+    # unique vars
+    software, tidyselect::starts_with("depth_maps"), study_site
+    # vars
+    , number_of_points, timer_total_time_mins
+  ) %>% 
+  # add area
+  dplyr::inner_join(
+    ptcld_processing_data %>% 
+      dplyr::mutate(
+        las_area_m2 = dplyr::case_when(
+          tolower(software)=="metashape"
+            & tolower(depth_maps_generation_quality)=="high" ~ las_area_m2
+          , T ~ NA
+        )
+      ) %>% 
+      dplyr::group_by(study_site) %>% 
+      dplyr::summarise(las_area_m2 = median(las_area_m2, na.rm = T))
+    , by = "study_site"
+  ) %>% 
+  # calculate per area metrics
+  dplyr::mutate(
+    number_of_points_m2 = number_of_points/las_area_m2
+    , timer_total_time_mins_ha = timer_total_time_mins/(las_area_m2/10000)
+  ) %>%
+  # summary
+  dplyr::rename_with(
+    .fn = function(x){
+      x %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+    }
+  ) 
+
+# plot it?
+p1_temp =
+  table_temp %>% 
+  dplyr::mutate(quality = forcats::fct_rev(quality)) %>% 
+  ggplot(mapping = aes(x = filtering, y = timer_total_time_mins_ha, fill = software)) +
+    geom_point(
+      mapping = aes(group=software, color = software)
+      , position = position_nudge(x = -0.4)
+      , alpha = 0.8
+      , shape = "-", size = 5
+    ) +
+    geom_boxplot(
+      width = 0.7, alpha = 0.8
+      , position = position_dodge2(preserve = "single")
+      , outliers = F
+    ) +
+    # set vertical lines between x groups
+    geom_vline(xintercept = seq(0.5, length(table_temp$filtering), by = 1), color="gray22", lwd=.5) +
+    facet_grid(cols = vars(quality)) +
+    scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_color_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_y_log10(
+      labels = scales::comma_format(suffix = " mins", accuracy = 0.1)
+      , breaks = scales::breaks_log(n = 9)
+    ) +
+    labs(
+      subtitle = "quality"
+      , y = latex2exp::TeX("Processing time (mins $\\cdot ha^{-1}$)")
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "bottom"
+      , legend.direction  = "horizontal"
+      , panel.grid.major.x = element_blank()
+      , panel.grid.minor.x = element_blank()
+      , strip.text = element_text(color = "black", face = "bold")
+      , plot.subtitle = element_text(hjust = 0.5)
+    ) +
+    guides(
+      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
+      , color = "none"
+    )
+# plot it?
+p2_temp =
+  table_temp %>% 
+  dplyr::mutate(quality = forcats::fct_rev(quality)) %>% 
+  ggplot(mapping = aes(x = filtering, y = number_of_points_m2, fill = software)) +
+    geom_point(
+      mapping = aes(group=software, color = software)
+      , position = position_nudge(x = -0.4)
+      , alpha = 0.8
+      , shape = "-", size = 5
+    ) +
+    geom_boxplot(
+      width = 0.7, alpha = 0.8
+      , position = position_dodge2(preserve = "single")
+      , outliers = F
+    ) +
+    # set vertical lines between x groups
+    geom_vline(xintercept = seq(0.5, length(table_temp$filtering), by = 1), color="gray22", lwd=.5) +
+    facet_grid(cols = vars(quality)) +
+    scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_color_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_y_log10(
+      labels = scales::comma_format(accuracy = 1)
+      , breaks = scales::breaks_log(n = 9)
+    ) +
+    labs(
+      subtitle = "quality"
+      , y = latex2exp::TeX("Point density (points $\\cdot m^{2}$)")
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "bottom"
+      , legend.direction  = "horizontal"
+      , panel.grid.major.x = element_blank()
+      , panel.grid.minor.x = element_blank()
+      , strip.text = element_text(color = "black", face = "bold")
+      , plot.subtitle = element_text(hjust = 0.5)
+    ) +
+    guides(
+      fill = guide_legend(reverse = T, override.aes = list(alpha = 1, color = NA, shape = NA, lwd = NA))
+      , color = "none"
+    )
+# combine plots
+p2_temp / p1_temp + patchwork::plot_layout(guides = "collect") & theme(legend.position = "bottom")
 ```
 

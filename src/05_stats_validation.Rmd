@@ -3635,25 +3635,28 @@ ggplot2::ggsave("../data/qlty_sftwr_comp_mod5.png", height = 7, width = 10.5)
 and summarize these contrasts
 
 ```{r}
-brms_contrast_temp %>%
+table_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, software) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
   dplyr::rename(difference=value) %>% 
-  dplyr::arrange(software, contrast) %>% 
+  dplyr::arrange(software, contrast)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
-      , "software"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "6in")
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 The contrasts above address the question "are there differences in F-score based on dense point cloud generation quality within each software?".
@@ -3726,23 +3729,25 @@ ggplot2::ggsave("../data/sftwr_qlty_comp_mod5.png", height = 7, width = 10.5)
 and summarize these contrasts
 
 ```{r}
-brms_contrast_temp %>%
+table_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
   dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+  dplyr::rename(difference=value) 
+table_temp %>% 
+  dplyr::select(-c(contrast)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
-      "software contrast"
-      , "depth map quality"
+      "depth map quality"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$contrast))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -3870,25 +3875,27 @@ ggplot2::ggsave("../data/fltr_sftwr_comp_mod5.png", height = 7, width = 10.5)
 and summarize these contrasts
 
 ```{r}
-brms_contrast_temp %>%
+table_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, software) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
   dplyr::rename(difference=value) %>% 
-  dplyr::arrange(software, contrast) %>% 
+  dplyr::arrange(software, contrast)
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering contrast"
-      , "software"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "6in")
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 #### Software:Quality:Filtering - interaction
@@ -3989,14 +3996,34 @@ ggplot2::ggsave("../data/qlty_fltr_sftwr_mod5.png", height = 7, width = 10.5)
 let's add a table of the results
 
 ```{r}
-fltr_sftwr_draws_temp %>% 
+table_temp =
+  fltr_sftwr_draws_temp %>% 
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
     , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
   ) %>% 
   dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>%
-  tidybayes::median_hdi(value) %>% 
-  print(n = 66)
+  tidybayes::median_hdi(value) %>%
+  dplyr::select(c(
+    software, depth_maps_generation_quality, depth_maps_generation_filtering_mode
+    , value, .lower, .upper
+  )) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::arrange(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional means"
+    , col.names = c(
+      "quality", "filtering"
+      , "f-score"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 

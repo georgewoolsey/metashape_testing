@@ -165,10 +165,10 @@ read_field_data <- function(my_study_site) {
 }
 ```
 
-summary of field validation plot data
+### Summary of field validation plot data
 
-```{r}
-validation_plots %>% 
+```{r, results='hide', warning=FALSE, message=FALSE}
+table_temp = validation_plots %>% 
   dplyr::pull(study_site) %>% 
   purrr::map(function(x){
     read_field_data(x) %>% 
@@ -187,7 +187,7 @@ validation_plots %>%
   ) %>% 
   # add area
   dplyr::inner_join(
-    validation_plots %>% dplyr::select(study_site, area_ha)
+    validation_plots %>% dplyr::select(study_site, area_ha) %>% sf::st_drop_geometry()
     , by = "study_site"
   ) %>% 
   dplyr::mutate(
@@ -213,23 +213,26 @@ validation_plots %>%
   ) %>% 
   dplyr::select(
     study_site, area_ha, trees_ha, basal_area_m2_per_ha, ht, dbh
-  ) %>% 
+  )
+```
+
+```{r, results='asis'}
+table_temp %>% 
   kableExtra::kbl(
     escape = F
     , digits = 1
     , col.names = c(
       ""
       , "Hectares"
-      , "Trees<br>$\\text{ha}^{-1}$"
-      , "Basal Area<br>$\\text{m}^2 \\cdot \\text{ha}^{-1}$"
+      , "Trees<br>ha<sup>-1</sup>"
+      , "Basal Area<br>m<sup>2</sup> ha<sup>-1</sup>"
       , "Height (m)", "DBH (cm)"
     )
   ) %>% 
   kableExtra::kable_styling()
 ```
 
-
-uas data
+### Load UAS data function
 
 ```{r}
 # function finds uas tree list

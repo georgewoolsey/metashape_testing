@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_4ac2b9-1/data_stars_canopyhtm4d3691.txt"></script>
+<script src="libs/canopy ht. (m)_17decb-1/data_stars_canopyhtm7826cb.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -202,6 +202,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-summary"><i class="fa fa-check"></i><b>3.2</b> Processing Time Summary</a></li>
 <li class="chapter" data-level="3.3" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-time-vs-points"><i class="fa fa-check"></i><b>3.3</b> Processing Time vs # Points</a></li>
 <li class="chapter" data-level="3.4" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#processing-section-timing"><i class="fa fa-check"></i><b>3.4</b> Processing Section Timing</a></li>
+<li class="chapter" data-level="3.5" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#summary-of-point-cloud-data"><i class="fa fa-check"></i><b>3.5</b> Summary of point cloud data</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#table"><i class="fa fa-check"></i><b>3.5.1</b> Table</a></li>
+<li class="chapter" data-level="3.5.2" data-path="ptcld_analysis.html"><a href="ptcld_analysis.html#plot-summary"><i class="fa fa-check"></i><b>3.5.2</b> Plot summary</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="stats_processing_time.html"><a href="stats_processing_time.html"><i class="fa fa-check"></i><b>4</b> Statistical Analysis: Processing Time</a>
 <ul>
@@ -233,7 +238,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="field_valid.html"><a href="field_valid.html"><i class="fa fa-check"></i><b>5</b> Field Validation</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="field_valid.html"><a href="field_valid.html#setup"><i class="fa fa-check"></i><b>5.1</b> Setup</a></li>
-<li class="chapter" data-level="5.2" data-path="field_valid.html"><a href="field_valid.html#data-load-functions"><i class="fa fa-check"></i><b>5.2</b> Data Load Functions</a></li>
+<li class="chapter" data-level="5.2" data-path="field_valid.html"><a href="field_valid.html#data-load-functions"><i class="fa fa-check"></i><b>5.2</b> Data Load Functions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="field_valid.html"><a href="field_valid.html#summary-of-field-validation-plot-data"><i class="fa fa-check"></i><b>5.2.1</b> Summary of field validation plot data</a></li>
+<li class="chapter" data-level="5.2.2" data-path="field_valid.html"><a href="field_valid.html#load-uas-data-function"><i class="fa fa-check"></i><b>5.2.2</b> Load UAS data function</a></li>
+</ul></li>
 <li class="chapter" data-level="5.3" data-path="field_valid.html"><a href="field_valid.html#validation-data-functions"><i class="fa fa-check"></i><b>5.3</b> Validation Data Functions</a>
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="field_valid.html"><a href="field_valid.html#true-positive-identification"><i class="fa fa-check"></i><b>5.3.1</b> True Positive Identification</a></li>
@@ -813,7 +822,757 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb29-99"><a href="ptcld_analysis.html#cb29-99" tabindex="-1"></a>  )  </span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/time-breakdown-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="ptcld_analysis.html#cb30-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/processing_time_brkdown.png&quot;</span>, <span class="at">width =</span> <span class="fl">8.5</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code></pre></div>
+</div>
+<div id="summary-of-point-cloud-data" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Summary of point cloud data<a href="ptcld_analysis.html#summary-of-point-cloud-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Use flight boundary to calculate the per ha metrics but all of the flight boundaries based on the SfM data are different ; so will just use the Metashape “high” quality area median across filtering modes applied to all.</p>
+<div id="table" class="section level3 hasAnchor" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Table<a href="ptcld_analysis.html#table" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="ptcld_analysis.html#cb31-1" tabindex="-1"></a>table_temp <span class="ot">=</span></span>
+<span id="cb31-2"><a href="ptcld_analysis.html#cb31-2" tabindex="-1"></a>  ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="ptcld_analysis.html#cb31-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb31-4"><a href="ptcld_analysis.html#cb31-4" tabindex="-1"></a>    <span class="co"># unique vars</span></span>
+<span id="cb31-5"><a href="ptcld_analysis.html#cb31-5" tabindex="-1"></a>    software, tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;depth_maps&quot;</span>), study_site</span>
+<span id="cb31-6"><a href="ptcld_analysis.html#cb31-6" tabindex="-1"></a>    <span class="co"># vars</span></span>
+<span id="cb31-7"><a href="ptcld_analysis.html#cb31-7" tabindex="-1"></a>    , number_of_points, timer_total_time_mins</span>
+<span id="cb31-8"><a href="ptcld_analysis.html#cb31-8" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-9"><a href="ptcld_analysis.html#cb31-9" tabindex="-1"></a>  <span class="co"># add area</span></span>
+<span id="cb31-10"><a href="ptcld_analysis.html#cb31-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb31-11"><a href="ptcld_analysis.html#cb31-11" tabindex="-1"></a>    ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb31-12"><a href="ptcld_analysis.html#cb31-12" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb31-13"><a href="ptcld_analysis.html#cb31-13" tabindex="-1"></a>        <span class="at">las_area_m2 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb31-14"><a href="ptcld_analysis.html#cb31-14" tabindex="-1"></a>          <span class="fu">tolower</span>(software)<span class="sc">==</span><span class="st">&quot;metashape&quot;</span></span>
+<span id="cb31-15"><a href="ptcld_analysis.html#cb31-15" tabindex="-1"></a>            <span class="sc">&amp;</span> <span class="fu">tolower</span>(depth_maps_generation_quality)<span class="sc">==</span><span class="st">&quot;high&quot;</span> <span class="sc">~</span> las_area_m2</span>
+<span id="cb31-16"><a href="ptcld_analysis.html#cb31-16" tabindex="-1"></a>          , T <span class="sc">~</span> <span class="cn">NA</span></span>
+<span id="cb31-17"><a href="ptcld_analysis.html#cb31-17" tabindex="-1"></a>        )</span>
+<span id="cb31-18"><a href="ptcld_analysis.html#cb31-18" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-19"><a href="ptcld_analysis.html#cb31-19" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">group_by</span>(study_site) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-20"><a href="ptcld_analysis.html#cb31-20" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">las_area_m2 =</span> <span class="fu">median</span>(las_area_m2, <span class="at">na.rm =</span> T))</span>
+<span id="cb31-21"><a href="ptcld_analysis.html#cb31-21" tabindex="-1"></a>    , <span class="at">by =</span> <span class="st">&quot;study_site&quot;</span></span>
+<span id="cb31-22"><a href="ptcld_analysis.html#cb31-22" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-23"><a href="ptcld_analysis.html#cb31-23" tabindex="-1"></a>  <span class="co"># calculate per area metrics</span></span>
+<span id="cb31-24"><a href="ptcld_analysis.html#cb31-24" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb31-25"><a href="ptcld_analysis.html#cb31-25" tabindex="-1"></a>    <span class="at">number_of_points_m2 =</span> number_of_points<span class="sc">/</span>las_area_m2</span>
+<span id="cb31-26"><a href="ptcld_analysis.html#cb31-26" tabindex="-1"></a>    , <span class="at">timer_total_time_mins_ha =</span> timer_total_time_mins<span class="sc">/</span>(las_area_m2<span class="sc">/</span><span class="dv">10000</span>)</span>
+<span id="cb31-27"><a href="ptcld_analysis.html#cb31-27" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb31-28"><a href="ptcld_analysis.html#cb31-28" tabindex="-1"></a>  <span class="co"># summary</span></span>
+<span id="cb31-29"><a href="ptcld_analysis.html#cb31-29" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb31-30"><a href="ptcld_analysis.html#cb31-30" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="cf">function</span>(x){</span>
+<span id="cb31-31"><a href="ptcld_analysis.html#cb31-31" tabindex="-1"></a>      x <span class="sc">%&gt;%</span> </span>
+<span id="cb31-32"><a href="ptcld_analysis.html#cb31-32" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_quality&quot;</span>, <span class="st">&quot;quality&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-33"><a href="ptcld_analysis.html#cb31-33" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span>, <span class="st">&quot;filtering&quot;</span>)</span>
+<span id="cb31-34"><a href="ptcld_analysis.html#cb31-34" tabindex="-1"></a>    }</span>
+<span id="cb31-35"><a href="ptcld_analysis.html#cb31-35" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-36"><a href="ptcld_analysis.html#cb31-36" tabindex="-1"></a>  <span class="co"># plot it?</span></span>
+<span id="cb31-37"><a href="ptcld_analysis.html#cb31-37" tabindex="-1"></a>  <span class="co"># ggplot(mapping = aes(fill = software)) +</span></span>
+<span id="cb31-38"><a href="ptcld_analysis.html#cb31-38" tabindex="-1"></a>  <span class="co">#   geom_boxplot(mapping = aes(x = software, y = timer_total_time_mins_ha)) + </span></span>
+<span id="cb31-39"><a href="ptcld_analysis.html#cb31-39" tabindex="-1"></a>  <span class="co">#   facet_wrap(facets = vars(quality, filtering), ncol = 10) +</span></span>
+<span id="cb31-40"><a href="ptcld_analysis.html#cb31-40" tabindex="-1"></a>  <span class="co">#   scale_fill_viridis_d(option = &quot;rocket&quot;, begin = 0.3, end = 0.9, drop = F) +</span></span>
+<span id="cb31-41"><a href="ptcld_analysis.html#cb31-41" tabindex="-1"></a>  <span class="co">#   scale_y_log10(</span></span>
+<span id="cb31-42"><a href="ptcld_analysis.html#cb31-42" tabindex="-1"></a>  <span class="co">#     labels = scales::comma_format(suffix = &quot; mins&quot;, accuracy = 0.1)</span></span>
+<span id="cb31-43"><a href="ptcld_analysis.html#cb31-43" tabindex="-1"></a>  <span class="co">#     , breaks = scales::breaks_log(n = 9)</span></span>
+<span id="cb31-44"><a href="ptcld_analysis.html#cb31-44" tabindex="-1"></a>  <span class="co">#   ) +</span></span>
+<span id="cb31-45"><a href="ptcld_analysis.html#cb31-45" tabindex="-1"></a>  <span class="co">#   theme_light() </span></span>
+<span id="cb31-46"><a href="ptcld_analysis.html#cb31-46" tabindex="-1"></a>  <span class="co"># or table it</span></span>
+<span id="cb31-47"><a href="ptcld_analysis.html#cb31-47" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(software, quality, filtering) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-48"><a href="ptcld_analysis.html#cb31-48" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb31-49"><a href="ptcld_analysis.html#cb31-49" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb31-50"><a href="ptcld_analysis.html#cb31-50" tabindex="-1"></a>      <span class="fu">c</span>(number_of_points_m2, timer_total_time_mins_ha)</span>
+<span id="cb31-51"><a href="ptcld_analysis.html#cb31-51" tabindex="-1"></a>      , <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd)</span>
+<span id="cb31-52"><a href="ptcld_analysis.html#cb31-52" tabindex="-1"></a>    )</span>
+<span id="cb31-53"><a href="ptcld_analysis.html#cb31-53" tabindex="-1"></a>    , <span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>()</span>
+<span id="cb31-54"><a href="ptcld_analysis.html#cb31-54" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-55"><a href="ptcld_analysis.html#cb31-55" tabindex="-1"></a>  <span class="co"># combine mean/sd</span></span>
+<span id="cb31-56"><a href="ptcld_analysis.html#cb31-56" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb31-57"><a href="ptcld_analysis.html#cb31-57" tabindex="-1"></a>    <span class="at">pts =</span> <span class="fu">paste0</span>(</span>
+<span id="cb31-58"><a href="ptcld_analysis.html#cb31-58" tabindex="-1"></a>      number_of_points_m2_mean <span class="sc">%&gt;%</span> </span>
+<span id="cb31-59"><a href="ptcld_analysis.html#cb31-59" tabindex="-1"></a>        <span class="fu">round</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-60"><a href="ptcld_analysis.html#cb31-60" tabindex="-1"></a>        scales<span class="sc">::</span><span class="fu">comma</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb31-61"><a href="ptcld_analysis.html#cb31-61" tabindex="-1"></a>      , <span class="st">&quot;&lt;br&gt;(&quot;</span></span>
+<span id="cb31-62"><a href="ptcld_analysis.html#cb31-62" tabindex="-1"></a>      , number_of_points_m2_sd <span class="sc">%&gt;%</span> </span>
+<span id="cb31-63"><a href="ptcld_analysis.html#cb31-63" tabindex="-1"></a>          <span class="fu">round</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-64"><a href="ptcld_analysis.html#cb31-64" tabindex="-1"></a>          scales<span class="sc">::</span><span class="fu">comma</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb31-65"><a href="ptcld_analysis.html#cb31-65" tabindex="-1"></a>      , <span class="st">&quot;)&quot;</span></span>
+<span id="cb31-66"><a href="ptcld_analysis.html#cb31-66" tabindex="-1"></a>    )</span>
+<span id="cb31-67"><a href="ptcld_analysis.html#cb31-67" tabindex="-1"></a>    , <span class="at">mins =</span> <span class="fu">paste0</span>(</span>
+<span id="cb31-68"><a href="ptcld_analysis.html#cb31-68" tabindex="-1"></a>      timer_total_time_mins_ha_mean <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> scales<span class="sc">::</span><span class="fu">comma</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb31-69"><a href="ptcld_analysis.html#cb31-69" tabindex="-1"></a>      , <span class="st">&quot;&lt;br&gt;(&quot;</span></span>
+<span id="cb31-70"><a href="ptcld_analysis.html#cb31-70" tabindex="-1"></a>      , timer_total_time_mins_ha_sd <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> scales<span class="sc">::</span><span class="fu">comma</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb31-71"><a href="ptcld_analysis.html#cb31-71" tabindex="-1"></a>      , <span class="st">&quot;)&quot;</span></span>
+<span id="cb31-72"><a href="ptcld_analysis.html#cb31-72" tabindex="-1"></a>    )</span>
+<span id="cb31-73"><a href="ptcld_analysis.html#cb31-73" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-74"><a href="ptcld_analysis.html#cb31-74" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb31-75"><a href="ptcld_analysis.html#cb31-75" tabindex="-1"></a>  <span class="fu">select</span>(software,quality,filtering,pts,mins)</span>
+<span id="cb31-76"><a href="ptcld_analysis.html#cb31-76" tabindex="-1"></a>table_temp <span class="ot">=</span></span>
+<span id="cb31-77"><a href="ptcld_analysis.html#cb31-77" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb31-78"><a href="ptcld_analysis.html#cb31-78" tabindex="-1"></a>    table_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(mins)) <span class="sc">%&gt;%</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> filtering, <span class="at">values_from =</span> pts) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-79"><a href="ptcld_analysis.html#cb31-79" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">metric =</span> <span class="st">&quot;Points m&lt;sup&gt;-2&lt;/sup&gt;&quot;</span>)</span>
+<span id="cb31-80"><a href="ptcld_analysis.html#cb31-80" tabindex="-1"></a>    , table_temp <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(pts)) <span class="sc">%&gt;%</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> filtering, <span class="at">values_from =</span> mins) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-81"><a href="ptcld_analysis.html#cb31-81" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">metric =</span> <span class="st">&quot;Processing time&lt;br&gt;mins ha&lt;sup&gt;-1&lt;/sup&gt;&quot;</span>)</span>
+<span id="cb31-82"><a href="ptcld_analysis.html#cb31-82" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-83"><a href="ptcld_analysis.html#cb31-83" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(software) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-84"><a href="ptcld_analysis.html#cb31-84" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(metric)</span>
+<span id="cb31-85"><a href="ptcld_analysis.html#cb31-85" tabindex="-1"></a><span class="co"># table</span></span>
+<span id="cb31-86"><a href="ptcld_analysis.html#cb31-86" tabindex="-1"></a>table_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb31-87"><a href="ptcld_analysis.html#cb31-87" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(<span class="at">escape =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-88"><a href="ptcld_analysis.html#cb31-88" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb31-89"><a href="ptcld_analysis.html#cb31-89" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">collapse_rows</span>(<span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">valign =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+metric
+</th>
+<th style="text-align:left;">
+software
+</th>
+<th style="text-align:left;">
+quality
+</th>
+<th style="text-align:left;">
+aggressive
+</th>
+<th style="text-align:left;">
+moderate
+</th>
+<th style="text-align:left;">
+mild
+</th>
+<th style="text-align:left;">
+disabled
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="14">
+Points m<sup>-2</sup>
+</td>
+<td style="text-align:left;vertical-align: top !important;" rowspan="5">
+METASHAPE
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+3,546<br>(1,444)
+</td>
+<td style="text-align:left;">
+4,446<br>(1,687)
+</td>
+<td style="text-align:left;">
+4,544<br>(1,801)
+</td>
+<td style="text-align:left;">
+4,597<br>(1,786)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+789<br>(296)
+</td>
+<td style="text-align:left;">
+972<br>(345)
+</td>
+<td style="text-align:left;">
+1,019<br>(378)
+</td>
+<td style="text-align:left;">
+1,028<br>(377)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+183<br>(64)
+</td>
+<td style="text-align:left;">
+224<br>(76)
+</td>
+<td style="text-align:left;">
+238<br>(84)
+</td>
+<td style="text-align:left;">
+239<br>(84)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+43<br>(13)
+</td>
+<td style="text-align:left;">
+52<br>(17)
+</td>
+<td style="text-align:left;">
+57<br>(19)
+</td>
+<td style="text-align:left;">
+57<br>(20)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lowest
+</td>
+<td style="text-align:left;">
+11<br>(3)
+</td>
+<td style="text-align:left;">
+12<br>(4)
+</td>
+<td style="text-align:left;">
+13<br>(4)
+</td>
+<td style="text-align:left;">
+13<br>(4)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="5">
+OPENDRONEMAP
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+1,684<br>(664)
+</td>
+<td style="text-align:left;">
+1,678<br>(603)
+</td>
+<td style="text-align:left;">
+1,557<br>(515)
+</td>
+<td style="text-align:left;">
+1,455<br>(566)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+421<br>(125)
+</td>
+<td style="text-align:left;">
+421<br>(128)
+</td>
+<td style="text-align:left;">
+418<br>(134)
+</td>
+<td style="text-align:left;">
+418<br>(133)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+100<br>(32)
+</td>
+<td style="text-align:left;">
+100<br>(32)
+</td>
+<td style="text-align:left;">
+99<br>(33)
+</td>
+<td style="text-align:left;">
+100<br>(34)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+99<br>(32)
+</td>
+<td style="text-align:left;">
+100<br>(33)
+</td>
+<td style="text-align:left;">
+99<br>(33)
+</td>
+<td style="text-align:left;">
+100<br>(33)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lowest
+</td>
+<td style="text-align:left;">
+99<br>(31)
+</td>
+<td style="text-align:left;">
+100<br>(33)
+</td>
+<td style="text-align:left;">
+100<br>(32)
+</td>
+<td style="text-align:left;">
+99<br>(33)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="4">
+PIX4D
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+262<br>(84)
+</td>
+<td style="text-align:left;">
+934<br>(317)
+</td>
+<td style="text-align:left;">
+3,454<br>(1,185)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+58<br>(24)
+</td>
+<td style="text-align:left;">
+217<br>(90)
+</td>
+<td style="text-align:left;">
+774<br>(318)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+14<br>(4)
+</td>
+<td style="text-align:left;">
+54<br>(16)
+</td>
+<td style="text-align:left;">
+193<br>(60)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+4<br>(1)
+</td>
+<td style="text-align:left;">
+13<br>(4)
+</td>
+<td style="text-align:left;">
+47<br>(14)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="14">
+Processing time<br>mins ha<sup>-1</sup>
+</td>
+<td style="text-align:left;vertical-align: top !important;" rowspan="5">
+METASHAPE
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+9.1<br>(4.4)
+</td>
+<td style="text-align:left;">
+13.3<br>(6.1)
+</td>
+<td style="text-align:left;">
+14.0<br>(6.2)
+</td>
+<td style="text-align:left;">
+17.5<br>(8.2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+2.2<br>(0.8)
+</td>
+<td style="text-align:left;">
+2.9<br>(0.9)
+</td>
+<td style="text-align:left;">
+3.2<br>(1.2)
+</td>
+<td style="text-align:left;">
+4.3<br>(1.2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+0.9<br>(0.3)
+</td>
+<td style="text-align:left;">
+1.0<br>(0.3)
+</td>
+<td style="text-align:left;">
+1.0<br>(0.4)
+</td>
+<td style="text-align:left;">
+1.3<br>(0.4)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.4<br>(0.1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lowest
+</td>
+<td style="text-align:left;">
+0.1<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.0)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="5">
+OPENDRONEMAP
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+2.8<br>(1.1)
+</td>
+<td style="text-align:left;">
+2.7<br>(1.0)
+</td>
+<td style="text-align:left;">
+2.4<br>(0.7)
+</td>
+<td style="text-align:left;">
+2.4<br>(0.9)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+0.7<br>(0.2)
+</td>
+<td style="text-align:left;">
+0.7<br>(0.2)
+</td>
+<td style="text-align:left;">
+0.7<br>(0.2)
+</td>
+<td style="text-align:left;">
+0.6<br>(0.2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.0)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lowest
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.2<br>(0.0)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;vertical-align: top !important;" rowspan="4">
+PIX4D
+</td>
+<td style="text-align:left;">
+ultra high
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+1.1<br>(0.4)
+</td>
+<td style="text-align:left;">
+3.8<br>(1.7)
+</td>
+<td style="text-align:left;">
+42.1<br>(31.0)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.9<br>(0.5)
+</td>
+<td style="text-align:left;">
+3.5<br>(1.6)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+0.1<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+<td style="text-align:left;">
+0.8<br>(0.3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+0.1<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.1<br>(0.0)
+</td>
+<td style="text-align:left;">
+0.3<br>(0.1)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="plot-summary" class="section level3 hasAnchor" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Plot summary<a href="ptcld_analysis.html#plot-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="ptcld_analysis.html#cb32-1" tabindex="-1"></a>table_temp <span class="ot">=</span> ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="ptcld_analysis.html#cb32-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb32-3"><a href="ptcld_analysis.html#cb32-3" tabindex="-1"></a>    <span class="co"># unique vars</span></span>
+<span id="cb32-4"><a href="ptcld_analysis.html#cb32-4" tabindex="-1"></a>    software, tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">&quot;depth_maps&quot;</span>), study_site</span>
+<span id="cb32-5"><a href="ptcld_analysis.html#cb32-5" tabindex="-1"></a>    <span class="co"># vars</span></span>
+<span id="cb32-6"><a href="ptcld_analysis.html#cb32-6" tabindex="-1"></a>    , number_of_points, timer_total_time_mins</span>
+<span id="cb32-7"><a href="ptcld_analysis.html#cb32-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-8"><a href="ptcld_analysis.html#cb32-8" tabindex="-1"></a>  <span class="co"># add area</span></span>
+<span id="cb32-9"><a href="ptcld_analysis.html#cb32-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb32-10"><a href="ptcld_analysis.html#cb32-10" tabindex="-1"></a>    ptcld_processing_data <span class="sc">%&gt;%</span> </span>
+<span id="cb32-11"><a href="ptcld_analysis.html#cb32-11" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb32-12"><a href="ptcld_analysis.html#cb32-12" tabindex="-1"></a>        <span class="at">las_area_m2 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb32-13"><a href="ptcld_analysis.html#cb32-13" tabindex="-1"></a>          <span class="fu">tolower</span>(software)<span class="sc">==</span><span class="st">&quot;metashape&quot;</span></span>
+<span id="cb32-14"><a href="ptcld_analysis.html#cb32-14" tabindex="-1"></a>            <span class="sc">&amp;</span> <span class="fu">tolower</span>(depth_maps_generation_quality)<span class="sc">==</span><span class="st">&quot;high&quot;</span> <span class="sc">~</span> las_area_m2</span>
+<span id="cb32-15"><a href="ptcld_analysis.html#cb32-15" tabindex="-1"></a>          , T <span class="sc">~</span> <span class="cn">NA</span></span>
+<span id="cb32-16"><a href="ptcld_analysis.html#cb32-16" tabindex="-1"></a>        )</span>
+<span id="cb32-17"><a href="ptcld_analysis.html#cb32-17" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-18"><a href="ptcld_analysis.html#cb32-18" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">group_by</span>(study_site) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-19"><a href="ptcld_analysis.html#cb32-19" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">las_area_m2 =</span> <span class="fu">median</span>(las_area_m2, <span class="at">na.rm =</span> T))</span>
+<span id="cb32-20"><a href="ptcld_analysis.html#cb32-20" tabindex="-1"></a>    , <span class="at">by =</span> <span class="st">&quot;study_site&quot;</span></span>
+<span id="cb32-21"><a href="ptcld_analysis.html#cb32-21" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-22"><a href="ptcld_analysis.html#cb32-22" tabindex="-1"></a>  <span class="co"># calculate per area metrics</span></span>
+<span id="cb32-23"><a href="ptcld_analysis.html#cb32-23" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb32-24"><a href="ptcld_analysis.html#cb32-24" tabindex="-1"></a>    <span class="at">number_of_points_m2 =</span> number_of_points<span class="sc">/</span>las_area_m2</span>
+<span id="cb32-25"><a href="ptcld_analysis.html#cb32-25" tabindex="-1"></a>    , <span class="at">timer_total_time_mins_ha =</span> timer_total_time_mins<span class="sc">/</span>(las_area_m2<span class="sc">/</span><span class="dv">10000</span>)</span>
+<span id="cb32-26"><a href="ptcld_analysis.html#cb32-26" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb32-27"><a href="ptcld_analysis.html#cb32-27" tabindex="-1"></a>  <span class="co"># summary</span></span>
+<span id="cb32-28"><a href="ptcld_analysis.html#cb32-28" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb32-29"><a href="ptcld_analysis.html#cb32-29" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="cf">function</span>(x){</span>
+<span id="cb32-30"><a href="ptcld_analysis.html#cb32-30" tabindex="-1"></a>      x <span class="sc">%&gt;%</span> </span>
+<span id="cb32-31"><a href="ptcld_analysis.html#cb32-31" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_quality&quot;</span>, <span class="st">&quot;quality&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-32"><a href="ptcld_analysis.html#cb32-32" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span>, <span class="st">&quot;filtering&quot;</span>)</span>
+<span id="cb32-33"><a href="ptcld_analysis.html#cb32-33" tabindex="-1"></a>    }</span>
+<span id="cb32-34"><a href="ptcld_analysis.html#cb32-34" tabindex="-1"></a>  ) </span>
+<span id="cb32-35"><a href="ptcld_analysis.html#cb32-35" tabindex="-1"></a></span>
+<span id="cb32-36"><a href="ptcld_analysis.html#cb32-36" tabindex="-1"></a><span class="co"># plot it?</span></span>
+<span id="cb32-37"><a href="ptcld_analysis.html#cb32-37" tabindex="-1"></a>p1_temp <span class="ot">=</span></span>
+<span id="cb32-38"><a href="ptcld_analysis.html#cb32-38" tabindex="-1"></a>  table_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb32-39"><a href="ptcld_analysis.html#cb32-39" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">quality =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(quality)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-40"><a href="ptcld_analysis.html#cb32-40" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> filtering, <span class="at">y =</span> timer_total_time_mins_ha, <span class="at">fill =</span> software)) <span class="sc">+</span></span>
+<span id="cb32-41"><a href="ptcld_analysis.html#cb32-41" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
+<span id="cb32-42"><a href="ptcld_analysis.html#cb32-42" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">group=</span>software, <span class="at">color =</span> software)</span>
+<span id="cb32-43"><a href="ptcld_analysis.html#cb32-43" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.4</span>)</span>
+<span id="cb32-44"><a href="ptcld_analysis.html#cb32-44" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-45"><a href="ptcld_analysis.html#cb32-45" tabindex="-1"></a>      , <span class="at">shape =</span> <span class="st">&quot;-&quot;</span>, <span class="at">size =</span> <span class="dv">5</span></span>
+<span id="cb32-46"><a href="ptcld_analysis.html#cb32-46" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-47"><a href="ptcld_analysis.html#cb32-47" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(</span>
+<span id="cb32-48"><a href="ptcld_analysis.html#cb32-48" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-49"><a href="ptcld_analysis.html#cb32-49" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="at">preserve =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb32-50"><a href="ptcld_analysis.html#cb32-50" tabindex="-1"></a>      , <span class="at">outliers =</span> F</span>
+<span id="cb32-51"><a href="ptcld_analysis.html#cb32-51" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-52"><a href="ptcld_analysis.html#cb32-52" tabindex="-1"></a>    <span class="co"># set vertical lines between x groups</span></span>
+<span id="cb32-53"><a href="ptcld_analysis.html#cb32-53" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(table_temp<span class="sc">$</span>filtering), <span class="at">by =</span> <span class="dv">1</span>), <span class="at">color=</span><span class="st">&quot;gray22&quot;</span>, <span class="at">lwd=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb32-54"><a href="ptcld_analysis.html#cb32-54" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(quality)) <span class="sc">+</span></span>
+<span id="cb32-55"><a href="ptcld_analysis.html#cb32-55" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-56"><a href="ptcld_analysis.html#cb32-56" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-57"><a href="ptcld_analysis.html#cb32-57" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(</span>
+<span id="cb32-58"><a href="ptcld_analysis.html#cb32-58" tabindex="-1"></a>      <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">suffix =</span> <span class="st">&quot; mins&quot;</span>, <span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb32-59"><a href="ptcld_analysis.html#cb32-59" tabindex="-1"></a>      , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb32-60"><a href="ptcld_analysis.html#cb32-60" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-61"><a href="ptcld_analysis.html#cb32-61" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb32-62"><a href="ptcld_analysis.html#cb32-62" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;quality&quot;</span></span>
+<span id="cb32-63"><a href="ptcld_analysis.html#cb32-63" tabindex="-1"></a>      , <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;Processing time (mins $</span><span class="sc">\\</span><span class="st">cdot ha^{-1}$)&quot;</span>)</span>
+<span id="cb32-64"><a href="ptcld_analysis.html#cb32-64" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-65"><a href="ptcld_analysis.html#cb32-65" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb32-66"><a href="ptcld_analysis.html#cb32-66" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb32-67"><a href="ptcld_analysis.html#cb32-67" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb32-68"><a href="ptcld_analysis.html#cb32-68" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb32-69"><a href="ptcld_analysis.html#cb32-69" tabindex="-1"></a>      , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-70"><a href="ptcld_analysis.html#cb32-70" tabindex="-1"></a>      , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-71"><a href="ptcld_analysis.html#cb32-71" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb32-72"><a href="ptcld_analysis.html#cb32-72" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-73"><a href="ptcld_analysis.html#cb32-73" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-74"><a href="ptcld_analysis.html#cb32-74" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
+<span id="cb32-75"><a href="ptcld_analysis.html#cb32-75" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
+<span id="cb32-76"><a href="ptcld_analysis.html#cb32-76" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb32-77"><a href="ptcld_analysis.html#cb32-77" tabindex="-1"></a>    )</span>
+<span id="cb32-78"><a href="ptcld_analysis.html#cb32-78" tabindex="-1"></a><span class="co"># plot it?</span></span>
+<span id="cb32-79"><a href="ptcld_analysis.html#cb32-79" tabindex="-1"></a>p2_temp <span class="ot">=</span></span>
+<span id="cb32-80"><a href="ptcld_analysis.html#cb32-80" tabindex="-1"></a>  table_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb32-81"><a href="ptcld_analysis.html#cb32-81" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">quality =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(quality)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-82"><a href="ptcld_analysis.html#cb32-82" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> filtering, <span class="at">y =</span> number_of_points_m2, <span class="at">fill =</span> software)) <span class="sc">+</span></span>
+<span id="cb32-83"><a href="ptcld_analysis.html#cb32-83" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
+<span id="cb32-84"><a href="ptcld_analysis.html#cb32-84" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">group=</span>software, <span class="at">color =</span> software)</span>
+<span id="cb32-85"><a href="ptcld_analysis.html#cb32-85" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.4</span>)</span>
+<span id="cb32-86"><a href="ptcld_analysis.html#cb32-86" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-87"><a href="ptcld_analysis.html#cb32-87" tabindex="-1"></a>      , <span class="at">shape =</span> <span class="st">&quot;-&quot;</span>, <span class="at">size =</span> <span class="dv">5</span></span>
+<span id="cb32-88"><a href="ptcld_analysis.html#cb32-88" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-89"><a href="ptcld_analysis.html#cb32-89" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(</span>
+<span id="cb32-90"><a href="ptcld_analysis.html#cb32-90" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-91"><a href="ptcld_analysis.html#cb32-91" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="at">preserve =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb32-92"><a href="ptcld_analysis.html#cb32-92" tabindex="-1"></a>      , <span class="at">outliers =</span> F</span>
+<span id="cb32-93"><a href="ptcld_analysis.html#cb32-93" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-94"><a href="ptcld_analysis.html#cb32-94" tabindex="-1"></a>    <span class="co"># set vertical lines between x groups</span></span>
+<span id="cb32-95"><a href="ptcld_analysis.html#cb32-95" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(table_temp<span class="sc">$</span>filtering), <span class="at">by =</span> <span class="dv">1</span>), <span class="at">color=</span><span class="st">&quot;gray22&quot;</span>, <span class="at">lwd=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb32-96"><a href="ptcld_analysis.html#cb32-96" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(quality)) <span class="sc">+</span></span>
+<span id="cb32-97"><a href="ptcld_analysis.html#cb32-97" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-98"><a href="ptcld_analysis.html#cb32-98" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-99"><a href="ptcld_analysis.html#cb32-99" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(</span>
+<span id="cb32-100"><a href="ptcld_analysis.html#cb32-100" tabindex="-1"></a>      <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb32-101"><a href="ptcld_analysis.html#cb32-101" tabindex="-1"></a>      , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb32-102"><a href="ptcld_analysis.html#cb32-102" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-103"><a href="ptcld_analysis.html#cb32-103" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb32-104"><a href="ptcld_analysis.html#cb32-104" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;quality&quot;</span></span>
+<span id="cb32-105"><a href="ptcld_analysis.html#cb32-105" tabindex="-1"></a>      , <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;Point density (points $</span><span class="sc">\\</span><span class="st">cdot m^{2}$)&quot;</span>)</span>
+<span id="cb32-106"><a href="ptcld_analysis.html#cb32-106" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-107"><a href="ptcld_analysis.html#cb32-107" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb32-108"><a href="ptcld_analysis.html#cb32-108" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb32-109"><a href="ptcld_analysis.html#cb32-109" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb32-110"><a href="ptcld_analysis.html#cb32-110" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb32-111"><a href="ptcld_analysis.html#cb32-111" tabindex="-1"></a>      , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-112"><a href="ptcld_analysis.html#cb32-112" tabindex="-1"></a>      , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-113"><a href="ptcld_analysis.html#cb32-113" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb32-114"><a href="ptcld_analysis.html#cb32-114" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-115"><a href="ptcld_analysis.html#cb32-115" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-116"><a href="ptcld_analysis.html#cb32-116" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
+<span id="cb32-117"><a href="ptcld_analysis.html#cb32-117" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
+<span id="cb32-118"><a href="ptcld_analysis.html#cb32-118" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb32-119"><a href="ptcld_analysis.html#cb32-119" tabindex="-1"></a>    )</span>
+<span id="cb32-120"><a href="ptcld_analysis.html#cb32-120" tabindex="-1"></a><span class="co"># combine plots</span></span>
+<span id="cb32-121"><a href="ptcld_analysis.html#cb32-121" tabindex="-1"></a>p2_temp <span class="sc">/</span> p1_temp <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-13-1.png" width="1008" /></p>
 
+</div>
 </div>
 </div>
             </section>
