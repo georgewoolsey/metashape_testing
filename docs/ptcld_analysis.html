@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_17decb-1/data_stars_canopyhtm7826cb.txt"></script>
+<script src="libs/canopy ht. (m)_f501c4-1/data_stars_canopyhtm9be17d.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -1519,58 +1519,61 @@ NA
 <span id="cb32-68"><a href="ptcld_analysis.html#cb32-68" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb32-69"><a href="ptcld_analysis.html#cb32-69" tabindex="-1"></a>      , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
 <span id="cb32-70"><a href="ptcld_analysis.html#cb32-70" tabindex="-1"></a>      , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb32-71"><a href="ptcld_analysis.html#cb32-71" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb32-72"><a href="ptcld_analysis.html#cb32-72" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb32-73"><a href="ptcld_analysis.html#cb32-73" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-74"><a href="ptcld_analysis.html#cb32-74" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb32-75"><a href="ptcld_analysis.html#cb32-75" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb32-76"><a href="ptcld_analysis.html#cb32-76" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb32-77"><a href="ptcld_analysis.html#cb32-77" tabindex="-1"></a>    )</span>
-<span id="cb32-78"><a href="ptcld_analysis.html#cb32-78" tabindex="-1"></a><span class="co"># plot it?</span></span>
-<span id="cb32-79"><a href="ptcld_analysis.html#cb32-79" tabindex="-1"></a>p2_temp <span class="ot">=</span></span>
-<span id="cb32-80"><a href="ptcld_analysis.html#cb32-80" tabindex="-1"></a>  table_temp <span class="sc">%&gt;%</span> </span>
-<span id="cb32-81"><a href="ptcld_analysis.html#cb32-81" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">quality =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(quality)) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-82"><a href="ptcld_analysis.html#cb32-82" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> filtering, <span class="at">y =</span> number_of_points_m2, <span class="at">fill =</span> software)) <span class="sc">+</span></span>
-<span id="cb32-83"><a href="ptcld_analysis.html#cb32-83" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
-<span id="cb32-84"><a href="ptcld_analysis.html#cb32-84" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">group=</span>software, <span class="at">color =</span> software)</span>
-<span id="cb32-85"><a href="ptcld_analysis.html#cb32-85" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.4</span>)</span>
-<span id="cb32-86"><a href="ptcld_analysis.html#cb32-86" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb32-87"><a href="ptcld_analysis.html#cb32-87" tabindex="-1"></a>      , <span class="at">shape =</span> <span class="st">&quot;-&quot;</span>, <span class="at">size =</span> <span class="dv">5</span></span>
-<span id="cb32-88"><a href="ptcld_analysis.html#cb32-88" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-89"><a href="ptcld_analysis.html#cb32-89" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(</span>
-<span id="cb32-90"><a href="ptcld_analysis.html#cb32-90" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb32-91"><a href="ptcld_analysis.html#cb32-91" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="at">preserve =</span> <span class="st">&quot;single&quot;</span>)</span>
-<span id="cb32-92"><a href="ptcld_analysis.html#cb32-92" tabindex="-1"></a>      , <span class="at">outliers =</span> F</span>
-<span id="cb32-93"><a href="ptcld_analysis.html#cb32-93" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-94"><a href="ptcld_analysis.html#cb32-94" tabindex="-1"></a>    <span class="co"># set vertical lines between x groups</span></span>
-<span id="cb32-95"><a href="ptcld_analysis.html#cb32-95" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(table_temp<span class="sc">$</span>filtering), <span class="at">by =</span> <span class="dv">1</span>), <span class="at">color=</span><span class="st">&quot;gray22&quot;</span>, <span class="at">lwd=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb32-96"><a href="ptcld_analysis.html#cb32-96" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(quality)) <span class="sc">+</span></span>
-<span id="cb32-97"><a href="ptcld_analysis.html#cb32-97" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
-<span id="cb32-98"><a href="ptcld_analysis.html#cb32-98" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
-<span id="cb32-99"><a href="ptcld_analysis.html#cb32-99" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(</span>
-<span id="cb32-100"><a href="ptcld_analysis.html#cb32-100" tabindex="-1"></a>      <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
-<span id="cb32-101"><a href="ptcld_analysis.html#cb32-101" tabindex="-1"></a>      , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
-<span id="cb32-102"><a href="ptcld_analysis.html#cb32-102" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-103"><a href="ptcld_analysis.html#cb32-103" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb32-104"><a href="ptcld_analysis.html#cb32-104" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;quality&quot;</span></span>
-<span id="cb32-105"><a href="ptcld_analysis.html#cb32-105" tabindex="-1"></a>      , <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;Point density (points $</span><span class="sc">\\</span><span class="st">cdot m^{2}$)&quot;</span>)</span>
-<span id="cb32-106"><a href="ptcld_analysis.html#cb32-106" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-107"><a href="ptcld_analysis.html#cb32-107" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb32-108"><a href="ptcld_analysis.html#cb32-108" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb32-109"><a href="ptcld_analysis.html#cb32-109" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span></span>
-<span id="cb32-110"><a href="ptcld_analysis.html#cb32-110" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb32-111"><a href="ptcld_analysis.html#cb32-111" tabindex="-1"></a>      , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb32-112"><a href="ptcld_analysis.html#cb32-112" tabindex="-1"></a>      , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb32-113"><a href="ptcld_analysis.html#cb32-113" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb32-114"><a href="ptcld_analysis.html#cb32-114" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb32-115"><a href="ptcld_analysis.html#cb32-115" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb32-116"><a href="ptcld_analysis.html#cb32-116" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
-<span id="cb32-117"><a href="ptcld_analysis.html#cb32-117" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
-<span id="cb32-118"><a href="ptcld_analysis.html#cb32-118" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb32-119"><a href="ptcld_analysis.html#cb32-119" tabindex="-1"></a>    )</span>
-<span id="cb32-120"><a href="ptcld_analysis.html#cb32-120" tabindex="-1"></a><span class="co"># combine plots</span></span>
-<span id="cb32-121"><a href="ptcld_analysis.html#cb32-121" tabindex="-1"></a>p2_temp <span class="sc">/</span> p1_temp <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<span id="cb32-71"><a href="ptcld_analysis.html#cb32-71" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb32-72"><a href="ptcld_analysis.html#cb32-72" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb32-73"><a href="ptcld_analysis.html#cb32-73" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-74"><a href="ptcld_analysis.html#cb32-74" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-75"><a href="ptcld_analysis.html#cb32-75" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
+<span id="cb32-76"><a href="ptcld_analysis.html#cb32-76" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
+<span id="cb32-77"><a href="ptcld_analysis.html#cb32-77" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb32-78"><a href="ptcld_analysis.html#cb32-78" tabindex="-1"></a>    )</span>
+<span id="cb32-79"><a href="ptcld_analysis.html#cb32-79" tabindex="-1"></a><span class="co"># plot it?</span></span>
+<span id="cb32-80"><a href="ptcld_analysis.html#cb32-80" tabindex="-1"></a>p2_temp <span class="ot">=</span></span>
+<span id="cb32-81"><a href="ptcld_analysis.html#cb32-81" tabindex="-1"></a>  table_temp <span class="sc">%&gt;%</span> </span>
+<span id="cb32-82"><a href="ptcld_analysis.html#cb32-82" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">quality =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(quality)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-83"><a href="ptcld_analysis.html#cb32-83" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> filtering, <span class="at">y =</span> number_of_points_m2, <span class="at">fill =</span> software)) <span class="sc">+</span></span>
+<span id="cb32-84"><a href="ptcld_analysis.html#cb32-84" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
+<span id="cb32-85"><a href="ptcld_analysis.html#cb32-85" tabindex="-1"></a>      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">group=</span>software, <span class="at">color =</span> software)</span>
+<span id="cb32-86"><a href="ptcld_analysis.html#cb32-86" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_nudge</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.4</span>)</span>
+<span id="cb32-87"><a href="ptcld_analysis.html#cb32-87" tabindex="-1"></a>      , <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-88"><a href="ptcld_analysis.html#cb32-88" tabindex="-1"></a>      , <span class="at">shape =</span> <span class="st">&quot;-&quot;</span>, <span class="at">size =</span> <span class="dv">5</span></span>
+<span id="cb32-89"><a href="ptcld_analysis.html#cb32-89" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-90"><a href="ptcld_analysis.html#cb32-90" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(</span>
+<span id="cb32-91"><a href="ptcld_analysis.html#cb32-91" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb32-92"><a href="ptcld_analysis.html#cb32-92" tabindex="-1"></a>      , <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="at">preserve =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb32-93"><a href="ptcld_analysis.html#cb32-93" tabindex="-1"></a>      , <span class="at">outliers =</span> F</span>
+<span id="cb32-94"><a href="ptcld_analysis.html#cb32-94" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-95"><a href="ptcld_analysis.html#cb32-95" tabindex="-1"></a>    <span class="co"># set vertical lines between x groups</span></span>
+<span id="cb32-96"><a href="ptcld_analysis.html#cb32-96" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(table_temp<span class="sc">$</span>filtering), <span class="at">by =</span> <span class="dv">1</span>), <span class="at">color=</span><span class="st">&quot;gray22&quot;</span>, <span class="at">lwd=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb32-97"><a href="ptcld_analysis.html#cb32-97" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(quality)) <span class="sc">+</span></span>
+<span id="cb32-98"><a href="ptcld_analysis.html#cb32-98" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-99"><a href="ptcld_analysis.html#cb32-99" tabindex="-1"></a>    <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;rocket&quot;</span>, <span class="at">begin =</span> <span class="fl">0.3</span>, <span class="at">end =</span> <span class="fl">0.9</span>, <span class="at">drop =</span> F) <span class="sc">+</span></span>
+<span id="cb32-100"><a href="ptcld_analysis.html#cb32-100" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(</span>
+<span id="cb32-101"><a href="ptcld_analysis.html#cb32-101" tabindex="-1"></a>      <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb32-102"><a href="ptcld_analysis.html#cb32-102" tabindex="-1"></a>      , <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_log</span>(<span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb32-103"><a href="ptcld_analysis.html#cb32-103" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-104"><a href="ptcld_analysis.html#cb32-104" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb32-105"><a href="ptcld_analysis.html#cb32-105" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;quality&quot;</span></span>
+<span id="cb32-106"><a href="ptcld_analysis.html#cb32-106" tabindex="-1"></a>      , <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;Point density (points $</span><span class="sc">\\</span><span class="st">cdot m^{2}$)&quot;</span>)</span>
+<span id="cb32-107"><a href="ptcld_analysis.html#cb32-107" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-108"><a href="ptcld_analysis.html#cb32-108" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb32-109"><a href="ptcld_analysis.html#cb32-109" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb32-110"><a href="ptcld_analysis.html#cb32-110" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span></span>
+<span id="cb32-111"><a href="ptcld_analysis.html#cb32-111" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb32-112"><a href="ptcld_analysis.html#cb32-112" tabindex="-1"></a>      , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-113"><a href="ptcld_analysis.html#cb32-113" tabindex="-1"></a>      , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb32-114"><a href="ptcld_analysis.html#cb32-114" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb32-115"><a href="ptcld_analysis.html#cb32-115" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb32-116"><a href="ptcld_analysis.html#cb32-116" tabindex="-1"></a>      , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb32-117"><a href="ptcld_analysis.html#cb32-117" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb32-118"><a href="ptcld_analysis.html#cb32-118" tabindex="-1"></a>    <span class="fu">guides</span>(</span>
+<span id="cb32-119"><a href="ptcld_analysis.html#cb32-119" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> T, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="cn">NA</span>, <span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
+<span id="cb32-120"><a href="ptcld_analysis.html#cb32-120" tabindex="-1"></a>      , <span class="at">color =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb32-121"><a href="ptcld_analysis.html#cb32-121" tabindex="-1"></a>    )</span>
+<span id="cb32-122"><a href="ptcld_analysis.html#cb32-122" tabindex="-1"></a><span class="co"># combine plots</span></span>
+<span id="cb32-123"><a href="ptcld_analysis.html#cb32-123" tabindex="-1"></a>p2_temp <span class="sc">/</span> p1_temp <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>) <span class="sc">&amp;</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-13-1.png" width="1008" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="ptcld_analysis.html#cb33-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/ptcld_summary_stats.png&quot;</span>, <span class="at">height =</span> <span class="fl">8.5</span>, <span class="at">width =</span> <span class="dv">11</span>)</span></code></pre></div>
 
 </div>
 </div>

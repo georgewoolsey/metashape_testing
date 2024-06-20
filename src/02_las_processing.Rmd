@@ -640,6 +640,7 @@ p1_temp =
       , legend.direction  = "horizontal"
       , panel.grid.major.x = element_blank()
       , panel.grid.minor.x = element_blank()
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 7)
       , strip.text = element_text(color = "black", face = "bold")
       , plot.subtitle = element_text(hjust = 0.5)
     ) +
@@ -682,6 +683,7 @@ p2_temp =
       , legend.direction  = "horizontal"
       , panel.grid.major.x = element_blank()
       , panel.grid.minor.x = element_blank()
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 7)
       , strip.text = element_text(color = "black", face = "bold")
       , plot.subtitle = element_text(hjust = 0.5)
     ) +
@@ -691,5 +693,6 @@ p2_temp =
     )
 # combine plots
 p2_temp / p1_temp + patchwork::plot_layout(guides = "collect") & theme(legend.position = "bottom")
+ggplot2::ggsave("../data/ptcld_summary_stats.png", height = 8.5, width = 11)
 ```
 
