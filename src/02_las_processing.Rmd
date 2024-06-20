@@ -675,7 +675,7 @@ p2_temp =
     ) +
     labs(
       subtitle = "quality"
-      , y = latex2exp::TeX("Point density (points $\\cdot m^{2}$)")
+      , y = latex2exp::TeX("Point density (points $\\cdot m^{-2}$)")
     ) +
     theme_light() +
     theme(
