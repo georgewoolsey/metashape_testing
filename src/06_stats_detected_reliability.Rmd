@@ -436,7 +436,7 @@ gc()
     ) +
     labs(
       x = "filtering mode"
-      , y = "depth map quality"
+      , y = "quality"
       , fill = "Height Mean Error (m)"
       , title = "mean height mean error (m) and # of study sites"
       , subtitle = paste(
@@ -494,7 +494,7 @@ gc()
     ) +
     labs(
       x = "filtering mode"
-      , y = "depth map quality"
+      , y = "quality"
       , fill = "Height RMSE (m)"
       , title = "mean height RMSE (m) and # of study sites"
     ) +
@@ -1335,7 +1335,7 @@ fltr_sftwr_draws_temp %>%
     ) +
     labs(
       x = "filtering mode"
-      , y = "depth map quality"
+      , y = "quality"
       , fill = "DBH Mean Error (cm)"
       , title = "mean DBH mean error (cm) and # of study sites"
       , subtitle = paste(
@@ -1393,7 +1393,7 @@ fltr_sftwr_draws_temp %>%
     ) +
     labs(
       x = "filtering mode"
-      , y = "depth map quality"
+      , y = "quality"
       , fill = "DBH RMSE (cm)"
       , title = "mean DBH RMSE (cm) and # of study sites"
     ) +

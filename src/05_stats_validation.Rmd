@@ -333,7 +333,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "inferno", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -500,7 +500,7 @@ brms_contrast_temp %>%
     ) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8), expand = expansion(mult = c(0.1,0.2))) +
     labs(
-      y = "depth map quality"
+      y = "quality"
       , x = "constrast (F-score)"
       , fill = "Pr(contrast)"
       , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
@@ -837,7 +837,7 @@ ptcld_validation_data %>%
     digits = 2
     , caption = "summary statistics: F-score by depth map quality and filtering mode"
     , col.names = c(
-      "depth map quality"
+      "quality"
       , "filtering mode"
       , "mean f-score"
       , "sd"
@@ -1106,7 +1106,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 2.1
   , x_expand = c(0,0.65)
@@ -1172,7 +1172,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "inferno", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -1204,7 +1204,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:2]) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -1244,7 +1244,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "plasma", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "filtering mode", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -1318,7 +1318,7 @@ ptcld_validation_data %>%
     digits = 2
     , caption = "summary statistics: F-score by depth map quality, filtering mode, and software"
     , col.names = c(
-      "depth map quality"
+      "quality"
       , "filtering mode"
       , "software"
       , "mean f-score"
@@ -1356,7 +1356,7 @@ ptcld_validation_data %>%
   scale_fill_viridis_c(option = "cividis", begin = 0.3, end = 0.9) +
   labs(
     x = "filtering mode"
-    , y = "depth map quality"
+    , y = "quality"
     , fill = "F-score"
     , subtitle = "mean F-score and # of study sites"
   ) +
@@ -1682,7 +1682,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 2.1
   , x_expand = c(0,0.6)
@@ -1818,7 +1818,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "software"
   , label_size = 2.2
   , x_expand = c(0,0.5)
@@ -1880,7 +1880,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "inferno", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -1919,7 +1919,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:3]) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -1955,7 +1955,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "plasma", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "filtering mode", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -1990,7 +1990,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:3]) +
   labs(
-    y = "filtering mode", x = "f-score"
+    y = "filtering mode", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -2026,7 +2026,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "software", x = "f-score"
+      y = "software", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -2396,7 +2396,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 2.2
   , x_expand = c(-0.1,0.43)
@@ -2543,7 +2543,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "software"
   , label_size = 2.1
   , x_expand = c(0,0.5)
@@ -2689,7 +2689,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
-      , "depth map quality"
+      , "quality"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
@@ -2726,7 +2726,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "inferno", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -2773,7 +2773,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[1:4]) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -2809,7 +2809,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "plasma", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "filtering mode", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -2852,7 +2852,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:4]) +
   labs(
-    y = "filtering mode", x = "f-score"
+    y = "filtering mode", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -2888,7 +2888,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "software", x = "f-score"
+      y = "software", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -2923,7 +2923,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[3:4]) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -2988,7 +2988,7 @@ ptcld_validation_data %>%
   geom_hline(yintercept = 0) +
   geom_vline(xintercept = c(0,1)) +
   geom_density(fill = "lightblue", alpha = 0.7, color = NA) +
-  labs(y="",x="f-score") +
+  labs(y="",x="F-score") +
   scale_y_continuous(breaks = c(0)) +
   scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(10)) +
   theme_light() +
@@ -3330,7 +3330,7 @@ brms::as_draws_df(brms_f_mod5) %>%
   scale_y_continuous(NULL, breaks = NULL) +
   labs(
     x = latex2exp::TeX("$\\phi$")
-    , caption = form_temp
+    # , caption = form_temp
   ) +
   theme_light()
 
@@ -3356,7 +3356,8 @@ qlty_filter_draws_temp =
         (1 | depth_maps_generation_filtering_mode) + 
         (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode)
     ) %>% 
-    dplyr::rename(value = .epred)
+    dplyr::rename(value = .epred) %>% 
+    dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # plot
   qlty_filter_draws_temp %>% 
     dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
@@ -3364,23 +3365,25 @@ qlty_filter_draws_temp =
   ggplot(
     mapping = aes(
       y = value, x = depth_maps_generation_filtering_mode
-      , fill = depth_maps_generation_filtering_mode
+      # , fill = depth_maps_generation_filtering_mode
+      , fill = med
     )
   ) +
     tidybayes::stat_eye(
       point_interval = median_hdi, .width = .95
-      , slab_alpha = 0.8
+      , slab_alpha = 0.95
       , interval_color = "black", linewidth = 1
       , point_color = "black", point_fill = "black", point_size = 1
     ) +
-    scale_fill_viridis_d(option = "plasma", drop = F) +
-    scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+    # scale_fill_viridis_d(option = "plasma", drop = F) +
+    scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+    scale_y_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
       , fill = "Filtering Mode"
-      , caption = form_temp
+      # , caption = form_temp
     ) +
     theme_light() +
     theme(
@@ -3451,8 +3454,9 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 2.0
   , x_expand = c(0,0.6)
@@ -3510,27 +3514,32 @@ ptcld_validation_data %>%
       (1 | depth_maps_generation_quality:software)
   ) %>% 
   dplyr::rename(value = .epred) %>% 
-  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+  dplyr::mutate(
+    med = tidybayes::median_hdci(value)$y
+    , depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()
+  ) %>% 
   # plot
   ggplot(
     mapping = aes(
       y = value, x = software
-      , fill = software
+      # , fill = software
+      , fill = med
     )
   ) +
   tidybayes::stat_eye(
     point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.8
+    , slab_alpha = 0.95
     , interval_color = "black", linewidth = 1
     , point_color = "black", point_fill = "black", point_size = 1
   ) +
-  scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
-  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  # scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+  scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
-    , caption = form_temp
+    # , caption = form_temp
   ) +
   theme_light() +
   theme(
@@ -3619,8 +3628,9 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
   , facet = "software"
   , label_size = 2.0
   , x_expand = c(0.56,0.9) # c(0,0.7)
@@ -3705,7 +3715,8 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
+  brms_contrast_temp
+  # , caption_text = form_temp
   , y_axis_title = "software"
   , facet = "depth_maps_generation_quality"
   , label_size = 2.0
@@ -3741,7 +3752,7 @@ table_temp %>%
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
-      "depth map quality"
+      "quality"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
@@ -3772,29 +3783,32 @@ fltr_sftwr_draws_temp = ptcld_validation_data %>%
       (1 | software) + 
       (1 | depth_maps_generation_filtering_mode:software)
   ) %>% 
-  dplyr::rename(value = .epred)
+  dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 
   # plot
 fltr_sftwr_draws_temp %>% 
   ggplot(
     mapping = aes(
       y = value, x = software
-      , fill = software
+      # , fill = software
+      , fill = med
     )
   ) +
   tidybayes::stat_eye(
     point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.8
+    , slab_alpha = 0.95
     , interval_color = "black", linewidth = 1
     , point_color = "black", point_fill = "black", point_size = 1
   ) +
-  scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
-  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  # scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+  scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
   facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
   labs(
     x = "software", y = "F-score"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
-    , caption = form_temp
+    # , caption = form_temp
   ) +
   theme_light() +
   theme(
@@ -3859,7 +3873,8 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
+  brms_contrast_temp
+  # , caption_text = form_temp
   , y_axis_title = "filtering mode"
   , facet = "software"
   , label_size = 2.0
@@ -3930,7 +3945,8 @@ fltr_sftwr_draws_temp =
     # three-way interactions
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   ) %>% 
-  dplyr::rename(value = .epred)
+  dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # let's add the grand mean to the plot for reference
 grand_mean_temp = brms::posterior_summary(brms_f_mod5) %>% 
   as.data.frame() %>% 
@@ -3952,18 +3968,20 @@ fltr_sftwr_draws_temp %>%
     mapping = aes(
       y = value
       , x = depth_maps_generation_filtering_mode
-      , fill = depth_maps_generation_filtering_mode
+      # , fill = depth_maps_generation_filtering_mode
+      , fill = med
     )
   ) +
   geom_hline(yintercept = grand_mean_temp, color = "gray33") +
   tidybayes::stat_eye(
     point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.8
+    , slab_alpha = 0.95
     , interval_color = "black", linewidth = 1
     , point_color = "black", point_fill = "black", point_size = 1
   ) +
-  scale_fill_viridis_d(option = "plasma", drop = F) +
-  scale_y_continuous(breaks = scales::extended_breaks(n=10)) +
+  # scale_fill_viridis_d(option = "plasma", drop = F) +
+  scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
   facet_grid(
     rows = vars(software)
     , cols = vars(depth_maps_generation_quality)
@@ -3973,12 +3991,12 @@ fltr_sftwr_draws_temp %>%
     fill = ""
     , x = "filtering mode", y = "F-score"
     # , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
-    , subtitle = "depth map quality"
+    , subtitle = "quality"
     # , caption = form_temp
   ) +
   theme_light() +
   theme(
-    legend.position = "bottom"
+    legend.position = "none"
     , legend.direction  = "horizontal"
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
@@ -4017,7 +4035,7 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional means"
     , col.names = c(
       "quality", "filtering"
-      , "f-score"
+      , "F-score"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -4124,11 +4142,13 @@ ptcld_validation_data %>%
     , re_formula = ~ (1 | depth_maps_generation_quality)
   ) %>% 
   dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y) %>% 
   # plot
   ggplot(
     mapping = aes(
       x = value, y = depth_maps_generation_quality
-      , fill = depth_maps_generation_quality
+      # , fill = depth_maps_generation_quality
+      , fill = med
     )
   ) +
     tidybayes::stat_halfeye(
@@ -4137,12 +4157,14 @@ ptcld_validation_data %>%
       , shape = 21, point_color = "gray66", point_fill = "black"
       , justification = -0.01
     ) +
-    scale_fill_viridis_d(option = "inferno", drop = F) +
-    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    # scale_fill_viridis_d(option = "inferno", drop = F) +
+    scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+    scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
+    # scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
-      , caption = form_temp
+      # , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -4196,7 +4218,7 @@ ptcld_validation_data %>%
   # scale_color_viridis_d(option = "turbo", begin = 0.2, end = 0.8) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -4266,8 +4288,9 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
 )
 
 ```
@@ -4307,11 +4330,13 @@ ptcld_validation_data %>%
     , re_formula = ~ (1 | depth_maps_generation_filtering_mode)
   ) %>% 
   dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y) %>% 
   # plot
   ggplot(
     mapping = aes(
       x = value, y = depth_maps_generation_filtering_mode
-      , fill = depth_maps_generation_filtering_mode
+      # , fill = depth_maps_generation_filtering_mode
+      , fill = med
     )
   ) +
     tidybayes::stat_halfeye(
@@ -4320,12 +4345,13 @@ ptcld_validation_data %>%
       , shape = 21, point_color = "gray66", point_fill = "black"
       , justification = -0.01
     ) +
-    scale_fill_viridis_d(option = "plasma", drop = F) +
-    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    # scale_fill_viridis_d(option = "plasma", drop = F) +
+    scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+    scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "filtering mode", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
-      , caption = form_temp
+      # , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -4374,7 +4400,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[2:5]) +
   labs(
-    y = "filtering mode", x = "f-score"
+    y = "filtering mode", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -4443,7 +4469,8 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
+  brms_contrast_temp
+  # , caption_text = form_temp
   , y_axis_title = "filtering mode"
 )
 ```
@@ -4483,11 +4510,13 @@ ptcld_validation_data %>%
     , re_formula = ~ (1 | software)
   ) %>% 
   dplyr::rename(value = .epred) %>% 
+  dplyr::mutate(med = tidybayes::median_hdci(value)$y) %>% 
   # plot
   ggplot(
     mapping = aes(
       x = value, y = software
-      , fill = software
+      # , fill = software
+      , fill = med
     )
   ) +
     tidybayes::stat_halfeye(
@@ -4496,12 +4525,13 @@ ptcld_validation_data %>%
       , shape = 21, point_color = "gray66", point_fill = "black"
       , justification = -0.01
     ) +
-    scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
-    scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
+    # scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
+    scale_fill_viridis_c(option = "mako", direction=-1, begin = 0.2, end = 0.8, limits = c(0,1)) +
+    scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "software", x = "f-score"
+      y = "software", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
-      , caption = form_temp
+      # , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
@@ -4542,7 +4572,7 @@ ptcld_validation_data %>%
   scale_y_discrete(NULL, breaks = NULL) +
   scale_color_manual(values = viridis::turbo(n = 6, begin = 0.2, end = 0.8)[3:5]) +
   labs(
-    y = "", x = "f-score"
+    y = "", x = "F-score"
     , color = "model"
   ) +
   theme_light() +
@@ -4580,7 +4610,8 @@ plot it
 
 ```{r}
 plt_contrast(
-  brms_contrast_temp, caption_text = form_temp
+  brms_contrast_temp
+  # , caption_text = form_temp
   , y_axis_title = "software"
 )
 ```
@@ -4637,7 +4668,9 @@ brms::as_draws_df(brms_f_mod5) %>%
     , shape = 21 #, point_size = 3
     , quantiles = 100
   ) +
-  labs(x = "", y = "", caption = form_temp) +
+  labs(x = "", y = ""
+       # , caption = form_temp
+  ) +
   theme_light()
 ```
 
@@ -5175,7 +5208,7 @@ plt_tile_fn_temp = function(ss = "overstory"){
     ) +
     labs(
       x = "filtering mode"
-      , y = "depth map quality"
+      , y = "quality"
       , fill = "F-score"
       , subtitle = "mean F-score and # of study sites"
       , title = toupper(ss)
@@ -5462,7 +5495,7 @@ ou_ptcld_validation_data %>%
     scale_fill_viridis_d(option = "viridis", begin = 0.3, end = 0.7, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "", x = "f-score"
+      y = "", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -5489,7 +5522,7 @@ ou_ptcld_validation_data %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean F-score"
     , col.names = c(
       ""
-      , "f-score"
+      , "F-score"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -5812,7 +5845,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 2.0
   , x_expand = c(0,0.6)
@@ -5980,7 +6013,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
   , facet = "software"
   , label_size = 2.2
   , x_expand = c(0.46,0.75)
@@ -6097,7 +6130,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
-      , "depth map quality"
+      , "quality"
       , "difference (f-score)"
       , "conf.low", "conf.high"
     )
@@ -6446,7 +6479,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "inferno", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "depth map quality", x = "f-score"
+      y = "quality", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -6517,7 +6550,7 @@ plot it
 ```{r}
 plt_contrast(
   brms_contrast_temp, caption_text = form_temp
-  , y_axis_title = "depth map quality"
+  , y_axis_title = "quality"
 )
 
 ```
@@ -6573,7 +6606,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "plasma", drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "filtering mode", x = "f-score"
+      y = "filtering mode", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +
@@ -6698,7 +6731,7 @@ ptcld_validation_data %>%
     scale_fill_viridis_d(option = "rocket", begin = 0.3, end = 0.9, drop = F) +
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
-      y = "software", x = "f-score"
+      y = "software", x = "F-score"
       , subtitle = "posterior distribution of conditional means with 95% HDI"
       , caption = form_temp
     ) +

@@ -633,6 +633,7 @@ p1_temp =
     labs(
       subtitle = "quality"
       , y = latex2exp::TeX("Processing time (mins $\\cdot ha^{-1}$)")
+      , x = "filtering mode"
     ) +
     theme_light() +
     theme(
@@ -676,6 +677,7 @@ p2_temp =
     labs(
       subtitle = "quality"
       , y = latex2exp::TeX("Point density (points $\\cdot m^{-2}$)")
+      , x = "filtering mode"
     ) +
     theme_light() +
     theme(
