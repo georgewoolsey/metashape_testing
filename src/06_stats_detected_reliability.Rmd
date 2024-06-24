@@ -14,8 +14,8 @@ We will used the same model structure for all dependent variables of interest in
 
 * Height Mean Error (m)
 * Height RMSE (m)
-* DBH Mean Error (m)
-* DBH RMSE (m)
+* DBH Mean Error (cm)
+* DBH RMSE (cm)
 
 [Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) describes the Hierarchical Bayesian approach to describe groups of metric data with multiple nominal predictors when every subject ("study site" in our research) only contributes one observation per cell/condition: 
 
@@ -875,7 +875,7 @@ and a table of these 95% HDI values
 
 ```{r}
 # sort it
-fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
+table_temp = fltr_sftwr_draws_temp %>%
   tidybayes::median_hdi(value) %>%
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
@@ -883,7 +883,7 @@ fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
   ) %>% 
   dplyr::arrange(software,depth_maps_generation_quality, depth_maps_generation_filtering_mode)
 # table it
-fltr_sftwr_draws_temp %>%
+table_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row,software)) %>% 
   kableExtra::kbl(
     digits = 2
@@ -895,7 +895,7 @@ fltr_sftwr_draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(fltr_sftwr_draws_temp$software))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -1040,12 +1040,138 @@ draws_temp %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
+we can also make pairwise comparisons
+
+```{r}
+# first we need to define the contrasts to make
+contrast_list = 
+  tidyr::crossing(
+    x1 = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , x2 = unique(ptcld_validation_data$depth_maps_generation_quality)
+  ) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      dplyr::everything()
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+  ) %>% 
+  dplyr::filter(x1<x2) %>% 
+  dplyr::arrange(x1,x2) %>% 
+  dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>% 
+  purrr::transpose()
+# make the contrasts using compare_levels
+brms_contrast_temp = draws_temp %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_quality
+      , comparison = 
+        contrast_list
+        # tidybayes::emmeans_comparison("revpairwise") 
+        #"pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      )
+    , depth_maps_generation_filtering_mode = depth_maps_generation_filtering_mode %>% 
+      factor(
+        levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+        , ordered = T
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
+  make_contrast_vars()
+
+# what?
+brms_contrast_temp %>% dplyr::glimpse()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
+  , facet = "depth_maps_generation_filtering_mode"
+  , label_size = 1.9
+  , x_expand = c(1,0.95)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    , x = "constrast Height RMSE (m)"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 7)
+  )
+ggplot2::ggsave("../data/qlty_fltr_comp_ht_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
+  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , col.names = c(
+      "quality contrast"
+      , "filtering mode"
+      , "difference Height RMSE (m)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
 #### Software:Quality - interaction
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
 
 ```{r}
 draws_temp = 
-  ptcld_validation_data %>% 
-    dplyr::distinct(depth_maps_generation_quality, software) %>% 
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
     tidybayes::add_epred_draws(
       brms_ht_rmse_mod, allow_new_levels = T
       # this part is crucial
@@ -1057,6 +1183,11 @@ draws_temp =
     dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # plot
   draws_temp %>%
+    # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
     dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
   # plot
   ggplot(
@@ -1098,6 +1229,11 @@ and a table of these 95% HDI values
 
 ```{r}
 draws_temp %>% 
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+    , by = dplyr::join_by(depth_maps_generation_quality, software)
+  ) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>% 
   dplyr::rename(difference=value) %>% 
@@ -1113,12 +1249,209 @@ draws_temp %>%
   kableExtra::kable_styling()
 ```
 
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_quality
+    , comparison = contrast_list
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter1 == depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter2 == depth_maps_generation_quality)
+  )
+  
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
+  , facet = "software"
+  , label_size = 1.9
+  , x_expand = c(0.83,0.82)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    , x = "constrast Height RMSE (m)"
+  )
+
+ggplot2::ggsave("../data/qlty_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality contrast"
+      , "difference Height RMSE (m)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+The contrasts above address the question "are there differences in RMSE based on dense point cloud generation quality within each software?".
+
+To address the different question of "are there differences in RMSE based on the processing software used at a given dense point cloud generation quality?" we need to utilize a different formulation of the `comparison` parameter within our call to the `tidybayes::compare_levels` function and calculate the contrast by `software` instead
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = software
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter1 == software, depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter2 == software, depth_maps_generation_quality)
+  )
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "software"
+  , facet = "depth_maps_generation_quality"
+  , label_size = 1.9
+  , x_expand = c(0.25,0.1)
+) +
+  facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    , x = "constrast Height RMSE (m)"
+  ) +
+  theme(
+    legend.position = c(.75, .13)
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
+
+ggplot2::ggsave("../data/sftwr_qlty_comp_ht_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) 
+table_temp %>% 
+  dplyr::select(-c(contrast)) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality"
+      , "difference Height RMSE (m)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$contrast))) %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
 #### Software:Filtering - interaction
 
 ```{r}
 draws_temp = 
-  ptcld_validation_data %>% 
-    dplyr::distinct(depth_maps_generation_filtering_mode, software) %>% 
+  tidyr::crossing(
+    depth_maps_generation_filtering_mode = unique(ptcld_validation_data$depth_maps_generation_filtering_mode)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
     tidybayes::add_epred_draws(
       brms_ht_rmse_mod, allow_new_levels = T
       # this part is crucial
@@ -1130,6 +1463,11 @@ draws_temp =
     dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # plot
   draws_temp %>%
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_filtering_mode, software)
+    , by = dplyr::join_by(depth_maps_generation_filtering_mode, software)
+  ) %>% 
   # plot
   ggplot(
     mapping = aes(
@@ -1170,6 +1508,11 @@ and a table of these 95% HDI values
 
 ```{r}
 draws_temp %>% 
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_filtering_mode, software)
+    , by = dplyr::join_by(depth_maps_generation_filtering_mode, software)
+  ) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>% 
   dplyr::rename(difference=value) %>% 
@@ -1183,6 +1526,111 @@ draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling()
+```
+
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, sorter1 == depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, sorter2 == depth_maps_generation_filtering_mode)
+  )
+
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "filtering mode"
+  , facet = "software"
+  , label_size = 1.9
+  , x_expand = c(0.6,0.45)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    , x = "constrast Height RMSE (m)"
+  )
+
+ggplot2::ggsave("../data/fltr_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "filtering contrast"
+      , "difference Height RMSE (m)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 #### Software:Quality:Filtering - interaction
@@ -1270,7 +1718,7 @@ and a table of these 95% HDI values
 
 ```{r}
 # sort it
-fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
+table_temp = fltr_sftwr_draws_temp %>%
   tidybayes::median_hdi(value) %>%
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
@@ -1278,7 +1726,7 @@ fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
   ) %>% 
   dplyr::arrange(software,depth_maps_generation_quality, depth_maps_generation_filtering_mode)
 # table it
-fltr_sftwr_draws_temp %>%
+table_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row,software)) %>% 
   kableExtra::kbl(
     digits = 2
@@ -1290,8 +1738,90 @@ fltr_sftwr_draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(fltr_sftwr_draws_temp$software))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
+```
+
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = fltr_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter1==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter2==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev())
+
+```
+
+plot it
+
+```{r}
+brms_contrast_temp %>% 
+  plt_contrast(
+    facet = c("depth_maps_generation_quality", "software")
+    , y_axis_title = "filtering mode"
+    , label_size = 0
+    , x_expand = c(-0.1,-0.1)
+  ) +
+  facet_grid(
+    rows = vars(software)
+    , cols = vars(depth_maps_generation_quality)
+  ) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    , x = "constrast Height RMSE (m)"
+  )
+  
+ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
 ```
 
 ## Tree DBH
@@ -1784,7 +2314,7 @@ and a table of these 95% HDI values
 
 ```{r}
 # sort it
-fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
+table_temp = fltr_sftwr_draws_temp %>%
   tidybayes::median_hdi(value) %>%
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
@@ -1792,7 +2322,7 @@ fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
   ) %>% 
   dplyr::arrange(software,depth_maps_generation_quality, depth_maps_generation_filtering_mode)
 # table it
-fltr_sftwr_draws_temp %>%
+table_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row,software)) %>% 
   kableExtra::kbl(
     digits = 2
@@ -1804,7 +2334,7 @@ fltr_sftwr_draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(fltr_sftwr_draws_temp$software))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -1917,7 +2447,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
-      x = "filtering mode", y = "DBH RMSE (m)"
+      x = "filtering mode", y = "DBH RMSE (cm)"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     ) +
     theme_light() +
@@ -1937,8 +2467,8 @@ draws_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row)) %>% 
   dplyr::rename(difference=value) %>% 
   kableExtra::kbl(
-    digits = 2
-    , caption = "DBH RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
       "quality", "filtering"
       , "median"
@@ -1949,12 +2479,116 @@ draws_temp %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
+we can also make pairwise comparisons
+
+```{r}
+# make the contrasts using compare_levels
+brms_contrast_temp = draws_temp %>% 
+    tidybayes::compare_levels(
+      value
+      , by = depth_maps_generation_quality
+      , comparison = 
+        contrast_list
+        # tidybayes::emmeans_comparison("revpairwise") 
+        #"pairwise"
+    ) %>% 
+    dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+        "sorter"
+        , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+      )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+        as.numeric()
+      )
+    , depth_maps_generation_filtering_mode = depth_maps_generation_filtering_mode %>% 
+      factor(
+        levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+        , ordered = T
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
+  make_contrast_vars()
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
+  , facet = "depth_maps_generation_filtering_mode"
+  , label_size = 1.7
+  , x_expand = c(0.9,0.75)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    , x = "constrast DBH RMSE (cm)"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 7)
+  )
+ggplot2::ggsave("../data/qlty_fltr_comp_dbh_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
+  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+kableExtra::kbl(
+    digits = 2
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , col.names = c(
+      "quality contrast"
+      , "filtering mode"
+      , "difference DBH RMSE (cm)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+gc()
+```
+
 #### Software:Quality - interaction
 
 ```{r}
 draws_temp = 
-  ptcld_validation_data %>% 
-    dplyr::distinct(depth_maps_generation_quality, software) %>% 
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
     tidybayes::add_epred_draws(
       brms_dbh_rmse_mod, allow_new_levels = T
       # this part is crucial
@@ -1966,6 +2600,11 @@ draws_temp =
     dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # plot
   draws_temp %>%
+    # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
     dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
   # plot
   ggplot(
@@ -1991,7 +2630,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
-      x = "software", y = "DBH RMSE (m)"
+      x = "software", y = "DBH RMSE (cm)"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
     ) +
     theme_light() +
@@ -2011,8 +2650,8 @@ draws_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row)) %>% 
   dplyr::rename(difference=value) %>% 
   kableExtra::kbl(
-    digits = 2
-    , caption = "DBH RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
       "quality", "software"
       , "median"
@@ -2022,12 +2661,209 @@ draws_temp %>%
   kableExtra::kable_styling()
 ```
 
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_quality
+    , comparison = contrast_list
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_quality)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_quality)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      )
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter1 == depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(software, sorter2 == depth_maps_generation_quality)
+  )
+  
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "quality"
+  , facet = "software"
+  , label_size = 1.8
+  , x_expand = c(0.33,0.2)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    , x = "constrast DBH RMSE (cm)"
+  )
+
+ggplot2::ggsave("../data/qlty_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
+  kableExtra::kbl(
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality contrast"
+      , "difference DBH RMSE (cm)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
+The contrasts above address the question "are there differences in RMSE based on dense point cloud generation quality within each software?".
+
+To address the different question of "are there differences in RMSE based on the processing software used at a given dense point cloud generation quality?" we need to utilize a different formulation of the `comparison` parameter within our call to the `tidybayes::compare_levels` function and calculate the contrast by `software` instead
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = software
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = software) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter1 == software, depth_maps_generation_quality)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality)
+    , by = dplyr::join_by(sorter2 == software, depth_maps_generation_quality)
+  )
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "software"
+  , facet = "depth_maps_generation_quality"
+  , label_size = 1.9
+  # , x_expand = c(0.25,0.1)
+) +
+  facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    , x = "constrast DBH RMSE (cm)"
+  ) +
+  theme(
+    legend.position = c(.75, .13)
+  ) +
+  guides(fill = guide_colorbar(theme = theme(
+    legend.key.width  = unit(1, "lines"),
+    legend.key.height = unit(7, "lines")
+  )))
+
+ggplot2::ggsave("../data/sftwr_qlty_comp_dbh_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) 
+table_temp %>% 
+  dplyr::select(-c(contrast)) %>% 
+  kableExtra::kbl(
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality"
+      , "difference DBH RMSE (cm)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$contrast))) %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
 #### Software:Filtering - interaction
 
 ```{r}
 draws_temp = 
-  ptcld_validation_data %>% 
-    dplyr::distinct(depth_maps_generation_filtering_mode, software) %>% 
+  tidyr::crossing(
+      depth_maps_generation_filtering_mode = unique(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      , software = unique(ptcld_validation_data$software)
+    ) %>% 
     tidybayes::add_epred_draws(
       brms_dbh_rmse_mod, allow_new_levels = T
       # this part is crucial
@@ -2039,6 +2875,11 @@ draws_temp =
     dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 # plot
   draws_temp %>%
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_filtering_mode, software)
+    , by = dplyr::join_by(depth_maps_generation_filtering_mode, software)
+  ) %>% 
   # plot
   ggplot(
     mapping = aes(
@@ -2063,7 +2904,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
-      x = "software", y = "DBH RMSE (m)"
+      x = "software", y = "DBH RMSE (cm)"
       , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
     ) +
     theme_light() +
@@ -2079,12 +2920,17 @@ and a table of these 95% HDI values
 
 ```{r}
 draws_temp %>% 
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_filtering_mode, software)
+    , by = dplyr::join_by(depth_maps_generation_filtering_mode, software)
+  ) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>% 
   dplyr::rename(difference=value) %>% 
   kableExtra::kbl(
-    digits = 2
-    , caption = "DBH RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
       "filtering", "software"
       , "median"
@@ -2092,6 +2938,111 @@ draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling()
+```
+
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, sorter1 == depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, sorter2 == depth_maps_generation_filtering_mode)
+  )
+
+```
+
+plot it
+
+```{r}
+plt_contrast(
+  brms_contrast_temp
+  # , caption_text = form_temp
+  , y_axis_title = "filtering mode"
+  , facet = "software"
+  , label_size = 1.8
+  , x_expand = c(0.45,0.4)
+) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    , x = "constrast DBH RMSE (cm)"
+  )
+
+ggplot2::ggsave("../data/fltr_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
+```
+
+and summarize these contrasts
+
+```{r}
+table_temp = brms_contrast_temp %>%
+  dplyr::group_by(contrast, software) %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::arrange(contrast, software) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(software, contrast)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
+  kableExtra::kbl(
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "filtering contrast"
+      , "difference DBH RMSE (cm)"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 #### Software:Quality:Filtering - interaction
@@ -2156,7 +3107,7 @@ fltr_sftwr_draws_temp %>%
   ) +
   scale_y_continuous(limits = c(-0.02,NA)) +
   labs(
-    x = "filtering mode", y = "DBH RMSE (m)"
+    x = "filtering mode", y = "DBH RMSE (cm)"
     , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
     # , caption = form_temp
   ) +
@@ -2179,7 +3130,7 @@ and a table of these 95% HDI values
 
 ```{r}
 # sort it
-fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
+table_temp = fltr_sftwr_draws_temp %>%
   tidybayes::median_hdi(value) %>%
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
@@ -2187,11 +3138,11 @@ fltr_sftwr_draws_temp = fltr_sftwr_draws_temp %>%
   ) %>% 
   dplyr::arrange(software,depth_maps_generation_quality, depth_maps_generation_filtering_mode)
 # table it
-fltr_sftwr_draws_temp %>%
+table_temp %>%
   dplyr::select(-c(.point,.interval, .width,.row,software)) %>% 
   kableExtra::kbl(
-    digits = 2
-    , caption = "DBH RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    digits = 1
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
       "quality", "filtering"
       , "median"
@@ -2199,8 +3150,90 @@ fltr_sftwr_draws_temp %>%
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(fltr_sftwr_draws_temp$software))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
+```
+
+we can also make pairwise comparisons
+
+```{r}
+# calculate contrast
+brms_contrast_temp = fltr_sftwr_draws_temp %>% 
+  tidybayes::compare_levels(
+    value
+    , by = depth_maps_generation_filtering_mode
+    , comparison = "pairwise"
+  ) %>% 
+  dplyr::rename(contrast = depth_maps_generation_filtering_mode)
+
+# separate contrast
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::ungroup() %>% 
+  tidyr::separate_wider_delim(
+    cols = contrast
+    , delim = " - "
+    , names = paste0(
+      "sorter"
+      , 1:(max(stringr::str_count(brms_contrast_temp$contrast, "-"))+1)
+    )
+    , too_few = "align_start"
+    , cols_remove = F
+  ) %>% 
+  dplyr::filter(sorter1!=sorter2) %>% 
+  dplyr::mutate(
+    dplyr::across(
+      tidyselect::starts_with("sorter")
+      , .fns = function(x){factor(
+        x, ordered = T
+        , levels = levels(ptcld_validation_data$depth_maps_generation_filtering_mode)
+      )}
+    )
+    , contrast = contrast %>% 
+      forcats::fct_reorder(
+        paste0(as.numeric(sorter1), as.numeric(sorter2)) %>% 
+          as.numeric()
+      ) %>% 
+      # re order for filtering mode
+      forcats::fct_rev()
+  ) %>% 
+  # median_hdi summary for coloring 
+  dplyr::group_by(contrast, software, depth_maps_generation_quality) %>% 
+  make_contrast_vars()
+
+# remove out-of-sample obs
+brms_contrast_temp = brms_contrast_temp %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter1==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    , by = dplyr::join_by(software, depth_maps_generation_quality, sorter2==depth_maps_generation_filtering_mode)
+  ) %>% 
+  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev())
+
+```
+
+plot it
+
+```{r}
+brms_contrast_temp %>% 
+  plt_contrast(
+    facet = c("depth_maps_generation_quality", "software")
+    , y_axis_title = "filtering mode"
+    , label_size = 0
+    , x_expand = c(-0.1,-0.1)
+  ) +
+  facet_grid(
+    rows = vars(software)
+    , cols = vars(depth_maps_generation_quality)
+  ) +
+  labs(
+    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    , x = "constrast DBH RMSE (cm)"
+  )
+  
+ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
 ```
 
 ## Posterior Predictive Checks

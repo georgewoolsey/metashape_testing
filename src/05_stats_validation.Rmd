@@ -95,7 +95,7 @@ if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
         ) %>% forcats::fct_rev()
     )
 }
-# replace 0 f-score with very small positive to run models
+# replace 0 F-score with very small positive to run models
 ptcld_validation_data = ptcld_validation_data %>% 
   dplyr::mutate(dplyr::across(
     .cols = tidyselect::ends_with("f_score")
@@ -533,7 +533,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts in F-score"
     , col.names = c(
       "quality contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -839,7 +839,7 @@ ptcld_validation_data %>%
     , col.names = c(
       "quality"
       , "filtering mode"
-      , "mean f-score"
+      , "mean F-score"
       , "sd"
       , "n"
     )
@@ -1131,7 +1131,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "filtering mode"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -1321,7 +1321,7 @@ ptcld_validation_data %>%
       "quality"
       , "filtering mode"
       , "software"
-      , "mean f-score"
+      , "mean F-score"
       , "sd"
       , "n"
     )
@@ -1708,7 +1708,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "filtering mode"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -1844,7 +1844,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "quality contrast"
       , "software"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -2422,7 +2422,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "filtering mode"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -2570,7 +2570,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "quality contrast"
       , "software"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -2655,7 +2655,7 @@ brms_contrast_temp %>%
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
     y = "software"
-    , x = "constrast (f-score)"
+    , x = "constrast (F-score)"
     , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
     , fill = "Pr(abs(contrast) > 0.05)"
     , caption = form_temp
@@ -2690,7 +2690,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "software contrast"
       , "quality"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -3395,6 +3395,26 @@ qlty_filter_draws_temp =
 ggplot2::ggsave("../data/qlty_fltr_mod5.png", height = 7, width = 10.5)
 ```
 
+and a table of these 95% HDI values
+
+```{r}
+qlty_filter_draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality", "filtering"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
+```
+
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
 
 ```{r}
@@ -3485,7 +3505,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "filtering mode"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -3504,8 +3524,12 @@ Here, we collapse across the study site and filtering mode to compare the combin
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
-ptcld_validation_data %>% 
-  dplyr::distinct(depth_maps_generation_quality, software) %>% 
+# get draws
+qlty_sftwr_draws_temp = 
+  tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , software = unique(ptcld_validation_data$software)
+  ) %>% 
   tidybayes::add_epred_draws(
     brms_f_mod5, allow_new_levels = T
     # this part is crucial
@@ -3516,7 +3540,17 @@ ptcld_validation_data %>%
   dplyr::rename(value = .epred) %>% 
   dplyr::mutate(
     med = tidybayes::median_hdci(value)$y
-    , depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()
+  ) 
+
+# plot
+qlty_sftwr_draws_temp %>% 
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+    , by = dplyr::join_by(depth_maps_generation_quality, software)
+  ) %>% 
+  dplyr::mutate(
+    depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()
   ) %>% 
   # plot
   ggplot(
@@ -3550,24 +3584,33 @@ ptcld_validation_data %>%
   ) 
 ```
 
+and a table of these 95% HDI values
+
+```{r}
+qlty_sftwr_draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  # remove out-of-sample obs
+  dplyr::inner_join(
+    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+    , by = dplyr::join_by(depth_maps_generation_quality, software)
+  ) %>% 
+  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "quality", "software"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
+```
+
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
 
 ```{r}
-# get draws
-qlty_sftwr_draws_temp = 
-  tidyr::crossing(
-    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
-    , software = unique(ptcld_validation_data$software)
-  ) %>% 
-  tidybayes::add_epred_draws(
-    brms_f_mod5, allow_new_levels = T
-    # this part is crucial
-    , re_formula = ~ (1 | depth_maps_generation_quality) +
-      (1 | software) + 
-      (1 | depth_maps_generation_quality:software)
-  ) %>% 
-  dplyr::rename(value = .epred)
-
 # calculate contrast
 brms_contrast_temp = qlty_sftwr_draws_temp %>% 
   tidybayes::compare_levels(
@@ -3660,7 +3703,7 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -3753,7 +3796,7 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -3817,6 +3860,25 @@ fltr_sftwr_draws_temp %>%
     , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     , strip.text = element_text(color = "black", face = "bold")
   ) 
+```
+
+and a table of these 95% HDI values
+
+```{r}
+fltr_sftwr_draws_temp %>% 
+  tidybayes::median_hdi(value) %>% 
+  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+  dplyr::rename(difference=value) %>% 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , col.names = c(
+      "filtering", "software"
+      , "median"
+      , "conf.low", "conf.high"
+    )
+  ) %>% 
+  kableExtra::kable_styling()
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -3904,7 +3966,7 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -4043,7 +4105,6 @@ table_temp %>%
   kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
-
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
 
@@ -4309,7 +4370,7 @@ kableExtra::kbl(
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -4489,7 +4550,7 @@ kableExtra::kbl(
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering mode contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -4630,7 +4691,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -5544,7 +5605,7 @@ ou_ptcld_validation_data %>%
     , caption = "summary statistics of F-score"
     , col.names = c(
       ""
-      , "mean f-score"
+      , "mean F-score"
       , "5% value", "95% value"
     )
   ) %>% 
@@ -5601,7 +5662,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "overstory contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -5675,7 +5736,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "software contrast"
       , "overstory/understory"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -5874,7 +5935,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "filtering mode"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6041,7 +6102,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "quality contrast"
       , "software"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6131,7 +6192,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "software contrast"
       , "quality"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6276,7 +6337,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "filtering contrast"
       , "software"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6569,7 +6630,7 @@ kableExtra::kbl(
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6694,7 +6755,7 @@ kableExtra::kbl(
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering mode contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
@@ -6788,7 +6849,7 @@ brms_contrast_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
-      , "difference (f-score)"
+      , "difference (F-score)"
       , "conf.low", "conf.high"
     )
   ) %>% 
