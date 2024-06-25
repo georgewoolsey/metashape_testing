@@ -641,7 +641,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -714,7 +714,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -785,7 +785,7 @@ draws_temp %>%
     , col.names = c(
       "filtering", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -819,56 +819,59 @@ fltr_sftwr_draws_temp =
   dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 
 # plot
-fltr_sftwr_draws_temp %>% 
-  dplyr::inner_join(
-    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-  ) %>% 
-  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
-  ggplot(
-    mapping = aes(
-      y = value
-      , x = depth_maps_generation_filtering_mode
-      , fill = med
+qlty_fltr_sftwr_ht_me = 
+  fltr_sftwr_draws_temp %>% 
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+      , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+    ggplot(
+      mapping = aes(
+        y = value
+        , x = depth_maps_generation_filtering_mode
+        , fill = med
+      )
+    ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.98
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    facet_grid(
+      rows = vars(software)
+      , cols = vars(depth_maps_generation_quality)
+      # , switch = "y"
+    ) +
+    labs(
+      x = "filtering mode", y = "Height Mean Error (m)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      # , caption = form_temp
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+      , panel.grid = element_blank()
+      # , strip.placement = "outside"
+    ) +
+    guides(
+      fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
     )
-  ) +
-  geom_hline(yintercept = 0, color = "gray33") +
-  tidybayes::stat_eye(
-    point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.98
-    , interval_color = "black", linewidth = 1
-    , point_color = "black", point_fill = "black", point_size = 1
-  ) +
-  scale_fill_stepsn(
-    n.breaks = 7
-    , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-    , limits = c(-lmt_tree_height_m_me,lmt_tree_height_m_me)
-    , labels = scales::comma_format(accuracy = 0.1)
-    , show.limits = T
-  ) +
-  facet_grid(
-    rows = vars(software)
-    , cols = vars(depth_maps_generation_quality)
-    # , switch = "y"
-  ) +
-  labs(
-    x = "filtering mode", y = "Height Mean Error (m)"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
-    # , caption = form_temp
-  ) +
-  theme_light() +
-  theme(
-    legend.position = "none"
-    , legend.direction  = "horizontal"
-    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-    , strip.text = element_text(color = "black", face = "bold")
-    , panel.grid = element_blank()
-    # , strip.placement = "outside"
-  ) +
-  guides(
-    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
-  )
-
+# print it
+qlty_fltr_sftwr_ht_me
+ggplot2::ggsave("../data/qlty_fltr_sftwr_ht_me.png", height = 7, width = 10.5)
 ```
 
 and a table of these 95% HDI values
@@ -891,7 +894,7 @@ table_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1033,7 +1036,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1152,7 +1155,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference Height RMSE (m)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1243,7 +1246,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -1344,7 +1347,7 @@ table_temp %>%
     , col.names = c(
       "quality contrast"
       , "difference Height RMSE (m)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1436,7 +1439,7 @@ table_temp %>%
     , col.names = c(
       "quality"
       , "difference Height RMSE (m)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1522,7 +1525,7 @@ draws_temp %>%
     , col.names = c(
       "filtering", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -1625,7 +1628,7 @@ table_temp %>%
     , col.names = c(
       "filtering contrast"
       , "difference Height RMSE (m)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1661,57 +1664,60 @@ fltr_sftwr_draws_temp =
   dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 
 # plot
-fltr_sftwr_draws_temp %>% 
-  dplyr::inner_join(
-    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-  ) %>% 
-  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
-  ggplot(
-    mapping = aes(
-      y = value
-      , x = depth_maps_generation_filtering_mode
-      , fill = med
+qlty_fltr_sftwr_ht_rmse = 
+  fltr_sftwr_draws_temp %>% 
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+      , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+    ggplot(
+      mapping = aes(
+        y = value
+        , x = depth_maps_generation_filtering_mode
+        , fill = med
+      )
+    ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.98
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 5
+      , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
+      , limits = c(0,lmt_tree_height_m_rmse)
+      , labels = scales::comma_format(accuracy = 0.01)
+      , show.limits = T
+    ) +
+    facet_grid(
+      rows = vars(software)
+      , cols = vars(depth_maps_generation_quality)
+      # , switch = "y"
+    ) +
+    scale_y_continuous(limits = c(-0.02,NA)) +
+    labs(
+      x = "filtering mode", y = "Height RMSE (m)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      # , caption = form_temp
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+      , panel.grid = element_blank()
+      # , strip.placement = "outside"
+    ) +
+    guides(
+      fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
     )
-  ) +
-  geom_hline(yintercept = 0, color = "gray33") +
-  tidybayes::stat_eye(
-    point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.98
-    , interval_color = "black", linewidth = 1
-    , point_color = "black", point_fill = "black", point_size = 1
-  ) +
-  scale_fill_stepsn(
-    n.breaks = 5
-    , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
-    , limits = c(0,lmt_tree_height_m_rmse)
-    , labels = scales::comma_format(accuracy = 0.01)
-    , show.limits = T
-  ) +
-  facet_grid(
-    rows = vars(software)
-    , cols = vars(depth_maps_generation_quality)
-    # , switch = "y"
-  ) +
-  scale_y_continuous(limits = c(-0.02,NA)) +
-  labs(
-    x = "filtering mode", y = "Height RMSE (m)"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
-    # , caption = form_temp
-  ) +
-  theme_light() +
-  theme(
-    legend.position = "none"
-    , legend.direction  = "horizontal"
-    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-    , strip.text = element_text(color = "black", face = "bold")
-    , panel.grid = element_blank()
-    # , strip.placement = "outside"
-  ) +
-  guides(
-    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
-  )
-
+# print it
+qlty_fltr_sftwr_ht_rmse
+ggplot2::ggsave("../data/qlty_fltr_sftwr_ht_rmse.png", height = 7, width = 10.5)
 ```
 
 and a table of these 95% HDI values
@@ -1734,7 +1740,7 @@ table_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1822,6 +1828,30 @@ brms_contrast_temp %>%
   )
   
 ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+```
+
+Export some final images for publication
+
+```{r}
+p1_temp = qlty_fltr_sftwr_ht_me + labs(subtitle = "Height Mean Error (m)") + theme(plot.subtitle = element_text(face="bold"))
+p2_temp = qlty_fltr_sftwr_ht_rmse + labs(subtitle = "Height RMSE (m)") + theme(plot.subtitle = element_text(face="bold"))
+# export
+p1_temp / p2_temp
+ggplot2::ggsave(
+    filename = paste0("../data/qlty_fltr_sftwr_ht_comb.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 8.5
+    , height = 11
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+remove(qlty_fltr_sftwr_ht_me)
+remove(qlty_fltr_sftwr_ht_rmse)
+gc()
 ```
 
 ## Tree DBH
@@ -2080,7 +2110,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2153,7 +2183,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -2224,7 +2254,7 @@ draws_temp %>%
     , col.names = c(
       "filtering", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -2258,56 +2288,59 @@ fltr_sftwr_draws_temp =
   dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 
 # plot
-fltr_sftwr_draws_temp %>% 
-  dplyr::inner_join(
-    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-  ) %>% 
-  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
-  ggplot(
-    mapping = aes(
-      y = value
-      , x = depth_maps_generation_filtering_mode
-      , fill = med
+qlty_fltr_sftwr_dbh_me = 
+  fltr_sftwr_draws_temp %>% 
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+      , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+    ggplot(
+      mapping = aes(
+        y = value
+        , x = depth_maps_generation_filtering_mode
+        , fill = med
+      )
+    ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.98
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 7
+      , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
+      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , labels = scales::comma_format(accuracy = 0.1)
+      , show.limits = T
+    ) +
+    facet_grid(
+      rows = vars(software)
+      , cols = vars(depth_maps_generation_quality)
+      # , switch = "y"
+    ) +
+    labs(
+      x = "filtering mode", y = "DBH Mean Error (cm)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      # , caption = form_temp
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+      , panel.grid = element_blank()
+      # , strip.placement = "outside"
+    ) +
+    guides(
+      fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
     )
-  ) +
-  geom_hline(yintercept = 0, color = "gray33") +
-  tidybayes::stat_eye(
-    point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.98
-    , interval_color = "black", linewidth = 1
-    , point_color = "black", point_fill = "black", point_size = 1
-  ) +
-  scale_fill_stepsn(
-    n.breaks = 7
-    , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-    , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
-    , labels = scales::comma_format(accuracy = 0.1)
-    , show.limits = T
-  ) +
-  facet_grid(
-    rows = vars(software)
-    , cols = vars(depth_maps_generation_quality)
-    # , switch = "y"
-  ) +
-  labs(
-    x = "filtering mode", y = "DBH Mean Error (cm)"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
-    # , caption = form_temp
-  ) +
-  theme_light() +
-  theme(
-    legend.position = "none"
-    , legend.direction  = "horizontal"
-    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-    , strip.text = element_text(color = "black", face = "bold")
-    , panel.grid = element_blank()
-    # , strip.placement = "outside"
-  ) +
-  guides(
-    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
-  )
-
+# print it
+qlty_fltr_sftwr_dbh_me
+ggplot2::ggsave("../data/qlty_fltr_sftwr_dbh_me.png", height = 7, width = 10.5)
 ```
 
 and a table of these 95% HDI values
@@ -2330,7 +2363,7 @@ table_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2472,7 +2505,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2569,7 +2602,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference DBH RMSE (cm)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2655,7 +2688,7 @@ draws_temp %>%
     , col.names = c(
       "quality", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -2756,7 +2789,7 @@ table_temp %>%
     , col.names = c(
       "quality contrast"
       , "difference DBH RMSE (cm)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2848,7 +2881,7 @@ table_temp %>%
     , col.names = c(
       "quality"
       , "difference DBH RMSE (cm)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2934,7 +2967,7 @@ draws_temp %>%
     , col.names = c(
       "filtering", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -3037,7 +3070,7 @@ table_temp %>%
     , col.names = c(
       "filtering contrast"
       , "difference DBH RMSE (cm)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3073,57 +3106,60 @@ fltr_sftwr_draws_temp =
   dplyr::mutate(med = tidybayes::median_hdci(value)$y)
 
 # plot
-fltr_sftwr_draws_temp %>% 
-  dplyr::inner_join(
-    ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-    , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-  ) %>% 
-  dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
-  ggplot(
-    mapping = aes(
-      y = value
-      , x = depth_maps_generation_filtering_mode
-      , fill = med
+qlty_fltr_sftwr_dbh_rmse = 
+  fltr_sftwr_draws_temp %>% 
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+      , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+    ) %>% 
+    dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>% 
+    ggplot(
+      mapping = aes(
+        y = value
+        , x = depth_maps_generation_filtering_mode
+        , fill = med
+      )
+    ) +
+    geom_hline(yintercept = 0, color = "gray33") +
+    tidybayes::stat_eye(
+      point_interval = median_hdi, .width = .95
+      , slab_alpha = 0.98
+      , interval_color = "black", linewidth = 1
+      , point_color = "black", point_fill = "black", point_size = 1
+    ) +
+    scale_fill_stepsn(
+      n.breaks = 5
+      , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
+      , limits = c(0,lmt_dbh_cm_rmse)
+      , labels = scales::comma_format(accuracy = 0.01)
+      , show.limits = T
+    ) +
+    facet_grid(
+      rows = vars(software)
+      , cols = vars(depth_maps_generation_quality)
+      # , switch = "y"
+    ) +
+    scale_y_continuous(limits = c(-0.02,NA)) +
+    labs(
+      x = "filtering mode", y = "DBH RMSE (cm)"
+      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      # , caption = form_temp
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , legend.direction  = "horizontal"
+      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+      , strip.text = element_text(color = "black", face = "bold")
+      , panel.grid = element_blank()
+      # , strip.placement = "outside"
+    ) +
+    guides(
+      fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
     )
-  ) +
-  geom_hline(yintercept = 0, color = "gray33") +
-  tidybayes::stat_eye(
-    point_interval = median_hdi, .width = .95
-    , slab_alpha = 0.98
-    , interval_color = "black", linewidth = 1
-    , point_color = "black", point_fill = "black", point_size = 1
-  ) +
-  scale_fill_stepsn(
-    n.breaks = 5
-    , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
-    , limits = c(0,lmt_dbh_cm_rmse)
-    , labels = scales::comma_format(accuracy = 0.01)
-    , show.limits = T
-  ) +
-  facet_grid(
-    rows = vars(software)
-    , cols = vars(depth_maps_generation_quality)
-    # , switch = "y"
-  ) +
-  scale_y_continuous(limits = c(-0.02,NA)) +
-  labs(
-    x = "filtering mode", y = "DBH RMSE (cm)"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
-    # , caption = form_temp
-  ) +
-  theme_light() +
-  theme(
-    legend.position = "none"
-    , legend.direction  = "horizontal"
-    , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-    , strip.text = element_text(color = "black", face = "bold")
-    , panel.grid = element_blank()
-    # , strip.placement = "outside"
-  ) +
-  guides(
-    fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
-  )
-
+# print it
+qlty_fltr_sftwr_dbh_rmse
+ggplot2::ggsave("../data/qlty_fltr_sftwr_dbh_rmse.png", height = 7, width = 10.5)
 ```
 
 and a table of these 95% HDI values
@@ -3146,7 +3182,7 @@ table_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3235,6 +3271,31 @@ brms_contrast_temp %>%
   
 ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
 ```
+
+Export some final images for publication
+
+```{r}
+p1_temp = qlty_fltr_sftwr_dbh_me + labs(subtitle = "DBH Mean Error (cm)") + theme(plot.subtitle = element_text(face="bold"))
+p2_temp = qlty_fltr_sftwr_dbh_rmse + labs(subtitle = "DBH RMSE (cm)") + theme(plot.subtitle = element_text(face="bold"))
+# export
+p1_temp / p2_temp
+ggplot2::ggsave(
+    filename = paste0("../data/qlty_fltr_sftwr_dbh_comb.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 8.5
+    , height = 11
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
+remove(list = ls()[grep("_temp",ls())])
+remove(qlty_fltr_sftwr_dbh_me)
+remove(qlty_fltr_sftwr_dbh_rmse)
+gc()
+```
+
 
 ## Posterior Predictive Checks
 
@@ -3345,11 +3406,11 @@ brms_dbh_rmse_mod %>% plt_pp_temp() + labs(title = "brms_dbh_rmse_mod")
 
 #### Bayesian p-value
 
-The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_new$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_new) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_{new}$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_{new}) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
 
 >Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large ($\gtrapprox 0.90$) or small ($\lessapprox 0.10$) values indicate lack of fit. [Hobbs and Hooten (2015)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6);[Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
 
-Lets' check the Bayesian p-values between the models
+Check the Bayesian p-values between the models
 
 ```{r}
 # get the model p-values

@@ -534,7 +534,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -1132,7 +1132,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1709,7 +1709,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1845,7 +1845,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2423,7 +2423,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2571,7 +2571,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2691,7 +2691,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "quality"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3408,7 +3408,7 @@ qlty_filter_draws_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3506,7 +3506,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3602,7 +3602,7 @@ qlty_sftwr_draws_temp %>%
     , col.names = c(
       "quality", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -3704,7 +3704,7 @@ table_temp %>%
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3797,7 +3797,7 @@ table_temp %>%
     , col.names = c(
       "quality"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3875,7 +3875,7 @@ fltr_sftwr_draws_temp %>%
     , col.names = c(
       "filtering", "software"
       , "median"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -3967,7 +3967,7 @@ table_temp %>%
     , col.names = c(
       "filtering contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -4098,7 +4098,7 @@ table_temp %>%
     , col.names = c(
       "quality", "filtering"
       , "F-score"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -4371,7 +4371,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -4551,7 +4551,7 @@ kableExtra::kbl(
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -4692,7 +4692,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5101,11 +5101,11 @@ pp_check(brms_f_mod5_5, "dens_overlay_grouped", group = "depth_maps_generation_f
 
 We didn't see much change in our posterior predictive checks compared to our previous model of the data $y_i$ described by a beta distribution with [three nominal predictors and site effects](#beta_mod) our [posterior predictive checks](#ppcheck_mod5).
 
-The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_new$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_new) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_{new}$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_{new}) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
 
 >Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large ($\gtrapprox 0.90$) or small ($\lessapprox 0.10$) values indicate lack of fit. [Hobbs and Hooten (2015)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6);[Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
 
-Lets' check the Bayesian p-values between the two models
+Check the Bayesian p-values between the models
 
 ```{r}
 get_mod_p_val = function(my_mod, ndraws = 1000){
@@ -5584,7 +5584,7 @@ ou_ptcld_validation_data %>%
     , col.names = c(
       ""
       , "F-score"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5663,7 +5663,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "overstory contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5737,7 +5737,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "overstory/understory"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5936,7 +5936,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6103,7 +6103,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6193,7 +6193,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "quality"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6338,7 +6338,7 @@ brms_contrast_temp %>%
       "filtering contrast"
       , "software"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6631,7 +6631,7 @@ kableExtra::kbl(
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -6756,7 +6756,7 @@ kableExtra::kbl(
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -6850,7 +6850,7 @@ brms_contrast_temp %>%
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
-      , "conf.low", "conf.high"
+      , "2.5%", "97.5%"
     )
   ) %>% 
   kableExtra::kable_styling()
