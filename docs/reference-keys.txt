@@ -233,6 +233,10 @@ softwarefiltering---interaction-5
 softwarequalityfiltering---interaction-5
 posterior-predictive-checks-1
 trace-plots
+height-mean-error
+height-rmse
+dbh-mean-error
+dbh-rmse
 hatr-values
 mean-and-sd
 bayesian-p-value

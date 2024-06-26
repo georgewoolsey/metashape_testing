@@ -527,14 +527,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   select(-c(.point,.interval, .width)) %>% 
   dplyr::arrange(desc(contrast)) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts in F-score"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -734,7 +734,6 @@ make_contrast_vars = function(my_data){
 }
 # brms_contrast_temp %>% dplyr::group_by(contrast) %>% make_contrast_vars() %>% dplyr::glimpse()
 ```
-
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
@@ -1124,7 +1123,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -1132,7 +1131,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1701,7 +1700,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -1709,7 +1708,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -1837,7 +1836,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -1845,7 +1844,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2415,7 +2414,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -2423,7 +2422,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2563,7 +2562,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -2571,7 +2570,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -2683,7 +2682,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
   dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -2691,7 +2690,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "quality"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -3287,6 +3286,7 @@ We won't clutter the output here but this can be run if you are following along 
 
 ```{r, eval=F}
 brms_f_mod5 %>% 
+  summary() %>% str()
   brms::posterior_summary() %>% 
   as.data.frame() %>% 
   tibble::rownames_to_column(var = "parameter") %>%
@@ -3398,20 +3398,26 @@ ggplot2::ggsave("../data/qlty_fltr_mod5.png", height = 7, width = 10.5)
 and a table of these 95% HDI values
 
 ```{r}
-qlty_filter_draws_temp %>% 
-  tidybayes::median_hdi(value) %>% 
-  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
-  dplyr::rename(difference=value) %>% 
+table_temp =
+  qlty_filter_draws_temp %>% 
+    tidybayes::median_hdi(value) %>% 
+    dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+    dplyr::arrange(depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+
+table_temp %>%
+  dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "quality", "filtering"
-      , "median"
-      , "2.5%", "97.5%"
+      "filtering mode"
+      , "F-score<br>median"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -3493,23 +3499,28 @@ ggplot2::ggsave("../data/qlty_fltr_comp_mod5.png", height = 7, width = 10.5)
 and summarize these contrasts
 
 ```{r}
-brms_contrast_temp %>%
+table_temp = 
+  brms_contrast_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+  dplyr::arrange(contrast, depth_maps_generation_filtering_mode)
+
+table_temp %>% 
+  dplyr::select(-c(contrast)) %>% 
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
-      "quality contrast"
-      , "filtering mode"
-      , "difference (F-score)"
-      , "2.5%", "97.5%"
+      "filtering mode"
+      , "median difference<br>F-score"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$contrast))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -3587,25 +3598,32 @@ qlty_sftwr_draws_temp %>%
 and a table of these 95% HDI values
 
 ```{r}
-qlty_sftwr_draws_temp %>% 
-  tidybayes::median_hdi(value) %>% 
-  # remove out-of-sample obs
-  dplyr::inner_join(
-    ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
-    , by = dplyr::join_by(depth_maps_generation_quality, software)
-  ) %>% 
-  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
-  dplyr::rename(difference=value) %>% 
+table_temp = 
+  qlty_sftwr_draws_temp %>% 
+    tidybayes::median_hdi(value) %>% 
+    # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
+    dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+    dplyr::arrange(depth_maps_generation_quality, software)
+  
+table_temp %>% 
+  dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "quality", "software"
-      , "median"
-      , "2.5%", "97.5%"
+      "software"
+      , "F-score<br>median"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
-  kableExtra::kable_styling()
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -3693,7 +3711,6 @@ table_temp = brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
   dplyr::arrange(software, contrast)
 
 table_temp %>% 
@@ -3703,9 +3720,10 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
-      , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "median difference<br>F-score"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
   kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
@@ -3787,8 +3805,8 @@ table_temp = brms_contrast_temp %>%
   dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
-  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) 
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper)
+   
 table_temp %>% 
   dplyr::select(-c(contrast)) %>% 
   kableExtra::kbl(
@@ -3796,9 +3814,10 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality"
-      , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "median difference<br>F-score"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
   kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$contrast))) %>% 
@@ -3865,20 +3884,27 @@ fltr_sftwr_draws_temp %>%
 and a table of these 95% HDI values
 
 ```{r}
-fltr_sftwr_draws_temp %>% 
-  tidybayes::median_hdi(value) %>% 
-  dplyr::select(-c(.point,.interval, .width,.row)) %>% 
-  dplyr::rename(difference=value) %>% 
+table_temp = 
+  fltr_sftwr_draws_temp %>% 
+    tidybayes::median_hdi(value) %>% 
+    dplyr::select(-c(.point,.interval, .width,.row)) %>% 
+    dplyr::arrange(software,depth_maps_generation_filtering_mode)
+
+table_temp %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "filtering", "software"
-      , "median"
-      , "2.5%", "97.5%"
+      "filtering mode"
+      , "F-score<br>median"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
-  kableExtra::kable_styling()
+  kableExtra::kable_styling() %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -3957,8 +3983,8 @@ table_temp = brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
   dplyr::arrange(software, contrast)
+
 table_temp %>% 
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
@@ -3966,9 +3992,10 @@ table_temp %>%
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering contrast"
-      , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "median difference<br>F-score"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
   kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
@@ -4078,31 +4105,34 @@ let's add a table of the results
 ```{r}
 table_temp =
   fltr_sftwr_draws_temp %>% 
+  tidybayes::median_hdi(value) %>%
   dplyr::inner_join(
     ptcld_validation_data %>% dplyr::distinct(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
     , by = dplyr::join_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
   ) %>% 
   dplyr::mutate(depth_maps_generation_quality = depth_maps_generation_quality %>% forcats::fct_rev()) %>%
-  tidybayes::median_hdi(value) %>%
   dplyr::select(c(
     software, depth_maps_generation_quality, depth_maps_generation_filtering_mode
     , value, .lower, .upper
   )) %>% 
   dplyr::ungroup() %>% 
   dplyr::arrange(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
+
 table_temp %>% 
-  dplyr::select(-c(software)) %>% 
+  # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional means"
     , col.names = c(
-      "quality", "filtering"
-      , "F-score"
-      , "2.5%", "97.5%"
+      "software", "quality", "filtering mode"
+      , "F-score<br>median"
+      , "HDI low", "HDI high"
     )
+    , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  # kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
+  kableExtra::collapse_rows(columns = 1:2, valign = "top") %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -4364,14 +4394,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -4544,14 +4574,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -4685,14 +4715,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5584,7 +5614,7 @@ ou_ptcld_validation_data %>%
     , col.names = c(
       ""
       , "F-score"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5656,14 +5686,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "overstory contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5729,7 +5759,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, story) %>% 
   dplyr::select(contrast, story, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -5737,7 +5767,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "overstory/understory"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5928,7 +5958,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -5936,7 +5966,7 @@ kableExtra::kbl(
       "quality contrast"
       , "filtering mode"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6094,7 +6124,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
     digits = 2
@@ -6103,7 +6133,7 @@ brms_contrast_temp %>%
       "quality contrast"
       , "software"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6185,7 +6215,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
   dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
@@ -6193,7 +6223,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "quality"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6329,7 +6359,7 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
   dplyr::select(contrast, software, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
     digits = 2
@@ -6338,7 +6368,7 @@ brms_contrast_temp %>%
       "filtering contrast"
       , "software"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6624,14 +6654,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -6749,14 +6779,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
 kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -6843,14 +6873,14 @@ brms_contrast_temp %>%
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
   dplyr::select(contrast, value, .lower, .upper) %>% 
-  dplyr::rename(difference=value) %>% 
+   
   kableExtra::kbl(
     digits = 2
     , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
-      , "2.5%", "97.5%"
+      , "HDI low", "HDI high"
     )
   ) %>% 
   kableExtra::kable_styling()

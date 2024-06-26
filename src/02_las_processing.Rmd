@@ -2,7 +2,7 @@
 
 After running the UAS point cloud [processing script](https://github.com/georgewoolsey/metashape_testing/blob/main/src/software_point_cloud_processing.R) in **R**...the processing tracking data file is used to compare summary statistics on point cloud processing times.
 
-For comparison across software, the SfM point cloud generation processing parameters need are mapped to the Metashape parameters based on the [Pix4D documentation](https://support.pix4d.com/hc/en-us/articles/202557799-Menu-Process-Processing-Options-2-Point-Cloud-and-Mesh-Point-Cloud-PIX4Dmapper) and the [Agisoft Metashape discussion board](https://www.agisoft.com/forum/index.php?topic=11007.0)
+For comparison across software, the SfM point cloud generation processing parameters are mapped to the Metashape parameters based on the [Pix4D documentation](https://support.pix4d.com/hc/en-us/articles/202557799-Menu-Process-Processing-Options-2-Point-Cloud-and-Mesh-Point-Cloud-PIX4Dmapper), the [OpenDroneMap documentation](https://docs.opendronemap.org/arguments/), and the [Agisoft Metashape discussion board](https://www.agisoft.com/forum/index.php?topic=11007.0)
 
 ```{r processing-dta-ld, results='hide'}
 ### get tracking data
