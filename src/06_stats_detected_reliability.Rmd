@@ -713,23 +713,28 @@ and a table of these 95% HDI values
 table_temp = 
   draws_temp %>% 
   tidybayes::median_hdi(value) %>% 
+  # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>%
-  dplyr::arrange(depth_maps_generation_quality, software)
+  dplyr::arrange(software,depth_maps_generation_quality)
 
 table_temp %>% 
-  dplyr::select(-c(depth_maps_generation_quality)) %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "Height Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "software"
+      "quality"
       , "Height Mean Error (m)<br>median"
       , "HDI low", "HDI high"
     )
     , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -1268,23 +1273,28 @@ and a table of these 95% HDI values
 table_temp = 
   draws_temp %>% 
   tidybayes::median_hdi(value) %>% 
+  # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>%
-  dplyr::arrange(depth_maps_generation_quality, software)
+  dplyr::arrange(software,depth_maps_generation_quality)
 
 table_temp %>% 
-  dplyr::select(-c(depth_maps_generation_quality)) %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "software"
+      "quality"
       , "Height RMSE (m)<br>median"
       , "HDI low", "HDI high"
     )
     , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -2229,23 +2239,28 @@ and a table of these 95% HDI values
 table_temp = 
   draws_temp %>% 
   tidybayes::median_hdi(value) %>% 
+  # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>%
-  dplyr::arrange(depth_maps_generation_quality, software)
+  dplyr::arrange(software,depth_maps_generation_quality)
 
 table_temp %>% 
-  dplyr::select(-c(depth_maps_generation_quality)) %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "software"
+      "quality"
       , "DBH Mean Error (cm)<br>median"
       , "HDI low", "HDI high"
     )
     , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 
@@ -2764,23 +2779,28 @@ and a table of these 95% HDI values
 table_temp = 
   draws_temp %>% 
   tidybayes::median_hdi(value) %>% 
+  # remove out-of-sample obs
+    dplyr::inner_join(
+      ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality, software)
+      , by = dplyr::join_by(depth_maps_generation_quality, software)
+    ) %>% 
   dplyr::select(-c(.point,.interval, .width,.row)) %>%
-  dplyr::arrange(depth_maps_generation_quality, software)
+  dplyr::arrange(software,depth_maps_generation_quality)
 
 table_temp %>% 
-  dplyr::select(-c(depth_maps_generation_quality)) %>% 
+  dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
     , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
     , col.names = c(
-      "software"
+      "quality"
       , "DBH RMSE (cm)<br>median"
       , "HDI low", "HDI high"
     )
     , escape = F
   ) %>% 
   kableExtra::kable_styling() %>% 
-  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$depth_maps_generation_quality))) %>% 
+  kableExtra::pack_rows(index = table(forcats::fct_inorder(table_temp$software))) %>% 
   kableExtra::scroll_box(height = "8in")
 ```
 

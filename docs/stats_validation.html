@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_c3d41b-1/data_stars_canopyhtm15842b.txt"></script>
+<script src="libs/canopy ht. (m)_b7a351-1/data_stars_canopyhtm853f7a.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -12472,22 +12472,22 @@ disabled
 <span id="cb334-7"><a href="stats_validation.html#cb334-7" tabindex="-1"></a>      , <span class="at">by =</span> dplyr<span class="sc">::</span><span class="fu">join_by</span>(depth_maps_generation_quality, software)</span>
 <span id="cb334-8"><a href="stats_validation.html#cb334-8" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
 <span id="cb334-9"><a href="stats_validation.html#cb334-9" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(.point,.interval, .width,.row)) <span class="sc">%&gt;%</span> </span>
-<span id="cb334-10"><a href="stats_validation.html#cb334-10" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(depth_maps_generation_quality, software)</span>
+<span id="cb334-10"><a href="stats_validation.html#cb334-10" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(software,depth_maps_generation_quality)</span>
 <span id="cb334-11"><a href="stats_validation.html#cb334-11" tabindex="-1"></a>  </span>
 <span id="cb334-12"><a href="stats_validation.html#cb334-12" tabindex="-1"></a>table_temp <span class="sc">%&gt;%</span> </span>
-<span id="cb334-13"><a href="stats_validation.html#cb334-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(depth_maps_generation_quality)) <span class="sc">%&gt;%</span> </span>
+<span id="cb334-13"><a href="stats_validation.html#cb334-13" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(software)) <span class="sc">%&gt;%</span> </span>
 <span id="cb334-14"><a href="stats_validation.html#cb334-14" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kbl</span>(</span>
 <span id="cb334-15"><a href="stats_validation.html#cb334-15" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span></span>
 <span id="cb334-16"><a href="stats_validation.html#cb334-16" tabindex="-1"></a>    , <span class="at">caption =</span> <span class="st">&quot;F-score&lt;br&gt;95% HDI of the posterior distribution of conditional mean group estimates&quot;</span></span>
 <span id="cb334-17"><a href="stats_validation.html#cb334-17" tabindex="-1"></a>    , <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb334-18"><a href="stats_validation.html#cb334-18" tabindex="-1"></a>      <span class="st">&quot;software&quot;</span></span>
+<span id="cb334-18"><a href="stats_validation.html#cb334-18" tabindex="-1"></a>      <span class="st">&quot;quality&quot;</span></span>
 <span id="cb334-19"><a href="stats_validation.html#cb334-19" tabindex="-1"></a>      , <span class="st">&quot;F-score&lt;br&gt;median&quot;</span></span>
 <span id="cb334-20"><a href="stats_validation.html#cb334-20" tabindex="-1"></a>      , <span class="st">&quot;HDI low&quot;</span>, <span class="st">&quot;HDI high&quot;</span></span>
 <span id="cb334-21"><a href="stats_validation.html#cb334-21" tabindex="-1"></a>    )</span>
 <span id="cb334-22"><a href="stats_validation.html#cb334-22" tabindex="-1"></a>    , <span class="at">escape =</span> F</span>
 <span id="cb334-23"><a href="stats_validation.html#cb334-23" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb334-24"><a href="stats_validation.html#cb334-24" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb334-25"><a href="stats_validation.html#cb334-25" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">pack_rows</span>(<span class="at">index =</span> <span class="fu">table</span>(forcats<span class="sc">::</span><span class="fu">fct_inorder</span>(table_temp<span class="sc">$</span>depth_maps_generation_quality))) <span class="sc">%&gt;%</span> </span>
+<span id="cb334-25"><a href="stats_validation.html#cb334-25" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">pack_rows</span>(<span class="at">index =</span> <span class="fu">table</span>(forcats<span class="sc">::</span><span class="fu">fct_inorder</span>(table_temp<span class="sc">$</span>software))) <span class="sc">%&gt;%</span> </span>
 <span id="cb334-26"><a href="stats_validation.html#cb334-26" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;8in&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -12497,7 +12497,7 @@ disabled
 <thead>
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-software
+quality
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 F-score<br>median
@@ -12511,14 +12511,14 @@ HDI high
 </tr>
 </thead>
 <tbody>
-<tr grouplength="3">
+<tr grouplength="5">
 <td colspan="4" style="border-bottom: 1px solid;">
-<strong>ultra high</strong>
+<strong>METASHAPE</strong>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-METASHAPE
+ultra high
 </td>
 <td style="text-align:right;">
 0.61
@@ -12532,40 +12532,7 @@ METASHAPE
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-OPENDRONEMAP
-</td>
-<td style="text-align:right;">
-0.58
-</td>
-<td style="text-align:right;">
-0.34
-</td>
-<td style="text-align:right;">
-0.81
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-PIX4D
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-0.29
-</td>
-<td style="text-align:right;">
-0.78
-</td>
-</tr>
-<tr grouplength="3">
-<td colspan="4" style="border-bottom: 1px solid;">
-<strong>high</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-METASHAPE
+high
 </td>
 <td style="text-align:right;">
 0.59
@@ -12579,40 +12546,7 @@ METASHAPE
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-OPENDRONEMAP
-</td>
-<td style="text-align:right;">
-0.50
-</td>
-<td style="text-align:right;">
-0.26
-</td>
-<td style="text-align:right;">
-0.75
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-PIX4D
-</td>
-<td style="text-align:right;">
-0.54
-</td>
-<td style="text-align:right;">
-0.29
-</td>
-<td style="text-align:right;">
-0.78
-</td>
-</tr>
-<tr grouplength="3">
-<td colspan="4" style="border-bottom: 1px solid;">
-<strong>medium</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-METASHAPE
+medium
 </td>
 <td style="text-align:right;">
 0.53
@@ -12626,40 +12560,7 @@ METASHAPE
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-OPENDRONEMAP
-</td>
-<td style="text-align:right;">
-0.33
-</td>
-<td style="text-align:right;">
-0.13
-</td>
-<td style="text-align:right;">
-0.57
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-PIX4D
-</td>
-<td style="text-align:right;">
-0.53
-</td>
-<td style="text-align:right;">
-0.28
-</td>
-<td style="text-align:right;">
-0.77
-</td>
-</tr>
-<tr grouplength="3">
-<td colspan="4" style="border-bottom: 1px solid;">
-<strong>low</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-METASHAPE
+low
 </td>
 <td style="text-align:right;">
 0.40
@@ -12673,7 +12574,54 @@ METASHAPE
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-OPENDRONEMAP
+lowest
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+</tr>
+<tr grouplength="5">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>OPENDRONEMAP</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ultra high
+</td>
+<td style="text-align:right;">
+0.58
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+<td style="text-align:right;">
+0.81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+high
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+medium
 </td>
 <td style="text-align:right;">
 0.33
@@ -12687,40 +12635,21 @@ OPENDRONEMAP
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-PIX4D
+low
 </td>
 <td style="text-align:right;">
-0.47
+0.33
 </td>
 <td style="text-align:right;">
-0.22
+0.13
 </td>
 <td style="text-align:right;">
-0.72
-</td>
-</tr>
-<tr grouplength="2">
-<td colspan="4" style="border-bottom: 1px solid;">
-<strong>lowest</strong>
+0.57
 </td>
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-METASHAPE
-</td>
-<td style="text-align:right;">
-0.14
-</td>
-<td style="text-align:right;">
-0.04
-</td>
-<td style="text-align:right;">
-0.30
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-OPENDRONEMAP
+lowest
 </td>
 <td style="text-align:right;">
 0.31
@@ -12730,6 +12659,67 @@ OPENDRONEMAP
 </td>
 <td style="text-align:right;">
 0.55
+</td>
+</tr>
+<tr grouplength="4">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>PIX4D</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ultra high
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+high
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+medium
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+low
+</td>
+<td style="text-align:right;">
+0.47
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.72
 </td>
 </tr>
 </tbody>
@@ -16514,10 +16504,10 @@ P.sd
 brms_f_mod4
 </td>
 <td style="text-align:right;">
-0.51
+0.50
 </td>
 <td style="text-align:right;">
-0.61
+0.59
 </td>
 </tr>
 <tr>
@@ -16525,10 +16515,10 @@ brms_f_mod4
 brms_f_mod5
 </td>
 <td style="text-align:right;">
-0.24
+0.23
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 </tr>
 <tr>
@@ -16539,7 +16529,7 @@ brms_f_mod5_5
 0.34
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 </tr>
 </tbody>
