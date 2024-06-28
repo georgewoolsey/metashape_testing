@@ -195,7 +195,7 @@ ptcld_validation_data %>%
     , sd_f_score = sd(f_score, na.rm = T)
     , n = dplyr::n()
   ) %>% 
-  kableExtra::kbl(digits = 2, caption = "summary statistics: F-score by depth map quality") %>% 
+  kableExtra::kbl(digits = 2, caption = "summary statistics: F-score by dense cloud quality") %>% 
   kableExtra::kable_styling()
 ```
 
@@ -266,7 +266,7 @@ brms_f_mod1 %>%
       stringr::str_remove_all("b_depth_maps_generation_quality") %>% 
       stringr::str_remove_all("r_depth_maps_generation_quality")
   ) %>% 
-  kableExtra::kbl(digits = 2, caption = "Bayesian one nominal predictor: F-score by depth map quality") %>% 
+  kableExtra::kbl(digits = 2, caption = "Bayesian one nominal predictor: F-score by dense cloud quality") %>% 
   kableExtra::kable_styling()
 ```
 
@@ -280,7 +280,7 @@ stats::coef(brms_f_mod1) %>%
     .cols = -c("group")
     , .fn = ~ stringr::str_remove_all(.x, "depth_maps_generation_quality.")
   ) %>% 
-  kableExtra::kbl(digits = 2, caption = "brms::brm model: F-score by depth map quality") %>% 
+  kableExtra::kbl(digits = 2, caption = "brms::brm model: F-score by dense cloud quality") %>% 
   kableExtra::kable_styling()
 ```
 
@@ -310,7 +310,7 @@ brms::as_draws_df(brms_f_mod1) %>%
   theme_light()
 ```
 
-plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
+plot the posterior predictive distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -334,7 +334,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -503,7 +503,7 @@ brms_contrast_temp %>%
       y = "quality"
       , x = "constrast (F-score)"
       , fill = "Pr(contrast)"
-      , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+      , subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -530,7 +530,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts in F-score"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts in F-score"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
@@ -585,7 +585,7 @@ plt_contrast <- function(
         y = y_axis_title
         , x = "constrast (F-score)"
         , fill = "Pr(contrast)"
-        , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+        , subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI"
         , caption = caption_text
       ) +
       theme_light() +
@@ -834,7 +834,7 @@ ptcld_validation_data %>%
   ) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "summary statistics: F-score by depth map quality and filtering mode"
+    , caption = "summary statistics: F-score by dense cloud quality and filtering mode"
     , col.names = c(
       "quality"
       , "filtering mode"
@@ -957,7 +957,7 @@ brms_f_mod2 %>%
       stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
       stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
   ) %>% 
-  kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors: F-score by depth map quality and filtering mode") %>% 
+  kableExtra::kbl(digits = 2, caption = "Bayesian two nominal predictors: F-score by dense cloud quality and filtering mode") %>% 
   kableExtra::kable_styling() %>% 
   kableExtra::scroll_box(height = "6in")
 ```
@@ -1002,7 +1002,7 @@ dplyr::bind_rows(
     kableExtra::kable_styling()
 ```
 
-plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
+plot the posterior predictive distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
 
 ```{r}
 ptcld_validation_data %>% 
@@ -1028,7 +1028,7 @@ ptcld_validation_data %>%
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
       , fill = "Filtering Mode"
       , caption = form_temp
     ) +
@@ -1111,7 +1111,7 @@ plt_contrast(
   , x_expand = c(0,0.65)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
   )
 ```
 
@@ -1126,7 +1126,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -1143,7 +1143,7 @@ kableExtra::kbl(
 
 > In applications with multiple levels of the factors, it is virtually always the case that we are interested in comparing particular levels with each other...These sorts of comparisons, which involve levels of a single factor and collapse across the other factor(s), are called main effect comparisons or contrasts.(p. 595)
 
-First, let's collapse across the filtering mode to compare the depth map quality setting effect.
+First, let's collapse across the filtering mode to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -1172,7 +1172,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -1215,7 +1215,7 @@ these results are as expected, with [Kruschke (2015)](https://sites.google.com/s
 
 > It is important to realize that the estimates of interaction contrasts are typically much more uncertain than the estimates of simple effects or main effects...This large uncertainty of an interaction contrast is caused by the fact that it involves at least four sources of uncertainty (i.e., at least four groups of data), unlike its component simple effects which each involve only half of those sources of uncertainty. In general, interaction contrasts require a lot of data to estimate accurately. (p. 598)
 
-For completeness, let's also collapse across the depth map quality to compare the filtering mode setting effect.
+For completeness, let's also collapse across the dense cloud quality to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -1244,14 +1244,14 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "filtering mode", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
     theme(legend.position = "none")
 ```
 
-...it looks like the variation in F-score is driven by the depth map quality setting. We can quantify the variation in F-score by comparing the $\sigma$ posteriors.
+...it looks like the variation in F-score is driven by the dense cloud quality setting. We can quantify the variation in F-score by comparing the $\sigma$ posteriors.
 
 ```{r}
 # extract the posterior draws
@@ -1315,7 +1315,7 @@ ptcld_validation_data %>%
   ) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "summary statistics: F-score by depth map quality, filtering mode, and software"
+    , caption = "summary statistics: F-score by dense cloud quality, filtering mode, and software"
     , col.names = c(
       "quality"
       , "filtering mode"
@@ -1563,9 +1563,9 @@ dplyr::bind_rows(
     kableExtra::kable_styling()
 ```
 
-plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
+plot the posterior predictive distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `software`. For this model we have to collapse across the software effects to compare the depth map quality and filtering mode setting effects.
+Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `software`. For this model we have to collapse across the software effects to compare the dense cloud quality and filtering mode setting effects.
 
 ```{r}
 ptcld_validation_data %>% 
@@ -1597,7 +1597,7 @@ ptcld_validation_data %>%
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
       , fill = "Filtering Mode"
       , caption = form_temp
     ) +
@@ -1687,7 +1687,7 @@ plt_contrast(
   , x_expand = c(0,0.6)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
   )
 
 ```
@@ -1703,7 +1703,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -1715,9 +1715,9 @@ kableExtra::kbl(
   kableExtra::scroll_box(height = "6in")
 ```
 
-It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
+It might be more important to understand the difference in F-score by dense cloud quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `depth_maps_generation_filtering_mode`. For this model we have to collapse across the filtering mode effects to compare the depth map quality and software setting effects.
+Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `depth_maps_generation_filtering_mode`. For this model we have to collapse across the filtering mode effects to compare the dense cloud quality and software setting effects.
 
 ```{r}
 qlty_sftwr_draws_temp = ptcld_validation_data %>% 
@@ -1751,7 +1751,7 @@ qlty_sftwr_draws_temp %>%
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
     , caption = form_temp
   ) +
   theme_light() +
@@ -1823,7 +1823,7 @@ plt_contrast(
   , x_expand = c(0,0.5)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
 ```
@@ -1839,7 +1839,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "software"
@@ -1851,7 +1851,7 @@ brms_contrast_temp %>%
   kableExtra::scroll_box(height = "6in")
 ```
 
-let's collapse across the filtering mode and software to compare the depth map quality setting effect.
+let's collapse across the filtering mode and software to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -1880,7 +1880,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -1926,7 +1926,7 @@ ptcld_validation_data %>%
   
 ```
 
-let's also collapse across the depth map quality and software to compare the filtering mode setting effect.
+let's also collapse across the dense cloud quality and software to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -1955,7 +1955,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "filtering mode", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -1997,7 +1997,7 @@ ptcld_validation_data %>%
   
 ```
 
-to address one of our main questions, let's also collapse across the depth map quality and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the dense cloud quality and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -2026,7 +2026,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "software", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -2082,7 +2082,7 @@ In the model we use below, the study site is modeled as a "random effect." [Hobb
 
 ### Summary Statistics
 
-Each study site contributes one observation per depth map quality, filtering mode, and software. That is, a row in the underlying data is unique by study site, software, depth map quality, and filtering mode.
+Each study site contributes one observation per dense cloud quality, filtering mode, and software. That is, a row in the underlying data is unique by study site, software, dense cloud quality, and filtering mode.
 
 ```{r}
 identical(
@@ -2284,7 +2284,7 @@ dplyr::bind_rows(
     kableExtra::kable_styling()
 ```
 
-plot the posterior distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
+plot the posterior predictive distributions of the conditional means with the median F-score and the 95% highest posterior density interval (HDI)
 
 Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `study_site` (i.e., we left `(1 | study_site)` out of the formula) and `software` (i.e., we left `(1 | software)` and its interactions out of the formula).
 
@@ -2321,7 +2321,7 @@ qlty_filter_draws_temp %>%
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
       , fill = "Filtering Mode"
       , caption = form_temp
     ) +
@@ -2401,7 +2401,7 @@ plt_contrast(
   , x_expand = c(-0.1,0.43)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
   )
 
 ```
@@ -2417,7 +2417,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -2429,9 +2429,9 @@ kableExtra::kbl(
   kableExtra::scroll_box(height = "8in")
 ```
 
-It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
+It might be more important to understand the difference in F-score by dense cloud quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `depth_maps_generation_filtering_mode`. For this model we have to collapse across the filtering mode effects to compare the depth map quality and software setting effects.
+Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the random effects of `depth_maps_generation_filtering_mode`. For this model we have to collapse across the filtering mode effects to compare the dense cloud quality and software setting effects.
 
 ```{r}
 ptcld_validation_data %>% 
@@ -2463,7 +2463,7 @@ ptcld_validation_data %>%
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
     , caption = form_temp
   ) +
   theme_light() +
@@ -2548,10 +2548,14 @@ plt_contrast(
   , x_expand = c(0,0.5)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
-ggplot2::ggsave("../data/qlty_sftwr_comp_mod4.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_sftwr_comp_mod4.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -2565,7 +2569,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "software"
@@ -2610,7 +2614,7 @@ plt_contrast(
 ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
   ) +
   theme(
     legend.position = c(.75, .13)
@@ -2655,7 +2659,7 @@ brms_contrast_temp %>%
   labs(
     y = "software"
     , x = "constrast (F-score)"
-    , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    , subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
     , fill = "Pr(abs(contrast) > 0.05)"
     , caption = form_temp
   ) +
@@ -2671,7 +2675,11 @@ brms_contrast_temp %>%
     legend.key.height = unit(7, "lines")
   )))
 
-ggplot2::ggsave("../data/sftwr_qlty_comp_mod4.png", height = 8, width = 6)
+ggplot2::ggsave(
+  "../data/sftwr_qlty_comp_mod4.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 8, width = 6
+)
 ```
 
 and summarize these contrasts
@@ -2685,7 +2693,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "software contrast"
       , "quality"
@@ -2697,7 +2705,7 @@ brms_contrast_temp %>%
   kableExtra::scroll_box(height = "8in")
 ```
 
-let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
+let's collapse across the filtering mode, software, and study site to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -2726,7 +2734,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -2780,7 +2788,7 @@ ptcld_validation_data %>%
   
 ```
 
-let's also collapse across the depth map quality, software, and study site to compare the filtering mode setting effect.
+let's also collapse across the dense cloud quality, software, and study site to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -2809,7 +2817,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "filtering mode", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -2859,7 +2867,7 @@ ptcld_validation_data %>%
   
 ```
 
-to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the study site, dense cloud quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -2888,7 +2896,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "software", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -3074,7 +3082,7 @@ brms_f_mod5 = brms::brm(
 
 #### Posterior Predictive Checks{#ppcheck_mod5}
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
@@ -3231,7 +3239,7 @@ p2_temp = brms::pp_check(
 (p1_temp / p2_temp) &
   theme(legend.position = "none") &
   plot_annotation(
-    title = "Posterior-predictive statistical checks\nby depth map quality"
+    title = "Posterior-predictive statistical checks\nby dense cloud quality"
     , subtitle = expression(
       "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
   )
@@ -3239,7 +3247,7 @@ p2_temp = brms::pp_check(
 ggplot2::ggsave("../data/ppchk_qlty_mod5.png", height = 7, width = 10.5)
 ```
 
-Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+Both the means and sd's of the F-score are well represented across the different levels of dense cloud quality
 
 What about for the software?
 
@@ -3341,7 +3349,7 @@ ggplot2::ggsave("../data/phi_posterior_mod5.png", height = 7, width = 10.5)
 
 Are there differences in F-score based on dense point cloud generation quality within each level of filtering mode?
 
-Here, we collapse across the study site and software to compare the combined depth map quality and filtering mode effect.
+Here, we collapse across the study site and software to compare the combined dense cloud quality and filtering mode effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -3381,7 +3389,7 @@ qlty_filter_draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
       , fill = "Filtering Mode"
       # , caption = form_temp
     ) +
@@ -3392,7 +3400,11 @@ qlty_filter_draws_temp =
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-ggplot2::ggsave("../data/qlty_fltr_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and a table of these 95% HDI values
@@ -3408,7 +3420,7 @@ table_temp %>%
   dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "F-score<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "F-score<br>median"
@@ -3488,12 +3500,16 @@ plt_contrast(
   , x_expand = c(0,0.6)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
   ) +
   theme(
     axis.text.x = element_text(size = 7)
   )
-ggplot2::ggsave("../data/qlty_fltr_comp_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_comp_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -3511,7 +3527,7 @@ table_temp %>%
   dplyr::select(-c(contrast)) %>% 
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "filtering mode"
       , "median difference<br>F-score"
@@ -3526,11 +3542,11 @@ kableExtra::kbl(
 
 #### Software:Quality - interaction
 
-It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
+It might be more important to understand the difference in F-score by dense cloud quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
 
 Are there differences in F-score based on dense point cloud generation quality within each different processing software? We will also address the similar but slightly different question of "are there differences in F-score based on the processing software used at a given dense point cloud generation quality?"
 
-Here, we collapse across the study site and filtering mode to compare the combined depth map quality and software effect.
+Here, we collapse across the study site and filtering mode to compare the combined dense cloud quality and software effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -3583,7 +3599,7 @@ qlty_sftwr_draws_temp %>%
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
     # , caption = form_temp
   ) +
   theme_light() +
@@ -3613,7 +3629,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "F-score<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "quality"
       , "F-score<br>median"
@@ -3697,10 +3713,14 @@ plt_contrast(
   , x_expand = c(0.56,0.9) # c(0,0.7)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
-ggplot2::ggsave("../data/qlty_sftwr_comp_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_sftwr_comp_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -3717,7 +3737,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "median difference<br>F-score"
@@ -3785,7 +3805,7 @@ plt_contrast(
 ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
   ) +
   theme(
     legend.position = c(.75, .13)
@@ -3795,7 +3815,11 @@ plt_contrast(
     legend.key.height = unit(7, "lines")
   )))
 
-ggplot2::ggsave("../data/sftwr_qlty_comp_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/sftwr_qlty_comp_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -3811,7 +3835,7 @@ table_temp %>%
   dplyr::select(-c(contrast)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality"
       , "median difference<br>F-score"
@@ -3869,7 +3893,7 @@ fltr_sftwr_draws_temp %>%
   facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby filtering mode"
     # , caption = form_temp
   ) +
   theme_light() +
@@ -3894,7 +3918,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "F-score<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "F-score<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "F-score<br>median"
@@ -3969,10 +3993,14 @@ plt_contrast(
   , x_expand = c(1.8,1.8) # c(1,1.4)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
-ggplot2::ggsave("../data/fltr_sftwr_comp_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/fltr_sftwr_comp_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -3989,7 +4017,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "filtering contrast"
       , "median difference<br>F-score"
@@ -4008,7 +4036,7 @@ The contrasts immediately above address the question "are there differences in F
 
 Let's get the model's answer to the question "For each software, are there differences in F-score based on dense point cloud filtering mode within each point cloud generation quality?".
 
-Here, we collapse across the study site to compare the depth map quality, filtering mode, and software effect.
+Here, we collapse across the study site to compare the dense cloud quality, filtering mode, and software effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -4079,7 +4107,7 @@ fltr_sftwr_draws_temp %>%
   labs(
     fill = ""
     , x = "filtering mode", y = "F-score"
-    # , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    # , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality and software"
     , subtitle = "quality"
     # , caption = form_temp
   ) +
@@ -4097,7 +4125,11 @@ fltr_sftwr_draws_temp %>%
     fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
   )
 
-ggplot2::ggsave("../data/qlty_fltr_sftwr_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 let's add a table of the results
@@ -4122,7 +4154,7 @@ table_temp %>%
   # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional means"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution"
     , col.names = c(
       "software", "quality", "filtering mode"
       , "F-score<br>median"
@@ -4213,15 +4245,19 @@ brms_contrast_temp %>%
     , cols = vars(depth_maps_generation_quality)
   ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality and software"
   )
   
-ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_mod5.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_comp_mod5.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 #### Quality - main effect
 
-let's collapse across the filtering mode, software, and study site to compare the depth map quality setting effect.
+let's collapse across the filtering mode, software, and study site to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -4254,7 +4290,7 @@ ptcld_validation_data %>%
     # scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -4317,7 +4353,7 @@ ptcld_validation_data %>%
   
 ```
 
-we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the depth map quality setting effect
+we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the dense cloud quality setting effect
 
 ```{r}
 brms_contrast_temp =
@@ -4397,7 +4433,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
@@ -4409,7 +4445,7 @@ kableExtra::kbl(
 
 #### Filtering - main effect
 
-let's collapse across the depth map quality, software, and study site to compare the depth map quality setting effect.
+let's collapse across the dense cloud quality, software, and study site to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -4441,7 +4477,7 @@ ptcld_validation_data %>%
     scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "filtering mode", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -4499,7 +4535,7 @@ ptcld_validation_data %>%
   
 ```
 
-we can also perform pairwise comparisons after collapsing across the depth map quality, software, and study site to compare the filtering mode setting effect.
+we can also perform pairwise comparisons after collapsing across the dense cloud quality, software, and study site to compare the filtering mode setting effect.
 
 ```{r}
 brms_contrast_temp =
@@ -4577,7 +4613,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
@@ -4589,7 +4625,7 @@ kableExtra::kbl(
 
 #### Software - main effect
 
-to address one of our main questions, let's also collapse across the study site, depth map quality, and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the study site, dense cloud quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -4621,7 +4657,7 @@ ptcld_validation_data %>%
     scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "software", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -4671,7 +4707,7 @@ ptcld_validation_data %>%
   
 ```
 
-we can also perform pairwise comparisons after collapsing across the filtering mode, depth map quality setting, and study site to compare the software main effect
+we can also perform pairwise comparisons after collapsing across the filtering mode, dense cloud quality setting, and study site to compare the software main effect
 
 ```{r}
 brms_contrast_temp =
@@ -4718,7 +4754,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
@@ -4765,7 +4801,7 @@ brms::as_draws_df(brms_f_mod5) %>%
   theme_light()
 ```
 
-Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
+Variance of study site is stronger than variance of depth map generation quality, but the posterior predictive distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
 
 and perform model selection via information criteria with the `brms::loo_compare()` function
 
@@ -4934,7 +4970,7 @@ brms::posterior_predict(brms_f_mod5_5, ndraws = 1000) %>%
 
 #### Posterior Predictive Checks
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
@@ -5091,7 +5127,7 @@ p2_temp = brms::pp_check(
 (p1_temp / p2_temp) &
   theme(legend.position = "none") &
   plot_annotation(
-    title = "Posterior-predictive statistical checks\nby depth map quality"
+    title = "Posterior-predictive statistical checks\nby dense cloud quality"
     , subtitle = expression(
       "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
   )
@@ -5099,7 +5135,7 @@ p2_temp = brms::pp_check(
 ggplot2::ggsave("../data/ppchk_qlty_mod5_5.png", height = 7, width = 10.5)
 ```
 
-Both the means and sd's of the F-score are well represented across the different levels of depth map quality
+Both the means and sd's of the F-score are well represented across the different levels of dense cloud quality
 
 What about for the software?
 
@@ -5215,7 +5251,7 @@ Here, let's add a factor variable with levels for overstory and understory as a 
 
 The overall F-score is not the same as combining the overstory and understory F-score by calculating the mean of these values due to the differing number of observations in each. To build this model we need to convert our data to long format so that a row is also unique by our overstory/understory factor.
 
-Each study site contributes one observation per depth map quality, filtering mode, software, and overstory/understory factor. That is, a row in the underlying data is unique by study site, software, depth map quality, filtering mode, and overstory/understory factor.
+Each study site contributes one observation per dense cloud quality, filtering mode, software, and overstory/understory factor. That is, a row in the underlying data is unique by study site, software, dense cloud quality, filtering mode, and overstory/understory factor.
 
 ### Summary Statistics
 
@@ -5467,7 +5503,7 @@ p2_temp = brms::pp_check(
 (p1_temp / p2_temp) &
   theme(legend.position = "none") &
   plot_annotation(
-    title = "Posterior-predictive statistical checks\nby depth map quality"
+    title = "Posterior-predictive statistical checks\nby dense cloud quality"
     , subtitle = expression(
       "The dark blue lines are "*italic(T(y))*", and the light blue bars are for "*italic(T)(italic(y)[rep])*".")
   )
@@ -5476,7 +5512,7 @@ p2_temp = brms::pp_check(
 #   brms::posterior_summary()
 ```
 
-The means and sd's of the F-score are less well represented across the different levels of depth map quality. We may want to look into modelling heterogeneous variances as shown by [Kruschke](https://sites.google.com/site/doingbayesiandataanalysis/) chapter 20 and [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1)
+The means and sd's of the F-score are less well represented across the different levels of dense cloud quality. We may want to look into modelling heterogeneous variances as shown by [Kruschke](https://sites.google.com/site/doingbayesiandataanalysis/) chapter 20 and [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1)
 
 What about for the software?
 
@@ -5557,7 +5593,7 @@ This indicates that our model including overstory/understory has less dispersion
 
 #### Story - main effect
 
-Now, we'll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, depth map quality setting, study site, and software and then performing a pairwise comparison between overstory and understory
+Now, we'll look at the main effect of overstory/understory on F-score by collapsing across the filtering mode, dense cloud quality setting, study site, and software and then performing a pairwise comparison between overstory and understory
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -5587,7 +5623,7 @@ ou_ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -5610,7 +5646,7 @@ ou_ptcld_validation_data %>%
   select(-c(.point,.interval, .width)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean F-score"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of F-score"
     , col.names = c(
       ""
       , "F-score"
@@ -5675,7 +5711,11 @@ plt_contrast(
   brms_contrast_temp, caption_text = form_temp
   , y_axis_title = "story"
 )
-ggplot2::ggsave("../data/stry_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/stry_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -5689,7 +5729,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "overstory contrast"
       , "difference (F-score)"
@@ -5700,7 +5740,7 @@ brms_contrast_temp %>%
 
 ```
 
-Averaging across all levels of filtering mode, depth map quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a `r brms_contrast_temp$pct_gt_zero[1] %>% scales::percent(accuracy = 0.1)` that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior distribution above)
+Averaging across all levels of filtering mode, dense cloud quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a `r brms_contrast_temp$pct_gt_zero[1] %>% scales::percent(accuracy = 0.1)` that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior predictive distribution above)
 
 #### Story:Software - interaction
 
@@ -5745,10 +5785,14 @@ plt_contrast(
   , x_expand = c(0.17,0.3)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby overstory/understory"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby overstory/understory"
   )
 
-ggplot2::ggsave("../data/sftwr_stry_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/sftwr_stry_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -5762,7 +5806,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "software contrast"
       , "overstory/understory"
@@ -5775,9 +5819,9 @@ brms_contrast_temp %>%
 
 #### Story:Quality - interaction
 
-What is the difference in F-score between overstory and understory for the different levels of depth map quality?
+What is the difference in F-score between overstory and understory for the different levels of dense cloud quality?
 
-Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the effects of study site, software, and filtering mode to compare the depth map quality and story effects.
+Note that how within `tidybayes::add_epred_draws`, we used the `re_formula` argument to average over the effects of study site, software, and filtering mode to compare the dense cloud quality and story effects.
 
 ```{r}
 ou_ptcld_validation_data %>% 
@@ -5809,7 +5853,7 @@ ou_ptcld_validation_data %>%
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "story", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
     , caption = form_temp
   ) +
   theme_light() +
@@ -5825,7 +5869,7 @@ ou_ptcld_validation_data %>%
 
 Are there differences in F-score based on dense point cloud generation quality within each level of filtering mode?
 
-Here, we collapse across the study site, software, and story to compare the combined depth map quality and filtering mode effect.
+Here, we collapse across the study site, software, and story to compare the combined dense cloud quality and filtering mode effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -5862,7 +5906,7 @@ qlty_filter_draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
       , fill = "Filtering Mode"
       , caption = form_temp
     ) +
@@ -5873,7 +5917,11 @@ qlty_filter_draws_temp =
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
     ) 
-ggplot2::ggsave("../data/qlty_fltr_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -5942,12 +5990,16 @@ plt_contrast(
   , x_expand = c(0,0.6)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
   ) +
   theme(
     axis.text.x = element_text(size = 7)
   )
-ggplot2::ggsave("../data/qlty_fltr_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -5961,7 +6013,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -5975,11 +6027,11 @@ kableExtra::kbl(
 
 #### Software:Quality - interaction
 
-It might be more important to understand the difference in F-score by depth map quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
+It might be more important to understand the difference in F-score by dense cloud quality and software rather than filtering mode since filtering mode had such a small effect on the SfM predictive ability
 
 Are there differences in F-score based on dense point cloud generation quality within each different processing software? We will also address the similar but slightly different question of "are there differences in F-score based on the processing software used at a given dense point cloud generation quality?"
 
-Here, we collapse across the study site, filtering mode, and story to compare the combined depth map quality and software effect.
+Here, we collapse across the study site, filtering mode, and story to compare the combined dense cloud quality and software effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -6013,7 +6065,7 @@ ptcld_validation_data %>%
   facet_grid(cols = vars(depth_maps_generation_quality)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality"
     , caption = form_temp
   ) +
   theme_light() +
@@ -6110,10 +6162,14 @@ plt_contrast(
   , x_expand = c(0.46,0.75)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
-ggplot2::ggsave("../data/qlty_sftwr_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_sftwr_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -6128,7 +6184,7 @@ brms_contrast_temp %>%
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "software"
@@ -6194,7 +6250,7 @@ plt_contrast(
 ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
   ) +
   theme(
     legend.position = c(.75, .13)
@@ -6204,7 +6260,11 @@ plt_contrast(
     legend.key.height = unit(7, "lines")
   )))
 
-ggplot2::ggsave("../data/sftwr_qlty_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/sftwr_qlty_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -6218,7 +6278,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "software contrast"
       , "quality"
@@ -6272,7 +6332,7 @@ fltr_sftwr_draws_temp %>%
   facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
   labs(
     x = "software", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby filtering mode"
     , caption = form_temp
   ) +
   theme_light() +
@@ -6345,10 +6405,14 @@ plt_contrast(
   , x_expand = c(0.85,0.8) # c(1,1.4)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
   )
 
-ggplot2::ggsave("../data/fltr_sftwr_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/fltr_sftwr_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -6363,7 +6427,7 @@ brms_contrast_temp %>%
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "filtering contrast"
       , "software"
@@ -6381,7 +6445,7 @@ The contrasts immediately above address the question "are there differences in F
 
 Let's get the model's answer to the question "For each software, are there differences in F-score based on dense point cloud filtering mode within each point cloud generation quality?".
 
-Here, we collapse across the study site and story to compare the depth map quality, filtering mode, and software effect.
+Here, we collapse across the study site and story to compare the dense cloud quality, filtering mode, and software effect.
 
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
@@ -6439,7 +6503,7 @@ fltr_sftwr_draws_temp %>%
   labs(
     fill = "filtering mode"
     , x = "filtering mode", y = "F-score"
-    , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+    , subtitle = "posterior predictive distribution of F-score with 95% HDI\nby dense cloud quality and software"
     # , caption = form_temp
   ) +
   theme_light() +
@@ -6454,7 +6518,11 @@ fltr_sftwr_draws_temp %>%
     fill = guide_legend(override.aes = list(shape = NA, size = 6, alpha = 0.9, lwd = NA))
   )
 
-ggplot2::ggsave("../data/qlty_fltr_sftwr_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 we can also make pairwise comparisons so long as we continue using `tidybayes::add_epred_draws` with the `re_formula` argument
@@ -6534,15 +6602,19 @@ brms_contrast_temp %>%
     , cols = vars(depth_maps_generation_quality)
   ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality and software"
   )
   
-ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_mod6.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_comp_mod6.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 #### Quality - main effect
 
-let's collapse across the story, filtering mode, software, and study site to compare the depth map quality setting effect.
+let's collapse across the story, filtering mode, software, and study site to compare the dense cloud quality setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -6571,7 +6643,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "quality", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -6657,7 +6729,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "quality contrast"
       , "difference (F-score)"
@@ -6669,7 +6741,7 @@ kableExtra::kbl(
 
 #### Filtering - main effect
 
-let's collapse across the story, depth map quality, software, and study site to compare the filtering mode setting effect.
+let's collapse across the story, dense cloud quality, software, and study site to compare the filtering mode setting effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -6698,7 +6770,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "filtering mode", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -6782,7 +6854,7 @@ brms_contrast_temp %>%
    
 kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "filtering mode contrast"
       , "difference (F-score)"
@@ -6794,7 +6866,7 @@ kableExtra::kbl(
 
 #### Software - main effect
 
-to address one of our main questions, let's also collapse across the story, study site, depth map quality, and filtering mode setting to compare the software effect.
+to address one of our main questions, let's also collapse across the story, study site, dense cloud quality, and filtering mode setting to compare the software effect.
 In a hierarchical model structure, we have to make use of the `re_formula` argument within `tidybayes::add_epred_draws`
 
 ```{r}
@@ -6823,7 +6895,7 @@ ptcld_validation_data %>%
     scale_x_continuous(breaks = scales::extended_breaks(n=8)) +
     labs(
       y = "software", x = "F-score"
-      , subtitle = "posterior distribution of conditional means with 95% HDI"
+      , subtitle = "posterior predictive distribution of F-score with 95% HDI"
       , caption = form_temp
     ) +
     theme_light() +
@@ -6876,7 +6948,7 @@ brms_contrast_temp %>%
    
   kableExtra::kbl(
     digits = 2
-    , caption = "brms::brm model: 95% HDI of the posterior distribution of conditional mean group constrasts"
+    , caption = "brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts"
     , col.names = c(
       "software contrast"
       , "difference (F-score)"
@@ -6921,7 +6993,7 @@ brms::as_draws_df(brms_f_mod6) %>%
   theme_light()
 ```
 
-Determining overstory or understory seems to have the strongest effect on our ability to accurately detect trees but this effect is highly uncertain. Variance of study site is stronger than variance of depth map generation quality, but the posterior distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
+Determining overstory or understory seems to have the strongest effect on our ability to accurately detect trees but this effect is highly uncertain. Variance of study site is stronger than variance of depth map generation quality, but the posterior predictive distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
 
 and perform model selection via the [R-squared for Bayesian](https://stat.columbia.edu/~gelman/research/published/bayes_R2_v3.pdf) regression models using `brms::bayes_R2()` since we can't compare models with different number of observations using information criteria (we could also use the p-value approach as done above)
 

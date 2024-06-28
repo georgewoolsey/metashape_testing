@@ -203,7 +203,7 @@ plt_contrast <- function(
         y = y_axis_title
         , x = "constrast"
         , fill = "Pr(contrast)"
-        , subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts"
+        , subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI"
         , caption = caption_text
       ) +
       theme_light() +
@@ -617,7 +617,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "Height Mean Error (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of height mean error (m) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -641,7 +641,7 @@ table_temp %>%
   dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height Mean Error (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "Height Mean Error (m)<br>median"
@@ -696,7 +696,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "software", y = "Height Mean Error (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of height mean error (m) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -725,7 +725,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height Mean Error (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "quality"
       , "Height Mean Error (m)<br>median"
@@ -779,7 +779,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
       x = "software", y = "Height Mean Error (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+      , subtitle = "posterior predictive distribution of height mean error (m) with 95% HDI\nby filtering mode"
     ) +
     theme_light() +
     theme(
@@ -803,7 +803,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height Mean Error (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "Height Mean Error (m)<br>median"
@@ -879,7 +879,7 @@ qlty_fltr_sftwr_ht_me =
     ) +
     labs(
       x = "filtering mode", y = "Height Mean Error (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      , subtitle = "posterior predictive distribution of height mean error (m) with 95% HDI\nby dense cloud quality and software"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -921,7 +921,7 @@ table_temp %>%
   # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height Mean Error (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height Mean Error (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "software", "quality", "filtering mode"
       , "Height Mean Error (m)<br>median"
@@ -1045,7 +1045,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "filtering mode", y = "Height RMSE (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of height RMSE (m) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -1069,7 +1069,7 @@ table_temp %>%
   dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "Height RMSE (m)<br>median"
@@ -1169,13 +1169,17 @@ plt_contrast(
   , x_expand = c(1,0.95)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
     , x = "constrast Height RMSE (m)"
   ) +
   theme(
     axis.text.x = element_text(size = 7)
   )
-ggplot2::ggsave("../data/qlty_fltr_comp_ht_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_comp_ht_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -1188,7 +1192,7 @@ brms_contrast_temp %>%
   dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
 kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -1256,7 +1260,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "software", y = "Height RMSE (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of height RMSE (m) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -1285,7 +1289,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "quality"
       , "Height RMSE (m)<br>median"
@@ -1367,11 +1371,41 @@ plt_contrast(
   , x_expand = c(0.83,0.82)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
     , x = "constrast Height RMSE (m)"
   )
 
-ggplot2::ggsave("../data/qlty_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_sftwr_comp_ht_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_qlty_sftwr_comp_ht_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "quality contrast"
+    , facet = "software"
+    , label_size = 0
+  ) +
+    labs(
+      subtitle = "" # "constrast Height RMSE (m)"
+      , x = "constrast Height RMSE (m)"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -1388,7 +1422,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality contrast"
       , "median difference<br>Height RMSE (m)"
@@ -1454,7 +1488,7 @@ plt_contrast(
 ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
     , x = "constrast Height RMSE (m)"
   ) +
   theme(
@@ -1465,7 +1499,42 @@ plt_contrast(
     legend.key.height = unit(7, "lines")
   )))
 
-ggplot2::ggsave("../data/sftwr_qlty_comp_ht_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/sftwr_qlty_comp_ht_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_sftwr_qlty_comp_ht_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "software contrast"
+    , facet = "depth_maps_generation_quality"
+    , label_size = 0
+  ) +
+    facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
+    labs(
+      subtitle = ""
+      , x = "constrast Height RMSE (m)"
+    ) +
+    theme(
+      legend.position = c(.75, .13)
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(7, "lines")
+    )))
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -1481,7 +1550,7 @@ table_temp %>%
   dplyr::select(-c(contrast)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality"
       , "median difference<br>Height RMSE (m)"
@@ -1543,7 +1612,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "software", y = "Height RMSE (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+      , subtitle = "posterior predictive distribution of height RMSE (m) with 95% HDI\nby filtering mode"
     ) +
     theme_light() +
     theme(
@@ -1567,7 +1636,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "Height RMSE (m)<br>median"
@@ -1651,11 +1720,41 @@ plt_contrast(
   , x_expand = c(0.6,0.45)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
     , x = "constrast Height RMSE (m)"
   )
 
-ggplot2::ggsave("../data/fltr_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/fltr_sftwr_comp_ht_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_fltr_sftwr_comp_ht_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "filtering mode contrast"
+    , facet = "software"
+    , label_size = 0
+  ) +
+    labs(
+      subtitle = "" # "constrast Height RMSE (m)"
+      , x = "constrast Height RMSE (m)"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -1672,7 +1771,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "filtering contrast"
       , "median difference<br>Height RMSE (m)"
@@ -1749,7 +1848,7 @@ qlty_fltr_sftwr_ht_rmse =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "filtering mode", y = "Height RMSE (m)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      , subtitle = "posterior predictive distribution of height RMSE (m) with 95% HDI\nby dense cloud quality and software"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -1791,7 +1890,7 @@ table_temp %>%
   # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "Height RMSE (m)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "Height RMSE (m)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "software", "quality", "filtering mode"
       , "Height RMSE (m)<br>median"
@@ -1880,11 +1979,15 @@ brms_contrast_temp %>%
     , cols = vars(depth_maps_generation_quality)
   ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality and software"
     , x = "constrast Height RMSE (m)"
   )
   
-ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_ht_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_comp_ht_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 Export some final images for publication
@@ -2143,7 +2246,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "filtering mode", y = "DBH Mean Error (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of DBH mean error (cm) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -2167,7 +2270,7 @@ table_temp %>%
   dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "DBH Mean Error (cm)<br>median"
@@ -2222,7 +2325,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "software", y = "DBH Mean Error (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of DBH mean error (cm) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -2251,7 +2354,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "quality"
       , "DBH Mean Error (cm)<br>median"
@@ -2305,7 +2408,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
       x = "software", y = "DBH Mean Error (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+      , subtitle = "posterior predictive distribution of DBH mean error (cm) with 95% HDI\nby filtering mode"
     ) +
     theme_light() +
     theme(
@@ -2329,7 +2432,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "DBH Mean Error (cm)<br>median"
@@ -2405,7 +2508,7 @@ qlty_fltr_sftwr_dbh_me =
     ) +
     labs(
       x = "filtering mode", y = "DBH Mean Error (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      , subtitle = "posterior predictive distribution of DBH mean error (cm) with 95% HDI\nby dense cloud quality and software"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -2447,7 +2550,7 @@ table_temp %>%
   # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH Mean Error (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "software", "quality", "filtering mode"
       , "DBH Mean Error (cm)<br>median"
@@ -2572,7 +2675,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "filtering mode", y = "DBH RMSE (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of DBH RMSE (cm) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -2596,7 +2699,7 @@ table_temp %>%
   dplyr::select(-c(depth_maps_generation_quality)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "DBH RMSE (cm)<br>median"
@@ -2674,13 +2777,17 @@ plt_contrast(
   , x_expand = c(0.9,0.75)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby filtering mode"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
     , x = "constrast DBH RMSE (cm)"
   ) +
   theme(
     axis.text.x = element_text(size = 7)
   )
-ggplot2::ggsave("../data/qlty_fltr_comp_dbh_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_comp_dbh_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 and summarize these contrasts
@@ -2694,7 +2801,7 @@ brms_contrast_temp %>%
   
 kableExtra::kbl(
     digits = 2
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality contrast"
       , "filtering mode"
@@ -2762,7 +2869,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "software", y = "DBH RMSE (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality"
+      , subtitle = "posterior predictive distribution of DBH RMSE (cm) with 95% HDI\nby dense cloud quality"
     ) +
     theme_light() +
     theme(
@@ -2791,7 +2898,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "quality"
       , "DBH RMSE (cm)<br>median"
@@ -2873,11 +2980,41 @@ plt_contrast(
   , x_expand = c(0.33,0.2)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
     , x = "constrast DBH RMSE (cm)"
   )
 
-ggplot2::ggsave("../data/qlty_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_sftwr_comp_dbh_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_qlty_sftwr_comp_dbh_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "quality contrast"
+    , facet = "software"
+    , label_size = 0
+  ) +
+    labs(
+      subtitle = "" # "constrast Height RMSE (m)"
+      , x = "constrast DBH RMSE (cm)"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -2894,7 +3031,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 1
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality contrast"
       , "median difference<br>DBH RMSE (cm)"
@@ -2960,7 +3097,7 @@ plt_contrast(
 ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality"
     , x = "constrast DBH RMSE (cm)"
   ) +
   theme(
@@ -2971,7 +3108,42 @@ plt_contrast(
     legend.key.height = unit(7, "lines")
   )))
 
-ggplot2::ggsave("../data/sftwr_qlty_comp_dbh_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/sftwr_qlty_comp_dbh_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_sftwr_qlty_comp_dbh_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "software contrast"
+    , facet = "depth_maps_generation_quality"
+    , label_size = 0
+  ) +
+    facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
+    labs(
+      subtitle = ""
+      , x = "constrast DBH RMSE (cm)"
+    ) +
+    theme(
+      legend.position = c(.75, .13)
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(7, "lines")
+    )))
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -2987,7 +3159,7 @@ table_temp %>%
   dplyr::select(-c(contrast)) %>% 
   kableExtra::kbl(
     digits = 1
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "quality contrast"
       , "median difference<br>DBH RMSE (cm)"
@@ -3049,7 +3221,7 @@ draws_temp =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "software", y = "DBH RMSE (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby filtering mode"
+      , subtitle = "posterior predictive distribution of DBH RMSE (cm) with 95% HDI\nby filtering mode"
     ) +
     theme_light() +
     theme(
@@ -3073,7 +3245,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "filtering mode"
       , "DBH RMSE (cm)<br>median"
@@ -3157,11 +3329,41 @@ plt_contrast(
   , x_expand = c(0.45,0.4)
 ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
     , x = "constrast DBH RMSE (cm)"
   )
 
-ggplot2::ggsave("../data/fltr_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/fltr_sftwr_comp_dbh_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
+```
+
+create plot for combining with other RMSE contrasts for publication
+
+```{r}
+ptchwrk_fltr_sftwr_comp_dbh_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "filtering mode contrast"
+    , facet = "software"
+    , label_size = 0
+  ) +
+    labs(
+      subtitle = "" # "constrast Height RMSE (m)"
+      , x = "constrast DBH RMSE (cm)"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# +
+#     guides(fill = guide_colorbar(theme = theme(
+#           legend.key.width  = unit(10, "lines"),
+#           legend.key.height = unit(1, "lines")
+#         )))
 ```
 
 and summarize these contrasts
@@ -3178,7 +3380,7 @@ table_temp %>%
   dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 1
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group contrasts"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution of group contrasts"
     , col.names = c(
       "filtering contrast"
       , "median difference<br>DBH RMSE (cm)"
@@ -3255,7 +3457,7 @@ qlty_fltr_sftwr_dbh_rmse =
     scale_y_continuous(limits = c(-0.02,NA)) +
     labs(
       x = "filtering mode", y = "DBH RMSE (cm)"
-      , subtitle = "posterior distribution of conditional means with 95% HDI\nby depth map quality and software"
+      , subtitle = "posterior predictive distribution of DBH RMSE (cm) with 95% HDI\nby dense cloud quality and software"
       # , caption = form_temp
     ) +
     theme_light() +
@@ -3297,7 +3499,7 @@ table_temp %>%
   # dplyr::select(-c(software)) %>% 
   kableExtra::kbl(
     digits = 2
-    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior distribution of conditional mean group estimates"
+    , caption = "DBH RMSE (cm)<br>95% HDI of the posterior predictive distribution"
     , col.names = c(
       "software", "quality", "filtering mode"
       , "DBH RMSE (cm)<br>median"
@@ -3310,7 +3512,6 @@ table_temp %>%
   kableExtra::collapse_rows(columns = 1:2, valign = "top") %>%
   kableExtra::scroll_box(height = "8in")
 ```
-
 
 we can also make pairwise comparisons
 
@@ -3387,11 +3588,15 @@ brms_contrast_temp %>%
     , cols = vars(depth_maps_generation_quality)
   ) +
   labs(
-    subtitle = "95% & 50% HDI of the posterior distribution of conditional mean group constrasts\nby depth map quality and software"
+    subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality and software"
     , x = "constrast DBH RMSE (cm)"
   )
   
-ggplot2::ggsave("../data/qlty_fltr_sftwr_comp_dbh_rmse.png", height = 7, width = 10.5)
+ggplot2::ggsave(
+  "../data/qlty_fltr_sftwr_comp_dbh_rmse.png"
+  , plot = ggplot2::last_plot() + labs(subtitle = "")
+  , height = 7, width = 10.5
+)
 ```
 
 Export some final images for publication
@@ -3411,6 +3616,111 @@ ggplot2::ggsave(
   )
 ```
 
+`patchwork` of Height RMSE contrasts
+
+```{r, fig.height=9}
+layout_temp = c(
+    # area(t, l, b, r)
+    patchwork::area(2, 1, 2, 1)
+    , patchwork::area(4, 1, 4, 1)
+    , patchwork::area(2, 3, 4, 3)
+    # space
+    , patchwork::area(1, 1, 1, 3) # space
+    , patchwork::area(3, 1, 3, 1) # space
+    , patchwork::area(5, 1, 5, 3) # space
+    , patchwork::area(2, 2, 4, 2) # space
+  )
+  # check the layout
+  # plot(layout_temp)
+############################
+# patchwork for height
+############################
+  ptchwrk_qlty_sftwr_comp_ht_rmse + 
+    labs(subtitle = "A: Quality Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_fltr_sftwr_comp_ht_rmse + 
+    labs(subtitle = "B: Filtering Mode Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_sftwr_qlty_comp_ht_rmse + 
+    labs(subtitle = "C: Software Contrast by Quality") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  # plot_annotation(tag_levels = list(c('#', '&'), '1')) +
+  patchwork::plot_layout(
+    design = layout_temp
+    , widths = c(1,0.01,0.8)
+    , heights = c(0.01,1,0.01,1,0.01)
+  ) &
+  scale_x_continuous(limits = c(-0.42,0.2)) &
+  theme(
+    axis.title.y = element_blank()
+    , plot.subtitle = element_text(face = "bold", hjust = 0.5)
+    # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
+  )
+ggplot2::ggsave(
+    filename = paste0("../data/all_ht_rmse_contrasts.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 11
+    , height = 8.5
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+`patchwork` of DBH RMSE contrasts
+
+```{r, fig.height=9}
+layout_temp = c(
+    # area(t, l, b, r)
+    patchwork::area(2, 1, 2, 1)
+    , patchwork::area(4, 1, 4, 1)
+    , patchwork::area(2, 3, 4, 3)
+    # space
+    , patchwork::area(1, 1, 1, 3) # space
+    , patchwork::area(3, 1, 3, 1) # space
+    , patchwork::area(5, 1, 5, 3) # space
+    , patchwork::area(2, 2, 4, 2) # space
+  )
+  # check the layout
+  # plot(layout_temp)
+############################
+# patchwork for height
+############################
+  ptchwrk_qlty_sftwr_comp_dbh_rmse + 
+    labs(subtitle = "A: Quality Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_fltr_sftwr_comp_dbh_rmse + 
+    labs(subtitle = "B: Filtering Mode Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_sftwr_qlty_comp_dbh_rmse + 
+    labs(subtitle = "C: Software Contrast by Quality") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  # plot_annotation(tag_levels = list(c('#', '&'), '1')) +
+  patchwork::plot_layout(
+    design = layout_temp
+    , widths = c(1,0.01,0.8)
+    , heights = c(0.01,1,0.01,1,0.01)
+  ) &
+  scale_x_continuous(
+    limits = c(-7.2,7.2)
+    , breaks = seq(-6,6,2)
+    , labels = seq(-6,6,2)
+  ) &
+  theme(
+    axis.title.y = element_blank()
+    , plot.subtitle = element_text(face = "bold", hjust = 0.5)
+    # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
+  )
+ggplot2::ggsave(
+    filename = paste0("../data/all_dbh_rmse_contrasts.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 11
+    , height = 8.5
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
 remove(list = ls()[grep("_temp",ls())])
 remove(qlty_fltr_sftwr_dbh_me)
@@ -3418,10 +3728,9 @@ remove(qlty_fltr_sftwr_dbh_rmse)
 gc()
 ```
 
-
 ## Posterior Predictive Checks
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
