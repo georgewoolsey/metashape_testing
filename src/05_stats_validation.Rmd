@@ -596,7 +596,7 @@ plt_contrast <- function(
         , point_interval = median_hdi, .width = c(0.5,0.95)
         # , slab_fill = "gray22", slab_alpha = 1
         , interval_color = "black", point_color = "black", point_fill = "black"
-        , point_size = 1.5
+        # , point_size = 1.1
         , justification = -0.01
       ) +
       geom_text(
