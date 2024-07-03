@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_379e4a-1/data_stars_canopyhtm695b81.txt"></script>
+<script src="libs/canopy ht. (m)_914fae-1/data_stars_canopyhtm849eca.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -1686,7 +1686,7 @@ ultra high - high
 <span id="cb222-40"><a href="stats_validation.html#cb222-40" tabindex="-1"></a>        , <span class="at">point_interval =</span> median_hdi, <span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.95</span>)</span>
 <span id="cb222-41"><a href="stats_validation.html#cb222-41" tabindex="-1"></a>        <span class="co"># , slab_fill = &quot;gray22&quot;, slab_alpha = 1</span></span>
 <span id="cb222-42"><a href="stats_validation.html#cb222-42" tabindex="-1"></a>        , <span class="at">interval_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">point_fill =</span> <span class="st">&quot;black&quot;</span></span>
-<span id="cb222-43"><a href="stats_validation.html#cb222-43" tabindex="-1"></a>        <span class="co"># , point_size = 1.1</span></span>
+<span id="cb222-43"><a href="stats_validation.html#cb222-43" tabindex="-1"></a>        , <span class="at">point_size =</span> <span class="fl">0.9</span></span>
 <span id="cb222-44"><a href="stats_validation.html#cb222-44" tabindex="-1"></a>        , <span class="at">justification =</span> <span class="sc">-</span><span class="fl">0.01</span></span>
 <span id="cb222-45"><a href="stats_validation.html#cb222-45" tabindex="-1"></a>      ) <span class="sc">+</span></span>
 <span id="cb222-46"><a href="stats_validation.html#cb222-46" tabindex="-1"></a>      <span class="fu">geom_text</span>(</span>
@@ -1730,7 +1730,7 @@ ultra high - high
 <span id="cb222-84"><a href="stats_validation.html#cb222-84" tabindex="-1"></a>      <span class="fu">theme</span>(</span>
 <span id="cb222-85"><a href="stats_validation.html#cb222-85" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
 <span id="cb222-86"><a href="stats_validation.html#cb222-86" tabindex="-1"></a>        , <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb222-87"><a href="stats_validation.html#cb222-87" tabindex="-1"></a>        , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb222-87"><a href="stats_validation.html#cb222-87" tabindex="-1"></a>        , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">1.05</span>)</span>
 <span id="cb222-88"><a href="stats_validation.html#cb222-88" tabindex="-1"></a>        , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb222-89"><a href="stats_validation.html#cb222-89" tabindex="-1"></a>      ) <span class="sc">+</span></span>
 <span id="cb222-90"><a href="stats_validation.html#cb222-90" tabindex="-1"></a>      <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
@@ -1865,7 +1865,7 @@ ultra high - high
 <span id="cb223-51"><a href="stats_validation.html#cb223-51" tabindex="-1"></a>      , <span class="at">pct_gt_zero_lab_pos =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb223-52"><a href="stats_validation.html#cb223-52" tabindex="-1"></a>        median_hdi_est <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> median_hdi_upper</span>
 <span id="cb223-53"><a href="stats_validation.html#cb223-53" tabindex="-1"></a>        , median_hdi_est <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> median_hdi_lower</span>
-<span id="cb223-54"><a href="stats_validation.html#cb223-54" tabindex="-1"></a>      ) <span class="sc">*</span> <span class="fl">1.07</span></span>
+<span id="cb223-54"><a href="stats_validation.html#cb223-54" tabindex="-1"></a>      ) <span class="sc">*</span> <span class="fl">1.075</span></span>
 <span id="cb223-55"><a href="stats_validation.html#cb223-55" tabindex="-1"></a>      , <span class="at">sig_level =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
 <span id="cb223-56"><a href="stats_validation.html#cb223-56" tabindex="-1"></a>        pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.99</span> <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb223-57"><a href="stats_validation.html#cb223-57" tabindex="-1"></a>        , pct_gt_zero <span class="sc">&gt;</span> <span class="fl">0.95</span> <span class="sc">~</span> <span class="dv">1</span></span>
@@ -3461,7 +3461,7 @@ hdi
 ## $ pct_gt_zero                          &lt;dbl&gt; 0.7908333, 0.7908333, 0.7908333, …
 ## $ pct_gt_zero_lab                      &lt;chr&gt; &quot;Pr(ultra high&gt;high)=79%&quot;, &quot;Pr(ul…
 ## $ pct_gt_zero_lab_sm                   &lt;chr&gt; &quot;Pr(&gt;0)=79%&quot;, &quot;Pr(&gt;0)=79%&quot;, &quot;Pr(&gt;…
-## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1450235, 0.1450235, 0.1450235, …
+## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1457012, 0.1457012, 0.1457012, …
 ## $ sig_level                            &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="stats_validation.html#cb235-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -6333,7 +6333,7 @@ hdi
 ## $ pct_gt_zero                          &lt;dbl&gt; 0.674575, 0.674575, 0.674575, 0.6…
 ## $ pct_gt_zero_lab                      &lt;chr&gt; &quot;Pr(ultra high&gt;high)=67%&quot;, &quot;Pr(ul…
 ## $ pct_gt_zero_lab_sm                   &lt;chr&gt; &quot;Pr(&gt;0)=67%&quot;, &quot;Pr(&gt;0)=67%&quot;, &quot;Pr(&gt;…
-## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1844376, 0.1844376, 0.1844376, …
+## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1852995, 0.1852995, 0.1852995, …
 ## $ sig_level                            &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="stats_validation.html#cb257-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -7181,7 +7181,7 @@ disabled
 ## $ pct_gt_zero         &lt;dbl&gt; 0.646325, 0.646325, 0.646325, 0.646325, 0.646325, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=65%&quot;, &quot;Pr(ultra high&gt;high)=65…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=65%&quot;, &quot;Pr(&gt;0)=65%&quot;, &quot;Pr(&gt;0)=65%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1479981, 0.1479981, 0.1479981, 0.1479981, 0.1479…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1486897, 0.1486897, 0.1486897, 0.1486897, 0.1486…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="stats_validation.html#cb262-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -8687,7 +8687,7 @@ hdi
 ## $ pct_gt_zero                          &lt;dbl&gt; 0.6761, 0.6761, 0.6761, 0.6761, 0…
 ## $ pct_gt_zero_lab                      &lt;chr&gt; &quot;Pr(ultra high&gt;high)=68%&quot;, &quot;Pr(ul…
 ## $ pct_gt_zero_lab_sm                   &lt;chr&gt; &quot;Pr(&gt;0)=68%&quot;, &quot;Pr(&gt;0)=68%&quot;, &quot;Pr(&gt;…
-## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1871281, 0.1871281, 0.1871281, …
+## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.1880025, 0.1880025, 0.1880025, …
 ## $ sig_level                            &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="stats_validation.html#cb284-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -9546,7 +9546,7 @@ disabled
 ## $ pct_gt_zero         &lt;dbl&gt; 0.662975, 0.662975, 0.662975, 0.662975, 0.662975, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=66%&quot;, &quot;Pr(ultra high&gt;high)=66…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=66%&quot;, &quot;Pr(&gt;0)=66%&quot;, &quot;Pr(&gt;0)=66%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1159909, 0.1159909, 0.1159909, 0.1159909, 0.1159…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1165329, 0.1165329, 0.1165329, 0.1165329, 0.1165…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="stats_validation.html#cb289-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -9950,7 +9950,7 @@ PIX4D
 ## $ pct_gt_zero                   &lt;dbl&gt; 0.6705, 0.6705, 0.6705, 0.6705, 0.6705, …
 ## $ pct_gt_zero_lab               &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=67%&quot;, &quot;Pr(MtaShp&gt;ODM)=67…
 ## $ pct_gt_zero_lab_sm            &lt;chr&gt; &quot;Pr(&lt;0)=67%&quot;, &quot;Pr(&lt;0)=67%&quot;, &quot;Pr(&lt;0)=67%&quot;…
-## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.1359709, -0.1359709, -0.1359709, -0.1…
+## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.1366063, -0.1366063, -0.1366063, -0.1…
 ## $ sig_level                     &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="stats_validation.html#cb294-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -11792,7 +11792,7 @@ disabled
 ## $ pct_gt_zero                          &lt;dbl&gt; 0.6232, 0.6232, 0.6232, 0.6232, 0…
 ## $ pct_gt_zero_lab                      &lt;chr&gt; &quot;Pr(ultra high&gt;high)=62%&quot;, &quot;Pr(ul…
 ## $ pct_gt_zero_lab_sm                   &lt;chr&gt; &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;…
-## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.2283479, 0.2283479, 0.2283479, …
+## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.2294149, 0.2294149, 0.2294149, …
 ## $ sig_level                            &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="stats_validation.html#cb330-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -12876,7 +12876,7 @@ low
 ## $ pct_gt_zero         &lt;dbl&gt; 0.632275, 0.632275, 0.632275, 0.632275, 0.632275, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=63%&quot;, &quot;Pr(ultra high&gt;high)=63…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1207035, 0.1207035, 0.1207035, 0.1207035, 0.1207…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1212675, 0.1212675, 0.1212675, 0.1212675, 0.1212…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="stats_validation.html#cb337-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -12902,9 +12902,9 @@ low
 <span id="cb339-3"><a href="stats_validation.html#cb339-3" tabindex="-1"></a>    brms_contrast_temp</span>
 <span id="cb339-4"><a href="stats_validation.html#cb339-4" tabindex="-1"></a>    , <span class="at">y_axis_title =</span> <span class="st">&quot;quality contrast&quot;</span></span>
 <span id="cb339-5"><a href="stats_validation.html#cb339-5" tabindex="-1"></a>    , <span class="at">facet =</span> <span class="st">&quot;software&quot;</span></span>
-<span id="cb339-6"><a href="stats_validation.html#cb339-6" tabindex="-1"></a>    , <span class="at">label_size =</span> <span class="fl">1.4</span></span>
+<span id="cb339-6"><a href="stats_validation.html#cb339-6" tabindex="-1"></a>    , <span class="at">label_size =</span> <span class="fl">1.35</span></span>
 <span id="cb339-7"><a href="stats_validation.html#cb339-7" tabindex="-1"></a>    , <span class="at">label =</span> <span class="st">&quot;pct_gt_zero_lab_sm&quot;</span></span>
-<span id="cb339-8"><a href="stats_validation.html#cb339-8" tabindex="-1"></a>    , <span class="at">annotate_size =</span> <span class="fl">1.8</span></span>
+<span id="cb339-8"><a href="stats_validation.html#cb339-8" tabindex="-1"></a>    , <span class="at">annotate_size =</span> <span class="fl">1.75</span></span>
 <span id="cb339-9"><a href="stats_validation.html#cb339-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb339-10"><a href="stats_validation.html#cb339-10" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
 <span id="cb339-11"><a href="stats_validation.html#cb339-11" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;&quot;</span></span>
@@ -12942,7 +12942,7 @@ low
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-251">Table 6.20: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-252">Table 6.20: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -13398,7 +13398,7 @@ medium - low
 ## $ pct_gt_zero                   &lt;dbl&gt; 0.658475, 0.658475, 0.658475, 0.658475, …
 ## $ pct_gt_zero_lab               &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=66%&quot;, &quot;Pr(MtaShp&gt;ODM)=66…
 ## $ pct_gt_zero_lab_sm            &lt;chr&gt; &quot;Pr(&lt;0)=66%&quot;, &quot;Pr(&lt;0)=66%&quot;, &quot;Pr(&lt;0)=66%&quot;…
-## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.1574572, -0.1574572, -0.1574572, -0.1…
+## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.158193, -0.158193, -0.158193, -0.1581…
 ## $ sig_level                     &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="stats_validation.html#cb343-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -13420,7 +13420,7 @@ medium - low
 <span id="cb343-17"><a href="stats_validation.html#cb343-17" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb343-18"><a href="stats_validation.html#cb343-18" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb343-19"><a href="stats_validation.html#cb343-19" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-253-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-254-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="stats_validation.html#cb344-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb344-2"><a href="stats_validation.html#cb344-2" tabindex="-1"></a>  <span class="st">&quot;../data/sftwr_qlty_comp_mod5.png&quot;</span></span>
 <span id="cb344-3"><a href="stats_validation.html#cb344-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -13436,21 +13436,22 @@ medium - low
 <span id="cb345-7"><a href="stats_validation.html#cb345-7" tabindex="-1"></a>    , <span class="at">label =</span> <span class="st">&quot;pct_gt_zero_lab_sm&quot;</span></span>
 <span id="cb345-8"><a href="stats_validation.html#cb345-8" tabindex="-1"></a>    , <span class="at">annotate_size =</span> <span class="fl">1.8</span></span>
 <span id="cb345-9"><a href="stats_validation.html#cb345-9" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb345-10"><a href="stats_validation.html#cb345-10" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(depth_maps_generation_quality), <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb345-10"><a href="stats_validation.html#cb345-10" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="fu">vars</span>(depth_maps_generation_quality), <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb345-11"><a href="stats_validation.html#cb345-11" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
 <span id="cb345-12"><a href="stats_validation.html#cb345-12" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb345-13"><a href="stats_validation.html#cb345-13" tabindex="-1"></a>      , <span class="at">x =</span> <span class="st">&quot;F-score constrast&quot;</span></span>
 <span id="cb345-14"><a href="stats_validation.html#cb345-14" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb345-15"><a href="stats_validation.html#cb345-15" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb345-16"><a href="stats_validation.html#cb345-16" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">75</span>, .<span class="dv">13</span>)</span>
-<span id="cb345-17"><a href="stats_validation.html#cb345-17" tabindex="-1"></a>      , <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb345-18"><a href="stats_validation.html#cb345-18" tabindex="-1"></a>      , <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb345-19"><a href="stats_validation.html#cb345-19" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb345-20"><a href="stats_validation.html#cb345-20" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb345-21"><a href="stats_validation.html#cb345-21" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
-<span id="cb345-22"><a href="stats_validation.html#cb345-22" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
-<span id="cb345-23"><a href="stats_validation.html#cb345-23" tabindex="-1"></a>    )))</span>
-<span id="cb345-24"><a href="stats_validation.html#cb345-24" tabindex="-1"></a><span class="co"># ptchwrk_sftwr_qlty_comp</span></span></code></pre></div>
+<span id="cb345-16"><a href="stats_validation.html#cb345-16" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span></span>
+<span id="cb345-17"><a href="stats_validation.html#cb345-17" tabindex="-1"></a>      , <span class="at">legend.position.inside =</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">11</span>)</span>
+<span id="cb345-18"><a href="stats_validation.html#cb345-18" tabindex="-1"></a>      , <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb345-19"><a href="stats_validation.html#cb345-19" tabindex="-1"></a>      , <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb345-20"><a href="stats_validation.html#cb345-20" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb345-21"><a href="stats_validation.html#cb345-21" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb345-22"><a href="stats_validation.html#cb345-22" tabindex="-1"></a>      <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
+<span id="cb345-23"><a href="stats_validation.html#cb345-23" tabindex="-1"></a>      <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
+<span id="cb345-24"><a href="stats_validation.html#cb345-24" tabindex="-1"></a>    )))</span>
+<span id="cb345-25"><a href="stats_validation.html#cb345-25" tabindex="-1"></a><span class="co"># ptchwrk_sftwr_qlty_comp</span></span></code></pre></div>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="stats_validation.html#cb346-1" tabindex="-1"></a>table_temp <span class="ot">=</span> brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb346-2"><a href="stats_validation.html#cb346-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast, depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -13476,7 +13477,7 @@ medium - low
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-255">Table 6.21: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-257">Table 6.21: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -13746,7 +13747,7 @@ low
 <span id="cb347-42"><a href="stats_validation.html#cb347-42" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb347-43"><a href="stats_validation.html#cb347-43" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb347-44"><a href="stats_validation.html#cb347-44" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-256-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-258-1.png" width="1008" /></p>
 <p>and a table of these 95% HDI values</p>
 <div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="stats_validation.html#cb348-1" tabindex="-1"></a>table_temp <span class="ot">=</span> </span>
 <span id="cb348-2"><a href="stats_validation.html#cb348-2" tabindex="-1"></a>  fltr_sftwr_draws_temp <span class="sc">%&gt;%</span> </span>
@@ -13772,7 +13773,7 @@ low
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-257">Table 6.22: </span>F-score<br>95% HDI of the posterior predictive distribution
+<span id="tab:unnamed-chunk-259">Table 6.22: </span>F-score<br>95% HDI of the posterior predictive distribution
 </caption>
 <thead>
 <tr>
@@ -14027,7 +14028,7 @@ disabled
 ## $ pct_gt_zero         &lt;dbl&gt; 0.97305, 0.97305, 0.97305, 0.97305, 0.97305, 0.973…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=97%&quot;, &quot;Pr(moderate&gt;aggres…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=97%&quot;, &quot;Pr(&gt;0)=97%&quot;, &quot;Pr(&gt;0)=97%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1771727, 0.1771727, 0.1771727, 0.1771727, 0.1771…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1780006, 0.1780006, 0.1780006, 0.1780006, 0.1780…
 ## $ sig_level           &lt;ord&gt; 95%, 95%, 95%, 95%, 95%, 95%, 95%, 95%, 95%, 95%, …</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="stats_validation.html#cb351-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -14041,7 +14042,7 @@ disabled
 <span id="cb351-9"><a href="stats_validation.html#cb351-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb351-10"><a href="stats_validation.html#cb351-10" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by software&quot;</span></span>
 <span id="cb351-11"><a href="stats_validation.html#cb351-11" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-259-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-261-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="stats_validation.html#cb352-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb352-2"><a href="stats_validation.html#cb352-2" tabindex="-1"></a>  <span class="st">&quot;../data/fltr_sftwr_comp_mod5.png&quot;</span></span>
 <span id="cb352-3"><a href="stats_validation.html#cb352-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -14093,7 +14094,7 @@ disabled
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-261">Table 6.23: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-264">Table 6.23: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -14430,7 +14431,7 @@ mild - moderate
 <span id="cb355-81"><a href="stats_validation.html#cb355-81" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
 <span id="cb355-82"><a href="stats_validation.html#cb355-82" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb355-83"><a href="stats_validation.html#cb355-83" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-262-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-265-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="stats_validation.html#cb356-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb356-2"><a href="stats_validation.html#cb356-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_sftwr_mod5.png&quot;</span></span>
 <span id="cb356-3"><a href="stats_validation.html#cb356-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -14471,7 +14472,7 @@ mild - moderate
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-263">Table 6.24: </span>brms::brm model: 95% HDI of the posterior predictive distribution
+<span id="tab:unnamed-chunk-266">Table 6.24: </span>brms::brm model: 95% HDI of the posterior predictive distribution
 </caption>
 <thead>
 <tr>
@@ -15355,7 +15356,7 @@ disabled
 ## $ pct_gt_zero                   &lt;dbl&gt; 0.9477, 0.9477, 0.9477, 0.9477, 0.9477, …
 ## $ pct_gt_zero_lab               &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=95%&quot;, &quot;Pr(moder…
 ## $ pct_gt_zero_lab_sm            &lt;chr&gt; &quot;Pr(&gt;0)=95%&quot;, &quot;Pr(&gt;0)=95%&quot;, &quot;Pr(&gt;0)=95%&quot;…
-## $ pct_gt_zero_lab_pos           &lt;dbl&gt; 0.2014459, 0.2014459, 0.2014459, 0.20144…
+## $ pct_gt_zero_lab_pos           &lt;dbl&gt; 0.2023873, 0.2023873, 0.2023873, 0.20238…
 ## $ sig_level                     &lt;ord&gt; 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, …</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="stats_validation.html#cb360-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
@@ -15372,7 +15373,7 @@ disabled
 <span id="cb360-12"><a href="stats_validation.html#cb360-12" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb360-13"><a href="stats_validation.html#cb360-13" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by dense cloud quality and software&quot;</span></span>
 <span id="cb360-14"><a href="stats_validation.html#cb360-14" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-265-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-268-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="stats_validation.html#cb361-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb361-2"><a href="stats_validation.html#cb361-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_sftwr_comp_mod5.png&quot;</span></span>
 <span id="cb361-3"><a href="stats_validation.html#cb361-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -15417,7 +15418,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb362-32"><a href="stats_validation.html#cb362-32" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb362-33"><a href="stats_validation.html#cb362-33" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb362-34"><a href="stats_validation.html#cb362-34" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-266-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-269-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_one_pred_mod_bays">one nominal predictor model above</a>, <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a>, <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a>, and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site effects model above</a></p>
 <div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="stats_validation.html#cb363-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb363-2"><a href="stats_validation.html#cb363-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_quality) <span class="sc">%&gt;%</span> </span>
@@ -15469,7 +15470,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb363-48"><a href="stats_validation.html#cb363-48" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb363-49"><a href="stats_validation.html#cb363-49" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb363-50"><a href="stats_validation.html#cb363-50" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-267-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-270-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons after collapsing across the filtering mode, software, and study site to compare the dense cloud quality setting effect</p>
 <div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="stats_validation.html#cb364-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb364-2"><a href="stats_validation.html#cb364-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -15541,7 +15542,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.6198, 0.6198, 0.6198, 0.6198, 0.6198, 0.6198, 0.…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=62%&quot;, &quot;Pr(ultra high&gt;high)=62…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.2149692, 0.2149692, 0.2149692, 0.2149692, 0.2149…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.2159738, 0.2159738, 0.2159738, 0.2159738, 0.2159…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="stats_validation.html#cb366-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -15549,7 +15550,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb366-3"><a href="stats_validation.html#cb366-3" tabindex="-1"></a>  <span class="co"># , caption_text = form_temp</span></span>
 <span id="cb366-4"><a href="stats_validation.html#cb366-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;quality&quot;</span></span>
 <span id="cb366-5"><a href="stats_validation.html#cb366-5" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-269-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-272-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="stats_validation.html#cb367-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb367-2"><a href="stats_validation.html#cb367-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -15569,7 +15570,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb367-16"><a href="stats_validation.html#cb367-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-270">Table 6.25: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-273">Table 6.25: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -15768,7 +15769,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb368-31"><a href="stats_validation.html#cb368-31" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb368-32"><a href="stats_validation.html#cb368-32" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb368-33"><a href="stats_validation.html#cb368-33" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-271-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-274-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_two_pred_mod_bays">two nominal predictor model above</a>, <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a>, and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site model above</a></p>
 <div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="stats_validation.html#cb369-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb369-2"><a href="stats_validation.html#cb369-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(depth_maps_generation_filtering_mode) <span class="sc">%&gt;%</span> </span>
@@ -15815,7 +15816,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb369-43"><a href="stats_validation.html#cb369-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb369-44"><a href="stats_validation.html#cb369-44" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb369-45"><a href="stats_validation.html#cb369-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-272-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-275-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons after collapsing across the dense cloud quality, software, and study site to compare the filtering mode setting effect.</p>
 <div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="stats_validation.html#cb370-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb370-2"><a href="stats_validation.html#cb370-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -15886,7 +15887,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.62895, 0.62895, 0.62895, 0.62895, 0.62895, 0.628…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=63%&quot;, &quot;Pr(moderate&gt;aggres…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=63%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1213402, 0.1213402, 0.1213402, 0.1213402, 0.1213…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1219072, 0.1219072, 0.1219072, 0.1219072, 0.1219…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="stats_validation.html#cb372-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -15894,7 +15895,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb372-3"><a href="stats_validation.html#cb372-3" tabindex="-1"></a>  <span class="co"># , caption_text = form_temp</span></span>
 <span id="cb372-4"><a href="stats_validation.html#cb372-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;filtering mode&quot;</span></span>
 <span id="cb372-5"><a href="stats_validation.html#cb372-5" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-274-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-277-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="stats_validation.html#cb373-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb373-2"><a href="stats_validation.html#cb373-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -15914,7 +15915,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb373-16"><a href="stats_validation.html#cb373-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-275">Table 6.26: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-278">Table 6.26: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -16113,7 +16114,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb374-31"><a href="stats_validation.html#cb374-31" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb374-32"><a href="stats_validation.html#cb374-32" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb374-33"><a href="stats_validation.html#cb374-33" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-276-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-279-1.png" width="1008" /></p>
 <p>let’s compare these results to the results from our <a href="stats_validation.html#f_three_pred_mod_bays">three nominal predictor model above</a> and <a href="stats_validation.html#f_4_pred_mod_bays">three nominal predictor + site effects model above</a></p>
 <div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="stats_validation.html#cb375-1" tabindex="-1"></a>ptcld_validation_data <span class="sc">%&gt;%</span> </span>
 <span id="cb375-2"><a href="stats_validation.html#cb375-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(software) <span class="sc">%&gt;%</span> </span>
@@ -16152,7 +16153,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb375-35"><a href="stats_validation.html#cb375-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb375-36"><a href="stats_validation.html#cb375-36" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb375-37"><a href="stats_validation.html#cb375-37" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-277-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-280-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons after collapsing across the filtering mode, dense cloud quality setting, and study site to compare the software main effect</p>
 <div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="stats_validation.html#cb376-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb376-2"><a href="stats_validation.html#cb376-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -16190,7 +16191,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.602275, 0.602275, 0.602275, 0.602275, 0.602275, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=60%&quot;, &quot;Pr(MtaShp&gt;ODM)=60%&quot;, &quot;Pr(Mt…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&lt;0)=60%&quot;, &quot;Pr(&lt;0)=60%&quot;, &quot;Pr(&lt;0)=60%&quot;, &quot;Pr(&lt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.1751938, -0.1751938, -0.1751938, -0.1751938, -0…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.1760125, -0.1760125, -0.1760125, -0.1760125, -0…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="stats_validation.html#cb378-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -16198,7 +16199,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb378-3"><a href="stats_validation.html#cb378-3" tabindex="-1"></a>  <span class="co"># , caption_text = form_temp</span></span>
 <span id="cb378-4"><a href="stats_validation.html#cb378-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;software&quot;</span></span>
 <span id="cb378-5"><a href="stats_validation.html#cb378-5" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-279-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-282-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="stats_validation.html#cb379-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb379-2"><a href="stats_validation.html#cb379-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -16218,7 +16219,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb379-16"><a href="stats_validation.html#cb379-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-280">Table 6.27: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-283">Table 6.27: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -16341,7 +16342,7 @@ PIX4D - OPENDRONEMAP
 <span id="cb380-24"><a href="stats_validation.html#cb380-24" tabindex="-1"></a>       <span class="co"># , caption = form_temp</span></span>
 <span id="cb380-25"><a href="stats_validation.html#cb380-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb380-26"><a href="stats_validation.html#cb380-26" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-281-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-284-1.png" width="1008" /></p>
 <p>Variance of study site is stronger than variance of depth map generation quality, but the posterior predictive distributions overlap a good deal. The study site (the “subjects” in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.</p>
 <p>and perform model selection via information criteria with the <code>brms::loo_compare()</code> function</p>
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="stats_validation.html#cb381-1" tabindex="-1"></a>brms_f_mod5 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms_f_mod5, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>
@@ -16360,8 +16361,8 @@ PIX4D - OPENDRONEMAP
 <div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="stats_validation.html#cb384-1" tabindex="-1"></a>layout_temp <span class="ot">=</span> <span class="fu">c</span>(</span>
 <span id="cb384-2"><a href="stats_validation.html#cb384-2" tabindex="-1"></a>    <span class="co"># area(t, l, b, r)</span></span>
 <span id="cb384-3"><a href="stats_validation.html#cb384-3" tabindex="-1"></a>    patchwork<span class="sc">::</span><span class="fu">area</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb384-4"><a href="stats_validation.html#cb384-4" tabindex="-1"></a>    , patchwork<span class="sc">::</span><span class="fu">area</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
-<span id="cb384-5"><a href="stats_validation.html#cb384-5" tabindex="-1"></a>    , patchwork<span class="sc">::</span><span class="fu">area</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>)</span>
+<span id="cb384-4"><a href="stats_validation.html#cb384-4" tabindex="-1"></a>    , patchwork<span class="sc">::</span><span class="fu">area</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb384-5"><a href="stats_validation.html#cb384-5" tabindex="-1"></a>    , patchwork<span class="sc">::</span><span class="fu">area</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">3</span>)</span>
 <span id="cb384-6"><a href="stats_validation.html#cb384-6" tabindex="-1"></a>  )</span>
 <span id="cb384-7"><a href="stats_validation.html#cb384-7" tabindex="-1"></a>  <span class="co"># check the layout</span></span>
 <span id="cb384-8"><a href="stats_validation.html#cb384-8" tabindex="-1"></a>  <span class="co"># plot(layout_temp)</span></span>
@@ -16374,26 +16375,27 @@ PIX4D - OPENDRONEMAP
 <span id="cb384-15"><a href="stats_validation.html#cb384-15" tabindex="-1"></a>  ptchwrk_fltr_sftwr_comp <span class="sc">+</span> </span>
 <span id="cb384-16"><a href="stats_validation.html#cb384-16" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;B: Filtering Mode Contrast by Software&quot;</span>) <span class="sc">+</span></span>
 <span id="cb384-17"><a href="stats_validation.html#cb384-17" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray88&quot;</span>, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">size=</span><span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="cb384-18"><a href="stats_validation.html#cb384-18" tabindex="-1"></a>  ptchwrk_sftwr_qlty_comp <span class="sc">+</span> </span>
-<span id="cb384-19"><a href="stats_validation.html#cb384-19" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;C: Software Contrast by Quality&quot;</span>) <span class="sc">+</span></span>
-<span id="cb384-20"><a href="stats_validation.html#cb384-20" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray88&quot;</span>, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">size=</span><span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="cb384-21"><a href="stats_validation.html#cb384-21" tabindex="-1"></a>  <span class="co"># plot_annotation(tag_levels = list(c(&#39;#&#39;, &#39;&amp;&#39;), &#39;1&#39;)) +</span></span>
-<span id="cb384-22"><a href="stats_validation.html#cb384-22" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(</span>
-<span id="cb384-23"><a href="stats_validation.html#cb384-23" tabindex="-1"></a>    <span class="at">design =</span> layout_temp</span>
-<span id="cb384-24"><a href="stats_validation.html#cb384-24" tabindex="-1"></a>    , <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.01</span>,<span class="fl">0.8</span>)</span>
-<span id="cb384-25"><a href="stats_validation.html#cb384-25" tabindex="-1"></a>    , <span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
-<span id="cb384-26"><a href="stats_validation.html#cb384-26" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
-<span id="cb384-27"><a href="stats_validation.html#cb384-27" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb384-28"><a href="stats_validation.html#cb384-28" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.8</span>,<span class="fl">1.1</span>)</span>
-<span id="cb384-29"><a href="stats_validation.html#cb384-29" tabindex="-1"></a>    , <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.8</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>)</span>
-<span id="cb384-30"><a href="stats_validation.html#cb384-30" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.8</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>)</span>
-<span id="cb384-31"><a href="stats_validation.html#cb384-31" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
-<span id="cb384-32"><a href="stats_validation.html#cb384-32" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb384-33"><a href="stats_validation.html#cb384-33" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb384-34"><a href="stats_validation.html#cb384-34" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb384-35"><a href="stats_validation.html#cb384-35" tabindex="-1"></a>    <span class="co"># , plot.background = element_rect(colour = &quot;gray88&quot;, fill=NA, size=3)</span></span>
-<span id="cb384-36"><a href="stats_validation.html#cb384-36" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-283-1.png" width="1008" /></p>
+<span id="cb384-18"><a href="stats_validation.html#cb384-18" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">free</span>(</span>
+<span id="cb384-19"><a href="stats_validation.html#cb384-19" tabindex="-1"></a>    ptchwrk_sftwr_qlty_comp <span class="sc">+</span> </span>
+<span id="cb384-20"><a href="stats_validation.html#cb384-20" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;C: Software Contrast by Quality&quot;</span>) <span class="sc">+</span></span>
+<span id="cb384-21"><a href="stats_validation.html#cb384-21" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;gray88&quot;</span>, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">size=</span><span class="dv">3</span>)) ) <span class="sc">+</span></span>
+<span id="cb384-22"><a href="stats_validation.html#cb384-22" tabindex="-1"></a>  <span class="co"># plot_annotation(tag_levels = list(c(&#39;#&#39;, &#39;&amp;&#39;), &#39;1&#39;)) +</span></span>
+<span id="cb384-23"><a href="stats_validation.html#cb384-23" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(</span>
+<span id="cb384-24"><a href="stats_validation.html#cb384-24" tabindex="-1"></a>    <span class="at">design =</span> layout_temp</span>
+<span id="cb384-25"><a href="stats_validation.html#cb384-25" tabindex="-1"></a>    , <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.01</span>,<span class="dv">1</span>)</span>
+<span id="cb384-26"><a href="stats_validation.html#cb384-26" tabindex="-1"></a>    , <span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb384-27"><a href="stats_validation.html#cb384-27" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
+<span id="cb384-28"><a href="stats_validation.html#cb384-28" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb384-29"><a href="stats_validation.html#cb384-29" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.58</span>,<span class="fl">0.96</span>)</span>
+<span id="cb384-30"><a href="stats_validation.html#cb384-30" tabindex="-1"></a>    , <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.8</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>)</span>
+<span id="cb384-31"><a href="stats_validation.html#cb384-31" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.8</span>,<span class="fl">0.8</span>,<span class="fl">0.4</span>) <span class="sc">%&gt;%</span> scales<span class="sc">::</span><span class="fu">number</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb384-32"><a href="stats_validation.html#cb384-32" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
+<span id="cb384-33"><a href="stats_validation.html#cb384-33" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb384-34"><a href="stats_validation.html#cb384-34" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb384-35"><a href="stats_validation.html#cb384-35" tabindex="-1"></a>    , <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.0</span>)</span>
+<span id="cb384-36"><a href="stats_validation.html#cb384-36" tabindex="-1"></a>    <span class="co"># , plot.background = element_rect(colour = &quot;gray88&quot;, fill=NA, size=3)</span></span>
+<span id="cb384-37"><a href="stats_validation.html#cb384-37" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-287-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="stats_validation.html#cb385-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb385-2"><a href="stats_validation.html#cb385-2" tabindex="-1"></a>    <span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">&quot;../data/all_fscore_contrasts.jpeg&quot;</span>)</span>
 <span id="cb385-3"><a href="stats_validation.html#cb385-3" tabindex="-1"></a>    , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>()</span>
@@ -16489,7 +16491,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <p>To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, <a href="https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html">Graphical posterior predictive checks using the bayesplot package</a>.</p>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="stats_validation.html#cb387-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod5_5)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-287-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-287-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-287-3.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-291-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-291-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-291-3.png" width="1008" /></p>
 <p>and check our <span class="math inline">\(\hat{R}\)</span> values</p>
 <div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="stats_validation.html#cb388-1" tabindex="-1"></a>brms_f_mod5_5 <span class="sc">%&gt;%</span> </span>
 <span id="cb388-2"><a href="stats_validation.html#cb388-2" tabindex="-1"></a>  brms<span class="sc">::</span><span class="fu">rhat</span>() <span class="sc">%&gt;%</span> </span>
@@ -16529,7 +16531,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb388-36"><a href="stats_validation.html#cb388-36" tabindex="-1"></a>    , <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()</span>
 <span id="cb388-37"><a href="stats_validation.html#cb388-37" tabindex="-1"></a>    , <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>()</span>
 <span id="cb388-38"><a href="stats_validation.html#cb388-38" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-288-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-292-1.png" width="1008" /></p>
 <p>posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data</p>
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="stats_validation.html#cb389-1" tabindex="-1"></a><span class="co"># posterior predictive check</span></span>
 <span id="cb389-2"><a href="stats_validation.html#cb389-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -16544,7 +16546,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb389-11"><a href="stats_validation.html#cb389-11" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb389-12"><a href="stats_validation.html#cb389-12" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb389-13"><a href="stats_validation.html#cb389-13" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-289-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-293-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="stats_validation.html#cb390-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/ppchk_ovrll_mod5_5.png&quot;</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">width =</span> <span class="fl">10.5</span>)</span></code></pre></div>
 <p>another way</p>
 <div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="stats_validation.html#cb391-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(brms_f_mod5_5, <span class="at">type =</span> <span class="st">&quot;ecdf_overlay&quot;</span>, <span class="at">ndraws =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
@@ -16554,7 +16556,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb391-5"><a href="stats_validation.html#cb391-5" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb391-6"><a href="stats_validation.html#cb391-6" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb391-7"><a href="stats_validation.html#cb391-7" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-290-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-294-1.png" width="1008" /></p>
 <p>and another posterior predictive check for the overall model</p>
 <div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="stats_validation.html#cb392-1" tabindex="-1"></a><span class="co"># means</span></span>
 <span id="cb392-2"><a href="stats_validation.html#cb392-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -16583,7 +16585,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb392-25"><a href="stats_validation.html#cb392-25" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
 <span id="cb392-26"><a href="stats_validation.html#cb392-26" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
 <span id="cb392-27"><a href="stats_validation.html#cb392-27" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-291-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-295-1.png" width="1008" /></p>
 <p>and another posterior predictive check for the overall model combining mean and sd</p>
 <div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="stats_validation.html#cb393-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(brms_f_mod5_5, <span class="at">type =</span> <span class="st">&quot;stat_2d&quot;</span>) <span class="sc">+</span></span>
 <span id="cb393-2"><a href="stats_validation.html#cb393-2" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
@@ -16591,7 +16593,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb393-4"><a href="stats_validation.html#cb393-4" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb393-5"><a href="stats_validation.html#cb393-5" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb393-6"><a href="stats_validation.html#cb393-6" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-292-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-296-1.png" width="1008" /></p>
 <p>How’d we do capturing the conditional means and standard deviations by depth map generation quality?</p>
 <div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="stats_validation.html#cb394-1" tabindex="-1"></a><span class="co"># means</span></span>
 <span id="cb394-2"><a href="stats_validation.html#cb394-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -16623,7 +16625,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb394-28"><a href="stats_validation.html#cb394-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
 <span id="cb394-29"><a href="stats_validation.html#cb394-29" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
 <span id="cb394-30"><a href="stats_validation.html#cb394-30" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-293-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-297-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="stats_validation.html#cb395-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/ppchk_qlty_mod5_5.png&quot;</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">width =</span> <span class="fl">10.5</span>)</span></code></pre></div>
 <p>Both the means and sd’s of the F-score are well represented across the different levels of dense cloud quality</p>
 <p>What about for the software?</p>
@@ -16635,7 +16637,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb396-6"><a href="stats_validation.html#cb396-6" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb396-7"><a href="stats_validation.html#cb396-7" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb396-8"><a href="stats_validation.html#cb396-8" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-294-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-298-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="stats_validation.html#cb397-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="st">&quot;../data/ppchk_sftwr_mod5_5.png&quot;</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">width =</span> <span class="fl">10.5</span>)</span></code></pre></div>
 <p>and what about for the filtering mode?</p>
 <div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="stats_validation.html#cb398-1" tabindex="-1"></a><span class="fu">pp_check</span>(brms_f_mod5_5, <span class="st">&quot;dens_overlay_grouped&quot;</span>, <span class="at">group =</span> <span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span>, <span class="at">ndraws =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
@@ -16646,7 +16648,7 @@ y_{i} \sim &amp; {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 <span id="cb398-6"><a href="stats_validation.html#cb398-6" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb398-7"><a href="stats_validation.html#cb398-7" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb398-8"><a href="stats_validation.html#cb398-8" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-295-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-299-1.png" width="1008" /></p>
 <p>We didn’t see much change in our posterior predictive checks compared to our previous model of the data <span class="math inline">\(y_i\)</span> described by a beta distribution with <a href="stats_validation.html#beta_mod">three nominal predictors and site effects</a> our <a href="stats_validation.html#ppcheck_mod5">posterior predictive checks</a>.</p>
 <p>The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from “new” data arising from our model (<span class="math inline">\(y_{new}\)</span>) is more extreme than the test statistic calculated from the observed data (<span class="math inline">\(y\)</span>): <span class="math inline">\(\text{P-value}(y) = Pr(T(y_{new}) &gt; T(y))\)</span> where the test statistic <span class="math inline">\(T(y)\)</span> describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an “omnibus” statistic like a squared discrepancy or a chi-square value <a href="https://scholar.google.com/scholar?cluster=9228589188684720156&amp;oi=gsb&amp;hl=en&amp;as_sdt=0,6">Hobbs and Hooten (2015, p. 188)</a></p>
 <blockquote>
@@ -16723,7 +16725,7 @@ P.sd
 brms_f_mod4
 </td>
 <td style="text-align:right;">
-0.49
+0.51
 </td>
 <td style="text-align:right;">
 0.61
@@ -16737,7 +16739,7 @@ brms_f_mod5
 0.24
 </td>
 <td style="text-align:right;">
-0.87
+0.88
 </td>
 </tr>
 <tr>
@@ -16748,7 +16750,7 @@ brms_f_mod5_5
 0.34
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 </tr>
 </tbody>
@@ -16882,7 +16884,7 @@ brms_f_mod5_5
 <span id="cb411-44"><a href="stats_validation.html#cb411-44" tabindex="-1"></a>    )</span>
 <span id="cb411-45"><a href="stats_validation.html#cb411-45" tabindex="-1"></a>}</span>
 <span id="cb411-46"><a href="stats_validation.html#cb411-46" tabindex="-1"></a><span class="fu">plt_tile_fn_temp</span>(<span class="st">&quot;overstory&quot;</span>) <span class="sc">/</span> <span class="fu">plt_tile_fn_temp</span>(<span class="st">&quot;understory&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-301-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-305-1.png" width="1008" /></p>
 <p>now let’s check by our other predictor variables</p>
 <div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="stats_validation.html#cb412-1" tabindex="-1"></a>sum_stats_dta <span class="ot">=</span> <span class="cf">function</span>(my_var){</span>
 <span id="cb412-2"><a href="stats_validation.html#cb412-2" tabindex="-1"></a>  sum_fns <span class="ot">=</span> <span class="fu">list</span>(</span>
@@ -16927,16 +16929,16 @@ brms_f_mod5_5
 <span id="cb413-4"><a href="stats_validation.html#cb413-4" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb413-5"><a href="stats_validation.html#cb413-5" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(sum_stats_dta)</span></code></pre></div>
 <pre><code>## [[1]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-303-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-307-1.png" width="1008" /></p>
 <pre><code>## 
 ## [[2]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-303-2.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-307-2.png" width="1008" /></p>
 <pre><code>## 
 ## [[3]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-303-3.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-307-3.png" width="1008" /></p>
 <pre><code>## 
 ## [[4]]</code></pre>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-303-4.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-307-4.png" width="1008" /></p>
 </div>
 <div id="f_6_pred_mod_bays" class="section level3 hasAnchor" number="6.9.2">
 <h3><span class="header-section-number">6.9.2</span> Bayesian<a href="stats_validation.html#f_6_pred_mod_bays" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -16975,7 +16977,7 @@ brms_f_mod5_5
 <span id="cb418-31"><a href="stats_validation.html#cb418-31" tabindex="-1"></a>)</span></code></pre></div>
 <p>check the trace plots for problems with convergence of the Markov chains</p>
 <div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="stats_validation.html#cb419-1" tabindex="-1"></a><span class="fu">plot</span>(brms_f_mod6)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-306-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-306-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-306-3.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-306-4.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-310-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-310-2.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-310-3.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-310-4.png" width="1008" /></p>
 <p>posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data</p>
 <div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="stats_validation.html#cb420-1" tabindex="-1"></a><span class="co"># posterior predictive check</span></span>
 <span id="cb420-2"><a href="stats_validation.html#cb420-2" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -16990,7 +16992,7 @@ brms_f_mod5_5
 <span id="cb420-11"><a href="stats_validation.html#cb420-11" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb420-12"><a href="stats_validation.html#cb420-12" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb420-13"><a href="stats_validation.html#cb420-13" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-307-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-311-1.png" width="1008" /></p>
 <p>How’d we do capturing the conditional means and standard deviations by depth map generation quality?</p>
 <div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="stats_validation.html#cb421-1" tabindex="-1"></a><span class="co"># means</span></span>
 <span id="cb421-2"><a href="stats_validation.html#cb421-2" tabindex="-1"></a>p1_temp <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">pp_check</span>(</span>
@@ -17022,7 +17024,7 @@ brms_f_mod5_5
 <span id="cb421-28"><a href="stats_validation.html#cb421-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="fu">expression</span>(</span>
 <span id="cb421-29"><a href="stats_validation.html#cb421-29" tabindex="-1"></a>      <span class="st">&quot;The dark blue lines are &quot;</span><span class="sc">*</span><span class="fu">italic</span>(<span class="fu">T</span>(y))<span class="sc">*</span><span class="st">&quot;, and the light blue bars are for &quot;</span><span class="sc">*</span><span class="fu">italic</span>(T)(<span class="fu">italic</span>(y)[rep])<span class="sc">*</span><span class="st">&quot;.&quot;</span>)</span>
 <span id="cb421-30"><a href="stats_validation.html#cb421-30" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-308-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-312-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="stats_validation.html#cb422-1" tabindex="-1"></a><span class="co"># brms_f_mod6 %&gt;% </span></span>
 <span id="cb422-2"><a href="stats_validation.html#cb422-2" tabindex="-1"></a><span class="co">#   brms::posterior_summary()</span></span></code></pre></div>
 <p>The means and sd’s of the F-score are less well represented across the different levels of dense cloud quality. We may want to look into modelling heterogeneous variances as shown by <a href="https://sites.google.com/site/doingbayesiandataanalysis/">Kruschke</a> chapter 20 and <a href="https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#heterogeneous-variances-and-robustness-against-outliers-1">Kurz</a></p>
@@ -17035,7 +17037,7 @@ brms_f_mod5_5
 <span id="cb423-6"><a href="stats_validation.html#cb423-6" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb423-7"><a href="stats_validation.html#cb423-7" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb423-8"><a href="stats_validation.html#cb423-8" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-309-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-313-1.png" width="1008" /></p>
 <p>What about for the overstory/understory?</p>
 <div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="stats_validation.html#cb424-1" tabindex="-1"></a><span class="fu">pp_check</span>(brms_f_mod6, <span class="st">&quot;dens_overlay_grouped&quot;</span>, <span class="at">group =</span> <span class="st">&quot;story&quot;</span>, <span class="at">ndraws =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
 <span id="cb424-2"><a href="stats_validation.html#cb424-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;posterior-predictive check (overlaid densities)</span><span class="sc">\n</span><span class="st">by story&quot;</span>) <span class="sc">+</span></span>
@@ -17045,7 +17047,7 @@ brms_f_mod5_5
 <span id="cb424-6"><a href="stats_validation.html#cb424-6" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
 <span id="cb424-7"><a href="stats_validation.html#cb424-7" tabindex="-1"></a>    , <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)</span>
 <span id="cb424-8"><a href="stats_validation.html#cb424-8" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-310-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-314-1.png" width="1008" /></p>
 <p>We may not be capturing the high versus low tree predictive performance that is being driven by differences at the study site level.</p>
 <p><em>this should be addressed…is validation really that bad for some study sites?</em></p>
 <p>We can look at the model noise standard deviation (concentration) <span class="math inline">\(\phi\)</span>.</p>
@@ -17070,7 +17072,7 @@ brms_f_mod5_5
 <span id="cb425-19"><a href="stats_validation.html#cb425-19" tabindex="-1"></a>    , <span class="at">caption =</span> form_temp</span>
 <span id="cb425-20"><a href="stats_validation.html#cb425-20" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb425-21"><a href="stats_validation.html#cb425-21" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-311-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-315-1.png" width="1008" /></p>
 <p>we can compare this to our beta model above without any overstory/understory predictor variable.</p>
 <div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="stats_validation.html#cb426-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
 <span id="cb426-2"><a href="stats_validation.html#cb426-2" tabindex="-1"></a>  brms<span class="sc">::</span><span class="fu">as_draws_df</span>(brms_f_mod6) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(phi) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">src =</span> <span class="st">&quot;brms_f_mod6&quot;</span>)</span>
@@ -17086,7 +17088,7 @@ brms_f_mod5_5
 <span id="cb426-12"><a href="stats_validation.html#cb426-12" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb426-13"><a href="stats_validation.html#cb426-13" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb426-14"><a href="stats_validation.html#cb426-14" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-312-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-316-1.png" width="1008" /></p>
 <p>This indicates that our model including overstory/understory has less dispersion</p>
 <div id="story---main-effect" class="section level4 hasAnchor" number="6.9.2.1">
 <h4><span class="header-section-number">6.9.2.1</span> Story - main effect<a href="stats_validation.html#story---main-effect" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -17122,7 +17124,7 @@ brms_f_mod5_5
 <span id="cb427-28"><a href="stats_validation.html#cb427-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb427-29"><a href="stats_validation.html#cb427-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb427-30"><a href="stats_validation.html#cb427-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-313-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-317-1.png" width="1008" /></p>
 <p>we can view the posterior HDI of these estimates</p>
 <div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="stats_validation.html#cb428-1" tabindex="-1"></a>ou_ptcld_validation_data <span class="sc">%&gt;%</span></span>
 <span id="cb428-2"><a href="stats_validation.html#cb428-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(story) <span class="sc">%&gt;%</span> </span>
@@ -17147,7 +17149,7 @@ brms_f_mod5_5
 <span id="cb428-21"><a href="stats_validation.html#cb428-21" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-314">Table 6.28: </span>brms::brm model: 95% HDI of the posterior predictive distribution of F-score
+<span id="tab:unnamed-chunk-318">Table 6.28: </span>brms::brm model: 95% HDI of the posterior predictive distribution of F-score
 </caption>
 <thead>
 <tr>
@@ -17215,7 +17217,7 @@ understory
 <span id="cb429-17"><a href="stats_validation.html#cb429-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-315">Table 6.29: </span>summary statistics of F-score
+<span id="tab:unnamed-chunk-319">Table 6.29: </span>summary statistics of F-score
 </caption>
 <thead>
 <tr>
@@ -17300,14 +17302,14 @@ understory
 ## $ pct_gt_zero         &lt;dbl&gt; 0.918425, 0.918425, 0.918425, 0.918425, 0.918425, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(overstory&gt;understory)=92%&quot;, &quot;Pr(overstory&gt;unde…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.38225, 0.38225, 0.38225, 0.38225, 0.38225, 0.382…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.3840362, 0.3840362, 0.3840362, 0.3840362, 0.3840…
 ## $ sig_level           &lt;ord&gt; 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, …</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="stats_validation.html#cb432-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
 <span id="cb432-2"><a href="stats_validation.html#cb432-2" tabindex="-1"></a>  brms_contrast_temp, <span class="at">caption_text =</span> form_temp</span>
 <span id="cb432-3"><a href="stats_validation.html#cb432-3" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;story&quot;</span></span>
 <span id="cb432-4"><a href="stats_validation.html#cb432-4" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-317-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-321-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="stats_validation.html#cb433-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb433-2"><a href="stats_validation.html#cb433-2" tabindex="-1"></a>  <span class="st">&quot;../data/stry_comp_mod6.png&quot;</span></span>
 <span id="cb433-3"><a href="stats_validation.html#cb433-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -17332,7 +17334,7 @@ understory
 <span id="cb434-16"><a href="stats_validation.html#cb434-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-318">Table 6.30: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-322">Table 6.30: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -17413,7 +17415,7 @@ overstory - understory
 ## $ pct_gt_zero         &lt;dbl&gt; 0.567825, 0.567825, 0.567825, 0.567825, 0.567825, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=57%&quot;, &quot;Pr(MtaShp&gt;ODM)=57%&quot;, &quot;Pr(Mt…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&lt;0)=57%&quot;, &quot;Pr(&lt;0)=57%&quot;, &quot;Pr(&lt;0)=57%&quot;, &quot;Pr(&lt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.217135, -0.217135, -0.217135, -0.217135, -0.217…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.2181497, -0.2181497, -0.2181497, -0.2181497, -0…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="stats_validation.html#cb437-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -17426,7 +17428,7 @@ overstory - understory
 <span id="cb437-8"><a href="stats_validation.html#cb437-8" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb437-9"><a href="stats_validation.html#cb437-9" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by overstory/understory&quot;</span></span>
 <span id="cb437-10"><a href="stats_validation.html#cb437-10" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-320-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-324-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="stats_validation.html#cb438-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb438-2"><a href="stats_validation.html#cb438-2" tabindex="-1"></a>  <span class="st">&quot;../data/sftwr_stry_comp_mod6.png&quot;</span></span>
 <span id="cb438-3"><a href="stats_validation.html#cb438-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -17452,7 +17454,7 @@ overstory - understory
 <span id="cb439-17"><a href="stats_validation.html#cb439-17" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-321">Table 6.31: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-325">Table 6.31: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -17622,7 +17624,7 @@ understory
 <span id="cb440-37"><a href="stats_validation.html#cb440-37" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb440-38"><a href="stats_validation.html#cb440-38" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb440-39"><a href="stats_validation.html#cb440-39" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-322-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-326-1.png" width="1008" /></p>
 </div>
 <div id="qualityfiltering---interaction-1" class="section level4 hasAnchor" number="6.9.2.4">
 <h4><span class="header-section-number">6.9.2.4</span> Quality:Filtering - interaction<a href="stats_validation.html#qualityfiltering---interaction-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -17672,7 +17674,7 @@ understory
 <span id="cb441-41"><a href="stats_validation.html#cb441-41" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb441-42"><a href="stats_validation.html#cb441-42" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb441-43"><a href="stats_validation.html#cb441-43" tabindex="-1"></a>    ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-323-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-327-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="stats_validation.html#cb442-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb442-2"><a href="stats_validation.html#cb442-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_mod6.png&quot;</span></span>
 <span id="cb442-3"><a href="stats_validation.html#cb442-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -17747,7 +17749,7 @@ understory
 ## $ pct_gt_zero                          &lt;dbl&gt; 0.6208, 0.6208, 0.6208, 0.6208, 0…
 ## $ pct_gt_zero_lab                      &lt;chr&gt; &quot;Pr(ultra high&gt;high)=62%&quot;, &quot;Pr(ul…
 ## $ pct_gt_zero_lab_sm                   &lt;chr&gt; &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;…
-## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.2387435, 0.2387435, 0.2387435, …
+## $ pct_gt_zero_lab_pos                  &lt;dbl&gt; 0.2398591, 0.2398591, 0.2398591, …
 ## $ sig_level                            &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="stats_validation.html#cb445-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -17763,7 +17765,7 @@ understory
 <span id="cb445-11"><a href="stats_validation.html#cb445-11" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb445-12"><a href="stats_validation.html#cb445-12" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>)</span>
 <span id="cb445-13"><a href="stats_validation.html#cb445-13" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-325-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-329-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="stats_validation.html#cb446-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb446-2"><a href="stats_validation.html#cb446-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_comp_mod6.png&quot;</span></span>
 <span id="cb446-3"><a href="stats_validation.html#cb446-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -17791,7 +17793,7 @@ understory
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-326">Table 6.32: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-330">Table 6.32: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -18576,7 +18578,7 @@ disabled
 <span id="cb448-37"><a href="stats_validation.html#cb448-37" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb448-38"><a href="stats_validation.html#cb448-38" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb448-39"><a href="stats_validation.html#cb448-39" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-327-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-331-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="stats_validation.html#cb449-1" tabindex="-1"></a><span class="co"># get draws</span></span>
 <span id="cb449-2"><a href="stats_validation.html#cb449-2" tabindex="-1"></a>qlty_sftwr_draws_temp <span class="ot">=</span> </span>
@@ -18665,7 +18667,7 @@ disabled
 ## $ pct_gt_zero         &lt;dbl&gt; 0.619, 0.619, 0.619, 0.619, 0.619, 0.619, 0.619, 0…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=62%&quot;, &quot;Pr(ultra high&gt;high)=62…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1814057, 0.1814057, 0.1814057, 0.1814057, 0.1814…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1822533, 0.1822533, 0.1822533, 0.1822533, 0.1822…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="stats_validation.html#cb451-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -18678,7 +18680,7 @@ disabled
 <span id="cb451-8"><a href="stats_validation.html#cb451-8" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb451-9"><a href="stats_validation.html#cb451-9" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by software&quot;</span></span>
 <span id="cb451-10"><a href="stats_validation.html#cb451-10" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-329-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-333-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="stats_validation.html#cb452-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb452-2"><a href="stats_validation.html#cb452-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_sftwr_comp_mod6.png&quot;</span></span>
 <span id="cb452-3"><a href="stats_validation.html#cb452-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -18707,7 +18709,7 @@ disabled
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-330">Table 6.33: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-334">Table 6.33: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -19246,7 +19248,7 @@ PIX4D
 ## $ pct_gt_zero                   &lt;dbl&gt; 0.54255, 0.54255, 0.54255, 0.54255, 0.54…
 ## $ pct_gt_zero_lab               &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=54%&quot;, &quot;Pr(MtaShp&gt;ODM)=54…
 ## $ pct_gt_zero_lab_sm            &lt;chr&gt; &quot;Pr(&lt;0)=54%&quot;, &quot;Pr(&lt;0)=54%&quot;, &quot;Pr(&lt;0)=54%&quot;…
-## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.2497312, -0.2497312, -0.2497312, -0.2…
+## $ pct_gt_zero_lab_pos           &lt;dbl&gt; -0.2508982, -0.2508982, -0.2508982, -0.2…
 ## $ sig_level                     &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="stats_validation.html#cb456-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -19267,7 +19269,7 @@ PIX4D
 <span id="cb456-16"><a href="stats_validation.html#cb456-16" tabindex="-1"></a>    <span class="at">legend.key.width  =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;lines&quot;</span>),</span>
 <span id="cb456-17"><a href="stats_validation.html#cb456-17" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">7</span>, <span class="st">&quot;lines&quot;</span>)</span>
 <span id="cb456-18"><a href="stats_validation.html#cb456-18" tabindex="-1"></a>  )))</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-332-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-336-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="stats_validation.html#cb457-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb457-2"><a href="stats_validation.html#cb457-2" tabindex="-1"></a>  <span class="st">&quot;../data/sftwr_qlty_comp_mod6.png&quot;</span></span>
 <span id="cb457-3"><a href="stats_validation.html#cb457-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -19295,7 +19297,7 @@ PIX4D
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:8in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-333">Table 6.34: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-337">Table 6.34: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -19589,7 +19591,7 @@ low
 <span id="cb459-39"><a href="stats_validation.html#cb459-39" tabindex="-1"></a>    , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
 <span id="cb459-40"><a href="stats_validation.html#cb459-40" tabindex="-1"></a>    , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb459-41"><a href="stats_validation.html#cb459-41" tabindex="-1"></a>  ) </span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-334-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-338-1.png" width="1008" /></p>
 <p>we can also make pairwise comparisons so long as we continue using <code>tidybayes::add_epred_draws</code> with the <code>re_formula</code> argument</p>
 <div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="stats_validation.html#cb460-1" tabindex="-1"></a><span class="co"># calculate contrast</span></span>
 <span id="cb460-2"><a href="stats_validation.html#cb460-2" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span> fltr_sftwr_draws_temp <span class="sc">%&gt;%</span> </span>
@@ -19654,7 +19656,7 @@ low
 ## $ pct_gt_zero         &lt;dbl&gt; 0.9202, 0.9202, 0.9202, 0.9202, 0.9202, 0.9202, 0.…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=92%&quot;, &quot;Pr(moderate&gt;aggres…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=92%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1757144, 0.1757144, 0.1757144, 0.1757144, 0.1757…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1765355, 0.1765355, 0.1765355, 0.1765355, 0.1765…
 ## $ sig_level           &lt;ord&gt; 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, …</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="stats_validation.html#cb462-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
@@ -19667,7 +19669,7 @@ low
 <span id="cb462-8"><a href="stats_validation.html#cb462-8" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb462-9"><a href="stats_validation.html#cb462-9" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by software&quot;</span></span>
 <span id="cb462-10"><a href="stats_validation.html#cb462-10" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-336-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-340-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="stats_validation.html#cb463-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb463-2"><a href="stats_validation.html#cb463-2" tabindex="-1"></a>  <span class="st">&quot;../data/fltr_sftwr_comp_mod6.png&quot;</span></span>
 <span id="cb463-3"><a href="stats_validation.html#cb463-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -19696,7 +19698,7 @@ low
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:6in; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-337">Table 6.35: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-341">Table 6.35: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -20050,7 +20052,7 @@ PIX4D
 <span id="cb465-65"><a href="stats_validation.html#cb465-65" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
 <span id="cb465-66"><a href="stats_validation.html#cb465-66" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">6</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>, <span class="at">lwd =</span> <span class="cn">NA</span>))</span>
 <span id="cb465-67"><a href="stats_validation.html#cb465-67" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-338-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-342-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="stats_validation.html#cb466-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb466-2"><a href="stats_validation.html#cb466-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_sftwr_mod6.png&quot;</span></span>
 <span id="cb466-3"><a href="stats_validation.html#cb466-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -20133,7 +20135,7 @@ PIX4D
 ## $ pct_gt_zero                   &lt;dbl&gt; 0.90815, 0.90815, 0.90815, 0.90815, 0.90…
 ## $ pct_gt_zero_lab               &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=91%&quot;, &quot;Pr(moder…
 ## $ pct_gt_zero_lab_sm            &lt;chr&gt; &quot;Pr(&gt;0)=91%&quot;, &quot;Pr(&gt;0)=91%&quot;, &quot;Pr(&gt;0)=91%&quot;…
-## $ pct_gt_zero_lab_pos           &lt;dbl&gt; 0.1956047, 0.1956047, 0.1956047, 0.19560…
+## $ pct_gt_zero_lab_pos           &lt;dbl&gt; 0.1965188, 0.1965188, 0.1965188, 0.19651…
 ## $ sig_level                     &lt;ord&gt; 90%, 90%, 90%, 90%, 90%, 90%, 90%, 90%, …</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="stats_validation.html#cb469-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span> </span>
@@ -20150,7 +20152,7 @@ PIX4D
 <span id="cb469-12"><a href="stats_validation.html#cb469-12" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb469-13"><a href="stats_validation.html#cb469-13" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by dense cloud quality and software&quot;</span></span>
 <span id="cb469-14"><a href="stats_validation.html#cb469-14" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-340-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-344-1.png" width="1008" /></p>
 <div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="stats_validation.html#cb470-1" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(</span>
 <span id="cb470-2"><a href="stats_validation.html#cb470-2" tabindex="-1"></a>  <span class="st">&quot;../data/qlty_fltr_sftwr_comp_mod6.png&quot;</span></span>
 <span id="cb470-3"><a href="stats_validation.html#cb470-3" tabindex="-1"></a>  , <span class="at">plot =</span> ggplot2<span class="sc">::</span><span class="fu">last_plot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;&quot;</span>)</span>
@@ -20191,7 +20193,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb471-28"><a href="stats_validation.html#cb471-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb471-29"><a href="stats_validation.html#cb471-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb471-30"><a href="stats_validation.html#cb471-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-341-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-345-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons</p>
 <div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="stats_validation.html#cb472-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb472-2"><a href="stats_validation.html#cb472-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -20263,14 +20265,14 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.61515, 0.61515, 0.61515, 0.61515, 0.61515, 0.615…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(ultra high&gt;high)=62%&quot;, &quot;Pr(ultra high&gt;high)=62…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=62%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.2259268, 0.2259268, 0.2259268, 0.2259268, 0.2259…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.2269825, 0.2269825, 0.2269825, 0.2269825, 0.2269…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="stats_validation.html#cb474-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
 <span id="cb474-2"><a href="stats_validation.html#cb474-2" tabindex="-1"></a>  brms_contrast_temp, <span class="at">caption_text =</span> form_temp</span>
 <span id="cb474-3"><a href="stats_validation.html#cb474-3" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;quality&quot;</span></span>
 <span id="cb474-4"><a href="stats_validation.html#cb474-4" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-343-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-347-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="stats_validation.html#cb475-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb475-2"><a href="stats_validation.html#cb475-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -20290,7 +20292,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb475-16"><a href="stats_validation.html#cb475-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-344">Table 6.36: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-348">Table 6.36: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -20486,7 +20488,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb476-28"><a href="stats_validation.html#cb476-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb476-29"><a href="stats_validation.html#cb476-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb476-30"><a href="stats_validation.html#cb476-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-345-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-349-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons</p>
 <div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="stats_validation.html#cb477-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb477-2"><a href="stats_validation.html#cb477-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -20557,14 +20559,14 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.507075, 0.507075, 0.507075, 0.507075, 0.507075, …
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(moderate&gt;aggressive)=51%&quot;, &quot;Pr(moderate&gt;aggres…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&gt;0)=51%&quot;, &quot;Pr(&gt;0)=51%&quot;, &quot;Pr(&gt;0)=51%&quot;, &quot;Pr(&gt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1011927, 0.1011927, 0.1011927, 0.1011927, 0.1011…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; 0.1016656, 0.1016656, 0.1016656, 0.1016656, 0.1016…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="stats_validation.html#cb479-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
 <span id="cb479-2"><a href="stats_validation.html#cb479-2" tabindex="-1"></a>  brms_contrast_temp, <span class="at">caption_text =</span> form_temp</span>
 <span id="cb479-3"><a href="stats_validation.html#cb479-3" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;filtering mode&quot;</span></span>
 <span id="cb479-4"><a href="stats_validation.html#cb479-4" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-347-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-351-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="stats_validation.html#cb480-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb480-2"><a href="stats_validation.html#cb480-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -20584,7 +20586,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb480-16"><a href="stats_validation.html#cb480-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-348">Table 6.37: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-352">Table 6.37: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -20780,7 +20782,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb481-28"><a href="stats_validation.html#cb481-28" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb481-29"><a href="stats_validation.html#cb481-29" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb481-30"><a href="stats_validation.html#cb481-30" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-349-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-353-1.png" width="1008" /></p>
 <p>we can also perform pairwise comparisons</p>
 <div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="stats_validation.html#cb482-1" tabindex="-1"></a>brms_contrast_temp <span class="ot">=</span></span>
 <span id="cb482-2"><a href="stats_validation.html#cb482-2" tabindex="-1"></a>  ptcld_validation_data <span class="sc">%&gt;%</span></span>
@@ -20818,14 +20820,14 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 ## $ pct_gt_zero         &lt;dbl&gt; 0.6325, 0.6325, 0.6325, 0.6325, 0.6325, 0.6325, 0.…
 ## $ pct_gt_zero_lab     &lt;chr&gt; &quot;Pr(MtaShp&gt;ODM)=63%&quot;, &quot;Pr(MtaShp&gt;ODM)=63%&quot;, &quot;Pr(Mt…
 ## $ pct_gt_zero_lab_sm  &lt;chr&gt; &quot;Pr(&lt;0)=63%&quot;, &quot;Pr(&lt;0)=63%&quot;, &quot;Pr(&lt;0)=63%&quot;, &quot;Pr(&lt;0)=…
-## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.2738591, -0.2738591, -0.2738591, -0.2738591, -0…
+## $ pct_gt_zero_lab_pos &lt;dbl&gt; -0.2751388, -0.2751388, -0.2751388, -0.2751388, -0…
 ## $ sig_level           &lt;ord&gt; &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;80%, &lt;8…</code></pre>
 <p>plot it</p>
 <div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="stats_validation.html#cb484-1" tabindex="-1"></a><span class="fu">plt_contrast</span>(</span>
 <span id="cb484-2"><a href="stats_validation.html#cb484-2" tabindex="-1"></a>  brms_contrast_temp, <span class="at">caption_text =</span> form_temp</span>
 <span id="cb484-3"><a href="stats_validation.html#cb484-3" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;software&quot;</span></span>
 <span id="cb484-4"><a href="stats_validation.html#cb484-4" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-351-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-355-1.png" width="1008" /></p>
 <p>and summarize these contrasts</p>
 <div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="stats_validation.html#cb485-1" tabindex="-1"></a>brms_contrast_temp <span class="sc">%&gt;%</span></span>
 <span id="cb485-2"><a href="stats_validation.html#cb485-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(contrast) <span class="sc">%&gt;%</span> </span>
@@ -20845,7 +20847,7 @@ In a hierarchical model structure, we have to make use of the <code>re_formula</
 <span id="cb485-16"><a href="stats_validation.html#cb485-16" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>()</span></code></pre></div>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-352">Table 6.38: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
+<span id="tab:unnamed-chunk-356">Table 6.38: </span>brms::brm model: 95% HDI of the posterior predictive distribution of group constrasts
 </caption>
 <thead>
 <tr>
@@ -20994,7 +20996,7 @@ PIX4D - OPENDRONEMAP
 <span id="cb486-22"><a href="stats_validation.html#cb486-22" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb486-23"><a href="stats_validation.html#cb486-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> form_temp) <span class="sc">+</span></span>
 <span id="cb486-24"><a href="stats_validation.html#cb486-24" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div>
-<p><img src="metashape_testing_files/figure-html/unnamed-chunk-353-1.png" width="1008" /></p>
+<p><img src="metashape_testing_files/figure-html/unnamed-chunk-357-1.png" width="1008" /></p>
 <p>Determining overstory or understory seems to have the strongest effect on our ability to accurately detect trees but this effect is highly uncertain. Variance of study site is stronger than variance of depth map generation quality, but the posterior predictive distributions overlap a good deal. The study site (the “subjects” in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.</p>
 <p>and perform model selection via the <a href="https://stat.columbia.edu/~gelman/research/published/bayes_R2_v3.pdf">R-squared for Bayesian</a> regression models using <code>brms::bayes_R2()</code> since we can’t compare models with different number of observations using information criteria (we could also use the p-value approach as done above)</p>
 <div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="stats_validation.html#cb487-1" tabindex="-1"></a>brms_f_mod6 <span class="ot">=</span> brms<span class="sc">::</span><span class="fu">add_criterion</span>(brms_f_mod6, <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">&quot;loo&quot;</span>, <span class="st">&quot;waic&quot;</span>))</span>

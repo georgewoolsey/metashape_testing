@@ -596,7 +596,7 @@ plt_contrast <- function(
         , point_interval = median_hdi, .width = c(0.5,0.95)
         # , slab_fill = "gray22", slab_alpha = 1
         , interval_color = "black", point_color = "black", point_fill = "black"
-        # , point_size = 1.1
+        , point_size = 0.9
         , justification = -0.01
       ) +
       geom_text(
@@ -640,7 +640,7 @@ plt_contrast <- function(
       theme(
         legend.text = element_text(size = 7)
         , legend.title = element_text(size = 8)
-        , axis.text.x = element_text(angle = 90)
+        , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1.05)
         , strip.text = element_text(color = "black", face = "bold")
       ) +
       guides(fill = guide_colorbar(theme = theme(
@@ -780,7 +780,7 @@ make_contrast_vars = function(my_data){
       , pct_gt_zero_lab_pos = dplyr::case_when(
         median_hdi_est > 0 ~ median_hdi_upper
         , median_hdi_est < 0 ~ median_hdi_lower
-      ) * 1.07
+      ) * 1.075
       , sig_level = dplyr::case_when(
         pct_gt_zero > 0.99 ~ 0
         , pct_gt_zero > 0.95 ~ 1
@@ -3790,6 +3790,30 @@ ptchwrk_qlty_sftwr_comp =
     brms_contrast_temp
     , y_axis_title = "quality contrast"
     , facet = "software"
+    , label_size = 1.35
+    , label = "pct_gt_zero_lab_sm"
+    , annotate_size = 1.75
+  ) +
+    labs(
+      subtitle = ""
+      , x = "F-score contrast"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# ptchwrk_qlty_sftwr_comp
+```
+
+```{r, include=FALSE, eval=FALSE}
+### old
+# ptchwrk_qlty_sftwr_comp_dta = brms_contrast_temp
+ptchwrk_qlty_sftwr_comp =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "quality contrast"
+    , facet = "software"
     , label_size = 1.4
     , label = "pct_gt_zero_lab_sm"
     , annotate_size = 1.8
@@ -3804,6 +3828,7 @@ ptchwrk_qlty_sftwr_comp =
       , axis.title.x = element_text(size = 8)
     ) 
 # ptchwrk_qlty_sftwr_comp
+
 ```
 
 and summarize these contrasts
@@ -3917,6 +3942,36 @@ ptchwrk_sftwr_qlty_comp =
     , label = "pct_gt_zero_lab_sm"
     , annotate_size = 1.8
   ) +
+    facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 3) +
+    labs(
+      subtitle = ""
+      , x = "F-score constrast"
+    ) +
+    theme(
+      legend.position = "inside"
+      , legend.position.inside = c(.8, .11)
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(7, "lines")
+    )))
+# ptchwrk_sftwr_qlty_comp
+```
+
+```{r, include=FALSE, eval=FALSE}
+### old
+# ptchwrk_sftwr_qlty_comp_dta = brms_contrast_temp
+ptchwrk_sftwr_qlty_comp =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "software contrast"
+    , facet = "depth_maps_generation_quality"
+    , label_size = 1.7
+    , label = "pct_gt_zero_lab_sm"
+    , annotate_size = 1.8
+  ) +
     facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
     labs(
       subtitle = ""
@@ -3932,6 +3987,7 @@ ptchwrk_sftwr_qlty_comp =
       legend.key.height = unit(7, "lines")
     )))
 # ptchwrk_sftwr_qlty_comp
+
 ```
 
 and summarize these contrasts
@@ -4137,6 +4193,31 @@ ptchwrk_fltr_sftwr_comp =
       , axis.title.x = element_text(size = 8)
     ) 
 # ptchwrk_fltr_sftwr_comp
+```
+
+```{r, include=FALSE, eval=FALSE}
+### old
+# ptchwrk_fltr_sftwr_comp_dta = brms_contrast_temp
+ptchwrk_fltr_sftwr_comp =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "filtering mode contrast"
+    , facet = "software"
+    , label_size = 1.7
+    , label = "pct_gt_zero_lab_sm"
+    , annotate_size = 1.8
+  ) +
+    labs(
+      subtitle = "" # "constrast Height RMSE (m)"
+      , x = "F-score constrast"
+    ) +
+    theme(
+      legend.position="none"
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) 
+# ptchwrk_fltr_sftwr_comp
+
 ```
 
 and summarize these contrasts
@@ -4951,7 +5032,8 @@ brms::loo_compare(brms_f_mod1, brms_f_mod2, brms_f_mod3, brms_f_mod4, brms_f_mod
 
 `patchwork` of F-score contrasts
 
-```{r, fig.height=9}
+```{r, fig.height=9, include=FALSE, eval=FALSE}
+### old
 layout_temp = c(
     # area(t, l, b, r)
     patchwork::area(2, 1, 2, 1)
@@ -4981,11 +5063,59 @@ layout_temp = c(
   scale_x_continuous(
     limits = c(-0.8,1.1)
     , breaks = seq(-0.8,0.8,0.4)
-    , labels = seq(-0.8,0.8,0.4)
+    , labels = seq(-0.8,0.8,0.4) %>% scales::number(accuracy = 0.1)
   ) &
   theme(
     axis.title.y = element_blank()
     , plot.subtitle = element_text(face = "bold", hjust = 0.5)
+    # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
+  )
+ggplot2::ggsave(
+    filename = paste0("../data/all_fscore_contrasts.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 11
+    , height = 8.5
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+```{r, fig.height=9, include=T, eval=T}
+layout_temp = c(
+    # area(t, l, b, r)
+    patchwork::area(2, 1, 2, 1)
+    , patchwork::area(2, 3, 2, 3)
+    , patchwork::area(4, 1, 4, 3)
+  )
+  # check the layout
+  # plot(layout_temp)
+############################
+# patchwork for height
+############################
+  ptchwrk_qlty_sftwr_comp + 
+    labs(subtitle = "A: Quality Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_fltr_sftwr_comp + 
+    labs(subtitle = "B: Filtering Mode Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  patchwork::free(
+    ptchwrk_sftwr_qlty_comp + 
+    labs(subtitle = "C: Software Contrast by Quality") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) ) +
+  # plot_annotation(tag_levels = list(c('#', '&'), '1')) +
+  patchwork::plot_layout(
+    design = layout_temp
+    , widths = c(1,0.01,1)
+    , heights = c(0.01,1,0.01,1,0.01)
+  ) &
+  scale_x_continuous(
+    limits = c(-0.58,0.96)
+    , breaks = seq(-0.8,0.8,0.4)
+    , labels = seq(-0.8,0.8,0.4) %>% scales::number(accuracy = 0.1)
+  ) &
+  theme(
+    axis.title.y = element_blank()
+    , plot.subtitle = element_text(face = "bold", hjust = 0.0)
     # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
   )
 ggplot2::ggsave(

@@ -203,7 +203,7 @@ plt_contrast <- function(
         , point_interval = median_hdi, .width = c(0.5,0.95)
         # , slab_fill = "gray22", slab_alpha = 1
         , interval_color = "black", point_color = "black", point_fill = "black"
-        # , point_size = 1.1
+        , point_size = 0.9
         , justification = -0.01
       ) +
       geom_text(
@@ -247,7 +247,7 @@ plt_contrast <- function(
       theme(
         legend.text = element_text(size = 7)
         , legend.title = element_text(size = 8)
-        , axis.text.x = element_text(angle = 90)
+        , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1.05)
         , strip.text = element_text(color = "black", face = "bold")
       ) +
       guides(fill = guide_colorbar(theme = theme(
@@ -382,7 +382,7 @@ make_contrast_vars = function(my_data){
       , pct_gt_zero_lab_pos = dplyr::case_when(
         median_hdi_est > 0 ~ median_hdi_upper
         , median_hdi_est < 0 ~ median_hdi_lower
-      ) * 1.07
+      ) * 1.075
       , sig_level = dplyr::case_when(
         pct_gt_zero > 0.99 ~ 0
         , pct_gt_zero > 0.95 ~ 1
@@ -1451,11 +1451,7 @@ ptchwrk_qlty_sftwr_comp_ht_rmse =
       , axis.title.y = element_text(size = 10, face = "bold")
       , axis.title.x = element_text(size = 8)
     ) 
-# +
-#     guides(fill = guide_colorbar(theme = theme(
-#           legend.key.width  = unit(10, "lines"),
-#           legend.key.height = unit(1, "lines")
-#         )))
+# ptchwrk_qlty_sftwr_comp_ht_rmse
 ```
 
 and summarize these contrasts
@@ -1568,6 +1564,35 @@ ptchwrk_sftwr_qlty_comp_ht_rmse =
     , label = "pct_gt_zero_lab_sm"
     , annotate_size = 1.8
   ) +
+    facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 3) +
+    labs(
+      subtitle = ""
+      , x = "Height RMSE (m) constrast"
+    ) +
+    theme(
+      legend.position = "inside"
+      , legend.position.inside = c(.8, .10)
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(6.5, "lines")
+    )))
+# ptchwrk_sftwr_qlty_comp_ht_rmse
+```
+
+```{r, include=FALSE, eval=FALSE}
+### old
+ptchwrk_sftwr_qlty_comp_ht_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "software contrast"
+    , facet = "depth_maps_generation_quality"
+    , label_size = 1.7
+    , label = "pct_gt_zero_lab_sm"
+    , annotate_size = 1.8
+  ) +
     facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
     labs(
       subtitle = ""
@@ -1582,11 +1607,7 @@ ptchwrk_sftwr_qlty_comp_ht_rmse =
       legend.key.width  = unit(1, "lines"),
       legend.key.height = unit(7, "lines")
     )))
-# +
-#     guides(fill = guide_colorbar(theme = theme(
-#           legend.key.width  = unit(10, "lines"),
-#           legend.key.height = unit(1, "lines")
-#         )))
+# ptchwrk_sftwr_qlty_comp_ht_rmse
 ```
 
 and summarize these contrasts
@@ -1804,11 +1825,7 @@ ptchwrk_fltr_sftwr_comp_ht_rmse =
       , axis.title.y = element_text(size = 10, face = "bold")
       , axis.title.x = element_text(size = 8)
     ) 
-# +
-#     guides(fill = guide_colorbar(theme = theme(
-#           legend.key.width  = unit(10, "lines"),
-#           legend.key.height = unit(1, "lines")
-#         )))
+# ptchwrk_fltr_sftwr_comp_ht_rmse
 ```
 
 and summarize these contrasts
@@ -3066,11 +3083,7 @@ ptchwrk_qlty_sftwr_comp_dbh_rmse =
       , axis.title.y = element_text(size = 10, face = "bold")
       , axis.title.x = element_text(size = 8)
     ) 
-# +
-#     guides(fill = guide_colorbar(theme = theme(
-#           legend.key.width  = unit(10, "lines"),
-#           legend.key.height = unit(1, "lines")
-#         )))
+# ptchwrk_qlty_sftwr_comp_dbh_rmse
 ```
 
 and summarize these contrasts
@@ -3174,6 +3187,35 @@ ggplot2::ggsave(
 create plot for combining with other RMSE contrasts for publication
 
 ```{r}
+ptchwrk_sftwr_qlty_comp_dbh_rmse =
+  plt_contrast(
+    brms_contrast_temp
+    , y_axis_title = "software contrast"
+    , facet = "depth_maps_generation_quality"
+    , label_size = 1.7
+    , label = "pct_gt_zero_lab_sm"
+    , annotate_size = 1.8
+  ) +
+    facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 3) +
+    labs(
+      subtitle = ""
+      , x = "DBH RMSE (cm) constrast"
+    ) +
+    theme(
+      legend.position = "inside"
+      , legend.position.inside = c(.8, .13)
+      , axis.title.y = element_text(size = 10, face = "bold")
+      , axis.title.x = element_text(size = 8)
+    ) +
+    guides(fill = guide_colorbar(theme = theme(
+      legend.key.width  = unit(1, "lines"),
+      legend.key.height = unit(6.5, "lines")
+    )))
+# ptchwrk_sftwr_qlty_comp_dbh_rmse
+```
+
+```{r, include=FALSE, eval=FALSE}
+### old
 ptchwrk_sftwr_qlty_comp_dbh_rmse =
   plt_contrast(
     brms_contrast_temp
@@ -3419,11 +3461,7 @@ ptchwrk_fltr_sftwr_comp_dbh_rmse =
       , axis.title.y = element_text(size = 10, face = "bold")
       , axis.title.x = element_text(size = 8)
     ) 
-# +
-#     guides(fill = guide_colorbar(theme = theme(
-#           legend.key.width  = unit(10, "lines"),
-#           legend.key.height = unit(1, "lines")
-#         )))
+# ptchwrk_fltr_sftwr_comp_dbh_rmse
 ```
 
 and summarize these contrasts
@@ -3678,7 +3716,56 @@ ggplot2::ggsave(
 
 `patchwork` of Height RMSE contrasts
 
-```{r, fig.height=9}
+```{r, fig.height=9, include=T, eval=T}
+layout_temp = c(
+    # area(t, l, b, r)
+    patchwork::area(2, 1, 2, 1)
+    , patchwork::area(2, 3, 2, 3)
+    , patchwork::area(4, 1, 4, 3)
+  )
+  # check the layout
+  # plot(layout_temp)
+############################
+# patchwork for height
+############################
+  ptchwrk_qlty_sftwr_comp_ht_rmse + 
+    labs(subtitle = "A: Quality Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_fltr_sftwr_comp_ht_rmse + 
+    labs(subtitle = "B: Filtering Mode Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  patchwork::free(
+    ptchwrk_sftwr_qlty_comp_ht_rmse + 
+    labs(subtitle = "C: Software Contrast by Quality") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) ) +
+  # plot_annotation(tag_levels = list(c('#', '&'), '1')) +
+  patchwork::plot_layout(
+    design = layout_temp
+    , widths = c(1,0.01,1)
+    , heights = c(0.01,1,0.01,1,0.01)
+  ) &
+  scale_x_continuous(
+    limits = c(-0.7,0.45)
+    , breaks = seq(-0.8,0.4,0.2)
+    , labels = seq(-0.8,0.4,0.2) %>% scales::number(accuracy = 0.1)
+  ) &
+  theme(
+    axis.title.y = element_blank()
+    , plot.subtitle = element_text(face = "bold", hjust = 0.0)
+    # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
+  )
+ggplot2::ggsave(
+    filename = paste0("../data/all_ht_rmse_contrasts.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 11
+    , height = 8.5
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+```{r, fig.height=9, include=FALSE, eval=FALSE}
+### old
 layout_temp = c(
     # area(t, l, b, r)
     patchwork::area(2, 1, 2, 1)
@@ -3727,7 +3814,56 @@ ggplot2::ggsave(
 
 `patchwork` of DBH RMSE contrasts
 
-```{r, fig.height=9}
+```{r, fig.height=9, include=T, eval=T}
+layout_temp = c(
+    # area(t, l, b, r)
+    patchwork::area(2, 1, 2, 1)
+    , patchwork::area(2, 3, 2, 3)
+    , patchwork::area(4, 1, 4, 3)
+  )
+  # check the layout
+  # plot(layout_temp)
+############################
+# patchwork for height
+############################
+  ptchwrk_qlty_sftwr_comp_dbh_rmse + 
+    labs(subtitle = "A: Quality Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  ptchwrk_fltr_sftwr_comp_dbh_rmse + 
+    labs(subtitle = "B: Filtering Mode Contrast by Software") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) +
+  patchwork::free(
+    ptchwrk_sftwr_qlty_comp_dbh_rmse + 
+    labs(subtitle = "C: Software Contrast by Quality") +
+    theme(plot.background = element_rect(colour = "gray88", fill=NA, size=3)) ) +
+  # plot_annotation(tag_levels = list(c('#', '&'), '1')) +
+  patchwork::plot_layout(
+    design = layout_temp
+    , widths = c(1,0.01,1)
+    , heights = c(0.01,1,0.01,1,0.01)
+  ) &
+  scale_x_continuous(
+    limits = c(-9.0,9.0)
+    , breaks = seq(-8,8,4)
+    , labels = seq(-8,8,4) %>% scales::number(accuracy = 1)
+  ) &
+  theme(
+    axis.title.y = element_blank()
+    , plot.subtitle = element_text(face = "bold", hjust = 0.0)
+    # , plot.background = element_rect(colour = "gray88", fill=NA, size=3)
+  )
+ggplot2::ggsave(
+    filename = paste0("../data/all_dbh_rmse_contrasts.jpeg")
+    , plot = ggplot2::last_plot()
+    , width = 11
+    , height = 8.5
+    , units = "in"
+    , dpi = "print"
+  )
+```
+
+```{r, fig.height=9, include=FALSE, eval=FALSE}
+### old
 layout_temp = c(
     # area(t, l, b, r)
     patchwork::area(2, 1, 2, 1)
@@ -3755,7 +3891,7 @@ layout_temp = c(
     , heights = c(0.01,1,0.01,1,0.01)
   ) &
   scale_x_continuous(
-    limits = c(-9.4,10.2)
+    limits = c(-9.4,10.3)
     , breaks = seq(-8,8,4)
     , labels = seq(-8,8,4)
   ) &
