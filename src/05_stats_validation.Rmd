@@ -210,10 +210,10 @@ and see section 19 from [Kurz's ebook supplement](https://bookdown.org/content/3
 The metric predicted variable with one nominal predictor variable model has the form:
 
 \begin{align*}
-y_{i}  &\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
+y_{i}  &\sim \operatorname{Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 \mu_{i} &= \beta_0 + \sum_{j=1}^{J} \beta_{1[j]} x_{1[j]} \bigl(i\bigr) \\
-\beta_{0}  &\sim {\sf Normal} (0,10) \\ 
-\beta_{1[j]}  &\sim {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
+\beta_{0}  &\sim \operatorname{Normal}(0,10) \\ 
+\beta_{1[j]}  &\sim \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
 \sigma_{\beta_{1}} &\sim {\sf uniform} (0,100) \\ 
 \sigma_{y} &\sim {\sf uniform} (0,100) \\ 
 \end{align*}
@@ -917,15 +917,15 @@ and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3
 The metric predicted variable with two nominal predictor variables model has the form:
 
 \begin{align*}
-y_{i}  &\sim {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
+y_{i}  &\sim \operatorname{Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 \mu_{i} &= \beta_0 + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]}  + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} \\
-\beta_{0}  &\sim {\sf Normal} (0,100) \\ 
-\beta_{1[j]}  &\sim {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  &\sim {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{1\times2[j,k]}  &\sim {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\sigma_{\beta_{1}} &\sim {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} &\sim {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} &\sim {\sf Gamma} (1.28,0.005) \\ 
+\beta_{0}  &\sim \operatorname{Normal}(0,100) \\ 
+\beta_{1[j]}  &\sim \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  &\sim \operatorname{Normal}(0,\sigma_{\beta_{2}}) \\ 
+\beta_{1\times2[j,k]}  &\sim \operatorname{Normal}(0,\sigma_{\beta_{1\times2}}) \\ 
+\sigma_{\beta_{1}} &\sim \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2}} &\sim \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} &\sim \operatorname{Gamma}(1.28,0.005) \\ 
 \sigma_{y} &\sim {\sf Cauchy} (0,109) \\ 
 \end{align*}
 
@@ -1454,24 +1454,24 @@ ggplot2::ggsave("../data/fscore_comp_quick.png", height = 9, width = 8)
 The metric predicted variable with three nominal predictor variables model has the form:
 
 \begin{align*}
-y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
+y_{i} \sim & \operatorname{Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 \mu_{i} = & \beta_0 \\
 & + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,100) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\beta_{0}  \sim & \operatorname{Normal}(0,100) \\ 
+\beta_{1[j]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{3}}) \\ 
+\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
 \sigma_{y} \sim & {\sf Cauchy} (0,109) \\ 
 \end{align*}
 
@@ -2176,26 +2176,26 @@ and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3
 The metric predicted variable with three nominal predictor variables and subject-level effects model has the form:
 
 \begin{align*}
-y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
+y_{i} \sim & \operatorname{Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
 \mu_{i} = & \beta_0 \\
 & + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,100) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
+\beta_{0}  \sim & \operatorname{Normal}(0,100) \\ 
+\beta_{1[j]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{4}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
 \sigma_{y} \sim & {\sf Cauchy} (0,109) \\ 
 \end{align*}
 
@@ -3070,35 +3070,80 @@ ptcld_validation_data$f_score %>%
 
 ### Bayesian{#f_5_pred_mod_bays}
 
+```{r, include=FALSE, eval=FALSE}
+# get the levels of the nominal predictors
+# see Kruschke (2015) "Nonadditive interaction of nominal predictors" on p.432
+# If there are J levels of predictor 1 and K levels of predictor 2, then there are J × K combinations of the two predictors
+### j is the depth map generation quality setting
+ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_quality) %>% dplyr::glimpse()
+###  k is the depth map filtering mode setting
+ptcld_validation_data %>% dplyr::distinct(depth_maps_generation_filtering_mode) %>% dplyr::glimpse()
+### f is the processing software
+ptcld_validation_data %>% dplyr::distinct(software) %>% dplyr::glimpse()
+### s is the study site
+ptcld_validation_data %>% dplyr::distinct(study_site) %>% dplyr::glimpse()
+
+### j is the depth map generation quality setting
+###  k is the depth map filtering mode setting
+tidyr::crossing(
+    depth_maps_generation_quality = unique(ptcld_validation_data$depth_maps_generation_quality)
+    , depth_maps_generation_filtering_mode = unique(ptcld_validation_data$depth_maps_generation_filtering_mode)
+  ) %>%
+  dplyr::glimpse()
+
+# priors?
+formula_temp = brms::bf( f_score ~ 
+    # baseline
+    1 + 
+    # main effects
+    (1 | depth_maps_generation_quality) +
+    (1 | depth_maps_generation_filtering_mode) + 
+    (1 | software) +
+    (1 | study_site) + # only fitting main effects of site and not interactions
+    # two-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode) +
+    (1 | depth_maps_generation_quality:software) +
+    (1 | depth_maps_generation_filtering_mode:software) +
+    # three-way interactions
+    (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
+)
+brms::get_prior(
+  formula_temp,
+  data = ptcld_validation_data,
+  family = Beta(link = "logit")
+)
+
+```
+
 With the beta likelihood our model with three nominal predictor variables and subject-level effects the model becomes:
 
 \begin{align*}
-y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi \bigr) \\
+y_{i} \sim & \operatorname{Beta} \bigl(\mu_{i}, \phi \bigr) \\
 \operatorname{logit}(\mu_{i}) = & \beta_0 \\
-& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+& + \sum_{j=1}^{J=5} \beta_{1[j]} x_{1[j]} + \sum_{k=1}^{K=4} \beta_{2[k]} x_{2[k]} + \sum_{f=1}^{F=3} \beta_{3[f]} x_{3[f]} + \sum_{s=1}^{S=5} \beta_{4[s]} x_{4[s]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,1) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\phi \sim & {\sf Gamma} (4,0.1) \\ 
+\beta_{0}  \sim & \operatorname{Normal}(0,1) \\ 
+\beta_{1[j]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{2}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{3}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{4}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{1\times2}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{1\times3}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\sigma_{\beta_{2\times3}} \sim & \operatorname{Student T}(3,0,2.5) \\ 
+\phi \sim & \operatorname{Gamma}(0.1,0.1) \\ 
 \end{align*}
 
 , where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
 
-Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is ${\sf Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*. We can think of mean ($\mu$) and precision ($\phi$) just like with a normal distribution and its mean and standard deviation.
+Per [`brms`](https://cran.r-project.org/web/packages/brms/vignettes/brms_families.html), our $y$ is $\operatorname{Beta}$ distributed with the mean as $\mu$ and the concentration as $\phi$ which is sometimes called the *concentration*, *sample size* or *precision*. We can think of mean ($\mu$) and precision ($\phi$) just like with a normal distribution and its mean and standard deviation.
 
 `brms` allows us to model the precision ($\phi$) but it is not required. If $\phi$ is not modeled, you still get a precision component, but it is universal across all the different coefficients (it doesn’t vary across any variables in the model). [Heiss](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/#b-beta-regression-bayesian-style) explains that:
 
@@ -3108,7 +3153,53 @@ in thie `brms` [community post](https://discourse.mc-stan.org/t/understanding-pa
 
 >If you don’t predict the parameters, you give priors for them on non-transformed scale. When you predict them, the predictors become linear coefficients as any other and work on the transformed scale - the transformations are specified by the link_XX parameters of the families (and you can change them if you need).
 
-*Need to check our prior selection...just go with `brms` defaults for now*
+#### Prior distributions
+
+```{r}
+#### setting priors
+# required libraries: tidyverse, tidybayes, brms, palettetown, latex2exp
+brms_f_mod5_priors_temp <- c(
+    brms::prior(normal(0, 1), class = "Intercept")
+    , brms::prior(student_t(3, 0, 2.5), class = "sd")
+    , brms::prior(gamma(0.1, 0.1), class = phi)
+  )
+# plot
+brms_f_mod5_priors_temp %>% 
+  tidybayes::parse_dist() %>% 
+  tidybayes::marginalize_lkjcorr(K = 2) %>% 
+  mutate(
+    distrib = case_when(
+      prior == "student_t(3, 0, 2.5)" ~ latex2exp::TeX(r'($\sigma \sim Student\,T(3, 0, 2.5)$)', output = "character"),
+      prior == "normal(0, 1)" ~ latex2exp::TeX(r'($\beta \sim Normal(0, 1)$)',  output = "character"),
+      prior == "gamma(0.1, 0.1)" ~ latex2exp::TeX(r'($\phi \sim$ Gamma(0.1, 0.1))',  output = "character")
+  )) %>% 
+  ggplot(., aes(dist = .dist, args = .args)) +
+  facet_wrap(vars(distrib), scales = "free", labeller = label_parsed) +
+  ggdist::stat_halfeye(
+    aes(fill = prior),
+    n = 10e2,
+    show.legend = F
+  ) +
+  coord_flip() + 
+  # Set the fill parameter for each group
+  scale_fill_manual(
+    values = viridis::turbo(n=12, begin = 0.1, end = 0.9) %>% sample()
+  ) +
+  theme_bw() +
+  theme(
+    strip.background = element_rect(fill = NA),
+    strip.text = element_text(face = "bold", size = 11),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  )+
+  labs(
+    x = "",
+    title = "",
+    y = "Log Odds"
+  ) 
+```
+
+#### Fit the model
 
 Now fit the model.
 
@@ -3130,20 +3221,60 @@ brms_f_mod5 = brms::brm(
     (1 | depth_maps_generation_quality:depth_maps_generation_filtering_mode:software)
   , data = ptcld_validation_data
   , family = Beta(link = "logit")
+  # priors
+  , prior = brms_f_mod5_priors_temp
+  # mcmc
   , iter = 20000, warmup = 10000, chains = 4
   , control = list(adapt_delta = 0.999, max_treedepth = 13)
   , cores = round(parallel::detectCores()/2)
   , file = paste0(rootdir, "/fits/brms_f_mod5")
 )
 # brms::make_stancode(brms_f_mod5)
+# brms::prior_summary(brms_f_mod5)
 # print(brms_f_mod5)
+# brms::neff_ratio(brms_f_mod5)
+# brms::rhat(brms_f_mod5)
+# brms::nuts_params(brms_f_mod5)
+```
+
+check the prior distributions
+
+```{r}
+# check priors
+brms::prior_summary(brms_f_mod5) %>%
+  kableExtra::kbl() %>% 
+  kableExtra::kable_styling()
+```
+
+The `brms::brm` model summary
+
+We won't clutter the output here but this can be run if you are following along on your own
+
+```{r, eval=F}
+brms_f_mod5 %>% 
+  brms::posterior_summary() %>% 
+  as.data.frame() %>% 
+  tibble::rownames_to_column(var = "parameter") %>%
+  dplyr::rename_with(tolower) %>% 
+  dplyr::filter(
+    stringr::str_starts(parameter, "b_") 
+    | stringr::str_starts(parameter, "r_") 
+    | stringr::str_starts(parameter, "sd_") 
+    | parameter == "phi"
+  ) %>%
+  dplyr::mutate(
+    parameter = parameter %>% 
+      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+  ) %>% 
+  kableExtra::kbl(digits = 2, caption = "Bayesian final model for F-score") %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::scroll_box(height = "8in")
 ```
 
 #### Posterior Predictive Checks{#ppcheck_mod5}
 
-Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
-
-To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence.
 
 check the trace plots for problems with convergence of the Markov chains
 
@@ -3151,7 +3282,15 @@ check the trace plots for problems with convergence of the Markov chains
 plot(brms_f_mod5)
 ```
 
-and check our $\hat{R}$ values
+Sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). 
+
+check our $\hat{R}$ values
+
+```{r}
+brms::mcmc_plot(brms_f_mod5, type = "rhat_hist")
+```
+
+and another check of our $\hat{R}$ values
 
 ```{r}
 brms_f_mod5 %>% 
@@ -3181,9 +3320,10 @@ brms_f_mod5 %>%
   geom_point() +
   scale_fill_manual(values = c("navy", "firebrick")) +
   scale_color_manual(values = c("navy", "firebrick")) +
+  scale_y_discrete(NULL, breaks = NULL) +
   labs(
     x = latex2exp::TeX("$\\hat{R}$")
-    , subtitle = latex2exp::TeX("posterior-predictive check for parameter $\\hat{R}$ estimates")
+    , subtitle = latex2exp::TeX("MCMC chain convergence check for $\\hat{R}$ values")
   ) +
   theme_light() +
   theme(
@@ -3193,6 +3333,61 @@ brms_f_mod5 %>%
     , panel.grid.minor.x = element_blank()
   )
 ```
+
+The effective length of an MCMC chain is indicated by the effective sample size (ESS), which refers to the sample size of the MCMC chain **not** to the sample size of the data
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes: 
+
+>One simple guideline is this: For reasonably accurate and stable estimates of the limits of the 95% HDI, an ESS of 10,000 is recommended. This is merely a heuristic based on experience with practical applications, it is not a requirement. If accuracy of the HDI limits is not crucial for your application, then a smaller ESS may be sufficient. (p.184)
+
+```{r}
+# get ess values from model summary
+dplyr::bind_rows(
+    summary(brms_f_mod5) %>% 
+      purrr::pluck("random") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+    , summary(brms_f_mod5) %>% 
+      purrr::pluck("fixed") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+  ) %>% 
+  dplyr::rename(ess = 1) %>% 
+  dplyr::mutate(parameter = dplyr::row_number(), chk = ess<10000) %>% 
+  ggplot(aes(x = ess, y = parameter, color = chk, fill = chk)) +
+  geom_vline(xintercept = 10000, linetype = "dashed", color = "gray44", lwd = 1.2) +
+  geom_segment( aes(x = 0, xend=ess, yend=parameter), color="black") +
+  geom_point() +
+  scale_fill_manual(values = c("navy", "firebrick")) +
+  scale_color_manual(values = c("navy", "firebrick")) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    x = "ESS"
+    , subtitle = "MCMC chain convergence check for effective sample size (ESS) values"
+    , y = ""
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.text.y = element_text(size = 4)
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+  )
+```
+
+and another effective sample size check
+
+```{r}
+brms::mcmc_plot(brms_f_mod5, type = "neff_hist")
+```
+
+Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+
+To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
 posterior-predictive check to make sure the model does an okay job simulating data that resemble the sample data
 
@@ -3337,42 +3532,6 @@ pp_check(brms_f_mod5, "dens_overlay_grouped", group = "depth_maps_generation_fil
 ```
 
 It looks like our model is making predictions that are consistent with our original data, which is what we want.
-
-check the prior distributions
-
-```{r}
-# check priors
-brms::prior_summary(brms_f_mod5) %>% 
-  kableExtra::kbl() %>% 
-  kableExtra::kable_styling()
-```
-
-The `brms::brm` model summary
-
-We won't clutter the output here but this can be run if you are following along on your own
-
-```{r, eval=F}
-brms_f_mod5 %>% 
-  summary() %>% str()
-  brms::posterior_summary() %>% 
-  as.data.frame() %>% 
-  tibble::rownames_to_column(var = "parameter") %>%
-  dplyr::rename_with(tolower) %>% 
-  dplyr::filter(
-    stringr::str_starts(parameter, "b_") 
-    | stringr::str_starts(parameter, "r_") 
-    | stringr::str_starts(parameter, "sd_") 
-    | parameter == "phi"
-  ) %>%
-  dplyr::mutate(
-    parameter = parameter %>% 
-      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
-      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
-  ) %>% 
-  kableExtra::kbl(digits = 2, caption = "Bayesian final model for F-score") %>% 
-  kableExtra::kable_styling() %>% 
-  kableExtra::scroll_box(height = "8in")
-```
 
 We can look at the model noise standard deviation (concentration) $\phi$ and the intercept
 
@@ -5149,27 +5308,27 @@ and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3
 With the beta likelihood our model with three nominal predictor variables, subject-level effects, and heterogeneous variances and robustness against outliers the model becomes:
 
 \begin{align*}
-y_{i} \sim & {\sf Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
+y_{i} \sim & \operatorname{Beta} \bigl(\mu_{i}, , \phi_{[jkf](i)} \bigr) \\
 \operatorname{logit}(\mu_{i}) = & \beta_0 \\
 & + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,1) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\phi_{[jkf](i)} \sim & {\sf Gamma} (\alpha,\theta) \\
+\beta_{0}  \sim & \operatorname{Normal}(0,1) \\ 
+\beta_{1[j]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(0,\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{4}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times2}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{1\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\sigma_{\beta_{2\times3}} \sim & \operatorname{Gamma}(1.28,0.005) \\ 
+\phi_{[jkf](i)} \sim & \operatorname{Gamma}(\alpha,\theta) \\
 \alpha \sim & {\sf XXX} (xxx,xxx) \\
 \theta \sim & {\sf XXX} (xxx,xxx)
 \end{align*}

@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_20b183-1/data_stars_canopyhtm712f5c.txt"></script>
+<script src="libs/canopy ht. (m)_b58a73-1/data_stars_canopyhtm4fc069.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -342,9 +342,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="stats_detected.html"><a href="stats_detected.html#posterior-predictive-checks-1"><i class="fa fa-check"></i><b>7.5</b> Posterior Predictive Checks</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="stats_detected.html"><a href="stats_detected.html#trace-plots"><i class="fa fa-check"></i><b>7.5.1</b> Trace-plots</a></li>
-<li class="chapter" data-level="7.5.2" data-path="stats_detected.html"><a href="stats_detected.html#hatr-values"><i class="fa fa-check"></i><b>7.5.2</b> <span class="math inline">\(\hat{R}\)</span> values</a></li>
-<li class="chapter" data-level="7.5.3" data-path="stats_detected.html"><a href="stats_detected.html#mean-and-sd"><i class="fa fa-check"></i><b>7.5.3</b> Mean and SD</a></li>
+<li class="chapter" data-level="7.5.1" data-path="stats_detected.html"><a href="stats_detected.html#prior-distriubutions"><i class="fa fa-check"></i><b>7.5.1</b> Prior Distriubutions</a></li>
+<li class="chapter" data-level="7.5.2" data-path="stats_detected.html"><a href="stats_detected.html#trace-plots"><i class="fa fa-check"></i><b>7.5.2</b> Trace-plots</a></li>
+<li class="chapter" data-level="7.5.3" data-path="stats_detected.html"><a href="stats_detected.html#hatr-values"><i class="fa fa-check"></i><b>7.5.3</b> <span class="math inline">\(\hat{R}\)</span> values</a></li>
+<li class="chapter" data-level="7.5.4" data-path="stats_detected.html"><a href="stats_detected.html#ess-values"><i class="fa fa-check"></i><b>7.5.4</b> ESS values</a></li>
+<li class="chapter" data-level="7.5.5" data-path="stats_detected.html"><a href="stats_detected.html#mean-and-sd"><i class="fa fa-check"></i><b>7.5.5</b> Mean and SD</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -728,7 +730,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb25-67"><a href="ptcld_analysis.html#cb25-67" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
 <p>join to the processing data which we’ll use to build our full analysis data set and create the normalized processing time using Min-Max normalization as:</p>
 <p><span class="math display">\[
-x^{\prime}_{[i][j]} = \frac{x_{[i][j]}-x_{min[j]}}{x_{max[j]}-x_{min[j]}}
+x^{\prime}_{ij} = \frac{x_{ij}-x_{min[j]}}{x_{max[j]}-x_{min[j]}}
 \]</span></p>
 <p>where <span class="math inline">\(i\)</span> is the the study site observation within each software <span class="math inline">\(j\)</span> where each software was implemented on a different computer.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ptcld_analysis.html#cb26-1" tabindex="-1"></a>ptcld_processing_data <span class="ot">=</span> ptcld_processing_data <span class="sc">%&gt;%</span> </span>
@@ -1785,7 +1787,7 @@ NA
 <h3><span class="header-section-number">3.6.3</span> SfM image processing time summary<a href="ptcld_analysis.html#sfm-image-processing-time-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Summary of the normalized SfM image processing time normalized using Min-Max normalization as:</p>
 <p><span class="math display">\[
-x^{\prime}_{[i][j]} = \frac{x_{[i][j]}-x_{min[j]}}{x_{max[j]}-x_{min[j]}}
+x^{\prime}_{ij} = \frac{x_{ij}-x_{min[j]}}{x_{max[j]}-x_{min[j]}}
 \]</span></p>
 <p>where <span class="math inline">\(i\)</span> is the the study site observation within each software <span class="math inline">\(j\)</span> where each software was implemented on a different computer.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="ptcld_analysis.html#cb38-1" tabindex="-1"></a>ptcld_processing_data <span class="sc">%&gt;%</span></span>

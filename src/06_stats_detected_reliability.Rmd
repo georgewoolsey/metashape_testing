@@ -32,32 +32,36 @@ and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3
 The metric predicted variable with three nominal predictor variables and subject-level effects model has the form:
 
 \begin{align*}
-y_{i} \sim & {\sf Normal} \bigl(\mu_{i}, \sigma_{y} \bigr) \\
-\mu_{i} = & \beta_0 \\
-& + \sum_{j} \beta_{1[j]} x_{1[j]} + \sum_{k} \beta_{2[k]} x_{2[k]} + \sum_{f} \beta_{3[f]} x_{3[f]} + \sum_{s} \beta_{4[s]} x_{4[s]}  \\
+y_{i} \sim & \operatorname{Normal}\bigl(\mu_{i}, \sigma_{y} \bigr) \\
+\operatorname{logit}(\mu_{i}) = & \beta_0 \\
+& + \sum_{j=1}^{J=5} \beta_{1[j]} x_{1[j]} + \sum_{k=1}^{K=4} \beta_{2[k]} x_{2[k]} + \sum_{f=1}^{F=3} \beta_{3[f]} x_{3[f]} + \sum_{s=1}^{S=5} \beta_{4[s]} x_{4[s]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & {\sf Normal} (0,100) \\ 
-\beta_{1[j]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & {\sf Normal} (0,\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & {\sf Normal} (0,\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{4}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times2}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{1\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{\beta_{2\times3}} \sim & {\sf Gamma} (1.28,0.005) \\ 
-\sigma_{y} \sim & {\sf Cauchy} (0,109) \\ 
+\beta_{0}  \sim & \operatorname{Normal}(\bar{y},y_{SD} \times 5) \\ 
+\beta_{1[j]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1}}) \\ 
+\beta_{2[k]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{2}}) \\ 
+\beta_{3[f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{3}}) \\ 
+\beta_{4[s]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{4}}) \\ 
+\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1\times2}}) \\ 
+\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1\times3}}) \\ 
+\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{2\times3}}) \\ 
+\sigma_{\beta_{1}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{2}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{4}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{1\times2}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{1\times3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{\beta_{2\times3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
+\sigma_{y} \sim & \operatorname{Cauchy}(0,y_{SD}) \\ 
 \end{align*}
 
 , where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
 
 *for this model, we'll define the priors following [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#implementation-in-jags-brms.-1)*
+
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) explains this prior distribution methodology: 
+
+>we let the data serve as a proxy and we set the prior wide relative to the variance in the data, called `ySD`. Analogously, the normal prior for the baseline `a0` is centered on the data mean and made very wide relative to the variance of the data. The goal is merely to achieve scale invariance, so that whatever is the measurement scale of the data, the prior will be broad and noncommittal on that scale...The prior on `aSigma` is a gamma distribution that is broad on the scale of the data, and that has a nonzero mode so that its probability density drops to zero as `aSigma` approaches zero. Specifically, the shape and rate parameters of the gamma distribution are set so its mode is `sd(y)/2` and its standard deviation is `2*sd(y)` (p.560-561)
 
 ## Setup
 
@@ -585,6 +589,67 @@ stanvars_temp =
   brms::stanvar(s_r_temp$rate,  name = "beta")
 ```
 
+#### Prior distributions
+
+```{r}
+#### setting priors
+# required libraries: tidyverse, tidybayes, brms, palettetown, latex2exp
+priors_temp <- c(
+    brms::prior(normal(mean_y_temp, sd_y_temp * 5), class = "Intercept")
+    , brms::prior(gamma(s_r_temp$shape, s_r_temp$rate), class = "sd")
+    , brms::prior(cauchy(0, sd_y_temp), class = "sigma")
+  )
+# plot
+plt_prior1 = 
+priors_temp %>% 
+  tidybayes::parse_dist() %>% 
+  tidybayes::marginalize_lkjcorr(K = 2) %>% 
+  tidyr::separate(
+    .args
+    , sep = ","
+    , into = c("a","b")
+    , remove = F
+  ) %>% 
+  dplyr::mutate(
+    distrib = paste0(
+      class, " ~ "
+      , .dist
+      , "("
+      , a %>% tidyr::extract_numeric() %>% round(2)
+      , ","
+      , b %>% tidyr::extract_numeric() %>% round(2)
+      , ")"
+    )
+  ) %>% 
+  ggplot(., aes(dist = .dist, args = .args)) +
+  facet_wrap(vars(distrib), scales = "free") +
+  ggdist::stat_halfeye(
+    aes(fill = prior),
+    n = 10e2,
+    show.legend = F
+  ) +
+  coord_flip() + 
+  # Set the fill parameter for each group
+  scale_fill_manual(
+    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
+  ) +
+  theme_bw() +
+  theme(
+    strip.background = element_rect(fill = NA),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  )+
+  labs(
+    x = ""
+    , title = "Priors: Height Mean Error (bias)"
+    , y = ""
+  ) 
+plt_prior1
+```
+
+#### Fit the model
+
 Now fit the model.
 
 ```{r}
@@ -1011,6 +1076,67 @@ stanvars_temp =
   brms::stanvar(s_r_temp$shape, name = "alpha") +
   brms::stanvar(s_r_temp$rate,  name = "beta")
 ```
+
+#### Prior distributions
+
+```{r}
+#### setting priors
+# required libraries: tidyverse, tidybayes, brms, palettetown, latex2exp
+priors_temp <- c(
+    brms::prior(normal(mean_y_temp, sd_y_temp * 5), class = "Intercept")
+    , brms::prior(gamma(s_r_temp$shape, s_r_temp$rate), class = "sd")
+    , brms::prior(cauchy(0, sd_y_temp), class = "sigma")
+  )
+# plot
+plt_prior2 = 
+priors_temp %>% 
+  tidybayes::parse_dist() %>% 
+  tidybayes::marginalize_lkjcorr(K = 2) %>% 
+  tidyr::separate(
+    .args
+    , sep = ","
+    , into = c("a","b")
+    , remove = F
+  ) %>% 
+  dplyr::mutate(
+    distrib = paste0(
+      class, " ~ "
+      , .dist
+      , "("
+      , a %>% tidyr::extract_numeric() %>% round(2)
+      , ","
+      , b %>% tidyr::extract_numeric() %>% round(2)
+      , ")"
+    )
+  ) %>% 
+  ggplot(., aes(dist = .dist, args = .args)) +
+  facet_wrap(vars(distrib), scales = "free") +
+  ggdist::stat_halfeye(
+    aes(fill = prior),
+    n = 10e2,
+    show.legend = F
+  ) +
+  coord_flip() + 
+  # Set the fill parameter for each group
+  scale_fill_manual(
+    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
+  ) +
+  theme_bw() +
+  theme(
+    strip.background = element_rect(fill = NA),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  )+
+  labs(
+    x = ""
+    , title = "Priors: Height RMSE (precision)"
+    , y = ""
+  ) 
+plt_prior2
+```
+
+#### Fit the model
 
 Now fit the model.
 
@@ -2229,6 +2355,67 @@ stanvars_temp =
   brms::stanvar(s_r_temp$rate,  name = "beta")
 ```
 
+#### Prior distributions
+
+```{r}
+#### setting priors
+# required libraries: tidyverse, tidybayes, brms, palettetown, latex2exp
+priors_temp <- c(
+    brms::prior(normal(mean_y_temp, sd_y_temp * 5), class = "Intercept")
+    , brms::prior(gamma(s_r_temp$shape, s_r_temp$rate), class = "sd")
+    , brms::prior(cauchy(0, sd_y_temp), class = "sigma")
+  )
+# plot
+plt_prior3 =
+priors_temp %>% 
+  tidybayes::parse_dist() %>% 
+  tidybayes::marginalize_lkjcorr(K = 2) %>% 
+  tidyr::separate(
+    .args
+    , sep = ","
+    , into = c("a","b")
+    , remove = F
+  ) %>% 
+  dplyr::mutate(
+    distrib = paste0(
+      class, " ~ "
+      , .dist
+      , "("
+      , a %>% tidyr::extract_numeric() %>% round(2)
+      , ","
+      , b %>% tidyr::extract_numeric() %>% round(2)
+      , ")"
+    )
+  ) %>% 
+  ggplot(., aes(dist = .dist, args = .args)) +
+  facet_wrap(vars(distrib), scales = "free") +
+  ggdist::stat_halfeye(
+    aes(fill = prior),
+    n = 10e2,
+    show.legend = F
+  ) +
+  coord_flip() + 
+  # Set the fill parameter for each group
+  scale_fill_manual(
+    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
+  ) +
+  theme_bw() +
+  theme(
+    strip.background = element_rect(fill = NA),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  )+
+  labs(
+    x = ""
+    , title = "Priors: DBH Mean Error (bias)"
+    , y = ""
+  ) 
+plt_prior3
+```
+
+#### Fit the model
+
 Now fit the model.
 
 ```{r}
@@ -2664,6 +2851,67 @@ stanvars_temp =
   brms::stanvar(s_r_temp$shape, name = "alpha") +
   brms::stanvar(s_r_temp$rate,  name = "beta")
 ```
+
+#### Prior distributions
+
+```{r}
+#### setting priors
+# required libraries: tidyverse, tidybayes, brms, palettetown, latex2exp
+priors_temp <- c(
+    brms::prior(normal(mean_y_temp, sd_y_temp * 5), class = "Intercept")
+    , brms::prior(gamma(s_r_temp$shape, s_r_temp$rate), class = "sd")
+    , brms::prior(cauchy(0, sd_y_temp), class = "sigma")
+  )
+# plot
+plt_prior4 = 
+priors_temp %>% 
+  tidybayes::parse_dist() %>% 
+  tidybayes::marginalize_lkjcorr(K = 2) %>% 
+  tidyr::separate(
+    .args
+    , sep = ","
+    , into = c("a","b")
+    , remove = F
+  ) %>% 
+  dplyr::mutate(
+    distrib = paste0(
+      class, " ~ "
+      , .dist
+      , "("
+      , a %>% tidyr::extract_numeric() %>% round(2)
+      , ","
+      , b %>% tidyr::extract_numeric() %>% round(2)
+      , ")"
+    )
+  ) %>% 
+  ggplot(., aes(dist = .dist, args = .args)) +
+  facet_wrap(vars(distrib), scales = "free") +
+  ggdist::stat_halfeye(
+    aes(fill = prior),
+    n = 10e2,
+    show.legend = F
+  ) +
+  coord_flip() + 
+  # Set the fill parameter for each group
+  scale_fill_manual(
+    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
+  ) +
+  theme_bw() +
+  theme(
+    strip.background = element_rect(fill = NA),
+    strip.text = element_text(face = "bold"),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  )+
+  labs(
+    x = ""
+    , title = "Priors: DBH RMSE (precision)"
+    , y = ""
+  ) 
+plt_prior4
+```
+
+#### Fit the model
 
 Now fit the model.
 
@@ -3925,6 +4173,13 @@ Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` pack
 
 To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
 
+### Prior Distriubutions
+
+```{r, fig.height=8}
+plt_prior1+plt_prior2+plt_prior3+plt_prior4 &
+  theme(strip.text = element_text(size = 6))
+```
+
 ### Trace-plots
 
 check the trace plots for problems with convergence of the Markov chains
@@ -3989,9 +4244,10 @@ plt_rhat_temp <- function(my_mod) {
     geom_point() +
     scale_fill_manual(values = c("navy", "firebrick")) +
     scale_color_manual(values = c("navy", "firebrick")) +
+    scale_y_discrete(NULL, breaks = NULL) +
     labs(
       x = latex2exp::TeX("$\\hat{R}$")
-      # , subtitle = latex2exp::TeX("posterior-predictive check for parameter $\\hat{R}$ estimates")
+      , subtitle = latex2exp::TeX("MCMC chain convergence check for $\\hat{R}$ values")
     ) +
     theme_light() +
     theme(
@@ -4004,6 +4260,7 @@ plt_rhat_temp <- function(my_mod) {
       , axis.title.y = element_blank()
       , axis.title.x = element_text(size = 9)
       , panel.grid = element_blank()
+      , axis.text.x = element_text(size = 6.5)
     )
 }
 # plot together with patchwork
@@ -4014,7 +4271,73 @@ brms_ht_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_ht_rmse_mod") +
 # dbh me
 brms_dbh_me_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_me_mod") +
 # dbh rmse
-brms_dbh_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_rmse_mod")
+brms_dbh_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_rmse_mod") &
+  theme(plot.subtitle = element_blank())
+```
+
+### ESS values
+
+The effective length of an MCMC chain is indicated by the effective sample size (ESS), which refers to the sample size of the MCMC chain **not** to the sample size of the data
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes: 
+
+>One simple guideline is this: For reasonably accurate and stable estimates of the limits of the 95% HDI, an ESS of 10,000 is recommended. This is merely a heuristic based on experience with practical applications, it is not a requirement. If accuracy of the HDI limits is not crucial for your application, then a smaller ESS may be sufficient. (p.184)
+
+```{r, fig.height=8}
+plt_ess_temp <- function(my_mod) {
+# get ess values from model summary
+dplyr::bind_rows(
+    summary(my_mod) %>% 
+      purrr::pluck("random") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+    , summary(my_mod) %>% 
+      purrr::pluck("fixed") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+  ) %>% 
+  dplyr::rename(ess = 1) %>% 
+  dplyr::mutate(parameter = dplyr::row_number(), chk = ess<10000) %>% 
+  ggplot(aes(x = ess, y = parameter, color = chk, fill = chk)) +
+  geom_vline(xintercept = 10000, linetype = "dashed", color = "gray44", lwd = 1.2) +
+  geom_segment( aes(x = 0, xend=ess, yend=parameter), color="black") +
+  geom_point() +
+  scale_fill_manual(values = c("navy", "firebrick")) +
+  scale_color_manual(values = c("navy", "firebrick")) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    x = "ESS"
+    , subtitle = "MCMC chain convergence check for effective sample size (ESS) values"
+    , y = ""
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.text.y = element_text(size = 4)
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+    , plot.title = element_text(size = 9)
+    , plot.subtitle = element_text(size = 8)
+    , axis.title.y = element_blank()
+    , axis.title.x = element_text(size = 9)
+    , axis.text.x = element_text(size = 6.5)
+  )
+}
+
+# plot together with patchwork
+# height mean error
+brms_ht_me_mod %>% plt_ess_temp() + labs(title = "brms_ht_me_mod") +
+# height rmse
+brms_ht_rmse_mod %>% plt_ess_temp() + labs(title = "brms_ht_rmse_mod") +
+# dbh me
+brms_dbh_me_mod %>% plt_ess_temp() + labs(title = "brms_dbh_me_mod") +
+# dbh rmse
+brms_dbh_rmse_mod %>% plt_ess_temp() + labs(title = "brms_dbh_rmse_mod") &
+  theme(plot.subtitle = element_blank())
 ```
 
 ### Mean and SD
