@@ -33,7 +33,7 @@ The metric predicted variable with three nominal predictor variables and subject
 
 \begin{align*}
 y_{i} \sim & \operatorname{Normal}\bigl(\mu_{i}, \sigma_{y} \bigr) \\
-\operatorname{logit}(\mu_{i}) = & \beta_0 \\
+\mu_{i} = & \beta_0 \\
 & + \sum_{j=1}^{J=5} \beta_{1[j]} x_{1[j]} + \sum_{k=1}^{K=4} \beta_{2[k]} x_{2[k]} + \sum_{f=1}^{F=3} \beta_{3[f]} x_{3[f]} + \sum_{s=1}^{S=5} \beta_{4[s]} x_{4[s]}  \\
 & + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
 & + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
@@ -4265,13 +4265,13 @@ plt_rhat_temp <- function(my_mod) {
 }
 # plot together with patchwork
 # height mean error
-brms_ht_me_mod %>% plt_rhat_temp() + labs(title = "brms_ht_me_mod") +
+brms_ht_me_mod %>% plt_rhat_temp() + labs(title = "Height Mean Error (bias)") +
 # height rmse
-brms_ht_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_ht_rmse_mod") +
+brms_ht_rmse_mod %>% plt_rhat_temp() + labs(title = "Height RMSE (precision)") +
 # dbh me
-brms_dbh_me_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_me_mod") +
+brms_dbh_me_mod %>% plt_rhat_temp() + labs(title = "DBH Mean Error (bias)") +
 # dbh rmse
-brms_dbh_rmse_mod %>% plt_rhat_temp() + labs(title = "brms_dbh_rmse_mod") &
+brms_dbh_rmse_mod %>% plt_rhat_temp() + labs(title = "DBH RMSE (precision)") &
   theme(plot.subtitle = element_blank())
 ```
 
@@ -4330,13 +4330,13 @@ dplyr::bind_rows(
 
 # plot together with patchwork
 # height mean error
-brms_ht_me_mod %>% plt_ess_temp() + labs(title = "brms_ht_me_mod") +
+brms_ht_me_mod %>% plt_ess_temp() + labs(title = "Height Mean Error (bias)") +
 # height rmse
-brms_ht_rmse_mod %>% plt_ess_temp() + labs(title = "brms_ht_rmse_mod") +
+brms_ht_rmse_mod %>% plt_ess_temp() + labs(title = "Height RMSE (precision)") +
 # dbh me
-brms_dbh_me_mod %>% plt_ess_temp() + labs(title = "brms_dbh_me_mod") +
+brms_dbh_me_mod %>% plt_ess_temp() + labs(title = "DBH Mean Error (bias)") +
 # dbh rmse
-brms_dbh_rmse_mod %>% plt_ess_temp() + labs(title = "brms_dbh_rmse_mod") &
+brms_dbh_rmse_mod %>% plt_ess_temp() + labs(title = "DBH RMSE (precision)") &
   theme(plot.subtitle = element_blank())
 ```
 
@@ -4357,13 +4357,13 @@ plt_pp_temp <- function(my_mod) {
 }
 # plot together with patchwork
 # height mean error
-brms_ht_me_mod %>% plt_pp_temp() + labs(title = "brms_ht_me_mod") +
+brms_ht_me_mod %>% plt_pp_temp() + labs(title = "Height Mean Error (bias)") +
 # height rmse
-brms_ht_rmse_mod %>% plt_pp_temp() + labs(title = "brms_ht_rmse_mod") +
+brms_ht_rmse_mod %>% plt_pp_temp() + labs(title = "Height RMSE (precision)") +
 # dbh me
-brms_dbh_me_mod %>% plt_pp_temp() + labs(title = "brms_dbh_me_mod") +
+brms_dbh_me_mod %>% plt_pp_temp() + labs(title = "DBH Mean Error (bias)") +
 # dbh rmse
-brms_dbh_rmse_mod %>% plt_pp_temp() + labs(title = "brms_dbh_rmse_mod")
+brms_dbh_rmse_mod %>% plt_pp_temp() + labs(title = "DBH RMSE (precision)")
 ```
 
 #### Bayesian p-value

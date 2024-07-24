@@ -850,7 +850,7 @@ p1_temp =
     ) +
     labs(
       subtitle = "quality"
-      , y = latex2exp::TeX("Processing time (mins $\\cdot ha^{-1}$)")
+      , y = latex2exp::TeX("Pt. Cld. Processing Time (mins $\\cdot ha^{-1}$)")
       , x = "filtering mode"
     ) +
     theme_light() +
@@ -894,7 +894,7 @@ p2_temp =
     ) +
     labs(
       subtitle = "quality"
-      , y = latex2exp::TeX("Point density (points $\\cdot m^{-2}$)")
+      , y = latex2exp::TeX("Point Density (points $\\cdot m^{-2}$)")
       , x = "filtering mode"
     ) +
     theme_light() +
@@ -949,7 +949,7 @@ ptcld_processing_data %>%
       , minor_breaks = seq(0.2,0.8,0.2)
       , labels = c("min","max")
     ) +
-    labs(x = "filtering mode", y = "SfM Image Processing Time (normalized)") + 
+    labs(x = "filtering mode", y = "SfM Image Processing Time (normalized)",subtitle = "quality") + 
     theme_light() +
     theme(
       legend.position = "none"
@@ -960,6 +960,7 @@ ptcld_processing_data %>%
       , axis.ticks.y = element_blank()
       , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
       , strip.text = element_text(color = "black", face = "bold")
+      , plot.subtitle = element_text(hjust = 0.5)
     )
 
 ggplot2::ggsave("../data/sfm_img_processing_time.png", height = 7, width = 10.5)
@@ -989,8 +990,6 @@ table_temp =
   select(-c(n,total_sfm_time_norm_min, total_sfm_time_norm_max)) %>% 
   dplyr::ungroup() %>% 
   dplyr::arrange(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode)
-  
-names(table_temp)
 
 table_temp %>% 
   # dplyr::select(-c(software)) %>% 
