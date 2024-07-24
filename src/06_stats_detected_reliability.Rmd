@@ -633,7 +633,7 @@ priors_temp %>%
   scale_fill_manual(
     values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
   ) +
-  theme_bw() +
+  theme_light() +
   theme(
     strip.background = element_rect(fill = NA),
     strip.text = element_text(face = "bold"),
@@ -1121,7 +1121,7 @@ priors_temp %>%
   scale_fill_manual(
     values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
   ) +
-  theme_bw() +
+  theme_light() +
   theme(
     strip.background = element_rect(fill = NA),
     strip.text = element_text(face = "bold"),
@@ -2399,7 +2399,7 @@ priors_temp %>%
   scale_fill_manual(
     values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
   ) +
-  theme_bw() +
+  theme_light() +
   theme(
     strip.background = element_rect(fill = NA),
     strip.text = element_text(face = "bold"),
@@ -2896,7 +2896,7 @@ priors_temp %>%
   scale_fill_manual(
     values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
   ) +
-  theme_bw() +
+  theme_light() +
   theme(
     strip.background = element_rect(fill = NA),
     strip.text = element_text(face = "bold"),
@@ -4311,7 +4311,7 @@ dplyr::bind_rows(
   scale_x_continuous(labels = scales::comma) +
   labs(
     x = "ESS"
-    , subtitle = "MCMC chain convergence check for effective sample size (ESS) values"
+    , subtitle = "MCMC chain resolution check for effective sample size (ESS) values"
     , y = ""
   ) +
   theme_light() +

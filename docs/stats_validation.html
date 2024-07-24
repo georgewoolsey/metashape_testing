@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_710c8e-1/data_stars_canopyhtm72e8d4.txt"></script>
+<script src="libs/canopy ht. (m)_09ec56-1/data_stars_canopyhtm81374c.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -10585,7 +10585,7 @@ y_{i} \sim &amp; \operatorname{Beta} \bigl(\mu_{i}, \phi \bigr) \\
 <span id="cb315-27"><a href="stats_validation.html#cb315-27" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
 <span id="cb315-28"><a href="stats_validation.html#cb315-28" tabindex="-1"></a>    <span class="at">values =</span> viridis<span class="sc">::</span><span class="fu">turbo</span>(<span class="at">n=</span><span class="dv">12</span>, <span class="at">begin =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">%&gt;%</span> <span class="fu">sample</span>()</span>
 <span id="cb315-29"><a href="stats_validation.html#cb315-29" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb315-30"><a href="stats_validation.html#cb315-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb315-30"><a href="stats_validation.html#cb315-30" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
 <span id="cb315-31"><a href="stats_validation.html#cb315-31" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb315-32"><a href="stats_validation.html#cb315-32" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>),</span>
 <span id="cb315-33"><a href="stats_validation.html#cb315-33" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">11</span>),</span>
@@ -11191,7 +11191,11 @@ default
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-239-1.png" width="1008" /><img src="metashape_testing_files/figure-html/unnamed-chunk-239-2.png" width="1008" /></p>
 <p>Sufficient convergence was checked with <span class="math inline">\(\hat{R}\)</span> values near 1 (<a href="https://scholar.google.com/scholar?cluster=14209404114665352991&amp;hl=en&amp;as_sdt=0,6">Brooks &amp; Gelman, 1998</a>).</p>
 <p>check our <span class="math inline">\(\hat{R}\)</span> values</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="stats_validation.html#cb320-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(brms_f_mod5, <span class="at">type =</span> <span class="st">&quot;rhat_hist&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="stats_validation.html#cb320-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(brms_f_mod5, <span class="at">type =</span> <span class="st">&quot;rhat_hist&quot;</span>) <span class="sc">+</span></span>
+<span id="cb320-2"><a href="stats_validation.html#cb320-2" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb320-3"><a href="stats_validation.html#cb320-3" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb320-4"><a href="stats_validation.html#cb320-4" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb320-5"><a href="stats_validation.html#cb320-5" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-240-1.png" width="1008" /></p>
 <p>and another check of our <span class="math inline">\(\hat{R}\)</span> values</p>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="stats_validation.html#cb321-1" tabindex="-1"></a>brms_f_mod5 <span class="sc">%&gt;%</span> </span>
@@ -11266,7 +11270,7 @@ default
 <span id="cb322-25"><a href="stats_validation.html#cb322-25" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
 <span id="cb322-26"><a href="stats_validation.html#cb322-26" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb322-27"><a href="stats_validation.html#cb322-27" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;ESS&quot;</span></span>
-<span id="cb322-28"><a href="stats_validation.html#cb322-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;MCMC chain convergence check for effective sample size (ESS) values&quot;</span></span>
+<span id="cb322-28"><a href="stats_validation.html#cb322-28" tabindex="-1"></a>    , <span class="at">subtitle =</span> <span class="st">&quot;MCMC chain resolution check for effective sample size (ESS) values&quot;</span></span>
 <span id="cb322-29"><a href="stats_validation.html#cb322-29" tabindex="-1"></a>    , <span class="at">y =</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb322-30"><a href="stats_validation.html#cb322-30" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb322-31"><a href="stats_validation.html#cb322-31" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
@@ -11278,7 +11282,11 @@ default
 <span id="cb322-37"><a href="stats_validation.html#cb322-37" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-242-1.png" width="1008" /></p>
 <p>and another effective sample size check</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="stats_validation.html#cb323-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(brms_f_mod5, <span class="at">type =</span> <span class="st">&quot;neff_hist&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="stats_validation.html#cb323-1" tabindex="-1"></a>brms<span class="sc">::</span><span class="fu">mcmc_plot</span>(brms_f_mod5, <span class="at">type =</span> <span class="st">&quot;neff_hist&quot;</span>) <span class="sc">+</span></span>
+<span id="cb323-2"><a href="stats_validation.html#cb323-2" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb323-3"><a href="stats_validation.html#cb323-3" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb323-4"><a href="stats_validation.html#cb323-4" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb323-5"><a href="stats_validation.html#cb323-5" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-243-1.png" width="1008" /></p>
 <p>Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters (<a href="https://scholar.google.com/scholar?cluster=9228589188684720156&amp;hl=en&amp;as_sdt=0,6">Hobbs &amp; Hooten, 2015</a>). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit (<a href="https://scholar.google.com/scholar?cluster=9228589188684720156&amp;hl=en&amp;as_sdt=0,6">Hobbs &amp; Hooten, 2015</a>).</p>
 <p>To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, <a href="https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html">Graphical posterior predictive checks using the bayesplot package</a>.</p>
@@ -16826,7 +16834,7 @@ brms_f_mod4
 0.50
 </td>
 <td style="text-align:right;">
-0.59
+0.61
 </td>
 </tr>
 <tr>
@@ -16834,10 +16842,10 @@ brms_f_mod4
 brms_f_mod5
 </td>
 <td style="text-align:right;">
-0.23
+0.24
 </td>
 <td style="text-align:right;">
-0.88
+0.87
 </td>
 </tr>
 <tr>
@@ -16845,7 +16853,7 @@ brms_f_mod5
 brms_f_mod5_5
 </td>
 <td style="text-align:right;">
-0.34
+0.35
 </td>
 <td style="text-align:right;">
 0.87

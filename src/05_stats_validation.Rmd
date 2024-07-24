@@ -3185,7 +3185,7 @@ brms_f_mod5_priors_temp %>%
   scale_fill_manual(
     values = viridis::turbo(n=12, begin = 0.1, end = 0.9) %>% sample()
   ) +
-  theme_bw() +
+  theme_light() +
   theme(
     strip.background = element_rect(fill = NA),
     strip.text = element_text(face = "bold", size = 11),
@@ -3287,7 +3287,11 @@ Sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelma
 check our $\hat{R}$ values
 
 ```{r}
-brms::mcmc_plot(brms_f_mod5, type = "rhat_hist")
+brms::mcmc_plot(brms_f_mod5, type = "rhat_hist") +
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+  )
 ```
 
 and another check of our $\hat{R}$ values
@@ -3367,7 +3371,7 @@ dplyr::bind_rows(
   scale_x_continuous(labels = scales::comma) +
   labs(
     x = "ESS"
-    , subtitle = "MCMC chain convergence check for effective sample size (ESS) values"
+    , subtitle = "MCMC chain resolution check for effective sample size (ESS) values"
     , y = ""
   ) +
   theme_light() +
@@ -3382,7 +3386,11 @@ dplyr::bind_rows(
 and another effective sample size check
 
 ```{r}
-brms::mcmc_plot(brms_f_mod5, type = "neff_hist")
+brms::mcmc_plot(brms_f_mod5, type = "neff_hist") +
+  theme_light() +
+  theme(
+    legend.position = "top", legend.direction = "horizontal"
+  )
 ```
 
 Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
