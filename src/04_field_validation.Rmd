@@ -115,6 +115,16 @@ validation_plots %>%
   mapview::mapview(col.regions = "blue", layer.name = "plot", alpha.regions = 0.7)
 ```
 
+create a function to calculate the basal area of a tree in m^2^ from DBH measured in cm
+
+```{r}
+calc_ba_m2_from_dbh_cm = function(dbh_cm){
+  return(
+    pi * dbh_cm^2 / (4*10000)
+  )
+}
+```
+
 ## Data Load Functions
 
 field validation data
@@ -158,7 +168,7 @@ read_field_data <- function(my_study_site) {
       , tree_utm_x = sf::st_coordinates(geometry)[,1] #lon
       , tree_utm_y = sf::st_coordinates(geometry)[,2] #lat
       # basal area
-      , basal_area_m2 = pi * field_dbh_cm^2 / (4*10000)
+      , basal_area_m2 = calc_ba_m2_from_dbh_cm(field_dbh_cm)
     ) %>% 
     dplyr::relocate(field_tree_id)
     
@@ -390,9 +400,7 @@ read_uas_data = function(my_processing_id, my_crs = NULL, use_this_dbh = my_dbh_
           , T ~ reg_est_dbh_cm
         )) %>% 
         dplyr::mutate(
-          dbh_m = dbh_cm/100
-          , radius_m = dbh_m/2
-          , basal_area_m2 = pi * (radius_m)^2
+          basal_area_m2 = calc_ba_m2_from_dbh_cm(dbh_cm)
           , basal_area_ft2 = basal_area_m2 * 10.764
         )
         
@@ -418,7 +426,6 @@ dta %>%
       color = guide_legend(override.aes = list(size = 5))
     )
 ```
-
 
 ## Validation Data Functions
 
@@ -618,11 +625,12 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
           , uas_tree_utm_y = sf::st_coordinates(geometry)[,2] #lat
         ) %>% 
         sf::st_drop_geometry() %>% 
-        dplyr::select(treeid, tree_height_m, dbh_cm, uas_tree_utm_x, uas_tree_utm_y) %>% 
+        dplyr::select(treeid, tree_height_m, dbh_cm, basal_area_m2, uas_tree_utm_x, uas_tree_utm_y) %>% 
         dplyr::rename(
           uas_tree_id = treeid
           , uas_tree_height_m = tree_height_m
           , uas_dbh_cm = dbh_cm
+          , uas_basal_area_m2 = basal_area_m2
         )
       , by = dplyr::join_by(uas_tree_id)
     ) %>% 
@@ -631,11 +639,12 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
       field_data %>% 
         sf::st_drop_geometry() %>% 
         dplyr::select(
-          field_tree_id, field_tree_height_m, field_dbh_cm
+          field_tree_id, field_tree_height_m, field_dbh_cm, basal_area_m2
           , tree_utm_x, tree_utm_y
         ) %>% 
         dplyr::rename(
-          field_tree_utm_x = tree_utm_x
+          field_basal_area_m2 = basal_area_m2
+          , field_tree_utm_x = tree_utm_x
           , field_tree_utm_y = tree_utm_y
         )
       , by = dplyr::join_by(field_tree_id)
@@ -678,6 +687,42 @@ field_uas_comparison_fn = function(uas_data, field_data, true_positive_trees, pl
   # return
   return(field_uas_comparison)
 }
+```
+
+```{r, eval=FALSE, include=FALSE}
+xxx = field_uas_comparison_fn(
+  uas_data = read_uas_data(
+    my_processing_id = ptcld_processing_data %>% 
+      dplyr::filter(study_site == study_site_list[1]) %>% 
+      dplyr::pull(processing_id) %>% 
+      .[1]
+    , my_crs = read_field_data(my_study_site = study_site_list[1]) %>% sf::st_crs()
+  )
+  , field_data = read_field_data(my_study_site = study_site_list[1])
+  , true_positive_trees = 
+      true_positive_trees_fn(
+        uas_data = read_uas_data(
+          my_processing_id = ptcld_processing_data %>% 
+            dplyr::filter(study_site == study_site_list[1]) %>% 
+            dplyr::pull(processing_id) %>% 
+            .[1]
+          , my_crs = read_field_data(my_study_site = study_site_list[1]) %>% sf::st_crs()
+        )
+        , field_data = read_field_data(my_study_site = study_site_list[1])
+      )
+  , plot_data = validation_plots %>% dplyr::filter(study_site == study_site_list[1])
+) 
+xxx %>% dplyr::glimpse()
+xxx %>% sf::st_drop_geometry() %>% View()
+# basal area sum
+xxx %>% 
+  dplyr::group_by(overstory_understory_grp) %>% 
+  dplyr::summarise(
+    ba_uas = sum(uas_basal_area_m2, na.rm = T)
+    , ba_field = sum(field_basal_area_m2, na.rm = T)
+  )
+remove(xxx)
+gc()
 ```
 
 ### Full validation function
@@ -773,6 +818,9 @@ function returns:
     ############################################
     # aggregate field_uas_comparison for return
     ############################################
+      # get plot area from plot data
+      plot_area_ha = plt_dta$area_ha[1]
+      # this is the return data which has lots of columns
       return_dta =
         ptcld_processing_data %>% 
         dplyr::filter(processing_id == p_id) %>%
@@ -835,6 +883,24 @@ function returns:
               , dbh_cm_smape = Metrics::smape(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_mse = Metrics::mse(field_dbh_cm, uas_dbh_cm)
               , dbh_cm_rmse = Metrics::rmse(field_dbh_cm, uas_dbh_cm)
+            )
+        ) %>% 
+        # attach basal area
+        dplyr::bind_cols(
+          field_uas_comparison %>% 
+            dplyr::ungroup() %>% 
+            dplyr::summarise(
+              uas_basal_area_m2 = sum(uas_basal_area_m2, na.rm = T)
+              , field_basal_area_m2 = sum(field_basal_area_m2, na.rm = T)
+            ) %>% 
+            # ba/ha and error
+            dplyr::mutate(
+              uas_basal_area_m2_per_ha = uas_basal_area_m2/plot_area_ha
+              , field_basal_area_m2_per_ha = field_basal_area_m2/plot_area_ha
+              # error
+              , basal_area_m2_error = uas_basal_area_m2-field_basal_area_m2
+              , basal_area_m2_per_ha_error = uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha
+              , basal_area_pct_error = (uas_basal_area_m2-field_basal_area_m2)/field_basal_area_m2
             )
         ) %>% 
         ############################################
@@ -920,6 +986,36 @@ function returns:
               , values_fill = 0
               , names_glue = "{overstory_understory_grp}_{.value}"
             )
+        ) %>% 
+        # attach basal area
+        dplyr::bind_cols(
+          dplyr::tibble(
+            overstory_understory_grp = c("overstory","understory")
+          ) %>% 
+          dplyr::left_join(
+            field_uas_comparison %>% 
+              dplyr::group_by(overstory_understory_grp) %>% 
+              dplyr::summarise(
+                uas_basal_area_m2 = sum(uas_basal_area_m2, na.rm = T)
+                , field_basal_area_m2 = sum(field_basal_area_m2, na.rm = T)
+              ) %>% 
+              dplyr::ungroup() %>% 
+              # ba/ha and error
+              dplyr::mutate(
+                uas_basal_area_m2_per_ha = uas_basal_area_m2/plot_area_ha
+                , field_basal_area_m2_per_ha = field_basal_area_m2/plot_area_ha
+                # error
+                , basal_area_m2_per_ha_error = uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha
+                , basal_area_pct_error = (uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha)/field_basal_area_m2_per_ha
+              )
+            , by = dplyr::join_by("overstory_understory_grp")
+          ) %>% 
+          tidyr::pivot_wider(
+            names_from = overstory_understory_grp
+            , values_from = -c(overstory_understory_grp)
+            , values_fill = 0
+            , names_glue = "{overstory_understory_grp}_{.value}"
+          )
         ) %>% 
         # where is the tree list ?
         dplyr::mutate(
@@ -2184,3 +2280,51 @@ remove(
 )
 gc()
 ```
+
+## Summary of Dependent Variables
+
+descriptive statistics of potential dependent variables
+
+```{r, include=FALSE, eval=FALSE}
+ptcld_validation_data %>% 
+  dplyr::select(f_score, basal_area_pct_error, tree_height_m_me, tree_height_m_rmse, dbh_cm_me, dbh_cm_rmse) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::summarise(
+    dplyr::across(
+      .cols = tidyselect::everything()
+      , .fns = list(
+        mean = ~ mean(.x, na.rm=T)
+        , median = ~ median(.x, na.rm=T)
+        , sd = ~ sd(.x, na.rm=T)
+        , min = ~ min(.x, na.rm=T)
+        , max = ~ max(.x, na.rm=T)
+      )
+      , .names = "{.fn}_xxx_{.col}"
+    )
+    , n = dplyr::n()
+  ) %>% 
+  tidyr::pivot_longer(cols = -n) %>% 
+  tidyr::separate(col = name, sep = "_xxx_", into = c("stat", "metric")) %>% 
+  # format
+  dplyr::mutate(
+    value = dplyr::case_when(
+      metric == "basal_area_pct_error" ~ scales::percent(value, accuracy = 0.1)
+      , metric == "f_score" ~ scales::number(value, accuracy = 0.01)
+      , T ~ scales::number(value, accuracy = 0.1)
+    )
+  ) %>% 
+  tidyr::pivot_wider(names_from = stat, values_from = value) %>% 
+  dplyr::relocate(c(metric, n)) %>% 
+  # dplyr::mutate(
+  #   range = paste0(
+  #     min, " to ", max
+  #   )
+  # ) %>% 
+  # select(-c(min, max)) 
+  kableExtra::kbl(
+    digits = 2
+    , caption = "SfM data set summary statistics of potential dependent variable metrics"
+  ) %>% 
+  kableExtra::kable_styling()
+```
+

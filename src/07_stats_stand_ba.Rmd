@@ -1,67 +1,14 @@
-# Statistical Analysis: Detected Tree Reliability{#stats_detected}
+# Statistical Analysis: Stand Basal Area{#stand_ba}
 
-In this section, we'll evaluate the influence of the processing parameters on UAS-detected tree height and DBH reliability.
+In this section, we'll evaluate the influence of the processing parameters on UAS-determined stand basal area. The accuracy UAS-derived stand basal area is impacted by the detection of individual trees (modeled in [this section](#beta_mod)) and the estimated DBH of those detected trees (modeled in [this section](#stats_detected_dbh)). 
 
-The UAS and Field validation data was built and described in [this section](#field_valid). For this section we will only look at data from "matched" UAS-field tree pairs (i.e. true positive trees). For successfully matched trees, the UAS tree height and DBH values were compared to field survey tree values to determine the mean error and root mean square error (RMSE). The mean error quantifies the bias of the UAS data while the RMSE quantifies the precision of the UAS data. 
+Even though there are concerns with the under-detection of smaller trees in the understory ([Tinkham & Swayze 2021](https://scholar.google.com/scholar?cluster=11260597505702247290&hl=en&as_sdt=0,6)), the use of tree lists derived from remote sensing data (i.e. UAS SfM and Lidar) can still be useful for monitoring aspects of ecosystem function that are driven by large trees ([Jeronimo et al. 2018](https://scholar.google.com/scholar?cluster=7029219876484941766&hl=en&as_sdt=0,6)). 
 
-We will utilize our "full" model presented in the [prior section](#f_4_pred_mod_bays) in which we modeled the F-score which is a measure of how well the UAS detected trees represent the field survey trees.
+[Jeronimo et al. 2018](https://scholar.google.com/scholar?cluster=7029219876484941766&hl=en&as_sdt=0,6) summarize this idea:
 
-For a more in-depth review of the traditional treatment of this sort of data structure called multifactor analysis of variance (ANOVA) compared to the Bayesian hierarchical generalization of the traditional ANOVA model used here see [this previous section](#stats_processing_time).
+>Large trees dominate basal area and biomass (Lutz et al. 2012; Bastin et al. 2015), carbon accumulation and growth (Sillett et  al. 2010; Stephenson et al. 2014), and stand spatial heterogeneity (Lutz et  al. 2013), and they provide unique structures that are keystone elements of many vertebrate species’ habitat requirements (Tews et al. 2004; North et  al. 2017). Analysis of ITD results can capture the majority of variation in these processes even while omitting many smaller trees. For example, several studies have predicted biomass and volume directly from ITD results using allometric equations, explaining 67–93 percent of variation in even-aged pine plantations (Bortolot and Wynne 2005; Popescu 2007) and achieving error rates less than about 30 percent for Douglas-fir forests in various successional stages (Edson and Wing 2011). (p. 341)
 
-## Model Definition{#stats_detected_model}
-
-We will used the same model structure for all dependent variables of interest in this section which include:
-
-* Height Mean Error (m)
-* Height RMSE (m)
-* DBH Mean Error (cm)
-* DBH RMSE (cm)
-
-[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) describes the Hierarchical Bayesian approach to describe groups of metric data with multiple nominal predictors when every subject ("study site" in our research) only contributes one observation per cell/condition: 
-
-> \begin{align*}
-> y = & \; \beta_0 \\
-> & + \overrightarrow \beta_1 \overrightarrow x_1 + \overrightarrow \beta_2 \overrightarrow x_2 + \overrightarrow \beta_{1 \times 2} \overrightarrow x_{1 \times 2} \\
-> & + \overrightarrow \beta_S \overrightarrow x_S
-> \end{align*}
-
-> In other words, we assume a main effect of subject, but no interaction of subject with other predictors. In this model, the subject effect (deflection) is constant across treatments, and the treatment effects (deflections) are constant across subjects. Notice that the model makes no requirement that every subject contributes a datum to every condition. Indeed, the model allows zero or multiple data per subject per condition. Bayesian estimation makes no assumptions or requirements that the design is balanced (i.e., has equal numbers of measurement in each cell). (p. 608)
-
-and see section 20 from [Kurz's ebook supplement](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html)
-
-The metric predicted variable with three nominal predictor variables and subject-level effects model has the form:
-
-\begin{align*}
-y_{i} \sim & \operatorname{Normal}\bigl(\mu_{i}, \sigma_{y} \bigr) \\
-\mu_{i} = & \beta_0 \\
-& + \sum_{j=1}^{J=5} \beta_{1[j]} x_{1[j]} + \sum_{k=1}^{K=4} \beta_{2[k]} x_{2[k]} + \sum_{f=1}^{F=3} \beta_{3[f]} x_{3[f]} + \sum_{s=1}^{S=5} \beta_{4[s]} x_{4[s]}  \\
-& + \sum_{j,k} \beta_{1\times2[j,k]} x_{1\times2[j,k]} + \sum_{j,f} \beta_{1\times3[j,f]} x_{1\times3[j,f]} + \sum_{k,f} \beta_{2\times3[k,f]} x_{2\times3[k,f]} \\
-& + \sum_{j,k,f} \beta_{1\times2\times3[j,k,f]} x_{1\times2\times3[j,k,f]} \\
-\beta_{0}  \sim & \operatorname{Normal}(\bar{y},y_{SD} \times 5) \\ 
-\beta_{1[j]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1}}) \\ 
-\beta_{2[k]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{2}}) \\ 
-\beta_{3[f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{3}}) \\ 
-\beta_{4[s]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{4}}) \\ 
-\beta_{1\times2[j,k]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1\times2}}) \\ 
-\beta_{1\times3[j,f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{1\times3}}) \\ 
-\beta_{2\times3[k,f]}  \sim & \operatorname{Normal}(\bar{y},\sigma_{\beta_{2\times3}}) \\ 
-\sigma_{\beta_{1}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{2}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{4}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{1\times2}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{1\times3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{\beta_{2\times3}} \sim & \operatorname{Gamma}(shape,rate) \\ 
-\sigma_{y} \sim & \operatorname{Cauchy}(0,y_{SD}) \\ 
-\end{align*}
-
-, where $j$ is the depth map generation quality setting corresponding to observation $i$, $k$ is the depth map filtering mode setting corresponding to observation $i$, $f$ is the processing software corresponding to observation $i$, and $s$ is the study site corresponding to observation $i$
-
-*for this model, we'll define the priors following [Kurz](https://bookdown.org/content/3686/metric-predicted-variable-with-multiple-nominal-predictors.html#implementation-in-jags-brms.-1)*
-
-[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) explains this prior distribution methodology: 
-
->we let the data serve as a proxy and we set the prior wide relative to the variance in the data, called `ySD`. Analogously, the normal prior for the baseline `a0` is centered on the data mean and made very wide relative to the variance of the data. The goal is merely to achieve scale invariance, so that whatever is the measurement scale of the data, the prior will be broad and noncommittal on that scale...The prior on `aSigma` is a gamma distribution that is broad on the scale of the data, and that has a nonzero mode so that its probability density drops to zero as `aSigma` approaches zero. Specifically, the shape and rate parameters of the gamma distribution are set so its mode is `sd(y)/2` and its standard deviation is `2*sd(y)` (p.560-561)
+We will utilize our "full" model presented [here](#stats_detected_model)
 
 ## Setup
 
@@ -97,25 +44,6 @@ if(ls()[ls() %in% "ptcld_validation_data"] %>% length()==0){
         ) %>% forcats::fct_rev()
     )
 }
-```
-
-What is this data?
-
-```{r}
-# what is this data?
-ptcld_validation_data %>% dplyr::glimpse()
-# a row is unique by...
-identical(
-  nrow(ptcld_validation_data)
-  , ptcld_validation_data %>% 
-    dplyr::distinct(
-      study_site, software
-      , depth_maps_generation_quality
-      , depth_maps_generation_filtering_mode
-      , processing_attribute3 # need to align all by software so this will go away or be filled
-    ) %>% 
-    nrow()
-)
 ```
 
 load our plotting functions if needed (not showing these functions here but see the [prior section](#stats_validation) for function definitions)
@@ -447,11 +375,9 @@ remove(list = ls()[grep("_temp",ls())])
 gc()
 ```
 
-## Tree Height
+## Summary Statistics
 
-### Summary Statistics
-
-#### Height Mean Error (bias)
+summary statistics for stand BA percent error
 
 ```{r, fig.height=8}
   # summarize data
@@ -496,59 +422,6 @@ gc()
         , " || "
         , "positive values = UAS tree height > field tree height"
       )
-    ) +
-    theme_light() + 
-    theme(
-      legend.position = "none"
-      , axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-      , panel.background = element_blank()
-      , panel.grid = element_blank()
-      # , plot.title = element_text(hjust = 0.5)
-      # , plot.subtitle = element_text(hjust = 0.5)
-      , strip.text = element_text(color = "black", face = "bold")
-    )
-```
-
-#### Height RMSE (precision)
-
-```{r, fig.height=8}
-  # summarize data
-  dta_temp = ptcld_validation_data %>% 
-    dplyr::group_by(software, depth_maps_generation_quality, depth_maps_generation_filtering_mode) %>%
-    # collapse across study site
-    dplyr::summarise(
-      tree_height_m_rmse = mean(tree_height_m_rmse, na.rm = T)
-      , n = dplyr::n()
-    )
-  # set limits for color scale
-  lmt_tree_height_m_rmse = ceiling(1.02*10*max(abs(range(dta_temp$tree_height_m_rmse, na.rm = T))))/10
-  # scales::show_col(viridis::mako(n = 10, begin = 0.2, end = 0.9, direction = -1))
-  # scales::show_col(scales::pal_div_gradient()(seq(0, 1, length.out = 7)))
-  # plot it
-  dta_temp %>% 
-    ggplot(mapping = aes(
-      y = depth_maps_generation_quality
-      , x = depth_maps_generation_filtering_mode
-      , fill = tree_height_m_rmse
-      , label = paste0(scales::comma(tree_height_m_rmse,accuracy = 0.01), "\n(n=", n,")")
-    )) +
-    geom_tile(color = "white") +
-    geom_text(color = "white", size = 3) +
-    facet_grid(cols = vars(software)) + 
-    scale_x_discrete(expand = c(0, 0)) +
-    scale_y_discrete(expand = c(0, 0)) +
-    scale_fill_stepsn(
-      n.breaks = 5
-      , colors = viridis::mako(n = 5, begin = 0.2, end = 0.9, direction = -1)
-      , limits = c(0,lmt_tree_height_m_rmse)
-      , labels = scales::comma_format(accuracy = 0.01)
-      , show.limits = T
-    ) +
-    labs(
-      x = "filtering mode"
-      , y = "quality"
-      , fill = "Height RMSE (m)"
-      , title = "mean height RMSE (m) and # of study sites"
     ) +
     theme_light() + 
     theme(
@@ -2211,7 +2084,7 @@ remove(qlty_fltr_sftwr_ht_rmse)
 gc()
 ```
 
-## Tree DBH{#stats_detected_dbh}
+## Tree DBH
 
 ### Summary Statistics
 

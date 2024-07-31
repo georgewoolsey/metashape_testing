@@ -60,7 +60,6 @@ get_frmla_text = function(frmla_chr, split_chrs = 100){
 }
 ```
 
-
 ## Summary Statistics
 
 What is this data?
