@@ -615,30 +615,27 @@ priors_temp %>%
       class, " ~ "
       , .dist
       , "("
-      , a %>% tidyr::extract_numeric() %>% round(2)
+      , a %>% readr::parse_number() %>% round(2)
       , ","
-      , b %>% tidyr::extract_numeric() %>% round(2)
+      , b %>% readr::parse_number() %>% round(2)
       , ")"
     )
   ) %>% 
   ggplot(., aes(dist = .dist, args = .args)) +
-  facet_wrap(vars(distrib), scales = "free") +
+  facet_grid(cols=vars(distrib), scales = "free") +
   ggdist::stat_halfeye(
     aes(fill = prior),
     n = 10e2,
     show.legend = F
+    , fill = "slategray"
   ) +
   coord_flip() + 
-  # Set the fill parameter for each group
-  scale_fill_manual(
-    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
-  ) +
   theme_light() +
   theme(
-    strip.background = element_rect(fill = NA),
-    strip.text = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
+    , axis.text = element_text(size = 6)
   )+
   labs(
     x = ""
@@ -1103,30 +1100,27 @@ priors_temp %>%
       class, " ~ "
       , .dist
       , "("
-      , a %>% tidyr::extract_numeric() %>% round(2)
+      , a %>% readr::parse_number() %>% round(2)
       , ","
-      , b %>% tidyr::extract_numeric() %>% round(2)
+      , b %>% readr::parse_number() %>% round(2)
       , ")"
     )
   ) %>% 
   ggplot(., aes(dist = .dist, args = .args)) +
-  facet_wrap(vars(distrib), scales = "free") +
+  facet_grid(cols=vars(distrib), scales = "free") +
   ggdist::stat_halfeye(
     aes(fill = prior),
     n = 10e2,
     show.legend = F
+    , fill = "slategray"
   ) +
   coord_flip() + 
-  # Set the fill parameter for each group
-  scale_fill_manual(
-    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
-  ) +
   theme_light() +
   theme(
-    strip.background = element_rect(fill = NA),
-    strip.text = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
+    , axis.text = element_text(size = 6)
   )+
   labs(
     x = ""
@@ -2381,30 +2375,27 @@ priors_temp %>%
       class, " ~ "
       , .dist
       , "("
-      , a %>% tidyr::extract_numeric() %>% round(2)
+      , a %>% readr::parse_number() %>% round(2)
       , ","
-      , b %>% tidyr::extract_numeric() %>% round(2)
+      , b %>% readr::parse_number() %>% round(2)
       , ")"
     )
   ) %>% 
   ggplot(., aes(dist = .dist, args = .args)) +
-  facet_wrap(vars(distrib), scales = "free") +
+  facet_grid(cols=vars(distrib), scales = "free") +
   ggdist::stat_halfeye(
     aes(fill = prior),
     n = 10e2,
     show.legend = F
+    , fill = "slategray"
   ) +
   coord_flip() + 
-  # Set the fill parameter for each group
-  scale_fill_manual(
-    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
-  ) +
   theme_light() +
   theme(
-    strip.background = element_rect(fill = NA),
-    strip.text = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
+    , axis.text = element_text(size = 6)
   )+
   labs(
     x = ""
@@ -2878,30 +2869,27 @@ priors_temp %>%
       class, " ~ "
       , .dist
       , "("
-      , a %>% tidyr::extract_numeric() %>% round(2)
+      , a %>% readr::parse_number() %>% round(2)
       , ","
-      , b %>% tidyr::extract_numeric() %>% round(2)
+      , b %>% readr::parse_number() %>% round(2)
       , ")"
     )
   ) %>% 
   ggplot(., aes(dist = .dist, args = .args)) +
-  facet_wrap(vars(distrib), scales = "free") +
+  facet_grid(cols=vars(distrib), scales = "free") +
   ggdist::stat_halfeye(
     aes(fill = prior),
     n = 10e2,
     show.legend = F
+    , fill = "slategray"
   ) +
   coord_flip() + 
-  # Set the fill parameter for each group
-  scale_fill_manual(
-    values = viridis::turbo(n=15, begin = 0.1, end = 0.9) %>% sample()
-  ) +
   theme_light() +
   theme(
-    strip.background = element_rect(fill = NA),
-    strip.text = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
+    , axis.text = element_text(size = 6)
   )+
   labs(
     x = ""

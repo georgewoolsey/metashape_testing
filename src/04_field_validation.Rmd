@@ -901,6 +901,7 @@ function returns:
               , basal_area_m2_error = uas_basal_area_m2-field_basal_area_m2
               , basal_area_m2_per_ha_error = uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha
               , basal_area_pct_error = (uas_basal_area_m2-field_basal_area_m2)/field_basal_area_m2
+              , basal_area_abs_pct_error = abs(basal_area_pct_error)
             )
         ) %>% 
         ############################################
@@ -1007,6 +1008,7 @@ function returns:
                 # error
                 , basal_area_m2_per_ha_error = uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha
                 , basal_area_pct_error = (uas_basal_area_m2_per_ha-field_basal_area_m2_per_ha)/field_basal_area_m2_per_ha
+                , basal_area_abs_pct_error = abs(basal_area_pct_error)
               )
             , by = dplyr::join_by("overstory_understory_grp")
           ) %>% 
@@ -2285,9 +2287,12 @@ gc()
 
 descriptive statistics of potential dependent variables
 
-```{r, include=FALSE, eval=FALSE}
+```{r}
 ptcld_validation_data %>% 
-  dplyr::select(f_score, basal_area_pct_error, tree_height_m_me, tree_height_m_rmse, dbh_cm_me, dbh_cm_rmse) %>% 
+  dplyr::select(
+    f_score, basal_area_pct_error, basal_area_abs_pct_error
+    , tree_height_m_me, tree_height_m_rmse, dbh_cm_me, dbh_cm_rmse
+  ) %>% 
   dplyr::ungroup() %>% 
   dplyr::summarise(
     dplyr::across(
@@ -2308,7 +2313,7 @@ ptcld_validation_data %>%
   # format
   dplyr::mutate(
     value = dplyr::case_when(
-      metric == "basal_area_pct_error" ~ scales::percent(value, accuracy = 0.1)
+      stringr::str_detect(metric, "_pct_") ~ scales::percent(value, accuracy = 0.1)
       , metric == "f_score" ~ scales::number(value, accuracy = 0.01)
       , T ~ scales::number(value, accuracy = 0.1)
     )

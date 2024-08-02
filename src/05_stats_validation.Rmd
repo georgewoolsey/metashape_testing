@@ -3178,16 +3178,12 @@ brms_f_mod5_priors_temp %>%
     aes(fill = prior),
     n = 10e2,
     show.legend = F
+    , fill = "slategray"
   ) +
   coord_flip() + 
-  # Set the fill parameter for each group
-  scale_fill_manual(
-    values = viridis::turbo(n=12, begin = 0.1, end = 0.9) %>% sample()
-  ) +
   theme_light() +
   theme(
-    strip.background = element_rect(fill = NA),
-    strip.text = element_text(face = "bold", size = 11),
+    strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
   )+
