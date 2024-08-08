@@ -2487,7 +2487,7 @@ draws_temp =
     scale_fill_stepsn(
       n.breaks = 7
       , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , limits = c(-lmt_dbh_cm_me*0.7,lmt_dbh_cm_me*0.7)
       , labels = scales::comma_format(accuracy = 0.1)
       , show.limits = T
     ) +
@@ -2567,10 +2567,11 @@ draws_temp =
     scale_fill_stepsn(
       n.breaks = 7
       , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , limits = c(-lmt_dbh_cm_me*0.7,lmt_dbh_cm_me*0.7)
       , labels = scales::comma_format(accuracy = 0.1)
       , show.limits = T
     ) +
+    scale_y_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     labs(
       x = "software", y = "DBH Mean Error (cm)"
@@ -2650,10 +2651,11 @@ draws_temp =
     scale_fill_stepsn(
       n.breaks = 7
       , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , limits = c(-lmt_dbh_cm_me*0.7,lmt_dbh_cm_me*0.7)
       , labels = scales::comma_format(accuracy = 0.1)
       , show.limits = T
     ) +
+    scale_y_continuous(breaks = scales::extended_breaks(n=8)) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     labs(
       x = "software", y = "DBH Mean Error (cm)"
@@ -2746,7 +2748,7 @@ qlty_fltr_sftwr_dbh_me =
     scale_fill_stepsn(
       n.breaks = 7
       , colors = scales::pal_div_gradient()(seq(0, 1, length.out = 7))
-      , limits = c(-lmt_dbh_cm_me,lmt_dbh_cm_me)
+      , limits = c(-lmt_dbh_cm_me*0.7,lmt_dbh_cm_me*0.7)
       , labels = scales::comma_format(accuracy = 0.1)
       , show.limits = T
     ) +
@@ -2812,7 +2814,6 @@ table_temp %>%
   kableExtra::collapse_rows(columns = 1:2, valign = "top") %>%
   kableExtra::scroll_box(height = "8in")
 ```
-
 
 ### Model: DBH RMSE (precision)
 
@@ -3081,7 +3082,7 @@ plt_contrast(
   , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
   , label_size = 1.7
-  , x_expand = c(0.9,0.75)
+  , x_expand = c(0.2,0.05)
 ) +
   labs(
     subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby filtering mode"
@@ -3284,7 +3285,7 @@ plt_contrast(
   , y_axis_title = "quality"
   , facet = "software"
   , label_size = 1.8
-  , x_expand = c(0.33,0.2)
+  , x_expand = c(0.33,0.05)
 ) +
   labs(
     subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
@@ -3662,7 +3663,7 @@ plt_contrast(
   , y_axis_title = "filtering mode"
   , facet = "software"
   , label_size = 1.8
-  , x_expand = c(0.45,0.4)
+  , x_expand = c(0.33,0.1)
 ) +
   labs(
     subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
@@ -4079,9 +4080,9 @@ layout_temp = c(
     , heights = c(0.01,1,0.01,1,0.01)
   ) &
   scale_x_continuous(
-    limits = c(-9.0,9.0)
-    , breaks = seq(-8,8,4)
-    , labels = seq(-8,8,4) %>% scales::number(accuracy = 1)
+    limits = c(-3,2)
+    , breaks = seq(-4,2,2)
+    , labels = seq(-4,2,2) %>% scales::number(accuracy = 1)
   ) &
   theme(
     axis.title.y = element_blank()

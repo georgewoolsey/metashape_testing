@@ -37,7 +37,8 @@ The options for picking a DBH to use are:
 
 ```{r}
 # Pick a DBH to use for the validation
-my_dbh_estimate = "lin"
+# my_dbh_estimate = "lin"
+my_dbh_estimate = "regional"
 ```
 
 Load field validation plot data and update the `ptcld_processing_data` created in [this section](#ptcld_analysis) by adding a `processing_id` which we'll use to process the files for validation.
@@ -49,9 +50,9 @@ list.files(
     , pattern = ".*_field_uas_comparison_data\\.csv$", full.names = T, recursive = T
   ) %>% 
   purrr::map(file.remove)
-# testing
-ptcld_processing_data = ptcld_processing_data %>% 
-  dplyr::slice_sample(n = 3, replace = F)
+# # testing
+# ptcld_processing_data = ptcld_processing_data %>% 
+#   dplyr::slice_sample(n = 3, replace = F)
 ```
 
 ```{r}

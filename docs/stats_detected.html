@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_ad4e26-1/data_stars_canopyhtm53a9cb.txt"></script>
+<script src="libs/canopy ht. (m)_09cb84-1/data_stars_canopyhtm06b1f5.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -363,6 +363,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="stand_ba.html"><a href="stand_ba.html#summary-statistics-14"><i class="fa fa-check"></i><b>8.3.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="8.3.2" data-path="stand_ba.html"><a href="stand_ba.html#model-ba-absolute-percent-error"><i class="fa fa-check"></i><b>8.3.2</b> Model: BA Absolute Percent Error</a></li>
 </ul></li>
+<li class="chapter" data-level="8.4" data-path="stand_ba.html"><a href="stand_ba.html#posterior-predictive-checks-2"><i class="fa fa-check"></i><b>8.4</b> Posterior Predictive Checks</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="stand_ba.html"><a href="stand_ba.html#prior-distriubutions-1"><i class="fa fa-check"></i><b>8.4.1</b> Prior Distriubutions</a></li>
+<li class="chapter" data-level="8.4.2" data-path="stand_ba.html"><a href="stand_ba.html#trace-plots-1"><i class="fa fa-check"></i><b>8.4.2</b> Trace-plots</a></li>
+<li class="chapter" data-level="8.4.3" data-path="stand_ba.html"><a href="stand_ba.html#hatr-values-1"><i class="fa fa-check"></i><b>8.4.3</b> <span class="math inline">\(\hat{R}\)</span> values</a></li>
+<li class="chapter" data-level="8.4.4" data-path="stand_ba.html"><a href="stand_ba.html#ess-values-1"><i class="fa fa-check"></i><b>8.4.4</b> ESS values</a></li>
+<li class="chapter" data-level="8.4.5" data-path="stand_ba.html"><a href="stand_ba.html#mean-and-sd-1"><i class="fa fa-check"></i><b>8.4.5</b> Mean and SD</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -523,21 +531,21 @@ y_{i} \sim &amp; \operatorname{Normal}\bigl(\mu_{i}, \sigma_{y} \bigr) \\
 ## $ tree_height_m_smape                   &lt;dbl&gt; 0.06776453, 0.06838733, 0.060410…
 ## $ tree_height_m_mse                     &lt;dbl&gt; 0.9842433, 0.8507862, 0.8259923,…
 ## $ tree_height_m_rmse                    &lt;dbl&gt; 0.9920904, 0.9223807, 0.9088412,…
-## $ dbh_cm_me                             &lt;dbl&gt; 9.1432719, 6.5708955, 8.4202884,…
-## $ dbh_cm_mpe                            &lt;dbl&gt; 0.863460500, 0.815124639, 0.9569…
-## $ dbh_cm_mae                            &lt;dbl&gt; 11.550258, 9.444397, 11.668345, …
-## $ dbh_cm_mape                           &lt;dbl&gt; 0.9048948, 0.8693847, 1.0137530,…
-## $ dbh_cm_smape                          &lt;dbl&gt; 0.4584621, 0.4673925, 0.5094000,…
-## $ dbh_cm_mse                            &lt;dbl&gt; 168.34419, 113.68139, 165.40074,…
-## $ dbh_cm_rmse                           &lt;dbl&gt; 12.974752, 10.662147, 12.860822,…
-## $ uas_basal_area_m2                     &lt;dbl&gt; 59.81562, 58.24249, 58.89314, 49…
+## $ dbh_cm_me                             &lt;dbl&gt; 2.0551269, 1.2718827, 1.7505679,…
+## $ dbh_cm_mpe                            &lt;dbl&gt; 0.077076168, 0.056392083, 0.0755…
+## $ dbh_cm_mae                            &lt;dbl&gt; 5.091373, 4.375871, 4.674437, 4.…
+## $ dbh_cm_mape                           &lt;dbl&gt; 0.2076874, 0.2185989, 0.2110014,…
+## $ dbh_cm_smape                          &lt;dbl&gt; 0.1966263, 0.2081000, 0.1986588,…
+## $ dbh_cm_mse                            &lt;dbl&gt; 44.38957, 35.29251, 38.33622, 38…
+## $ dbh_cm_rmse                           &lt;dbl&gt; 6.662549, 5.940750, 6.191625, 6.…
+## $ uas_basal_area_m2                     &lt;dbl&gt; 55.75278, 60.26123, 58.67391, 57…
 ## $ field_basal_area_m2                   &lt;dbl&gt; 69.04409, 69.04409, 69.04409, 69…
-## $ uas_basal_area_m2_per_ha              &lt;dbl&gt; 34.30442, 33.40222, 33.77538, 28…
+## $ uas_basal_area_m2_per_ha              &lt;dbl&gt; 31.97437, 34.55997, 33.64964, 33…
 ## $ field_basal_area_m2_per_ha            &lt;dbl&gt; 39.59697, 39.59697, 39.59697, 39…
-## $ basal_area_m2_error                   &lt;dbl&gt; -9.228474, -10.801601, -10.15094…
-## $ basal_area_m2_per_ha_error            &lt;dbl&gt; -5.2925541, -6.1947468, -5.82159…
-## $ basal_area_pct_error                  &lt;dbl&gt; -0.13366058, -0.15644496, -0.147…
-## $ basal_area_abs_pct_error              &lt;dbl&gt; 0.13366058, 0.15644496, 0.147021…
+## $ basal_area_m2_error                   &lt;dbl&gt; -13.291309, -8.782866, -10.37018…
+## $ basal_area_m2_per_ha_error            &lt;dbl&gt; -7.622601, -5.036997, -5.947326,…
+## $ basal_area_pct_error                  &lt;dbl&gt; -0.19250466, -0.12720663, -0.150…
+## $ basal_area_abs_pct_error              &lt;dbl&gt; 0.19250466, 0.12720663, 0.150196…
 ## $ overstory_commission_n_trees          &lt;dbl&gt; 141, 178, 178, 160, 95, 173, 120…
 ## $ understory_commission_n_trees         &lt;dbl&gt; 32, 44, 35, 33, 53, 50, 43, 39, …
 ## $ overstory_omission_n_trees            &lt;dbl&gt; 558, 560, 545, 556, 554, 598, 54…
@@ -560,34 +568,34 @@ y_{i} \sim &amp; \operatorname{Normal}\bigl(\mu_{i}, \sigma_{y} \bigr) \\
 ## $ understory_tree_height_m_mse          &lt;dbl&gt; 0.6557300, 0.4876080, 0.3533791,…
 ## $ overstory_tree_height_m_rmse          &lt;dbl&gt; 1.0307164, 1.0027878, 0.9869054,…
 ## $ understory_tree_height_m_rmse         &lt;dbl&gt; 0.8097715, 0.6982893, 0.5944570,…
-## $ overstory_dbh_cm_me                   &lt;dbl&gt; 7.12396092, 4.28187214, 5.994003…
-## $ understory_dbh_cm_me                  &lt;dbl&gt; 17.633557, 11.941296, 16.168746,…
-## $ overstory_dbh_cm_mpe                  &lt;dbl&gt; 0.35551830, 0.28023813, 0.384916…
-## $ understory_dbh_cm_mpe                 &lt;dbl&gt; 2.99912656, 2.07005068, 2.783578…
-## $ overstory_dbh_cm_mae                  &lt;dbl&gt; 10.103420, 8.380144, 10.259129, …
-## $ understory_dbh_cm_mae                 &lt;dbl&gt; 17.633557, 11.941296, 16.168746,…
-## $ overstory_dbh_cm_mape                 &lt;dbl&gt; 0.4068072, 0.3576254, 0.4595653,…
-## $ understory_dbh_cm_mape                &lt;dbl&gt; 2.9991266, 2.0700507, 2.7835783,…
-## $ overstory_dbh_cm_smape                &lt;dbl&gt; 0.3087332, 0.2849537, 0.3443392,…
-## $ understory_dbh_cm_smape               &lt;dbl&gt; 1.0880037, 0.8954218, 1.0365298,…
-## $ overstory_dbh_cm_mse                  &lt;dbl&gt; 132.58061, 97.96175, 132.74645, …
-## $ understory_dbh_cm_mse                 &lt;dbl&gt; 318.713781, 150.562072, 269.6837…
-## $ overstory_dbh_cm_rmse                 &lt;dbl&gt; 11.514365, 9.897563, 11.521564, …
-## $ understory_dbh_cm_rmse                &lt;dbl&gt; 17.852557, 12.270374, 16.422052,…
-## $ overstory_uas_basal_area_m2           &lt;dbl&gt; 55.94051, 54.40543, 54.41901, 46…
-## $ understory_uas_basal_area_m2          &lt;dbl&gt; 3.8751084, 3.8370665, 4.4741330,…
+## $ overstory_dbh_cm_me                   &lt;dbl&gt; 2.88225065, 2.37098111, 2.694675…
+## $ understory_dbh_cm_me                  &lt;dbl&gt; -1.4225525, -1.3067712, -1.26448…
+## $ overstory_dbh_cm_mpe                  &lt;dbl&gt; 0.11199444, 0.09928650, 0.110477…
+## $ understory_dbh_cm_mpe                 &lt;dbl&gt; -0.06973931, -0.04424482, -0.035…
+## $ overstory_dbh_cm_mae                  &lt;dbl&gt; 5.753010, 5.298094, 5.472454, 5.…
+## $ understory_dbh_cm_mae                 &lt;dbl&gt; 2.309487, 2.212192, 2.125931, 2.…
+## $ overstory_dbh_cm_mape                 &lt;dbl&gt; 0.1862021, 0.1848729, 0.1898205,…
+## $ understory_dbh_cm_mape                &lt;dbl&gt; 0.2980235, 0.2977254, 0.2786439,…
+## $ overstory_dbh_cm_smape                &lt;dbl&gt; 0.1686851, 0.1699578, 0.1735200,…
+## $ understory_dbh_cm_smape               &lt;dbl&gt; 0.3141064, 0.2975874, 0.2789409,…
+## $ overstory_dbh_cm_mse                  &lt;dbl&gt; 52.78250, 46.57941, 47.70797, 46…
+## $ understory_dbh_cm_mse                 &lt;dbl&gt; 9.101103, 8.811704, 8.407077, 9.…
+## $ overstory_dbh_cm_rmse                 &lt;dbl&gt; 7.265156, 6.824911, 6.907095, 6.…
+## $ understory_dbh_cm_rmse                &lt;dbl&gt; 3.016803, 2.968451, 2.899496, 3.…
+## $ overstory_uas_basal_area_m2           &lt;dbl&gt; 55.49096, 59.79139, 58.30184, 57…
+## $ understory_uas_basal_area_m2          &lt;dbl&gt; 0.2618258, 0.4698415, 0.3720740,…
 ## $ overstory_field_basal_area_m2         &lt;dbl&gt; 67.50326, 67.50326, 67.50326, 67…
 ## $ understory_field_basal_area_m2        &lt;dbl&gt; 1.540832, 1.540832, 1.540832, 1.…
-## $ overstory_uas_basal_area_m2_per_ha    &lt;dbl&gt; 32.08203, 31.20166, 31.20945, 26…
-## $ understory_uas_basal_area_m2_per_ha   &lt;dbl&gt; 2.22238497, 2.20056787, 2.565927…
+## $ overstory_uas_basal_area_m2_per_ha    &lt;dbl&gt; 31.82421, 34.29052, 33.43626, 32…
+## $ understory_uas_basal_area_m2_per_ha   &lt;dbl&gt; 0.15015781, 0.26945534, 0.213385…
 ## $ overstory_field_basal_area_m2_per_ha  &lt;dbl&gt; 38.7133, 38.7133, 38.7133, 38.71…
 ## $ understory_field_basal_area_m2_per_ha &lt;dbl&gt; 0.883671, 0.883671, 0.883671, 0.…
-## $ overstory_basal_area_m2_per_ha_error  &lt;dbl&gt; -6.631268, -7.511644, -7.503852,…
-## $ understory_basal_area_m2_per_ha_error &lt;dbl&gt; 1.3387140, 1.3168969, 1.6822562,…
-## $ overstory_basal_area_pct_error        &lt;dbl&gt; -0.17129173, -0.19403263, -0.193…
-## $ understory_basal_area_pct_error       &lt;dbl&gt; 1.5149461, 1.4902570, 1.9037132,…
-## $ overstory_basal_area_abs_pct_error    &lt;dbl&gt; 0.17129173, 0.19403263, 0.193831…
-## $ understory_basal_area_abs_pct_error   &lt;dbl&gt; 1.5149461, 1.4902570, 1.9037132,…
+## $ overstory_basal_area_m2_per_ha_error  &lt;dbl&gt; -6.889088, -4.422782, -5.277041,…
+## $ understory_basal_area_m2_per_ha_error &lt;dbl&gt; -0.7335132, -0.6142157, -0.67028…
+## $ overstory_basal_area_pct_error        &lt;dbl&gt; -0.17795146, -0.11424450, -0.136…
+## $ understory_basal_area_pct_error       &lt;dbl&gt; -0.8300750, -0.6950728, -0.75852…
+## $ overstory_basal_area_abs_pct_error    &lt;dbl&gt; 0.17795146, 0.11424450, 0.136310…
+## $ understory_basal_area_abs_pct_error   &lt;dbl&gt; 0.8300750, 0.6950728, 0.7585239,…
 ## $ validation_file_full_path             &lt;chr&gt; &quot;D:/SfM_Software_Comparison/Meta…
 ## $ overstory_ht_m                        &lt;dbl&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,…</code></pre>
 <div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="stats_detected.html#cb505-1" tabindex="-1"></a><span class="co"># a row is unique by...</span></span>
@@ -5511,7 +5519,7 @@ aggressive
 0.63
 </td>
 <td style="text-align:right;">
-1.04
+1.03
 </td>
 </tr>
 <tr>
@@ -7211,7 +7219,7 @@ disabled
 <span id="cb563-37"><a href="stats_detected.html#cb563-37" tabindex="-1"></a>    <span class="fu">scale_fill_stepsn</span>(</span>
 <span id="cb563-38"><a href="stats_detected.html#cb563-38" tabindex="-1"></a>      <span class="at">n.breaks =</span> <span class="dv">7</span></span>
 <span id="cb563-39"><a href="stats_detected.html#cb563-39" tabindex="-1"></a>      , <span class="at">colors =</span> scales<span class="sc">::</span><span class="fu">pal_div_gradient</span>()(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">7</span>))</span>
-<span id="cb563-40"><a href="stats_detected.html#cb563-40" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me,lmt_dbh_cm_me)</span>
+<span id="cb563-40"><a href="stats_detected.html#cb563-40" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>,lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>)</span>
 <span id="cb563-41"><a href="stats_detected.html#cb563-41" tabindex="-1"></a>      , <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
 <span id="cb563-42"><a href="stats_detected.html#cb563-42" tabindex="-1"></a>      , <span class="at">show.limits =</span> T</span>
 <span id="cb563-43"><a href="stats_detected.html#cb563-43" tabindex="-1"></a>    ) <span class="sc">+</span></span>
@@ -7283,13 +7291,13 @@ HDI high
 aggressive
 </td>
 <td style="text-align:right;">
-3.85
+0.82
 </td>
 <td style="text-align:right;">
--5.94
+-4.39
 </td>
 <td style="text-align:right;">
-13.71
+5.91
 </td>
 </tr>
 <tr>
@@ -7297,13 +7305,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-3.89
+0.91
 </td>
 <td style="text-align:right;">
--5.94
+-4.03
 </td>
 <td style="text-align:right;">
-13.63
+6.25
 </td>
 </tr>
 <tr>
@@ -7311,13 +7319,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-3.74
+0.96
 </td>
 <td style="text-align:right;">
--6.00
+-4.20
 </td>
 <td style="text-align:right;">
-13.56
+6.07
 </td>
 </tr>
 <tr>
@@ -7325,13 +7333,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-3.89
+0.94
 </td>
 <td style="text-align:right;">
--5.90
+-4.19
 </td>
 <td style="text-align:right;">
-13.78
+6.11
 </td>
 </tr>
 <tr grouplength="4">
@@ -7344,13 +7352,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-4.42
+0.75
 </td>
 <td style="text-align:right;">
--5.37
+-4.28
 </td>
 <td style="text-align:right;">
-14.27
+6.02
 </td>
 </tr>
 <tr>
@@ -7358,13 +7366,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-4.66
+0.85
 </td>
 <td style="text-align:right;">
--5.12
+-4.29
 </td>
 <td style="text-align:right;">
-14.36
+5.98
 </td>
 </tr>
 <tr>
@@ -7372,13 +7380,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-4.21
+0.90
 </td>
 <td style="text-align:right;">
--5.70
+-4.23
 </td>
 <td style="text-align:right;">
-13.93
+6.02
 </td>
 </tr>
 <tr>
@@ -7386,13 +7394,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-4.62
+0.89
 </td>
 <td style="text-align:right;">
--5.21
+-4.17
 </td>
 <td style="text-align:right;">
-14.53
+6.12
 </td>
 </tr>
 <tr grouplength="4">
@@ -7405,13 +7413,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-4.73
+0.54
 </td>
 <td style="text-align:right;">
--5.14
+-4.51
 </td>
 <td style="text-align:right;">
-14.60
+5.76
 </td>
 </tr>
 <tr>
@@ -7419,13 +7427,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-3.77
+0.69
 </td>
 <td style="text-align:right;">
--6.00
+-4.43
 </td>
 <td style="text-align:right;">
-13.58
+5.85
 </td>
 </tr>
 <tr>
@@ -7433,13 +7441,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-4.80
+0.76
 </td>
 <td style="text-align:right;">
--4.85
+-4.48
 </td>
 <td style="text-align:right;">
-14.65
+5.77
 </td>
 </tr>
 <tr>
@@ -7447,13 +7455,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-4.56
+0.73
 </td>
 <td style="text-align:right;">
--4.81
+-4.60
 </td>
 <td style="text-align:right;">
-14.75
+5.67
 </td>
 </tr>
 <tr grouplength="4">
@@ -7466,13 +7474,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-2.54
+0.38
 </td>
 <td style="text-align:right;">
--7.21
+-4.80
 </td>
 <td style="text-align:right;">
-12.46
+5.54
 </td>
 </tr>
 <tr>
@@ -7480,13 +7488,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-2.47
+0.52
 </td>
 <td style="text-align:right;">
--7.34
+-4.45
 </td>
 <td style="text-align:right;">
-12.10
+5.83
 </td>
 </tr>
 <tr>
@@ -7494,13 +7502,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-2.55
+0.62
 </td>
 <td style="text-align:right;">
--7.10
+-4.56
 </td>
 <td style="text-align:right;">
-12.41
+5.73
 </td>
 </tr>
 <tr>
@@ -7508,13 +7516,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-4.01
+0.61
 </td>
 <td style="text-align:right;">
--5.53
+-4.53
 </td>
 <td style="text-align:right;">
-14.19
+5.76
 </td>
 </tr>
 <tr grouplength="4">
@@ -7527,13 +7535,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-1.64
+-0.11
 </td>
 <td style="text-align:right;">
--8.28
+-5.34
 </td>
 <td style="text-align:right;">
-11.97
+5.10
 </td>
 </tr>
 <tr>
@@ -7541,13 +7549,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-1.63
+0.07
 </td>
 <td style="text-align:right;">
--8.48
+-5.14
 </td>
 <td style="text-align:right;">
-11.58
+5.24
 </td>
 </tr>
 <tr>
@@ -7555,13 +7563,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-1.90
+0.19
 </td>
 <td style="text-align:right;">
--8.01
+-4.85
 </td>
 <td style="text-align:right;">
-12.03
+5.53
 </td>
 </tr>
 <tr>
@@ -7569,13 +7577,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-2.15
+0.17
 </td>
 <td style="text-align:right;">
--7.51
+-5.03
 </td>
 <td style="text-align:right;">
-12.67
+5.35
 </td>
 </tr>
 </tbody>
@@ -7616,22 +7624,23 @@ disabled
 <span id="cb565-30"><a href="stats_detected.html#cb565-30" tabindex="-1"></a>    <span class="fu">scale_fill_stepsn</span>(</span>
 <span id="cb565-31"><a href="stats_detected.html#cb565-31" tabindex="-1"></a>      <span class="at">n.breaks =</span> <span class="dv">7</span></span>
 <span id="cb565-32"><a href="stats_detected.html#cb565-32" tabindex="-1"></a>      , <span class="at">colors =</span> scales<span class="sc">::</span><span class="fu">pal_div_gradient</span>()(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">7</span>))</span>
-<span id="cb565-33"><a href="stats_detected.html#cb565-33" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me,lmt_dbh_cm_me)</span>
+<span id="cb565-33"><a href="stats_detected.html#cb565-33" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>,lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>)</span>
 <span id="cb565-34"><a href="stats_detected.html#cb565-34" tabindex="-1"></a>      , <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
 <span id="cb565-35"><a href="stats_detected.html#cb565-35" tabindex="-1"></a>      , <span class="at">show.limits =</span> T</span>
 <span id="cb565-36"><a href="stats_detected.html#cb565-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb565-37"><a href="stats_detected.html#cb565-37" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(depth_maps_generation_quality)) <span class="sc">+</span></span>
-<span id="cb565-38"><a href="stats_detected.html#cb565-38" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb565-39"><a href="stats_detected.html#cb565-39" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;software&quot;</span>, <span class="at">y =</span> <span class="st">&quot;DBH Mean Error (cm)&quot;</span></span>
-<span id="cb565-40"><a href="stats_detected.html#cb565-40" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of DBH mean error (cm) with 95% HDI</span><span class="sc">\n</span><span class="st">by dense cloud quality&quot;</span></span>
-<span id="cb565-41"><a href="stats_detected.html#cb565-41" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb565-42"><a href="stats_detected.html#cb565-42" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb565-43"><a href="stats_detected.html#cb565-43" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb565-44"><a href="stats_detected.html#cb565-44" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb565-45"><a href="stats_detected.html#cb565-45" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb565-46"><a href="stats_detected.html#cb565-46" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
-<span id="cb565-47"><a href="stats_detected.html#cb565-47" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb565-48"><a href="stats_detected.html#cb565-48" tabindex="-1"></a>    ) </span></code></pre></div>
+<span id="cb565-37"><a href="stats_detected.html#cb565-37" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb565-38"><a href="stats_detected.html#cb565-38" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(depth_maps_generation_quality)) <span class="sc">+</span></span>
+<span id="cb565-39"><a href="stats_detected.html#cb565-39" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb565-40"><a href="stats_detected.html#cb565-40" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;software&quot;</span>, <span class="at">y =</span> <span class="st">&quot;DBH Mean Error (cm)&quot;</span></span>
+<span id="cb565-41"><a href="stats_detected.html#cb565-41" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of DBH mean error (cm) with 95% HDI</span><span class="sc">\n</span><span class="st">by dense cloud quality&quot;</span></span>
+<span id="cb565-42"><a href="stats_detected.html#cb565-42" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb565-43"><a href="stats_detected.html#cb565-43" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb565-44"><a href="stats_detected.html#cb565-44" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb565-45"><a href="stats_detected.html#cb565-45" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb565-46"><a href="stats_detected.html#cb565-46" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb565-47"><a href="stats_detected.html#cb565-47" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb565-48"><a href="stats_detected.html#cb565-48" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb565-49"><a href="stats_detected.html#cb565-49" tabindex="-1"></a>    ) </span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-433-1.png" width="1008" /></p>
 <p>and a table of these 95% HDI values</p>
 <div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="stats_detected.html#cb566-1" tabindex="-1"></a>table_temp <span class="ot">=</span> </span>
@@ -7692,13 +7701,13 @@ HDI high
 ultra high
 </td>
 <td style="text-align:right;">
-1.58
+1.00
 </td>
 <td style="text-align:right;">
--5.79
+-3.64
 </td>
 <td style="text-align:right;">
-8.92
+5.65
 </td>
 </tr>
 <tr>
@@ -7706,13 +7715,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-3.78
+0.95
 </td>
 <td style="text-align:right;">
--3.44
+-3.62
 </td>
 <td style="text-align:right;">
-11.34
+5.61
 </td>
 </tr>
 <tr>
@@ -7720,13 +7729,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-6.38
+0.57
 </td>
 <td style="text-align:right;">
--0.99
+-4.19
 </td>
 <td style="text-align:right;">
-13.89
+5.08
 </td>
 </tr>
 <tr>
@@ -7734,13 +7743,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-2.01
+-0.18
 </td>
 <td style="text-align:right;">
--5.38
+-4.83
 </td>
 <td style="text-align:right;">
-9.33
+4.42
 </td>
 </tr>
 <tr>
@@ -7748,13 +7757,13 @@ low
 lowest
 </td>
 <td style="text-align:right;">
--0.92
+-1.42
 </td>
 <td style="text-align:right;">
--8.28
+-6.09
 </td>
 <td style="text-align:right;">
-6.53
+3.16
 </td>
 </tr>
 <tr grouplength="5">
@@ -7767,13 +7776,13 @@ lowest
 ultra high
 </td>
 <td style="text-align:right;">
-4.80
+1.23
 </td>
 <td style="text-align:right;">
--2.70
+-3.40
 </td>
 <td style="text-align:right;">
-12.14
+5.85
 </td>
 </tr>
 <tr>
@@ -7781,13 +7790,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-4.38
+1.17
 </td>
 <td style="text-align:right;">
--3.01
+-3.54
 </td>
 <td style="text-align:right;">
-11.77
+5.73
 </td>
 </tr>
 <tr>
@@ -7795,13 +7804,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-1.55
+0.76
 </td>
 <td style="text-align:right;">
--5.96
+-3.90
 </td>
 <td style="text-align:right;">
-8.81
+5.38
 </td>
 </tr>
 <tr>
@@ -7809,13 +7818,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-1.31
+0.90
 </td>
 <td style="text-align:right;">
--6.11
+-3.86
 </td>
 <td style="text-align:right;">
-8.54
+5.38
 </td>
 </tr>
 <tr>
@@ -7823,13 +7832,13 @@ low
 lowest
 </td>
 <td style="text-align:right;">
-1.01
+0.77
 </td>
 <td style="text-align:right;">
--6.39
+-3.76
 </td>
 <td style="text-align:right;">
-8.30
+5.48
 </td>
 </tr>
 <tr grouplength="4">
@@ -7842,13 +7851,13 @@ lowest
 ultra high
 </td>
 <td style="text-align:right;">
-5.59
+0.95
 </td>
 <td style="text-align:right;">
--1.96
+-3.55
 </td>
 <td style="text-align:right;">
-12.94
+5.71
 </td>
 </tr>
 <tr>
@@ -7856,13 +7865,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-6.50
+0.82
 </td>
 <td style="text-align:right;">
--0.99
+-3.86
 </td>
 <td style="text-align:right;">
-13.93
+5.45
 </td>
 </tr>
 <tr>
@@ -7870,13 +7879,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-6.70
+0.79
 </td>
 <td style="text-align:right;">
--0.60
+-3.96
 </td>
 <td style="text-align:right;">
-14.36
+5.35
 </td>
 </tr>
 <tr>
@@ -7884,13 +7893,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-4.52
+0.75
 </td>
 <td style="text-align:right;">
--2.65
+-3.74
 </td>
 <td style="text-align:right;">
-12.35
+5.54
 </td>
 </tr>
 </tbody>
@@ -7930,22 +7939,23 @@ low
 <span id="cb567-29"><a href="stats_detected.html#cb567-29" tabindex="-1"></a>    <span class="fu">scale_fill_stepsn</span>(</span>
 <span id="cb567-30"><a href="stats_detected.html#cb567-30" tabindex="-1"></a>      <span class="at">n.breaks =</span> <span class="dv">7</span></span>
 <span id="cb567-31"><a href="stats_detected.html#cb567-31" tabindex="-1"></a>      , <span class="at">colors =</span> scales<span class="sc">::</span><span class="fu">pal_div_gradient</span>()(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">7</span>))</span>
-<span id="cb567-32"><a href="stats_detected.html#cb567-32" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me,lmt_dbh_cm_me)</span>
+<span id="cb567-32"><a href="stats_detected.html#cb567-32" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>,lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>)</span>
 <span id="cb567-33"><a href="stats_detected.html#cb567-33" tabindex="-1"></a>      , <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
 <span id="cb567-34"><a href="stats_detected.html#cb567-34" tabindex="-1"></a>      , <span class="at">show.limits =</span> T</span>
 <span id="cb567-35"><a href="stats_detected.html#cb567-35" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb567-36"><a href="stats_detected.html#cb567-36" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(depth_maps_generation_filtering_mode)) <span class="sc">+</span></span>
-<span id="cb567-37"><a href="stats_detected.html#cb567-37" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb567-38"><a href="stats_detected.html#cb567-38" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;software&quot;</span>, <span class="at">y =</span> <span class="st">&quot;DBH Mean Error (cm)&quot;</span></span>
-<span id="cb567-39"><a href="stats_detected.html#cb567-39" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of DBH mean error (cm) with 95% HDI</span><span class="sc">\n</span><span class="st">by filtering mode&quot;</span></span>
-<span id="cb567-40"><a href="stats_detected.html#cb567-40" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb567-41"><a href="stats_detected.html#cb567-41" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb567-42"><a href="stats_detected.html#cb567-42" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb567-43"><a href="stats_detected.html#cb567-43" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb567-44"><a href="stats_detected.html#cb567-44" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
-<span id="cb567-45"><a href="stats_detected.html#cb567-45" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
-<span id="cb567-46"><a href="stats_detected.html#cb567-46" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb567-47"><a href="stats_detected.html#cb567-47" tabindex="-1"></a>    ) </span></code></pre></div>
+<span id="cb567-36"><a href="stats_detected.html#cb567-36" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">extended_breaks</span>(<span class="at">n=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb567-37"><a href="stats_detected.html#cb567-37" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(depth_maps_generation_filtering_mode)) <span class="sc">+</span></span>
+<span id="cb567-38"><a href="stats_detected.html#cb567-38" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb567-39"><a href="stats_detected.html#cb567-39" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">&quot;software&quot;</span>, <span class="at">y =</span> <span class="st">&quot;DBH Mean Error (cm)&quot;</span></span>
+<span id="cb567-40"><a href="stats_detected.html#cb567-40" tabindex="-1"></a>      , <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of DBH mean error (cm) with 95% HDI</span><span class="sc">\n</span><span class="st">by filtering mode&quot;</span></span>
+<span id="cb567-41"><a href="stats_detected.html#cb567-41" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb567-42"><a href="stats_detected.html#cb567-42" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb567-43"><a href="stats_detected.html#cb567-43" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb567-44"><a href="stats_detected.html#cb567-44" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb567-45"><a href="stats_detected.html#cb567-45" tabindex="-1"></a>      , <span class="at">legend.direction  =</span> <span class="st">&quot;horizontal&quot;</span></span>
+<span id="cb567-46"><a href="stats_detected.html#cb567-46" tabindex="-1"></a>      , <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb567-47"><a href="stats_detected.html#cb567-47" tabindex="-1"></a>      , <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb567-48"><a href="stats_detected.html#cb567-48" tabindex="-1"></a>    ) </span></code></pre></div>
 <p><img src="metashape_testing_files/figure-html/unnamed-chunk-435-1.png" width="1008" /></p>
 <p>and a table of these 95% HDI values</p>
 <div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="stats_detected.html#cb568-1" tabindex="-1"></a>table_temp <span class="ot">=</span> </span>
@@ -8001,13 +8011,13 @@ HDI high
 aggressive
 </td>
 <td style="text-align:right;">
-2.73
+0.09
 </td>
 <td style="text-align:right;">
--4.91
+-4.63
 </td>
 <td style="text-align:right;">
-10.31
+4.74
 </td>
 </tr>
 <tr>
@@ -8015,13 +8025,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-2.49
+0.24
 </td>
 <td style="text-align:right;">
--5.22
+-4.35
 </td>
 <td style="text-align:right;">
-9.93
+5.03
 </td>
 </tr>
 <tr>
@@ -8029,13 +8039,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-2.57
+0.38
 </td>
 <td style="text-align:right;">
--5.13
+-4.25
 </td>
 <td style="text-align:right;">
-10.14
+5.12
 </td>
 </tr>
 <tr>
@@ -8043,13 +8053,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-3.01
+0.37
 </td>
 <td style="text-align:right;">
--4.62
+-4.33
 </td>
 <td style="text-align:right;">
-10.55
+5.03
 </td>
 </tr>
 <tr grouplength="4">
@@ -8062,13 +8072,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-2.64
+0.76
 </td>
 <td style="text-align:right;">
--5.13
+-3.87
 </td>
 <td style="text-align:right;">
-10.16
+5.47
 </td>
 </tr>
 <tr>
@@ -8076,13 +8086,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-2.73
+0.90
 </td>
 <td style="text-align:right;">
--4.95
+-3.68
 </td>
 <td style="text-align:right;">
-10.31
+5.66
 </td>
 </tr>
 <tr>
@@ -8090,13 +8100,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-2.69
+0.97
 </td>
 <td style="text-align:right;">
--4.96
+-3.73
 </td>
 <td style="text-align:right;">
-10.30
+5.60
 </td>
 </tr>
 <tr>
@@ -8104,13 +8114,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-2.93
+0.91
 </td>
 <td style="text-align:right;">
--4.41
+-3.88
 </td>
 <td style="text-align:right;">
-10.88
+5.48
 </td>
 </tr>
 <tr grouplength="3">
@@ -8123,13 +8133,13 @@ disabled
 moderate
 </td>
 <td style="text-align:right;">
-4.61
+0.68
 </td>
 <td style="text-align:right;">
--2.98
+-3.95
 </td>
 <td style="text-align:right;">
-12.61
+5.43
 </td>
 </tr>
 <tr>
@@ -8137,13 +8147,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-5.06
+0.73
 </td>
 <td style="text-align:right;">
--2.79
+-3.93
 </td>
 <td style="text-align:right;">
-12.77
+5.43
 </td>
 </tr>
 <tr>
@@ -8151,13 +8161,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-5.63
+0.72
 </td>
 <td style="text-align:right;">
--2.37
+-3.79
 </td>
 <td style="text-align:right;">
-13.24
+5.59
 </td>
 </tr>
 </tbody>
@@ -8215,7 +8225,7 @@ disabled
 <span id="cb569-47"><a href="stats_detected.html#cb569-47" tabindex="-1"></a>    <span class="fu">scale_fill_stepsn</span>(</span>
 <span id="cb569-48"><a href="stats_detected.html#cb569-48" tabindex="-1"></a>      <span class="at">n.breaks =</span> <span class="dv">7</span></span>
 <span id="cb569-49"><a href="stats_detected.html#cb569-49" tabindex="-1"></a>      , <span class="at">colors =</span> scales<span class="sc">::</span><span class="fu">pal_div_gradient</span>()(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">7</span>))</span>
-<span id="cb569-50"><a href="stats_detected.html#cb569-50" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me,lmt_dbh_cm_me)</span>
+<span id="cb569-50"><a href="stats_detected.html#cb569-50" tabindex="-1"></a>      , <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span>lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>,lmt_dbh_cm_me<span class="sc">*</span><span class="fl">0.7</span>)</span>
 <span id="cb569-51"><a href="stats_detected.html#cb569-51" tabindex="-1"></a>      , <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
 <span id="cb569-52"><a href="stats_detected.html#cb569-52" tabindex="-1"></a>      , <span class="at">show.limits =</span> T</span>
 <span id="cb569-53"><a href="stats_detected.html#cb569-53" tabindex="-1"></a>    ) <span class="sc">+</span></span>
@@ -8316,13 +8326,13 @@ lowest
 aggressive
 </td>
 <td style="text-align:right;">
--1.67
+-1.74
 </td>
 <td style="text-align:right;">
--9.17
+-6.24
 </td>
 <td style="text-align:right;">
-5.63
+2.98
 </td>
 </tr>
 <tr>
@@ -8330,13 +8340,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
--1.56
+-1.50
 </td>
 <td style="text-align:right;">
--9.12
+-6.10
 </td>
 <td style="text-align:right;">
-5.60
+3.10
 </td>
 </tr>
 <tr>
@@ -8344,13 +8354,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
--1.08
+-1.27
 </td>
 <td style="text-align:right;">
--8.53
+-6.03
 </td>
 <td style="text-align:right;">
-6.17
+3.17
 </td>
 </tr>
 <tr>
@@ -8358,13 +8368,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
--0.78
+-1.28
 </td>
 <td style="text-align:right;">
--7.99
+-5.85
 </td>
 <td style="text-align:right;">
-6.40
+3.36
 </td>
 </tr>
 <tr>
@@ -8375,13 +8385,13 @@ low
 aggressive
 </td>
 <td style="text-align:right;">
-1.08
+-0.43
 </td>
 <td style="text-align:right;">
--6.55
+-5.02
 </td>
 <td style="text-align:right;">
-8.06
+4.15
 </td>
 </tr>
 <tr>
@@ -8389,13 +8399,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-1.50
+-0.26
 </td>
 <td style="text-align:right;">
--5.77
+-4.86
 </td>
 <td style="text-align:right;">
-8.79
+4.30
 </td>
 </tr>
 <tr>
@@ -8403,13 +8413,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-1.58
+-0.07
 </td>
 <td style="text-align:right;">
--5.63
+-4.47
 </td>
 <td style="text-align:right;">
-8.89
+4.70
 </td>
 </tr>
 <tr>
@@ -8417,13 +8427,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-3.56
+-0.05
 </td>
 <td style="text-align:right;">
--3.73
+-4.68
 </td>
 <td style="text-align:right;">
-10.96
+4.51
 </td>
 </tr>
 <tr>
@@ -8434,13 +8444,13 @@ medium
 aggressive
 </td>
 <td style="text-align:right;">
-7.79
+0.36
 </td>
 <td style="text-align:right;">
-0.34
+-4.32
 </td>
 <td style="text-align:right;">
-15.08
+4.86
 </td>
 </tr>
 <tr>
@@ -8448,13 +8458,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-6.12
+0.54
 </td>
 <td style="text-align:right;">
--1.21
+-4.28
 </td>
 <td style="text-align:right;">
-13.40
+4.92
 </td>
 </tr>
 <tr>
@@ -8462,13 +8472,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-6.48
+0.68
 </td>
 <td style="text-align:right;">
--0.85
+-3.99
 </td>
 <td style="text-align:right;">
-13.80
+5.19
 </td>
 </tr>
 <tr>
@@ -8476,13 +8486,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-6.50
+0.67
 </td>
 <td style="text-align:right;">
--0.76
+-3.93
 </td>
 <td style="text-align:right;">
-13.81
+5.24
 </td>
 </tr>
 <tr>
@@ -8493,13 +8503,13 @@ high
 aggressive
 </td>
 <td style="text-align:right;">
-4.15
+0.81
 </td>
 <td style="text-align:right;">
--3.38
+-3.66
 </td>
 <td style="text-align:right;">
-11.29
+5.54
 </td>
 </tr>
 <tr>
@@ -8507,13 +8517,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-3.93
+0.92
 </td>
 <td style="text-align:right;">
--3.57
+-3.60
 </td>
 <td style="text-align:right;">
-11.05
+5.55
 </td>
 </tr>
 <tr>
@@ -8521,13 +8531,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-3.47
+1.03
 </td>
 <td style="text-align:right;">
--3.83
+-3.43
 </td>
 <td style="text-align:right;">
-10.74
+5.72
 </td>
 </tr>
 <tr>
@@ -8535,13 +8545,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-3.89
+1.03
 </td>
 <td style="text-align:right;">
--3.39
+-3.44
 </td>
 <td style="text-align:right;">
-11.24
+5.72
 </td>
 </tr>
 <tr>
@@ -8552,13 +8562,13 @@ ultra high
 aggressive
 </td>
 <td style="text-align:right;">
-1.61
+0.87
 </td>
 <td style="text-align:right;">
--5.67
+-3.72
 </td>
 <td style="text-align:right;">
-8.85
+5.43
 </td>
 </tr>
 <tr>
@@ -8566,13 +8576,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-1.37
+0.98
 </td>
 <td style="text-align:right;">
--5.88
+-3.63
 </td>
 <td style="text-align:right;">
-8.58
+5.57
 </td>
 </tr>
 <tr>
@@ -8580,13 +8590,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-1.18
+1.09
 </td>
 <td style="text-align:right;">
--6.12
+-3.39
 </td>
 <td style="text-align:right;">
-8.41
+5.78
 </td>
 </tr>
 <tr>
@@ -8594,13 +8604,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-1.53
+1.09
 </td>
 <td style="text-align:right;">
--5.81
+-3.55
 </td>
 <td style="text-align:right;">
-8.73
+5.65
 </td>
 </tr>
 <tr>
@@ -8614,13 +8624,13 @@ lowest
 aggressive
 </td>
 <td style="text-align:right;">
-0.62
+0.57
 </td>
 <td style="text-align:right;">
--6.82
+-4.01
 </td>
 <td style="text-align:right;">
-7.71
+5.15
 </td>
 </tr>
 <tr>
@@ -8628,13 +8638,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-0.88
+0.78
 </td>
 <td style="text-align:right;">
--6.39
+-3.73
 </td>
 <td style="text-align:right;">
-8.13
+5.45
 </td>
 </tr>
 <tr>
@@ -8642,13 +8652,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-0.92
+0.88
 </td>
 <td style="text-align:right;">
--6.46
+-3.74
 </td>
 <td style="text-align:right;">
-8.04
+5.40
 </td>
 </tr>
 <tr>
@@ -8656,13 +8666,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-1.02
+0.82
 </td>
 <td style="text-align:right;">
--6.26
+-3.76
 </td>
 <td style="text-align:right;">
-8.16
+5.42
 </td>
 </tr>
 <tr>
@@ -8673,13 +8683,13 @@ low
 aggressive
 </td>
 <td style="text-align:right;">
-0.78
+0.74
 </td>
 <td style="text-align:right;">
--6.51
+-3.88
 </td>
 <td style="text-align:right;">
-8.04
+5.30
 </td>
 </tr>
 <tr>
@@ -8687,13 +8697,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-0.93
+0.92
 </td>
 <td style="text-align:right;">
--6.21
+-3.68
 </td>
 <td style="text-align:right;">
-8.29
+5.48
 </td>
 </tr>
 <tr>
@@ -8701,13 +8711,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-0.94
+1.02
 </td>
 <td style="text-align:right;">
--6.37
+-3.57
 </td>
 <td style="text-align:right;">
-8.15
+5.57
 </td>
 </tr>
 <tr>
@@ -8715,13 +8725,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-1.99
+0.96
 </td>
 <td style="text-align:right;">
--5.41
+-3.63
 </td>
 <td style="text-align:right;">
-9.26
+5.54
 </td>
 </tr>
 <tr>
@@ -8732,13 +8742,13 @@ medium
 aggressive
 </td>
 <td style="text-align:right;">
-1.48
+0.61
 </td>
 <td style="text-align:right;">
--5.97
+-3.96
 </td>
 <td style="text-align:right;">
-8.65
+5.22
 </td>
 </tr>
 <tr>
@@ -8746,13 +8756,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-0.95
+0.79
 </td>
 <td style="text-align:right;">
--6.39
+-3.77
 </td>
 <td style="text-align:right;">
-8.09
+5.42
 </td>
 </tr>
 <tr>
@@ -8760,13 +8770,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-1.68
+0.87
 </td>
 <td style="text-align:right;">
--5.79
+-3.77
 </td>
 <td style="text-align:right;">
-8.68
+5.39
 </td>
 </tr>
 <tr>
@@ -8774,13 +8784,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-1.34
+0.78
 </td>
 <td style="text-align:right;">
--5.93
+-3.80
 </td>
 <td style="text-align:right;">
-8.57
+5.39
 </td>
 </tr>
 <tr>
@@ -8791,13 +8801,13 @@ high
 aggressive
 </td>
 <td style="text-align:right;">
-4.19
+1.08
 </td>
 <td style="text-align:right;">
--3.19
+-3.45
 </td>
 <td style="text-align:right;">
-11.36
+5.78
 </td>
 </tr>
 <tr>
@@ -8805,13 +8815,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-4.64
+1.18
 </td>
 <td style="text-align:right;">
--2.54
+-3.37
 </td>
 <td style="text-align:right;">
-11.98
+5.77
 </td>
 </tr>
 <tr>
@@ -8819,13 +8829,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-4.16
+1.24
 </td>
 <td style="text-align:right;">
--3.22
+-3.46
 </td>
 <td style="text-align:right;">
-11.29
+5.73
 </td>
 </tr>
 <tr>
@@ -8833,13 +8843,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-4.99
+1.21
 </td>
 <td style="text-align:right;">
--2.23
+-3.34
 </td>
 <td style="text-align:right;">
-12.45
+5.88
 </td>
 </tr>
 <tr>
@@ -8850,13 +8860,13 @@ ultra high
 aggressive
 </td>
 <td style="text-align:right;">
-4.99
+1.13
 </td>
 <td style="text-align:right;">
--2.23
+-3.45
 </td>
 <td style="text-align:right;">
-12.44
+5.72
 </td>
 </tr>
 <tr>
@@ -8864,13 +8874,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-5.60
+1.25
 </td>
 <td style="text-align:right;">
--1.79
+-3.35
 </td>
 <td style="text-align:right;">
-12.71
+5.83
 </td>
 </tr>
 <tr>
@@ -8878,13 +8888,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-4.80
+1.31
 </td>
 <td style="text-align:right;">
--2.69
+-3.42
 </td>
 <td style="text-align:right;">
-11.87
+5.75
 </td>
 </tr>
 <tr>
@@ -8892,13 +8902,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-4.53
+1.24
 </td>
 <td style="text-align:right;">
--2.77
+-3.33
 </td>
 <td style="text-align:right;">
-11.73
+5.85
 </td>
 </tr>
 <tr>
@@ -8912,13 +8922,13 @@ low
 moderate
 </td>
 <td style="text-align:right;">
-3.12
+0.75
 </td>
 <td style="text-align:right;">
--4.31
+-3.82
 </td>
 <td style="text-align:right;">
-10.36
+5.33
 </td>
 </tr>
 <tr>
@@ -8926,13 +8936,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-3.47
+0.81
 </td>
 <td style="text-align:right;">
--3.93
+-3.73
 </td>
 <td style="text-align:right;">
-10.82
+5.43
 </td>
 </tr>
 <tr>
@@ -8940,13 +8950,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.46
+0.83
 </td>
 <td style="text-align:right;">
-0.01
+-3.80
 </td>
 <td style="text-align:right;">
-15.14
+5.38
 </td>
 </tr>
 <tr>
@@ -8957,13 +8967,13 @@ medium
 moderate
 </td>
 <td style="text-align:right;">
-4.70
+0.81
 </td>
 <td style="text-align:right;">
--3.10
+-3.78
 </td>
 <td style="text-align:right;">
-11.86
+5.43
 </td>
 </tr>
 <tr>
@@ -8971,13 +8981,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.56
+0.87
 </td>
 <td style="text-align:right;">
-1.16
+-3.78
 </td>
 <td style="text-align:right;">
-16.08
+5.43
 </td>
 </tr>
 <tr>
@@ -8985,13 +8995,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.34
+0.84
 </td>
 <td style="text-align:right;">
-0.06
+-3.60
 </td>
 <td style="text-align:right;">
-14.76
+5.58
 </td>
 </tr>
 <tr>
@@ -9002,13 +9012,13 @@ high
 moderate
 </td>
 <td style="text-align:right;">
-7.55
+0.84
 </td>
 <td style="text-align:right;">
-0.42
+-3.75
 </td>
 <td style="text-align:right;">
-15.18
+5.47
 </td>
 </tr>
 <tr>
@@ -9016,13 +9026,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-6.15
+0.86
 </td>
 <td style="text-align:right;">
--1.24
+-3.53
 </td>
 <td style="text-align:right;">
-13.32
+5.69
 </td>
 </tr>
 <tr>
@@ -9030,13 +9040,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-6.54
+0.87
 </td>
 <td style="text-align:right;">
--0.88
+-3.74
 </td>
 <td style="text-align:right;">
-13.75
+5.49
 </td>
 </tr>
 <tr>
@@ -9047,13 +9057,13 @@ ultra high
 moderate
 </td>
 <td style="text-align:right;">
-5.51
+0.97
 </td>
 <td style="text-align:right;">
--1.83
+-3.61
 </td>
 <td style="text-align:right;">
-12.79
+5.58
 </td>
 </tr>
 <tr>
@@ -9061,13 +9071,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-5.62
+0.99
 </td>
 <td style="text-align:right;">
--1.79
+-3.70
 </td>
 <td style="text-align:right;">
-12.74
+5.45
 </td>
 </tr>
 <tr>
@@ -9075,13 +9085,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-5.94
+1.00
 </td>
 <td style="text-align:right;">
--1.44
+-3.45
 </td>
 <td style="text-align:right;">
-13.20
+5.70
 </td>
 </tr>
 </tbody>
@@ -9307,13 +9317,13 @@ HDI high
 aggressive
 </td>
 <td style="text-align:right;">
-8.78
+6.00
 </td>
 <td style="text-align:right;">
-0.31
+2.19
 </td>
 <td style="text-align:right;">
-17.18
+9.79
 </td>
 </tr>
 <tr>
@@ -9321,13 +9331,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.63
+5.93
 </td>
 <td style="text-align:right;">
-0.33
+2.11
 </td>
 <td style="text-align:right;">
-17.11
+9.71
 </td>
 </tr>
 <tr>
@@ -9335,13 +9345,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.60
+5.88
 </td>
 <td style="text-align:right;">
-0.08
+2.04
 </td>
 <td style="text-align:right;">
-16.84
+9.66
 </td>
 </tr>
 <tr>
@@ -9349,13 +9359,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.72
+5.85
 </td>
 <td style="text-align:right;">
-0.08
+2.11
 </td>
 <td style="text-align:right;">
-17.01
+9.72
 </td>
 </tr>
 <tr grouplength="4">
@@ -9368,13 +9378,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-9.40
+6.19
 </td>
 <td style="text-align:right;">
-0.89
+2.43
 </td>
 <td style="text-align:right;">
-17.86
+10.00
 </td>
 </tr>
 <tr>
@@ -9382,13 +9392,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-9.35
+6.10
 </td>
 <td style="text-align:right;">
-0.80
+2.21
 </td>
 <td style="text-align:right;">
-17.66
+9.81
 </td>
 </tr>
 <tr>
@@ -9396,13 +9406,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-9.06
+6.05
 </td>
 <td style="text-align:right;">
-0.52
+2.21
 </td>
 <td style="text-align:right;">
-17.35
+9.79
 </td>
 </tr>
 <tr>
@@ -9410,13 +9420,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-9.36
+6.04
 </td>
 <td style="text-align:right;">
-0.75
+2.19
 </td>
 <td style="text-align:right;">
-17.66
+9.78
 </td>
 </tr>
 <tr grouplength="4">
@@ -9429,13 +9439,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-9.76
+6.39
 </td>
 <td style="text-align:right;">
-1.31
+2.65
 </td>
 <td style="text-align:right;">
-18.27
+10.25
 </td>
 </tr>
 <tr>
@@ -9443,13 +9453,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.79
+6.31
 </td>
 <td style="text-align:right;">
-0.18
+2.53
 </td>
 <td style="text-align:right;">
-17.01
+10.13
 </td>
 </tr>
 <tr>
@@ -9457,13 +9467,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-9.65
+6.23
 </td>
 <td style="text-align:right;">
-1.16
+2.47
 </td>
 <td style="text-align:right;">
-18.05
+10.07
 </td>
 </tr>
 <tr>
@@ -9471,13 +9481,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-9.29
+6.23
 </td>
 <td style="text-align:right;">
-0.94
+2.43
 </td>
 <td style="text-align:right;">
-17.84
+10.04
 </td>
 </tr>
 <tr grouplength="4">
@@ -9490,13 +9500,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-8.53
+6.64
 </td>
 <td style="text-align:right;">
--0.06
+2.81
 </td>
 <td style="text-align:right;">
-16.85
+10.43
 </td>
 </tr>
 <tr>
@@ -9504,13 +9514,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.17
+6.59
 </td>
 <td style="text-align:right;">
--0.42
+2.75
 </td>
 <td style="text-align:right;">
-16.46
+10.36
 </td>
 </tr>
 <tr>
@@ -9518,13 +9528,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.14
+6.45
 </td>
 <td style="text-align:right;">
--0.04
+2.69
 </td>
 <td style="text-align:right;">
-16.78
+10.31
 </td>
 </tr>
 <tr>
@@ -9532,13 +9542,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-9.02
+6.44
 </td>
 <td style="text-align:right;">
-0.64
+2.62
 </td>
 <td style="text-align:right;">
-17.59
+10.24
 </td>
 </tr>
 <tr grouplength="4">
@@ -9551,13 +9561,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-8.40
+6.85
 </td>
 <td style="text-align:right;">
-0.03
+2.93
 </td>
 <td style="text-align:right;">
-17.01
+10.55
 </td>
 </tr>
 <tr>
@@ -9565,13 +9575,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.14
+6.79
 </td>
 <td style="text-align:right;">
-0.00
+2.95
 </td>
 <td style="text-align:right;">
-16.94
+10.54
 </td>
 </tr>
 <tr>
@@ -9579,13 +9589,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.20
+6.66
 </td>
 <td style="text-align:right;">
--0.42
+2.82
 </td>
 <td style="text-align:right;">
-16.58
+10.44
 </td>
 </tr>
 <tr>
@@ -9593,13 +9603,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.36
+6.67
 </td>
 <td style="text-align:right;">
--0.26
+2.81
 </td>
 <td style="text-align:right;">
-16.71
+10.44
 </td>
 </tr>
 </tbody>
@@ -9661,7 +9671,7 @@ disabled
 <span id="cb578-4"><a href="stats_detected.html#cb578-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;quality&quot;</span></span>
 <span id="cb578-5"><a href="stats_detected.html#cb578-5" tabindex="-1"></a>  , <span class="at">facet =</span> <span class="st">&quot;depth_maps_generation_filtering_mode&quot;</span></span>
 <span id="cb578-6"><a href="stats_detected.html#cb578-6" tabindex="-1"></a>  , <span class="at">label_size =</span> <span class="fl">1.7</span></span>
-<span id="cb578-7"><a href="stats_detected.html#cb578-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.75</span>)</span>
+<span id="cb578-7"><a href="stats_detected.html#cb578-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.05</span>)</span>
 <span id="cb578-8"><a href="stats_detected.html#cb578-8" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb578-9"><a href="stats_detected.html#cb578-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb578-10"><a href="stats_detected.html#cb578-10" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by filtering mode&quot;</span></span>
@@ -9729,13 +9739,13 @@ ultra high - high
 aggressive
 </td>
 <td style="text-align:right;">
--0.51
+-0.18
 </td>
 <td style="text-align:right;">
--3.39
+-0.72
 </td>
 <td style="text-align:right;">
-2.05
+0.35
 </td>
 </tr>
 <tr>
@@ -9746,13 +9756,13 @@ ultra high - high
 moderate
 </td>
 <td style="text-align:right;">
--0.63
+-0.17
 </td>
 <td style="text-align:right;">
--3.45
+-0.68
 </td>
 <td style="text-align:right;">
-1.74
+0.34
 </td>
 </tr>
 <tr>
@@ -9761,151 +9771,151 @@ ultra high - high
 </td>
 <td style="text-align:left;">
 mild
-</td>
-<td style="text-align:right;">
--0.40
-</td>
-<td style="text-align:right;">
--3.12
-</td>
-<td style="text-align:right;">
-2.06
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - high
-</td>
-<td style="text-align:left;">
-disabled
-</td>
-<td style="text-align:right;">
--0.55
-</td>
-<td style="text-align:right;">
--3.34
-</td>
-<td style="text-align:right;">
-1.85
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - medium
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
--0.83
-</td>
-<td style="text-align:right;">
--3.99
-</td>
-<td style="text-align:right;">
-1.65
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - medium
-</td>
-<td style="text-align:left;">
-moderate
 </td>
 <td style="text-align:right;">
 -0.16
 </td>
 <td style="text-align:right;">
--2.80
-</td>
-<td style="text-align:right;">
-2.61
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - medium
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
--0.93
-</td>
-<td style="text-align:right;">
--3.90
-</td>
-<td style="text-align:right;">
-1.44
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - medium
-</td>
-<td style="text-align:left;">
-disabled
-</td>
-<td style="text-align:right;">
--0.51
-</td>
-<td style="text-align:right;">
--3.26
-</td>
-<td style="text-align:right;">
-1.94
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - low
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
-0.22
-</td>
-<td style="text-align:right;">
--2.37
-</td>
-<td style="text-align:right;">
-2.99
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - low
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
--2.04
-</td>
-<td style="text-align:right;">
-3.12
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - low
-</td>
-<td style="text-align:left;">
-mild
+-0.65
 </td>
 <td style="text-align:right;">
 0.39
 </td>
-<td style="text-align:right;">
--1.97
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - high
+</td>
+<td style="text-align:left;">
+disabled
 </td>
 <td style="text-align:right;">
-3.15
+-0.19
+</td>
+<td style="text-align:right;">
+-0.71
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - medium
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.39
+</td>
+<td style="text-align:right;">
+-0.95
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - medium
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.38
+</td>
+<td style="text-align:right;">
+-0.92
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - medium
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.35
+</td>
+<td style="text-align:right;">
+-0.87
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - medium
+</td>
+<td style="text-align:left;">
+disabled
+</td>
+<td style="text-align:right;">
+-0.38
+</td>
+<td style="text-align:right;">
+-0.90
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - low
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.65
+</td>
+<td style="text-align:right;">
+-1.22
+</td>
+<td style="text-align:right;">
+-0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - low
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.66
+</td>
+<td style="text-align:right;">
+-1.22
+</td>
+<td style="text-align:right;">
+-0.05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - low
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.59
+</td>
+<td style="text-align:right;">
+-1.12
+</td>
+<td style="text-align:right;">
+0.04
 </td>
 </tr>
 <tr>
@@ -9916,13 +9926,13 @@ ultra high - low
 disabled
 </td>
 <td style="text-align:right;">
--0.24
+-0.60
 </td>
 <td style="text-align:right;">
--3.14
+-1.13
 </td>
 <td style="text-align:right;">
-2.27
+0.03
 </td>
 </tr>
 <tr>
@@ -9933,13 +9943,13 @@ ultra high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-0.31
+-0.87
 </td>
 <td style="text-align:right;">
--2.33
+-1.49
 </td>
 <td style="text-align:right;">
-3.29
+-0.07
 </td>
 </tr>
 <tr>
@@ -9950,166 +9960,166 @@ ultra high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
--2.20
-</td>
-<td style="text-align:right;">
-3.29
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - lowest
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
-0.32
-</td>
-<td style="text-align:right;">
--2.28
-</td>
-<td style="text-align:right;">
-3.23
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ultra high - lowest
-</td>
-<td style="text-align:left;">
-disabled
-</td>
-<td style="text-align:right;">
-0.28
-</td>
-<td style="text-align:right;">
--2.28
-</td>
-<td style="text-align:right;">
-3.16
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - medium
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
--0.28
-</td>
-<td style="text-align:right;">
--3.17
-</td>
-<td style="text-align:right;">
-2.25
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - medium
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-0.46
-</td>
-<td style="text-align:right;">
--2.01
-</td>
-<td style="text-align:right;">
-3.48
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - medium
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
--0.48
-</td>
-<td style="text-align:right;">
--3.36
-</td>
-<td style="text-align:right;">
-2.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - medium
-</td>
-<td style="text-align:left;">
-disabled
-</td>
-<td style="text-align:right;">
-0.04
-</td>
-<td style="text-align:right;">
--2.51
-</td>
-<td style="text-align:right;">
-2.61
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - low
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
-0.76
-</td>
-<td style="text-align:right;">
--1.78
-</td>
-<td style="text-align:right;">
-3.73
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - low
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-1.06
-</td>
-<td style="text-align:right;">
--1.34
-</td>
-<td style="text-align:right;">
-4.06
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-high - low
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
-0.82
+-0.88
 </td>
 <td style="text-align:right;">
 -1.52
 </td>
 <td style="text-align:right;">
-3.69
+-0.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - lowest
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.80
+</td>
+<td style="text-align:right;">
+-1.42
+</td>
+<td style="text-align:right;">
+-0.02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ultra high - lowest
+</td>
+<td style="text-align:left;">
+disabled
+</td>
+<td style="text-align:right;">
+-0.84
+</td>
+<td style="text-align:right;">
+-1.46
+</td>
+<td style="text-align:right;">
+-0.06
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - medium
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.21
+</td>
+<td style="text-align:right;">
+-0.74
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - medium
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.21
+</td>
+<td style="text-align:right;">
+-0.72
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - medium
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+-0.70
+</td>
+<td style="text-align:right;">
+0.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - medium
+</td>
+<td style="text-align:left;">
+disabled
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+-0.71
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - low
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.46
+</td>
+<td style="text-align:right;">
+-1.03
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - low
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.49
+</td>
+<td style="text-align:right;">
+-1.03
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+high - low
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.42
+</td>
+<td style="text-align:right;">
+-0.94
+</td>
+<td style="text-align:right;">
+0.15
 </td>
 </tr>
 <tr>
@@ -10120,13 +10130,13 @@ high - low
 disabled
 </td>
 <td style="text-align:right;">
-0.28
+-0.40
 </td>
 <td style="text-align:right;">
--2.46
+-0.94
 </td>
 <td style="text-align:right;">
-3.05
+0.16
 </td>
 </tr>
 <tr>
@@ -10137,13 +10147,13 @@ high - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-0.85
+-0.68
 </td>
 <td style="text-align:right;">
--1.77
+-1.28
 </td>
 <td style="text-align:right;">
-4.07
+0.02
 </td>
 </tr>
 <tr>
@@ -10154,13 +10164,13 @@ high - lowest
 moderate
 </td>
 <td style="text-align:right;">
-1.06
+-0.70
 </td>
 <td style="text-align:right;">
--1.38
+-1.31
 </td>
 <td style="text-align:right;">
-4.36
+0.00
 </td>
 </tr>
 <tr>
@@ -10171,13 +10181,13 @@ high - lowest
 mild
 </td>
 <td style="text-align:right;">
-0.75
+-0.63
 </td>
 <td style="text-align:right;">
--1.85
+-1.23
 </td>
 <td style="text-align:right;">
-3.85
+0.07
 </td>
 </tr>
 <tr>
@@ -10188,132 +10198,132 @@ high - lowest
 disabled
 </td>
 <td style="text-align:right;">
-0.85
-</td>
-<td style="text-align:right;">
--1.70
-</td>
-<td style="text-align:right;">
-4.04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - low
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
-1.08
-</td>
-<td style="text-align:right;">
--1.48
-</td>
-<td style="text-align:right;">
-4.25
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - low
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-0.55
-</td>
-<td style="text-align:right;">
--1.98
-</td>
-<td style="text-align:right;">
-3.39
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - low
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
-1.35
-</td>
-<td style="text-align:right;">
--1.06
-</td>
-<td style="text-align:right;">
-4.63
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - low
-</td>
-<td style="text-align:left;">
-disabled
-</td>
-<td style="text-align:right;">
-0.25
-</td>
-<td style="text-align:right;">
--2.64
-</td>
-<td style="text-align:right;">
-3.03
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - lowest
-</td>
-<td style="text-align:left;">
-aggressive
-</td>
-<td style="text-align:right;">
-1.18
-</td>
-<td style="text-align:right;">
--1.35
-</td>
-<td style="text-align:right;">
-4.64
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - lowest
-</td>
-<td style="text-align:left;">
-moderate
-</td>
-<td style="text-align:right;">
-0.55
-</td>
-<td style="text-align:right;">
--2.25
-</td>
-<td style="text-align:right;">
-3.73
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-medium - lowest
-</td>
-<td style="text-align:left;">
-mild
-</td>
-<td style="text-align:right;">
-1.30
+-0.64
 </td>
 <td style="text-align:right;">
 -1.24
 </td>
 <td style="text-align:right;">
-4.59
+0.05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - low
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.25
+</td>
+<td style="text-align:right;">
+-0.80
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - low
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.27
+</td>
+<td style="text-align:right;">
+-0.80
+</td>
+<td style="text-align:right;">
+0.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - low
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.23
+</td>
+<td style="text-align:right;">
+-0.74
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - low
+</td>
+<td style="text-align:left;">
+disabled
+</td>
+<td style="text-align:right;">
+-0.21
+</td>
+<td style="text-align:right;">
+-0.73
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - lowest
+</td>
+<td style="text-align:left;">
+aggressive
+</td>
+<td style="text-align:right;">
+-0.46
+</td>
+<td style="text-align:right;">
+-1.06
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - lowest
+</td>
+<td style="text-align:left;">
+moderate
+</td>
+<td style="text-align:right;">
+-0.48
+</td>
+<td style="text-align:right;">
+-1.10
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+medium - lowest
+</td>
+<td style="text-align:left;">
+mild
+</td>
+<td style="text-align:right;">
+-0.44
+</td>
+<td style="text-align:right;">
+-1.03
+</td>
+<td style="text-align:right;">
+0.18
 </td>
 </tr>
 <tr>
@@ -10324,13 +10334,13 @@ medium - lowest
 disabled
 </td>
 <td style="text-align:right;">
-0.80
+-0.44
 </td>
 <td style="text-align:right;">
--1.73
+-1.04
 </td>
 <td style="text-align:right;">
-3.96
+0.17
 </td>
 </tr>
 <tr>
@@ -10341,13 +10351,13 @@ low - lowest
 aggressive
 </td>
 <td style="text-align:right;">
-0.10
+-0.21
 </td>
 <td style="text-align:right;">
--2.59
+-0.78
 </td>
 <td style="text-align:right;">
-2.97
+0.38
 </td>
 </tr>
 <tr>
@@ -10358,13 +10368,13 @@ low - lowest
 moderate
 </td>
 <td style="text-align:right;">
-0.01
+-0.20
 </td>
 <td style="text-align:right;">
--2.79
+-0.78
 </td>
 <td style="text-align:right;">
-2.74
+0.37
 </td>
 </tr>
 <tr>
@@ -10375,13 +10385,13 @@ low - lowest
 mild
 </td>
 <td style="text-align:right;">
--0.04
+-0.21
 </td>
 <td style="text-align:right;">
--2.81
+-0.79
 </td>
 <td style="text-align:right;">
-2.70
+0.36
 </td>
 </tr>
 <tr>
@@ -10392,13 +10402,13 @@ low - lowest
 disabled
 </td>
 <td style="text-align:right;">
-0.54
+-0.23
 </td>
 <td style="text-align:right;">
--2.02
+-0.80
 </td>
 <td style="text-align:right;">
-3.61
+0.34
 </td>
 </tr>
 </tbody>
@@ -10523,13 +10533,13 @@ HDI high
 ultra high
 </td>
 <td style="text-align:right;">
-8.11
+6.07
 </td>
 <td style="text-align:right;">
-2.11
+2.54
 </td>
 <td style="text-align:right;">
-14.28
+9.49
 </td>
 </tr>
 <tr>
@@ -10537,13 +10547,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-8.75
+6.21
 </td>
 <td style="text-align:right;">
-2.73
+2.61
 </td>
 <td style="text-align:right;">
-14.93
+9.54
 </td>
 </tr>
 <tr>
@@ -10551,13 +10561,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-9.47
+6.39
 </td>
 <td style="text-align:right;">
-2.87
+2.99
 </td>
 <td style="text-align:right;">
-15.33
+9.91
 </td>
 </tr>
 <tr>
@@ -10565,13 +10575,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-8.24
+6.78
 </td>
 <td style="text-align:right;">
-2.16
+3.27
 </td>
 <td style="text-align:right;">
-14.36
+10.22
 </td>
 </tr>
 <tr>
@@ -10579,13 +10589,13 @@ low
 lowest
 </td>
 <td style="text-align:right;">
-7.84
+7.14
 </td>
 <td style="text-align:right;">
-1.78
+3.65
 </td>
 <td style="text-align:right;">
-13.98
+10.59
 </td>
 </tr>
 <tr grouplength="5">
@@ -10598,13 +10608,13 @@ lowest
 ultra high
 </td>
 <td style="text-align:right;">
-7.85
+5.81
 </td>
 <td style="text-align:right;">
-1.85
+2.28
 </td>
 <td style="text-align:right;">
-14.15
+9.23
 </td>
 </tr>
 <tr>
@@ -10612,13 +10622,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-8.38
+6.19
 </td>
 <td style="text-align:right;">
-2.48
+2.62
 </td>
 <td style="text-align:right;">
-14.83
+9.56
 </td>
 </tr>
 <tr>
@@ -10626,13 +10636,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-7.75
+6.47
 </td>
 <td style="text-align:right;">
-1.56
+2.93
 </td>
 <td style="text-align:right;">
-13.95
+9.88
 </td>
 </tr>
 <tr>
@@ -10640,13 +10650,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-7.20
+6.57
 </td>
 <td style="text-align:right;">
-0.96
+3.03
 </td>
 <td style="text-align:right;">
-13.22
+9.97
 </td>
 </tr>
 <tr>
@@ -10654,13 +10664,13 @@ low
 lowest
 </td>
 <td style="text-align:right;">
-7.10
+6.70
 </td>
 <td style="text-align:right;">
-1.10
+3.16
 </td>
 <td style="text-align:right;">
-13.27
+10.10
 </td>
 </tr>
 <tr grouplength="4">
@@ -10673,13 +10683,13 @@ lowest
 ultra high
 </td>
 <td style="text-align:right;">
-10.03
+5.74
 </td>
 <td style="text-align:right;">
-3.60
+2.30
 </td>
 <td style="text-align:right;">
-16.07
+9.27
 </td>
 </tr>
 <tr>
@@ -10687,13 +10697,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-10.87
+5.81
 </td>
 <td style="text-align:right;">
-4.77
+2.29
 </td>
 <td style="text-align:right;">
-17.26
+9.24
 </td>
 </tr>
 <tr>
@@ -10701,13 +10711,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-11.07
+6.00
 </td>
 <td style="text-align:right;">
-5.04
+2.44
 </td>
 <td style="text-align:right;">
-17.59
+9.38
 </td>
 </tr>
 <tr>
@@ -10715,13 +10725,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-9.90
+6.32
 </td>
 <td style="text-align:right;">
-3.69
+2.77
 </td>
 <td style="text-align:right;">
-16.11
+9.73
 </td>
 </tr>
 </tbody>
@@ -10786,7 +10796,7 @@ low
 <span id="cb584-4"><a href="stats_detected.html#cb584-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;quality&quot;</span></span>
 <span id="cb584-5"><a href="stats_detected.html#cb584-5" tabindex="-1"></a>  , <span class="at">facet =</span> <span class="st">&quot;software&quot;</span></span>
 <span id="cb584-6"><a href="stats_detected.html#cb584-6" tabindex="-1"></a>  , <span class="at">label_size =</span> <span class="fl">1.8</span></span>
-<span id="cb584-7"><a href="stats_detected.html#cb584-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.33</span>,<span class="fl">0.2</span>)</span>
+<span id="cb584-7"><a href="stats_detected.html#cb584-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.33</span>,<span class="fl">0.05</span>)</span>
 <span id="cb584-8"><a href="stats_detected.html#cb584-8" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb584-9"><a href="stats_detected.html#cb584-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb584-10"><a href="stats_detected.html#cb584-10" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by software&quot;</span></span>
@@ -10873,13 +10883,13 @@ HDI high
 ultra high - high
 </td>
 <td style="text-align:right;">
+-0.1
+</td>
+<td style="text-align:right;">
 -0.6
 </td>
 <td style="text-align:right;">
--3.3
-</td>
-<td style="text-align:right;">
-1.7
+0.3
 </td>
 </tr>
 <tr>
@@ -10887,13 +10897,13 @@ ultra high - high
 ultra high - medium
 </td>
 <td style="text-align:right;">
--1.2
+-0.3
 </td>
 <td style="text-align:right;">
--4.2
+-0.8
 </td>
 <td style="text-align:right;">
-1.1
+0.2
 </td>
 </tr>
 <tr>
@@ -10901,13 +10911,13 @@ ultra high - medium
 ultra high - low
 </td>
 <td style="text-align:right;">
--0.1
+-0.7
 </td>
 <td style="text-align:right;">
--2.8
+-1.2
 </td>
 <td style="text-align:right;">
-2.3
+-0.2
 </td>
 </tr>
 <tr>
@@ -10915,13 +10925,13 @@ ultra high - low
 ultra high - lowest
 </td>
 <td style="text-align:right;">
-0.2
+-1.1
 </td>
 <td style="text-align:right;">
--2.2
+-1.6
 </td>
 <td style="text-align:right;">
-2.9
+-0.6
 </td>
 </tr>
 <tr>
@@ -10929,13 +10939,13 @@ ultra high - lowest
 high - medium
 </td>
 <td style="text-align:right;">
+-0.2
+</td>
+<td style="text-align:right;">
 -0.6
 </td>
 <td style="text-align:right;">
--3.4
-</td>
-<td style="text-align:right;">
-1.8
+0.3
 </td>
 </tr>
 <tr>
@@ -10943,13 +10953,13 @@ high - medium
 high - low
 </td>
 <td style="text-align:right;">
-0.5
+-0.6
 </td>
 <td style="text-align:right;">
--2.0
+-1.0
 </td>
 <td style="text-align:right;">
-3.1
+-0.1
 </td>
 </tr>
 <tr>
@@ -10957,13 +10967,13 @@ high - low
 high - lowest
 </td>
 <td style="text-align:right;">
-0.8
+-0.9
 </td>
 <td style="text-align:right;">
--1.6
+-1.5
 </td>
 <td style="text-align:right;">
-3.7
+-0.4
 </td>
 </tr>
 <tr>
@@ -10971,13 +10981,13 @@ high - lowest
 medium - low
 </td>
 <td style="text-align:right;">
-1.1
+-0.4
 </td>
 <td style="text-align:right;">
--1.2
+-0.9
 </td>
 <td style="text-align:right;">
-3.9
+0.1
 </td>
 </tr>
 <tr>
@@ -10985,13 +10995,13 @@ medium - low
 medium - lowest
 </td>
 <td style="text-align:right;">
-1.5
+-0.7
 </td>
 <td style="text-align:right;">
--0.9
+-1.3
 </td>
 <td style="text-align:right;">
-4.6
+-0.2
 </td>
 </tr>
 <tr>
@@ -10999,13 +11009,13 @@ medium - lowest
 low - lowest
 </td>
 <td style="text-align:right;">
-0.3
+-0.4
 </td>
 <td style="text-align:right;">
--2.1
+-0.8
 </td>
 <td style="text-align:right;">
-3.0
+0.1
 </td>
 </tr>
 <tr grouplength="10">
@@ -11018,13 +11028,13 @@ low - lowest
 ultra high - high
 </td>
 <td style="text-align:right;">
--0.5
+-0.4
 </td>
 <td style="text-align:right;">
--3.1
+-0.9
 </td>
 <td style="text-align:right;">
-1.9
+0.1
 </td>
 </tr>
 <tr>
@@ -11032,13 +11042,13 @@ ultra high - high
 ultra high - medium
 </td>
 <td style="text-align:right;">
-0.1
+-0.6
 </td>
 <td style="text-align:right;">
--2.6
+-1.2
 </td>
 <td style="text-align:right;">
-2.9
+-0.2
 </td>
 </tr>
 <tr>
@@ -11046,13 +11056,13 @@ ultra high - medium
 ultra high - low
 </td>
 <td style="text-align:right;">
-0.6
+-0.7
 </td>
 <td style="text-align:right;">
--1.7
+-1.2
 </td>
 <td style="text-align:right;">
-3.4
+-0.3
 </td>
 </tr>
 <tr>
@@ -11060,13 +11070,13 @@ ultra high - low
 ultra high - lowest
 </td>
 <td style="text-align:right;">
-0.7
+-0.9
 </td>
 <td style="text-align:right;">
--1.7
+-1.4
 </td>
 <td style="text-align:right;">
-3.5
+-0.4
 </td>
 </tr>
 <tr>
@@ -11074,13 +11084,13 @@ ultra high - lowest
 high - medium
 </td>
 <td style="text-align:right;">
-0.5
+-0.3
 </td>
 <td style="text-align:right;">
--1.8
+-0.8
 </td>
 <td style="text-align:right;">
-3.5
+0.2
 </td>
 </tr>
 <tr>
@@ -11088,13 +11098,13 @@ high - medium
 high - low
 </td>
 <td style="text-align:right;">
-1.1
+-0.4
 </td>
 <td style="text-align:right;">
--1.2
+-0.8
 </td>
 <td style="text-align:right;">
-3.9
+0.1
 </td>
 </tr>
 <tr>
@@ -11102,13 +11112,13 @@ high - low
 high - lowest
 </td>
 <td style="text-align:right;">
-1.2
+-0.5
 </td>
 <td style="text-align:right;">
--1.1
+-1.0
 </td>
 <td style="text-align:right;">
-4.1
+0.0
 </td>
 </tr>
 <tr>
@@ -11116,13 +11126,13 @@ high - lowest
 medium - low
 </td>
 <td style="text-align:right;">
-0.5
+-0.1
 </td>
 <td style="text-align:right;">
--2.1
+-0.6
 </td>
 <td style="text-align:right;">
-3.1
+0.4
 </td>
 </tr>
 <tr>
@@ -11130,13 +11140,13 @@ medium - low
 medium - lowest
 </td>
 <td style="text-align:right;">
-0.6
+-0.2
 </td>
 <td style="text-align:right;">
--2.0
+-0.8
 </td>
 <td style="text-align:right;">
-3.4
+0.3
 </td>
 </tr>
 <tr>
@@ -11144,13 +11154,13 @@ medium - lowest
 low - lowest
 </td>
 <td style="text-align:right;">
-0.1
+-0.1
 </td>
 <td style="text-align:right;">
--2.4
+-0.6
 </td>
 <td style="text-align:right;">
-2.6
+0.4
 </td>
 </tr>
 <tr grouplength="6">
@@ -11163,13 +11173,13 @@ low - lowest
 ultra high - high
 </td>
 <td style="text-align:right;">
--0.7
+-0.1
 </td>
 <td style="text-align:right;">
--3.7
+-0.6
 </td>
 <td style="text-align:right;">
-1.6
+0.5
 </td>
 </tr>
 <tr>
@@ -11177,13 +11187,13 @@ ultra high - high
 ultra high - medium
 </td>
 <td style="text-align:right;">
--0.9
+-0.3
 </td>
 <td style="text-align:right;">
--3.9
+-0.8
 </td>
 <td style="text-align:right;">
-1.5
+0.3
 </td>
 </tr>
 <tr>
@@ -11191,13 +11201,13 @@ ultra high - medium
 ultra high - low
 </td>
 <td style="text-align:right;">
-0.1
+-0.6
 </td>
 <td style="text-align:right;">
--2.4
+-1.1
 </td>
 <td style="text-align:right;">
-2.8
+0.0
 </td>
 </tr>
 <tr>
@@ -11208,10 +11218,10 @@ high - medium
 -0.2
 </td>
 <td style="text-align:right;">
--2.8
+-0.7
 </td>
 <td style="text-align:right;">
-2.4
+0.3
 </td>
 </tr>
 <tr>
@@ -11219,13 +11229,13 @@ high - medium
 high - low
 </td>
 <td style="text-align:right;">
-0.9
+-0.5
 </td>
 <td style="text-align:right;">
--1.5
+-1.0
 </td>
 <td style="text-align:right;">
-3.8
+0.0
 </td>
 </tr>
 <tr>
@@ -11233,13 +11243,13 @@ high - low
 medium - low
 </td>
 <td style="text-align:right;">
-1.1
+-0.3
 </td>
 <td style="text-align:right;">
--1.4
+-0.8
 </td>
 <td style="text-align:right;">
-4.1
+0.2
 </td>
 </tr>
 </tbody>
@@ -11387,13 +11397,13 @@ HDI high
 ultra high
 </td>
 <td style="text-align:right;">
--0.3
+-0.2
 </td>
 <td style="text-align:right;">
--2.9
+-0.7
 </td>
 <td style="text-align:right;">
-2.5
+0.2
 </td>
 </tr>
 <tr>
@@ -11401,13 +11411,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
--0.4
+0.0
 </td>
 <td style="text-align:right;">
--2.9
+-0.5
 </td>
 <td style="text-align:right;">
-2.3
+0.5
 </td>
 </tr>
 <tr>
@@ -11415,13 +11425,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
--1.6
+0.1
 </td>
 <td style="text-align:right;">
--4.8
+-0.4
 </td>
 <td style="text-align:right;">
-0.9
+0.6
 </td>
 </tr>
 <tr>
@@ -11429,13 +11439,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
--1.0
+-0.2
 </td>
 <td style="text-align:right;">
--3.6
+-0.7
 </td>
 <td style="text-align:right;">
-1.5
+0.2
 </td>
 </tr>
 <tr>
@@ -11443,13 +11453,13 @@ low
 lowest
 </td>
 <td style="text-align:right;">
--0.7
+-0.4
 </td>
 <td style="text-align:right;">
--3.3
+-1.0
 </td>
 <td style="text-align:right;">
-1.8
+0.1
 </td>
 </tr>
 <tr grouplength="4">
@@ -11462,13 +11472,13 @@ lowest
 ultra high
 </td>
 <td style="text-align:right;">
-1.9
+-0.3
 </td>
 <td style="text-align:right;">
 -0.9
 </td>
 <td style="text-align:right;">
-4.7
+0.2
 </td>
 </tr>
 <tr>
@@ -11476,13 +11486,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-2.1
+-0.4
 </td>
 <td style="text-align:right;">
--0.7
+-0.9
 </td>
 <td style="text-align:right;">
-5.0
+0.1
 </td>
 </tr>
 <tr>
@@ -11490,13 +11500,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-1.6
+-0.4
 </td>
 <td style="text-align:right;">
--1.2
+-0.9
 </td>
 <td style="text-align:right;">
-4.4
+0.2
 </td>
 </tr>
 <tr>
@@ -11504,13 +11514,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-1.7
+-0.5
 </td>
 <td style="text-align:right;">
--1.1
+-1.0
 </td>
 <td style="text-align:right;">
-4.5
+0.1
 </td>
 </tr>
 <tr grouplength="4">
@@ -11523,13 +11533,13 @@ low
 ultra high
 </td>
 <td style="text-align:right;">
-2.2
+-0.1
 </td>
 <td style="text-align:right;">
--0.9
+-0.6
 </td>
 <td style="text-align:right;">
-5.1
+0.5
 </td>
 </tr>
 <tr>
@@ -11537,13 +11547,13 @@ ultra high
 high
 </td>
 <td style="text-align:right;">
-2.5
+-0.4
 </td>
 <td style="text-align:right;">
--0.5
+-0.9
 </td>
 <td style="text-align:right;">
-5.3
+0.1
 </td>
 </tr>
 <tr>
@@ -11551,13 +11561,13 @@ high
 medium
 </td>
 <td style="text-align:right;">
-3.3
+-0.5
 </td>
 <td style="text-align:right;">
-0.2
+-1.0
 </td>
 <td style="text-align:right;">
-6.5
+0.1
 </td>
 </tr>
 <tr>
@@ -11565,13 +11575,13 @@ medium
 low
 </td>
 <td style="text-align:right;">
-2.7
-</td>
-<td style="text-align:right;">
 -0.2
 </td>
 <td style="text-align:right;">
-5.6
+-0.8
+</td>
+<td style="text-align:right;">
+0.3
 </td>
 </tr>
 </tbody>
@@ -11690,13 +11700,13 @@ HDI high
 aggressive
 </td>
 <td style="text-align:right;">
-8.79
+6.70
 </td>
 <td style="text-align:right;">
-2.80
+3.12
 </td>
 <td style="text-align:right;">
-14.73
+10.10
 </td>
 </tr>
 <tr>
@@ -11704,13 +11714,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.30
+6.55
 </td>
 <td style="text-align:right;">
-2.40
+3.02
 </td>
 <td style="text-align:right;">
-14.30
+10.01
 </td>
 </tr>
 <tr>
@@ -11718,13 +11728,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.29
+6.39
 </td>
 <td style="text-align:right;">
-2.38
+2.85
 </td>
 <td style="text-align:right;">
-14.25
+9.84
 </td>
 </tr>
 <tr>
@@ -11732,13 +11742,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.54
+6.39
 </td>
 <td style="text-align:right;">
-2.55
+2.90
 </td>
 <td style="text-align:right;">
-14.49
+9.88
 </td>
 </tr>
 <tr grouplength="4">
@@ -11751,13 +11761,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-7.79
+6.40
 </td>
 <td style="text-align:right;">
-2.00
+2.86
 </td>
 <td style="text-align:right;">
-14.00
+9.83
 </td>
 </tr>
 <tr>
@@ -11765,13 +11775,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-7.58
+6.34
 </td>
 <td style="text-align:right;">
-1.61
+2.79
 </td>
 <td style="text-align:right;">
-13.64
+9.74
 </td>
 </tr>
 <tr>
@@ -11779,13 +11789,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.56
+6.34
 </td>
 <td style="text-align:right;">
-1.66
+2.82
 </td>
 <td style="text-align:right;">
-13.58
+9.82
 </td>
 </tr>
 <tr>
@@ -11793,13 +11803,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.77
+6.31
 </td>
 <td style="text-align:right;">
-1.92
+2.77
 </td>
 <td style="text-align:right;">
-13.87
+9.76
 </td>
 </tr>
 <tr grouplength="4">
@@ -11812,13 +11822,13 @@ disabled
 aggressive
 </td>
 <td style="text-align:right;">
-10.41
+6.20
 </td>
 <td style="text-align:right;">
-4.02
+2.62
 </td>
 <td style="text-align:right;">
-16.63
+9.64
 </td>
 </tr>
 <tr>
@@ -11826,13 +11836,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-9.97
+6.17
 </td>
 <td style="text-align:right;">
-3.99
+2.61
 </td>
 <td style="text-align:right;">
-16.13
+9.61
 </td>
 </tr>
 <tr>
@@ -11840,13 +11850,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-10.37
+6.01
 </td>
 <td style="text-align:right;">
-4.31
+2.45
 </td>
 <td style="text-align:right;">
-16.40
+9.45
 </td>
 </tr>
 <tr>
@@ -11854,13 +11864,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-10.59
+5.98
 </td>
 <td style="text-align:right;">
-4.60
+2.42
 </td>
 <td style="text-align:right;">
-16.78
+9.43
 </td>
 </tr>
 </tbody>
@@ -11927,7 +11937,7 @@ disabled
 <span id="cb596-4"><a href="stats_detected.html#cb596-4" tabindex="-1"></a>  , <span class="at">y_axis_title =</span> <span class="st">&quot;filtering mode&quot;</span></span>
 <span id="cb596-5"><a href="stats_detected.html#cb596-5" tabindex="-1"></a>  , <span class="at">facet =</span> <span class="st">&quot;software&quot;</span></span>
 <span id="cb596-6"><a href="stats_detected.html#cb596-6" tabindex="-1"></a>  , <span class="at">label_size =</span> <span class="fl">1.8</span></span>
-<span id="cb596-7"><a href="stats_detected.html#cb596-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.45</span>,<span class="fl">0.4</span>)</span>
+<span id="cb596-7"><a href="stats_detected.html#cb596-7" tabindex="-1"></a>  , <span class="at">x_expand =</span> <span class="fu">c</span>(<span class="fl">0.33</span>,<span class="fl">0.1</span>)</span>
 <span id="cb596-8"><a href="stats_detected.html#cb596-8" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb596-9"><a href="stats_detected.html#cb596-9" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb596-10"><a href="stats_detected.html#cb596-10" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;posterior predictive distribution of group constrasts with 95% &amp; 50% HDI</span><span class="sc">\n</span><span class="st">by software&quot;</span></span>
@@ -12014,13 +12024,13 @@ HDI high
 disabled - mild
 </td>
 <td style="text-align:right;">
-0.2
+0.0
 </td>
 <td style="text-align:right;">
--1.8
+-0.4
 </td>
 <td style="text-align:right;">
-2.4
+0.4
 </td>
 </tr>
 <tr>
@@ -12028,13 +12038,13 @@ disabled - mild
 disabled - moderate
 </td>
 <td style="text-align:right;">
+-0.1
+</td>
+<td style="text-align:right;">
+-0.5
+</td>
+<td style="text-align:right;">
 0.2
-</td>
-<td style="text-align:right;">
--1.9
-</td>
-<td style="text-align:right;">
-2.4
 </td>
 </tr>
 <tr>
@@ -12042,13 +12052,13 @@ disabled - moderate
 disabled - aggressive
 </td>
 <td style="text-align:right;">
--0.2
+-0.3
 </td>
 <td style="text-align:right;">
--2.5
+-0.7
 </td>
 <td style="text-align:right;">
-1.9
+0.1
 </td>
 </tr>
 <tr>
@@ -12056,13 +12066,13 @@ disabled - aggressive
 mild - moderate
 </td>
 <td style="text-align:right;">
-0.0
+-0.1
 </td>
 <td style="text-align:right;">
--2.2
+-0.5
 </td>
 <td style="text-align:right;">
-2.1
+0.2
 </td>
 </tr>
 <tr>
@@ -12070,13 +12080,13 @@ mild - moderate
 mild - aggressive
 </td>
 <td style="text-align:right;">
--0.4
+-0.3
 </td>
 <td style="text-align:right;">
--2.8
+-0.8
 </td>
 <td style="text-align:right;">
-1.6
+0.1
 </td>
 </tr>
 <tr>
@@ -12084,13 +12094,13 @@ mild - aggressive
 moderate - aggressive
 </td>
 <td style="text-align:right;">
--0.4
+-0.1
 </td>
 <td style="text-align:right;">
--2.7
+-0.6
 </td>
 <td style="text-align:right;">
-1.7
+0.2
 </td>
 </tr>
 <tr grouplength="6">
@@ -12103,13 +12113,13 @@ moderate - aggressive
 disabled - mild
 </td>
 <td style="text-align:right;">
-0.2
+0.0
 </td>
 <td style="text-align:right;">
--1.9
+-0.4
 </td>
 <td style="text-align:right;">
-2.4
+0.3
 </td>
 </tr>
 <tr>
@@ -12117,13 +12127,13 @@ disabled - mild
 disabled - moderate
 </td>
 <td style="text-align:right;">
-0.2
+0.0
 </td>
 <td style="text-align:right;">
--1.9
+-0.4
 </td>
 <td style="text-align:right;">
-2.4
+0.4
 </td>
 </tr>
 <tr>
@@ -12131,13 +12141,13 @@ disabled - moderate
 disabled - aggressive
 </td>
 <td style="text-align:right;">
-0.0
+-0.1
 </td>
 <td style="text-align:right;">
--2.1
+-0.5
 </td>
 <td style="text-align:right;">
-2.2
+0.3
 </td>
 </tr>
 <tr>
@@ -12148,10 +12158,10 @@ mild - moderate
 0.0
 </td>
 <td style="text-align:right;">
--2.1
+-0.4
 </td>
 <td style="text-align:right;">
-2.1
+0.4
 </td>
 </tr>
 <tr>
@@ -12159,13 +12169,13 @@ mild - moderate
 mild - aggressive
 </td>
 <td style="text-align:right;">
--0.2
+-0.1
 </td>
 <td style="text-align:right;">
--2.5
+-0.5
 </td>
 <td style="text-align:right;">
-1.9
+0.4
 </td>
 </tr>
 <tr>
@@ -12173,13 +12183,13 @@ mild - aggressive
 moderate - aggressive
 </td>
 <td style="text-align:right;">
--0.2
+-0.1
 </td>
 <td style="text-align:right;">
--2.4
+-0.4
 </td>
 <td style="text-align:right;">
-2.0
+0.3
 </td>
 </tr>
 <tr grouplength="3">
@@ -12192,13 +12202,13 @@ moderate - aggressive
 disabled - mild
 </td>
 <td style="text-align:right;">
-0.2
+0.0
 </td>
 <td style="text-align:right;">
--2.0
+-0.4
 </td>
 <td style="text-align:right;">
-2.4
+0.3
 </td>
 </tr>
 <tr>
@@ -12206,13 +12216,13 @@ disabled - mild
 disabled - moderate
 </td>
 <td style="text-align:right;">
-0.5
+-0.2
 </td>
 <td style="text-align:right;">
--1.5
+-0.6
 </td>
 <td style="text-align:right;">
-3.1
+0.2
 </td>
 </tr>
 <tr>
@@ -12220,13 +12230,13 @@ disabled - moderate
 mild - moderate
 </td>
 <td style="text-align:right;">
-0.3
+-0.1
 </td>
 <td style="text-align:right;">
--1.8
+-0.6
 </td>
 <td style="text-align:right;">
-2.8
+0.2
 </td>
 </tr>
 </tbody>
@@ -12386,13 +12396,13 @@ lowest
 aggressive
 </td>
 <td style="text-align:right;">
-8.01
+7.40
 </td>
 <td style="text-align:right;">
-1.87
+3.85
 </td>
 <td style="text-align:right;">
-14.02
+10.73
 </td>
 </tr>
 <tr>
@@ -12400,13 +12410,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-7.62
+7.26
 </td>
 <td style="text-align:right;">
-1.60
+3.76
 </td>
 <td style="text-align:right;">
-13.74
+10.66
 </td>
 </tr>
 <tr>
@@ -12414,13 +12424,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.44
+6.99
 </td>
 <td style="text-align:right;">
-1.27
+3.51
 </td>
 <td style="text-align:right;">
-13.43
+10.43
 </td>
 </tr>
 <tr>
@@ -12428,13 +12438,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.68
+7.03
 </td>
 <td style="text-align:right;">
-1.65
+3.55
 </td>
 <td style="text-align:right;">
-13.73
+10.44
 </td>
 </tr>
 <tr>
@@ -12445,13 +12455,13 @@ low
 aggressive
 </td>
 <td style="text-align:right;">
-8.27
+7.04
 </td>
 <td style="text-align:right;">
-2.16
+3.49
 </td>
 <td style="text-align:right;">
-14.36
+10.37
 </td>
 </tr>
 <tr>
@@ -12459,13 +12469,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-7.92
+6.87
 </td>
 <td style="text-align:right;">
-1.78
+3.34
 </td>
 <td style="text-align:right;">
-13.88
+10.25
 </td>
 </tr>
 <tr>
@@ -12473,13 +12483,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.71
+6.65
 </td>
 <td style="text-align:right;">
-1.75
+3.13
 </td>
 <td style="text-align:right;">
-13.83
+10.02
 </td>
 </tr>
 <tr>
@@ -12487,13 +12497,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.82
+6.66
 </td>
 <td style="text-align:right;">
-2.85
+3.15
 </td>
 <td style="text-align:right;">
-14.96
+10.01
 </td>
 </tr>
 <tr>
@@ -12504,13 +12514,13 @@ medium
 aggressive
 </td>
 <td style="text-align:right;">
-10.86
+6.60
 </td>
 <td style="text-align:right;">
-4.52
+3.09
 </td>
 <td style="text-align:right;">
-17.01
+9.99
 </td>
 </tr>
 <tr>
@@ -12518,13 +12528,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-9.08
+6.42
 </td>
 <td style="text-align:right;">
-3.05
+2.92
 </td>
 <td style="text-align:right;">
-15.25
+9.80
 </td>
 </tr>
 <tr>
@@ -12532,13 +12542,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-9.63
+6.28
 </td>
 <td style="text-align:right;">
-3.53
+2.78
 </td>
 <td style="text-align:right;">
-15.68
+9.66
 </td>
 </tr>
 <tr>
@@ -12546,13 +12556,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-9.38
+6.28
 </td>
 <td style="text-align:right;">
-3.39
+2.78
 </td>
 <td style="text-align:right;">
-15.56
+9.65
 </td>
 </tr>
 <tr>
@@ -12563,13 +12573,13 @@ high
 aggressive
 </td>
 <td style="text-align:right;">
-9.05
+6.42
 </td>
 <td style="text-align:right;">
-2.87
+2.91
 </td>
 <td style="text-align:right;">
-15.01
+9.78
 </td>
 </tr>
 <tr>
@@ -12577,13 +12587,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.76
+6.23
 </td>
 <td style="text-align:right;">
-2.68
+2.72
 </td>
 <td style="text-align:right;">
-14.86
+9.62
 </td>
 </tr>
 <tr>
@@ -12591,13 +12601,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.49
+6.11
 </td>
 <td style="text-align:right;">
-2.37
+2.61
 </td>
 <td style="text-align:right;">
-14.53
+9.52
 </td>
 </tr>
 <tr>
@@ -12605,13 +12615,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.75
+6.12
 </td>
 <td style="text-align:right;">
-2.79
+2.61
 </td>
 <td style="text-align:right;">
-14.92
+9.52
 </td>
 </tr>
 <tr>
@@ -12622,13 +12632,13 @@ ultra high
 aggressive
 </td>
 <td style="text-align:right;">
-8.22
+6.25
 </td>
 <td style="text-align:right;">
-2.25
+2.72
 </td>
 <td style="text-align:right;">
-14.38
+9.59
 </td>
 </tr>
 <tr>
@@ -12636,13 +12646,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-7.91
+6.09
 </td>
 <td style="text-align:right;">
-1.93
+2.59
 </td>
 <td style="text-align:right;">
-13.92
+9.50
 </td>
 </tr>
 <tr>
@@ -12650,13 +12660,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.77
+5.99
 </td>
 <td style="text-align:right;">
-1.61
+2.50
 </td>
 <td style="text-align:right;">
-13.78
+9.39
 </td>
 </tr>
 <tr>
@@ -12664,13 +12674,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.03
+5.97
 </td>
 <td style="text-align:right;">
-2.06
+2.46
 </td>
 <td style="text-align:right;">
-14.16
+9.35
 </td>
 </tr>
 <tr>
@@ -12684,13 +12694,13 @@ lowest
 aggressive
 </td>
 <td style="text-align:right;">
-7.02
+6.76
 </td>
 <td style="text-align:right;">
-0.99
+3.20
 </td>
 <td style="text-align:right;">
-13.14
+10.08
 </td>
 </tr>
 <tr>
@@ -12698,13 +12708,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-6.88
+6.71
 </td>
 <td style="text-align:right;">
-0.88
+3.12
 </td>
 <td style="text-align:right;">
-12.95
+10.02
 </td>
 </tr>
 <tr>
@@ -12712,13 +12722,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-6.81
+6.67
 </td>
 <td style="text-align:right;">
-0.85
+3.17
 </td>
 <td style="text-align:right;">
-12.95
+10.08
 </td>
 </tr>
 <tr>
@@ -12726,13 +12736,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-6.99
+6.66
 </td>
 <td style="text-align:right;">
-0.87
+3.13
 </td>
 <td style="text-align:right;">
-12.93
+10.06
 </td>
 </tr>
 <tr>
@@ -12743,13 +12753,13 @@ low
 aggressive
 </td>
 <td style="text-align:right;">
-7.06
+6.65
 </td>
 <td style="text-align:right;">
-0.97
+3.10
 </td>
 <td style="text-align:right;">
-13.14
+9.99
 </td>
 </tr>
 <tr>
@@ -12757,13 +12767,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-6.82
+6.59
 </td>
 <td style="text-align:right;">
-0.78
+3.09
 </td>
 <td style="text-align:right;">
-12.93
+9.96
 </td>
 </tr>
 <tr>
@@ -12771,13 +12781,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-6.69
+6.54
 </td>
 <td style="text-align:right;">
-0.69
+3.01
 </td>
 <td style="text-align:right;">
-12.79
+9.90
 </td>
 </tr>
 <tr>
@@ -12785,13 +12795,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.53
+6.51
 </td>
 <td style="text-align:right;">
-1.54
+3.01
 </td>
 <td style="text-align:right;">
-13.69
+9.89
 </td>
 </tr>
 <tr>
@@ -12802,13 +12812,13 @@ medium
 aggressive
 </td>
 <td style="text-align:right;">
-7.94
+6.54
 </td>
 <td style="text-align:right;">
-1.89
+3.01
 </td>
 <td style="text-align:right;">
-14.20
+9.92
 </td>
 </tr>
 <tr>
@@ -12816,13 +12826,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-7.16
+6.46
 </td>
 <td style="text-align:right;">
-1.03
+2.98
 </td>
 <td style="text-align:right;">
-13.20
+9.87
 </td>
 </tr>
 <tr>
@@ -12830,13 +12840,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.83
+6.47
 </td>
 <td style="text-align:right;">
-1.76
+2.95
 </td>
 <td style="text-align:right;">
-14.01
+9.86
 </td>
 </tr>
 <tr>
@@ -12844,13 +12854,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.56
+6.46
 </td>
 <td style="text-align:right;">
-1.54
+2.96
 </td>
 <td style="text-align:right;">
-13.72
+9.87
 </td>
 </tr>
 <tr>
@@ -12861,13 +12871,13 @@ high
 aggressive
 </td>
 <td style="text-align:right;">
-8.57
+6.24
 </td>
 <td style="text-align:right;">
-2.50
+2.73
 </td>
 <td style="text-align:right;">
-14.66
+9.60
 </td>
 </tr>
 <tr>
@@ -12875,13 +12885,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.53
+6.16
 </td>
 <td style="text-align:right;">
-2.58
+2.73
 </td>
 <td style="text-align:right;">
-14.76
+9.62
 </td>
 </tr>
 <tr>
@@ -12889,13 +12899,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-8.12
+6.20
 </td>
 <td style="text-align:right;">
-2.17
+2.68
 </td>
 <td style="text-align:right;">
-14.27
+9.57
 </td>
 </tr>
 <tr>
@@ -12903,13 +12913,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-8.82
+6.18
 </td>
 <td style="text-align:right;">
-2.75
+2.66
 </td>
 <td style="text-align:right;">
-14.96
+9.57
 </td>
 </tr>
 <tr>
@@ -12920,13 +12930,13 @@ ultra high
 aggressive
 </td>
 <td style="text-align:right;">
-7.95
+5.85
 </td>
 <td style="text-align:right;">
-1.77
+2.30
 </td>
 <td style="text-align:right;">
-13.95
+9.21
 </td>
 </tr>
 <tr>
@@ -12934,13 +12944,13 @@ aggressive
 moderate
 </td>
 <td style="text-align:right;">
-8.16
+5.78
 </td>
 <td style="text-align:right;">
-2.13
+2.27
 </td>
 <td style="text-align:right;">
-14.35
+9.15
 </td>
 </tr>
 <tr>
@@ -12948,13 +12958,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-7.74
+5.82
 </td>
 <td style="text-align:right;">
-1.32
+2.27
 </td>
 <td style="text-align:right;">
-13.59
+9.15
 </td>
 </tr>
 <tr>
@@ -12962,13 +12972,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-7.66
+5.76
 </td>
 <td style="text-align:right;">
-1.56
+2.21
 </td>
 <td style="text-align:right;">
-13.75
+9.10
 </td>
 </tr>
 <tr>
@@ -12982,13 +12992,13 @@ low
 moderate
 </td>
 <td style="text-align:right;">
-9.10
+6.46
 </td>
 <td style="text-align:right;">
-2.92
+2.96
 </td>
 <td style="text-align:right;">
-15.23
+9.87
 </td>
 </tr>
 <tr>
@@ -12996,13 +13006,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-9.21
+6.20
 </td>
 <td style="text-align:right;">
-2.94
+2.62
 </td>
 <td style="text-align:right;">
-15.27
+9.52
 </td>
 </tr>
 <tr>
@@ -13010,13 +13020,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-11.31
+6.15
 </td>
 <td style="text-align:right;">
-5.19
+2.64
 </td>
 <td style="text-align:right;">
-17.72
+9.57
 </td>
 </tr>
 <tr>
@@ -13027,13 +13037,13 @@ medium
 moderate
 </td>
 <td style="text-align:right;">
-9.87
+6.06
 </td>
 <td style="text-align:right;">
-3.56
+2.59
 </td>
 <td style="text-align:right;">
-16.05
+9.46
 </td>
 </tr>
 <tr>
@@ -13041,13 +13051,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-12.64
+5.90
 </td>
 <td style="text-align:right;">
-6.42
+2.42
 </td>
 <td style="text-align:right;">
-19.10
+9.30
 </td>
 </tr>
 <tr>
@@ -13055,13 +13065,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-11.27
+5.88
 </td>
 <td style="text-align:right;">
-5.09
+2.38
 </td>
 <td style="text-align:right;">
-17.37
+9.28
 </td>
 </tr>
 <tr>
@@ -13072,13 +13082,13 @@ high
 moderate
 </td>
 <td style="text-align:right;">
-11.58
+5.84
 </td>
 <td style="text-align:right;">
-5.39
+2.30
 </td>
 <td style="text-align:right;">
-17.83
+9.19
 </td>
 </tr>
 <tr>
@@ -13086,13 +13096,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-10.76
+5.72
 </td>
 <td style="text-align:right;">
-4.76
+2.31
 </td>
 <td style="text-align:right;">
-16.93
+9.21
 </td>
 </tr>
 <tr>
@@ -13100,13 +13110,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-10.93
+5.71
 </td>
 <td style="text-align:right;">
-4.85
+2.34
 </td>
 <td style="text-align:right;">
-17.05
+9.24
 </td>
 </tr>
 <tr>
@@ -13117,13 +13127,13 @@ ultra high
 moderate
 </td>
 <td style="text-align:right;">
-9.75
+5.79
 </td>
 <td style="text-align:right;">
-3.59
+2.22
 </td>
 <td style="text-align:right;">
-15.77
+9.13
 </td>
 </tr>
 <tr>
@@ -13131,13 +13141,13 @@ moderate
 mild
 </td>
 <td style="text-align:right;">
-10.03
+5.68
 </td>
 <td style="text-align:right;">
-3.98
+2.09
 </td>
 <td style="text-align:right;">
-16.10
+9.01
 </td>
 </tr>
 <tr>
@@ -13145,13 +13155,13 @@ mild
 disabled
 </td>
 <td style="text-align:right;">
-10.26
+5.63
 </td>
 <td style="text-align:right;">
-4.12
+2.05
 </td>
 <td style="text-align:right;">
-16.39
+8.97
 </td>
 </tr>
 </tbody>
@@ -13324,9 +13334,9 @@ disabled
 <span id="cb610-26"><a href="stats_detected.html#cb610-26" tabindex="-1"></a>    , <span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
 <span id="cb610-27"><a href="stats_detected.html#cb610-27" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
 <span id="cb610-28"><a href="stats_detected.html#cb610-28" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb610-29"><a href="stats_detected.html#cb610-29" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">9.0</span>,<span class="fl">9.0</span>)</span>
-<span id="cb610-30"><a href="stats_detected.html#cb610-30" tabindex="-1"></a>    , <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">4</span>)</span>
-<span id="cb610-31"><a href="stats_detected.html#cb610-31" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">4</span>) <span class="sc">%&gt;%</span> scales<span class="sc">::</span><span class="fu">number</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb610-29"><a href="stats_detected.html#cb610-29" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">2</span>)</span>
+<span id="cb610-30"><a href="stats_detected.html#cb610-30" tabindex="-1"></a>    , <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb610-31"><a href="stats_detected.html#cb610-31" tabindex="-1"></a>    , <span class="at">labels =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>) <span class="sc">%&gt;%</span> scales<span class="sc">::</span><span class="fu">number</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
 <span id="cb610-32"><a href="stats_detected.html#cb610-32" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
 <span id="cb610-33"><a href="stats_detected.html#cb610-33" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb610-34"><a href="stats_detected.html#cb610-34" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
@@ -13573,10 +13583,10 @@ P.sd
 brms_ht_me_mod
 </td>
 <td style="text-align:right;">
-0.51
+0.50
 </td>
 <td style="text-align:right;">
-0.59
+0.58
 </td>
 </tr>
 <tr>
@@ -13584,7 +13594,7 @@ brms_ht_me_mod
 brms_ht_rmse_mod
 </td>
 <td style="text-align:right;">
-0.50
+0.49
 </td>
 <td style="text-align:right;">
 0.62
@@ -13598,7 +13608,7 @@ brms_dbh_me_mod
 0.50
 </td>
 <td style="text-align:right;">
-0.61
+0.55
 </td>
 </tr>
 <tr>
@@ -13609,7 +13619,7 @@ brms_dbh_rmse_mod
 0.50
 </td>
 <td style="text-align:right;">
-0.66
+0.56
 </td>
 </tr>
 </tbody>

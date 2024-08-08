@@ -290,3 +290,12 @@ qualityfiltering---interaction-7
 softwarequality---interaction-7
 softwarefiltering---interaction-7
 softwarequalityfiltering---interaction-7
+posterior-predictive-checks-2
+prior-distriubutions-1
+trace-plots-1
+basal-area-percent-error
+basal-area-abs.-percent-error
+hatr-values-1
+ess-values-1
+mean-and-sd-1
+bayesian-p-value-1

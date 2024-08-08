@@ -69,7 +69,7 @@
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
 <link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<script src="libs/canopy ht. (m)_ad4e26-1/data_stars_canopyhtm53a9cb.txt"></script>
+<script src="libs/canopy ht. (m)_09cb84-1/data_stars_canopyhtm06b1f5.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script type="text/javascript">
@@ -363,6 +363,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="stand_ba.html"><a href="stand_ba.html#summary-statistics-14"><i class="fa fa-check"></i><b>8.3.1</b> Summary Statistics</a></li>
 <li class="chapter" data-level="8.3.2" data-path="stand_ba.html"><a href="stand_ba.html#model-ba-absolute-percent-error"><i class="fa fa-check"></i><b>8.3.2</b> Model: BA Absolute Percent Error</a></li>
 </ul></li>
+<li class="chapter" data-level="8.4" data-path="stand_ba.html"><a href="stand_ba.html#posterior-predictive-checks-2"><i class="fa fa-check"></i><b>8.4</b> Posterior Predictive Checks</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="stand_ba.html"><a href="stand_ba.html#prior-distriubutions-1"><i class="fa fa-check"></i><b>8.4.1</b> Prior Distriubutions</a></li>
+<li class="chapter" data-level="8.4.2" data-path="stand_ba.html"><a href="stand_ba.html#trace-plots-1"><i class="fa fa-check"></i><b>8.4.2</b> Trace-plots</a></li>
+<li class="chapter" data-level="8.4.3" data-path="stand_ba.html"><a href="stand_ba.html#hatr-values-1"><i class="fa fa-check"></i><b>8.4.3</b> <span class="math inline">\(\hat{R}\)</span> values</a></li>
+<li class="chapter" data-level="8.4.4" data-path="stand_ba.html"><a href="stand_ba.html#ess-values-1"><i class="fa fa-check"></i><b>8.4.4</b> ESS values</a></li>
+<li class="chapter" data-level="8.4.5" data-path="stand_ba.html"><a href="stand_ba.html#mean-and-sd-1"><i class="fa fa-check"></i><b>8.4.5</b> Mean and SD</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -484,27 +492,13 @@ metashape_depthmap_filtering
 KAIBAB_HIGH
 </td>
 <td style="text-align:left;">
-HIGH_DISABLED
+HIGH_MILD
 </td>
 <td style="text-align:left;">
 HIGH
 </td>
 <td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_HIGH
-</td>
-<td style="text-align:left;">
-LOW_DISABLED
-</td>
-<td style="text-align:left;">
-LOW
-</td>
-<td style="text-align:left;">
-DISABLED
+MILD
 </td>
 </tr>
 <tr>
@@ -524,118 +518,6 @@ AGGRESSIVE
 <tr>
 <td style="text-align:left;">
 KAIBAB_HIGH
-</td>
-<td style="text-align:left;">
-MEDIUM_MILD
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_LOW
-</td>
-<td style="text-align:left;">
-LOWEST_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KAIBAB_LOW
-</td>
-<td style="text-align:left;">
-LOWEST_MODERATE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-MODERATE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-MEDIUM_AGGRESSIVE
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-AGGRESSIVE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N1
-</td>
-<td style="text-align:left;">
-MEDIUM_DISABLED
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-LOWEST_MODERATE
-</td>
-<td style="text-align:left;">
-LOWEST
-</td>
-<td style="text-align:left;">
-MODERATE
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-MEDIUM_DISABLED
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-DISABLED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
-</td>
-<td style="text-align:left;">
-MEDIUM_MILD
-</td>
-<td style="text-align:left;">
-MEDIUM
-</td>
-<td style="text-align:left;">
-MILD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SQ09_02
 </td>
 <td style="text-align:left;">
 ULTRAHIGH_MODERATE
@@ -649,7 +531,35 @@ MODERATE
 </tr>
 <tr>
 <td style="text-align:left;">
-WA85_02
+KAIBAB_LOW
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_DISABLED
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
+</td>
+<td style="text-align:left;">
+DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAIBAB_LOW
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_MILD
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N1
 </td>
 <td style="text-align:left;">
 MEDIUM_DISABLED
@@ -663,16 +573,100 @@ DISABLED
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
+N1
 </td>
 <td style="text-align:left;">
-HIGH_DISABLED
+MEDIUM_MODERATE
+</td>
+<td style="text-align:left;">
+MEDIUM
+</td>
+<td style="text-align:left;">
+MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+HIGH_AGGRESSIVE
 </td>
 <td style="text-align:left;">
 HIGH
 </td>
 <td style="text-align:left;">
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+HIGH_MILD
+</td>
+<td style="text-align:left;">
+HIGH
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+LOWEST_DISABLED
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
 DISABLED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SQ09_02
+</td>
+<td style="text-align:left;">
+LOWEST_MILD
+</td>
+<td style="text-align:left;">
+LOWEST
+</td>
+<td style="text-align:left;">
+MILD
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+LOW_AGGRESSIVE
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+AGGRESSIVE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WA85_02
+</td>
+<td style="text-align:left;">
+LOW_MILD
+</td>
+<td style="text-align:left;">
+LOW
+</td>
+<td style="text-align:left;">
+MILD
 </td>
 </tr>
 <tr>
@@ -687,6 +681,20 @@ MEDIUM
 </td>
 <td style="text-align:left;">
 MODERATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+ULTRAHIGH_DISABLED
+</td>
+<td style="text-align:left;">
+ULTRAHIGH
+</td>
+<td style="text-align:left;">
+DISABLED
 </td>
 </tr>
 </tbody>

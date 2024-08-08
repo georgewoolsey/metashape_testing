@@ -600,7 +600,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(
       labels = scales::percent_format(accuracy = 1)
-      , limits = c(-lmt_basal_area_pct_error,lmt_basal_area_pct_error)
+      , limits = c(-lmt_basal_area_pct_error*1.2,lmt_basal_area_pct_error*1.2)
     ) +
     labs(
       x = "filtering mode", y = "Basal Area % Error"
@@ -684,7 +684,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(
       labels = scales::percent_format(accuracy = 1)
-      , limits = c(-lmt_basal_area_pct_error,lmt_basal_area_pct_error)
+      , limits = c(-lmt_basal_area_pct_error*1.2,lmt_basal_area_pct_error*1.2)
     ) +
     labs(
       x = "software", y = "Basal Area % Error"
@@ -772,7 +772,7 @@ draws_temp =
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     scale_y_continuous(
       labels = scales::percent_format(accuracy = 1)
-      , limits = c(-lmt_basal_area_pct_error,lmt_basal_area_pct_error)
+      , limits = c(-lmt_basal_area_pct_error*1.2,lmt_basal_area_pct_error*1.2)
     ) +
     labs(
       x = "software", y = "Basal Area % Error"
@@ -877,7 +877,7 @@ qlty_fltr_sftwr_ba_pe =
     ) +
     scale_y_continuous(
       labels = scales::percent_format(accuracy = 1)
-      , limits = c(-lmt_basal_area_pct_error*1.2,lmt_basal_area_pct_error*1.2)
+      , limits = c(-lmt_basal_area_pct_error*1.5,lmt_basal_area_pct_error*1.2)
     ) +
     labs(
       x = "filtering mode", y = "Basal Area % Error"
@@ -1254,7 +1254,7 @@ draws_temp =
     ) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(
-      limits = c(-0.005,lmt_basal_area_abs_pct_error*.7)
+      limits = c(-0.005,lmt_basal_area_abs_pct_error*1.1)
       , labels = scales::percent_format(accuracy = 1)
     ) +
     labs(
@@ -1367,9 +1367,6 @@ brms_contrast_temp = brms_contrast_temp %>%
   # median_hdi summary for coloring 
   dplyr::group_by(contrast,depth_maps_generation_filtering_mode) %>% 
   make_contrast_vars()
-
-# what?
-brms_contrast_temp %>% dplyr::glimpse()
 ```
 
 plot it
@@ -1380,12 +1377,11 @@ plt_contrast(
   # , caption_text = form_temp
   , y_axis_title = "quality"
   , facet = "depth_maps_generation_filtering_mode"
-  , label_size = 1.6
+  , label_size = 1.55
 ) +
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-1.65,1.25)
-    # , expand = expansion(mult = c(-0.2,-0.1))
+    , limits = c(-1.2,0.3)
     , breaks = seq(-1,1,0.5)
   ) +
   labs(
@@ -1479,7 +1475,7 @@ draws_temp =
     ) +
     facet_grid(cols = vars(depth_maps_generation_quality)) +
     scale_y_continuous(
-      limits = c(-0.005,lmt_basal_area_abs_pct_error*.7)
+      limits = c(-0.005,lmt_basal_area_abs_pct_error*1.1)
       , labels = scales::percent_format(accuracy = 1)
     ) +
     labs(
@@ -1596,7 +1592,7 @@ plt_contrast(
 ) +
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-1.11,0.7)
+    , limits = c(-1.1,0.3)
     , breaks = seq(-1,1,0.5)
   ) +
   labs(
@@ -1715,8 +1711,8 @@ plt_contrast(
 ) +
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-0.5,0.4)
-    , breaks = seq(-0.5,0.5,0.25)
+    , limits = c(-0.7,0.6)
+    , breaks = seq(-0.6,0.6,0.3)
   ) +
   facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
   labs(
@@ -1870,7 +1866,7 @@ draws_temp =
     ) +
     facet_grid(cols = vars(depth_maps_generation_filtering_mode)) +
     scale_y_continuous(
-      limits = c(-0.005,lmt_basal_area_abs_pct_error*.7)
+      limits = c(-0.005,lmt_basal_area_abs_pct_error*1.1)
       , labels = scales::percent_format(accuracy = 1)
     ) +
     labs(
@@ -1984,8 +1980,8 @@ plt_contrast(
 ) +
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-1,1)
-    , breaks = seq(-1,1,0.5)
+    , limits = c(-0.8,0.65)
+    , breaks = seq(-0.8,0.8,0.4)
   ) +
   labs(
     subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby software"
@@ -2113,7 +2109,7 @@ qlty_fltr_sftwr_ba_ape =
       # , switch = "y"
     ) +
     scale_y_continuous(
-      limits = c(-0.005,lmt_basal_area_abs_pct_error*.8)
+      limits = c(-0.005,lmt_basal_area_abs_pct_error*1.45)
       , labels = scales::percent_format(accuracy = 1)
     ) +
     labs(
@@ -2250,8 +2246,8 @@ brms_contrast_temp %>%
   ) +
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-0.8,0.6)
-    , breaks = seq(-1,1,0.5)
+    , limits = c(-0.8,0.4)
+    , breaks = seq(-0.8,0.8,0.4)
   ) +
   labs(
     subtitle = "posterior predictive distribution of group constrasts with 95% & 50% HDI\nby dense cloud quality and software"
@@ -2314,8 +2310,8 @@ layout_temp = c(
   ) &
   scale_x_continuous(
     labels = scales::percent_format(accuracy = 1)
-    , limits = c(-0.85,0.55)
-    , breaks = seq(-1,1,0.25)
+    , limits = c(-1.1,0.52)
+    , breaks = seq(-0.8,0.8,0.4)
   ) &
   theme(
     axis.title.y = element_blank()
@@ -2330,4 +2326,193 @@ ggplot2::ggsave(
     , units = "in"
     , dpi = "print"
   )
+```
+
+## Posterior Predictive Checks
+
+Markov chain Monte Carlo (MCMC) simulations were conducted using the `brms` package (Bürkner 2017) to estimate posterior predictive distributions of the parameters of interest. We ran three chains of 100,000 iterations with the first 50,000 discarded as burn-in. Trace-plots were utilized to visually assess model convergence and sufficient convergence was checked with $\hat{R}$ values near 1 ([Brooks & Gelman, 1998](https://scholar.google.com/scholar?cluster=14209404114665352991&hl=en&as_sdt=0,6)). Posterior predictive checks were used to evaluate model goodness-of-fit by comparing data simulated from the model with the observed data used to estimate the model parameters ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)). Calculating the proportion of MCMC iterations in which the test statistic (i.e., mean and sum of squares) from the simulated data and observed data are more extreme than one another provides the Bayesian P-value. Lack of fit is indicated by a value close to 0 or 1 while a value of 0.5 indicates perfect fit ([Hobbs & Hooten, 2015](https://scholar.google.com/scholar?cluster=9228589188684720156&hl=en&as_sdt=0,6)).
+
+To learn more about this approach to posterior predictive checks, check out Gabry’s (2022) vignette, [Graphical posterior predictive checks using the bayesplot package](https://cran.r-project.org/web/packages/bayesplot/vignettes/graphical-ppcs.html). 
+
+### Prior Distriubutions
+
+```{r, fig.height=8}
+plt_prior11+plt_prior12 &
+  theme(strip.text = element_text(size = 6))
+```
+
+### Trace-plots
+
+check the trace plots for problems with convergence of the Markov chains
+
+#### Basal Area Percent Error
+
+```{r, fig.height=8}
+# height mean error
+plot(brms_ba_pe_mod)
+```
+
+#### Basal Area Abs. Percent Error
+
+```{r, fig.height=8}
+# height rmse
+plot(brms_ba_ape_mod)
+```
+
+### $\hat{R}$ values
+
+```{r, fig.height=8}
+plt_rhat_temp <- function(my_mod) {
+  my_mod %>% 
+    brms::rhat() %>% 
+    as.data.frame() %>% 
+    tibble::rownames_to_column(var = "parameter") %>%
+    dplyr::rename_with(tolower) %>% 
+    dplyr::rename(rhat = 2) %>% 
+    dplyr::filter(
+      stringr::str_starts(parameter, "b_") 
+      | stringr::str_starts(parameter, "r_") 
+      | stringr::str_starts(parameter, "sd_") 
+      | parameter == "phi"
+      | parameter == "sigma"
+    ) %>%
+    dplyr::mutate(
+      parameter = parameter %>% 
+        stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+        stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering")
+      , chk = (rhat <= 1*0.998 | rhat >= 1*1.002)
+    ) %>% 
+    ggplot(aes(x = rhat, y = parameter, color = chk, fill = chk)) +
+    geom_vline(xintercept = 1, linetype = "dashed", color = "gray44", lwd = 1.2) +
+    geom_vline(xintercept = 1*0.998, lwd = 1.5) +
+    geom_vline(xintercept = 1*1.002, lwd = 1.5) +
+    geom_vline(xintercept = 1*0.999, lwd = 1.2, color = "gray33") +
+    geom_vline(xintercept = 1*1.001, lwd = 1.2, color = "gray33") +
+    geom_point() +
+    scale_fill_manual(values = c("navy", "firebrick")) +
+    scale_color_manual(values = c("navy", "firebrick")) +
+    scale_y_discrete(NULL, breaks = NULL) +
+    labs(
+      x = latex2exp::TeX("$\\hat{R}$")
+      , subtitle = latex2exp::TeX("MCMC chain convergence check for $\\hat{R}$ values")
+    ) +
+    theme_light() +
+    theme(
+      legend.position = "none"
+      , axis.text.y = element_text(size = 3)
+      , panel.grid.major.x = element_blank()
+      , panel.grid.minor.x = element_blank()
+      , plot.title = element_text(size = 9)
+      , plot.subtitle = element_text(size = 8)
+      , axis.title.y = element_blank()
+      , axis.title.x = element_text(size = 9)
+      , panel.grid = element_blank()
+      , axis.text.x = element_text(size = 6.5)
+    )
+}
+# plot together with patchwork
+brms_ba_pe_mod %>% plt_rhat_temp() + labs(title = "Basal Area Percent Error") +
+brms_ba_ape_mod %>% plt_rhat_temp() + labs(title = "Basal Area Absolute Percent Error") &
+  theme(plot.subtitle = element_blank())
+```
+
+### ESS values
+
+The effective length of an MCMC chain is indicated by the effective sample size (ESS), which refers to the sample size of the MCMC chain **not** to the sample size of the data
+[Kruschke (2015)](https://sites.google.com/site/doingbayesiandataanalysis/) notes: 
+
+>One simple guideline is this: For reasonably accurate and stable estimates of the limits of the 95% HDI, an ESS of 10,000 is recommended. This is merely a heuristic based on experience with practical applications, it is not a requirement. If accuracy of the HDI limits is not crucial for your application, then a smaller ESS may be sufficient. (p.184)
+
+```{r, fig.height=8}
+plt_ess_temp <- function(my_mod) {
+# get ess values from model summary
+dplyr::bind_rows(
+    summary(my_mod) %>% 
+      purrr::pluck("random") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+    , summary(my_mod) %>% 
+      purrr::pluck("fixed") %>% 
+      purrr::flatten() %>% 
+      purrr::keep_at(~ .x == "Bulk_ESS") %>% 
+      unlist() %>% 
+      dplyr::as_tibble()
+  ) %>% 
+  dplyr::rename(ess = 1) %>% 
+  dplyr::mutate(parameter = dplyr::row_number(), chk = ess<10000) %>% 
+  ggplot(aes(x = ess, y = parameter, color = chk, fill = chk)) +
+  geom_vline(xintercept = 10000, linetype = "dashed", color = "gray44", lwd = 1.2) +
+  geom_segment( aes(x = 0, xend=ess, yend=parameter), color="black") +
+  geom_point() +
+  scale_fill_manual(values = c("navy", "firebrick")) +
+  scale_color_manual(values = c("navy", "firebrick")) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    x = "ESS"
+    , subtitle = "MCMC chain resolution check for effective sample size (ESS) values"
+    , y = ""
+  ) +
+  theme_light() +
+  theme(
+    legend.position = "none"
+    , axis.text.y = element_text(size = 4)
+    , panel.grid.major.x = element_blank()
+    , panel.grid.minor.x = element_blank()
+    , plot.title = element_text(size = 9)
+    , plot.subtitle = element_text(size = 8)
+    , axis.title.y = element_blank()
+    , axis.title.x = element_text(size = 9)
+    , axis.text.x = element_text(size = 6.5)
+  )
+}
+
+# plot together with patchwork
+brms_ba_pe_mod %>% plt_ess_temp() + labs(title = "Basal Area Percent Error") +
+brms_ba_ape_mod %>% plt_ess_temp() + labs(title = "Basal Area Absolute Percent Error") &
+  theme(plot.subtitle = element_blank())
+```
+
+### Mean and SD
+
+posterior predictive check for the overall model combining mean and sd
+
+```{r}
+plt_pp_temp <- function(my_mod) {
+  my_mod %>% 
+  brms::pp_check(type = "stat_2d", ndraws = 5000) +
+    theme_light() +
+    theme(
+      legend.position = "top", legend.direction = "horizontal"
+      , legend.text = element_text(size = 8)
+      , plot.title = element_text(size = 9)
+    )
+}
+# plot together with patchwork
+brms_ba_pe_mod %>% plt_pp_temp() + labs(title = "Basal Area Percent Error") +
+brms_ba_ape_mod %>% plt_pp_temp() + labs(title = "Basal Area Absolute Percent Error") &
+  theme(plot.subtitle = element_blank())
+```
+
+#### Bayesian p-value
+
+The Bayesian p-value is the probability that a test statistic in the reference distribution exceeds its value in the data. The Bayesian p-value is calculated from the posterior predictive distribution of the new data and the distribution of the observed data. We estimate the probability that the test statistic calculated from "new" data arising from our model ($y_{new}$) is more extreme than the test statistic calculated from the observed data ($y$): $\text{P-value}(y) = Pr(T(y_{new}) > T(y))$ where the test statistic $T(y)$ describes the distribution of the data as a summary of the data; it could be the mean, variance, the coefﬁcient of variation, the kurtosis, the maximum, or the minimum of the observed data set, or it might be an "omnibus" statistic like a squared discrepancy or a chi-square value [Hobbs and Hooten (2015, p. 188)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6)
+
+>Bayesian P values for mean and standard deviation test statistics The P values for the mean (P mean) give the probability that the mean of the data of new, out-of-sample observations simulated from the model exceeds the mean of the observed data. The P values for the standard deviation (P SD) give the probability that the standard deviation of new, out-of-sample observations simulated from the model exceeds the standard deviation of the observed data. Large ($\gtrapprox 0.90$) or small ($\lessapprox 0.10$) values indicate lack of fit. [Hobbs and Hooten (2015)](https://scholar.google.com/scholar?cluster=9228589188684720156&oi=gsb&hl=en&as_sdt=0,6);[Hobbs et al. (2024, Appendix S2 p. 8)](https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/ecm.1598)
+
+Check the Bayesian p-values between the models
+
+```{r}
+# get the model p-values
+dplyr::bind_rows(
+    get_mod_p_val(brms_ba_pe_mod, my_var = "basal_area_pct_error", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_ba_pe_mod")
+    , get_mod_p_val(brms_ba_ape_mod, my_var = "basal_area_abs_pct_error", ndraws = 5000) %>% 
+      dplyr::mutate(model = "brms_ba_ape_mod")
+  ) %>% 
+  dplyr::relocate(model) %>% 
+  kableExtra::kbl(digits = 2) %>% 
+  kableExtra::kable_styling()
 ```
