@@ -423,14 +423,19 @@ brms_contrast_temp = brms_contrast_temp %>%
     median_hdi_est = tidybayes::median_hdi(value)$y
     , median_hdi_lower = tidybayes::median_hdi(value)$ymin
     , median_hdi_upper = tidybayes::median_hdi(value)$ymax
+    # check probability of contrast
+    , pr_gt_zero = mean(value > 0) %>% 
+        scales::percent(accuracy = 1)
+    , pr_lt_zero = mean(value < 0) %>% 
+        scales::percent(accuracy = 1)
     # check probability that this direction is true
-    , is_gt_zero = dplyr::case_when(
-      median_hdi_est > 0 ~ value > 0
+    , is_diff_dir = dplyr::case_when(
+      median_hdi_est >= 0 ~ value > 0
       , median_hdi_est < 0 ~ value < 0
     )
-    , pct_gt_zero = mean(is_gt_zero)
+    , pr_diff = mean(is_diff_dir)
     # make a label
-    , pct_gt_zero_lab = dplyr::case_when(
+    , pr_diff_lab = dplyr::case_when(
       median_hdi_est > 0 ~ paste0(
         "Pr("
         , stringr::word(contrast, 1, sep = fixed("-")) %>% 
@@ -439,7 +444,7 @@ brms_contrast_temp = brms_contrast_temp %>%
         , stringr::word(contrast, 2, sep = fixed("-")) %>% 
           stringr::str_squish()
         , ")="
-        , pct_gt_zero %>% scales::percent(accuracy = 1)
+        , pr_diff %>% scales::percent(accuracy = 1)
       )
       , median_hdi_est < 0 ~ paste0(
         "Pr("
@@ -449,29 +454,29 @@ brms_contrast_temp = brms_contrast_temp %>%
         , stringr::word(contrast, 1, sep = fixed("-")) %>% 
           stringr::str_squish()
         , ")="
-        , pct_gt_zero %>% scales::percent(accuracy = 1)
+        , pr_diff %>% scales::percent(accuracy = 1)
       )
     )
     # make a SMALLER label
-    , pct_gt_zero_lab_sm = dplyr::case_when(
+    , pr_diff_lab_sm = dplyr::case_when(
       median_hdi_est >= 0 ~ paste0(
         "Pr(>0)="
-        , pct_gt_zero %>% scales::percent(accuracy = 1)
+        , pr_diff %>% scales::percent(accuracy = 1)
       )
       , median_hdi_est < 0 ~ paste0(
         "Pr(<0)="
-        , pct_gt_zero %>% scales::percent(accuracy = 1)
+        , pr_diff %>% scales::percent(accuracy = 1)
       )
     )
-    , pct_gt_zero_lab_pos = dplyr::case_when(
+    , pr_diff_lab_pos = dplyr::case_when(
       median_hdi_est > 0 ~ median_hdi_upper
       , median_hdi_est < 0 ~ median_hdi_lower
     ) * 1.09
     , sig_level = dplyr::case_when(
-      pct_gt_zero > 0.99 ~ 0
-      , pct_gt_zero > 0.95 ~ 1
-      , pct_gt_zero > 0.9 ~ 2
-      , pct_gt_zero > 0.8 ~ 3
+      pr_diff > 0.99 ~ 0
+      , pr_diff > 0.95 ~ 1
+      , pr_diff > 0.9 ~ 2
+      , pr_diff > 0.8 ~ 3
       , T ~ 4
     ) %>% 
     factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
@@ -479,7 +484,7 @@ brms_contrast_temp = brms_contrast_temp %>%
 # what?
 brms_contrast_temp %>% 
   dplyr::ungroup() %>% 
-  dplyr::count(contrast, median_hdi_est, pct_gt_zero_lab,pct_gt_zero_lab_sm)
+  dplyr::count(contrast, median_hdi_est, pr_diff_lab,pr_diff_lab_sm)
 ```
 
 plot it
@@ -487,7 +492,7 @@ plot it
 ```{r}
 # plot, finally
 brms_contrast_temp %>% 
-  ggplot(aes(x = value, y = contrast, fill = pct_gt_zero)) +
+  ggplot(aes(x = value, y = contrast, fill = pr_diff)) +
     tidybayes::stat_halfeye(
       point_interval = median_hdi, .width = c(0.5,0.95)
       # , slab_fill = "gray22", slab_alpha = 1
@@ -498,8 +503,8 @@ brms_contrast_temp %>%
     geom_text(
       data = brms_contrast_temp %>% 
         dplyr::ungroup() %>% 
-        dplyr::count(contrast, pct_gt_zero_lab, pct_gt_zero_lab_pos, pct_gt_zero)
-      , mapping = aes(x = pct_gt_zero_lab_pos, label = pct_gt_zero_lab)
+        dplyr::count(contrast, pr_diff_lab, pr_diff_lab_pos, pr_diff)
+      , mapping = aes(x = pr_diff_lab_pos, label = pr_diff_lab)
       , vjust = -1, hjust = 0, size = 2.5
     ) +
     scale_fill_fermenter(
@@ -557,9 +562,9 @@ plt_contrast <- function(
     my_data
     , x = "value"
     , y = "contrast"
-    , fill = "pct_gt_zero"
-    , label = "pct_gt_zero_lab"
-    , label_pos = "pct_gt_zero_lab_pos"
+    , fill = "pr_diff"
+    , label = "pr_diff_lab"
+    , label_pos = "pr_diff_lab_pos"
     , label_size = 3
     , x_expand = c(0.1, 0.1)
     , facet = NA
@@ -652,7 +657,7 @@ plt_contrast <- function(
       plt +
         geom_text(
           data = my_data %>%
-            dplyr::filter(pct_gt_zero_lab_pos>=0) %>% 
+            dplyr::filter(pr_diff_lab_pos>=0) %>% 
             dplyr::ungroup() %>% 
             dplyr::select(tidyselect::all_of(c(
               y
@@ -667,7 +672,7 @@ plt_contrast <- function(
         ) +
         geom_text(
           data = my_data %>%
-            dplyr::filter(pct_gt_zero_lab_pos<0) %>% 
+            dplyr::filter(pr_diff_lab_pos<0) %>% 
             dplyr::ungroup() %>% 
             dplyr::select(tidyselect::all_of(c(
               y
@@ -689,7 +694,7 @@ plt_contrast <- function(
       plt +
         geom_text(
           data = my_data %>%
-            dplyr::filter(pct_gt_zero_lab_pos>=0) %>% 
+            dplyr::filter(pr_diff_lab_pos>=0) %>% 
             dplyr::ungroup() %>% 
             dplyr::select(tidyselect::all_of(c(
               y
@@ -703,7 +708,7 @@ plt_contrast <- function(
         )+
         geom_text(
           data = my_data %>%
-            dplyr::filter(pct_gt_zero_lab_pos<0) %>% 
+            dplyr::filter(pr_diff_lab_pos<0) %>% 
             dplyr::ungroup() %>% 
             dplyr::select(tidyselect::all_of(c(
               y
@@ -718,7 +723,7 @@ plt_contrast <- function(
     )
   }
 }
-# plt_contrast(brms_contrast_temp, label = "pct_gt_zero_lab_sm")
+# plt_contrast(brms_contrast_temp, label = "pr_diff_lab_sm")
 ```
 
 We'll also create a function to create all of the probability labeling columns in the contrast data called `make_contrast_vars()`
@@ -733,14 +738,19 @@ make_contrast_vars = function(my_data){
       median_hdi_est = tidybayes::median_hdci(value)$y
       , median_hdi_lower = tidybayes::median_hdci(value)$ymin
       , median_hdi_upper = tidybayes::median_hdci(value)$ymax
+      # check probability of contrast
+      , pr_gt_zero = mean(value > 0) %>% 
+          scales::percent(accuracy = 1)
+      , pr_lt_zero = mean(value < 0) %>% 
+          scales::percent(accuracy = 1)
       # check probability that this direction is true
-      , is_gt_zero = dplyr::case_when(
-        median_hdi_est > 0 ~ value > 0
+      , is_diff_dir = dplyr::case_when(
+        median_hdi_est >= 0 ~ value > 0
         , median_hdi_est < 0 ~ value < 0
       )
-      , pct_gt_zero = mean(is_gt_zero)
+      , pr_diff = mean(is_diff_dir)
       # make a label
-      , pct_gt_zero_lab = dplyr::case_when(
+      , pr_diff_lab = dplyr::case_when(
           median_hdi_est > 0 ~ paste0(
             "Pr("
             , stringr::word(contrast, 1, sep = fixed("-")) %>% 
@@ -749,7 +759,7 @@ make_contrast_vars = function(my_data){
             , stringr::word(contrast, 2, sep = fixed("-")) %>% 
               stringr::str_squish()
             , ")="
-            , pct_gt_zero %>% scales::percent(accuracy = 1)
+            , pr_diff %>% scales::percent(accuracy = 1)
           )
           , median_hdi_est < 0 ~ paste0(
             "Pr("
@@ -759,32 +769,32 @@ make_contrast_vars = function(my_data){
             , stringr::word(contrast, 1, sep = fixed("-")) %>% 
               stringr::str_squish()
             , ")="
-            , pct_gt_zero %>% scales::percent(accuracy = 1)
+            , pr_diff %>% scales::percent(accuracy = 1)
           )
         ) %>% 
         stringr::str_replace_all("OPENDRONEMAP", "ODM") %>% 
         stringr::str_replace_all("METASHAPE", "MtaShp") %>% 
         stringr::str_replace_all("PIX4D", "Pix4D")
       # make a SMALLER label
-      , pct_gt_zero_lab_sm = dplyr::case_when(
+      , pr_diff_lab_sm = dplyr::case_when(
         median_hdi_est >= 0 ~ paste0(
           "Pr(>0)="
-          , pct_gt_zero %>% scales::percent(accuracy = 1)
+          , pr_diff %>% scales::percent(accuracy = 1)
         )
         , median_hdi_est < 0 ~ paste0(
           "Pr(<0)="
-          , pct_gt_zero %>% scales::percent(accuracy = 1)
+          , pr_diff %>% scales::percent(accuracy = 1)
         )
       )
-      , pct_gt_zero_lab_pos = dplyr::case_when(
+      , pr_diff_lab_pos = dplyr::case_when(
         median_hdi_est > 0 ~ median_hdi_upper
         , median_hdi_est < 0 ~ median_hdi_lower
       ) * 1.075
       , sig_level = dplyr::case_when(
-        pct_gt_zero > 0.99 ~ 0
-        , pct_gt_zero > 0.95 ~ 1
-        , pct_gt_zero > 0.9 ~ 2
-        , pct_gt_zero > 0.8 ~ 3
+        pr_diff > 0.99 ~ 0
+        , pr_diff > 0.95 ~ 1
+        , pr_diff > 0.9 ~ 2
+        , pr_diff > 0.8 ~ 3
         , T ~ 4
       ) %>% 
       factor(levels = c(0:4), labels = c(">99%","95%","90%","80%","<80%"), ordered = T)
@@ -2690,7 +2700,7 @@ brms_contrast_temp %>%
   ggplot(
     mapping = aes(
       x = value, y = contrast
-      , fill = pct_gt_zero
+      , fill = pr_diff
     )
   ) +
   tidybayes::stat_halfeye(
@@ -3055,7 +3065,7 @@ ptcld_validation_data %>%
   geom_density(fill = "lightblue", alpha = 0.7, color = NA) +
   labs(y="",x="F-score") +
   scale_y_continuous(breaks = c(0)) +
-  scale_x_continuous(limits = c(0,1), breaks = scales::extended_breaks(10)) +
+  scale_x_continuous(breaks = scales::extended_breaks(10)) +
   theme_light() +
   theme(panel.grid = element_blank())
 ```
@@ -3063,8 +3073,24 @@ ptcld_validation_data %>%
 and the summary statistics
 
 ```{r}
-ptcld_validation_data$f_score %>% 
-  summary()
+ptcld_validation_data %>% 
+  dplyr::ungroup() %>% 
+  dplyr::select(f_score) %>% 
+  dplyr::summarise(
+    dplyr::across(
+      dplyr::everything()
+      , .fns = list(
+        mean = ~ mean(.x,na.rm=T), median = ~ median(.x,na.rm=T), sd = ~ sd(.x,na.rm=T)
+        , min = ~ min(.x,na.rm=T), max = ~ max(.x,na.rm=T)
+        , q25 = ~ quantile(.x, 0.25, na.rm = T)
+        , q75 = ~ quantile(.x, 0.75, na.rm = T)
+      )
+      , .names = "{.fn}"
+    )
+  ) %>% 
+  tidyr::pivot_longer(everything()) %>% 
+  kableExtra::kbl(caption = "summary: `f_score`", digits = 3, col.names = NULL) %>% 
+  kableExtra::kable_styling()
 ```
 
 ### Bayesian{#f_5_pred_mod_bays}
@@ -3186,10 +3212,12 @@ brms_f_mod5_priors_temp %>%
     strip.text = element_text(face = "bold", color = "black"),
     axis.text.y = element_blank(),
     axis.ticks = element_blank()
+    , plot.subtitle = element_text(size = 8)
+    , plot.title = element_text(size = 9)
   )+
   labs(
     x = "",
-    title = "",
+    title = "Priors: F-Score",
     y = "Log Odds"
   ) 
 ```
@@ -3323,6 +3351,7 @@ brms_f_mod5 %>%
   labs(
     x = latex2exp::TeX("$\\hat{R}$")
     , subtitle = latex2exp::TeX("MCMC chain convergence check for $\\hat{R}$ values")
+    , title = "F-Score"
   ) +
   theme_light() +
   theme(
@@ -3330,6 +3359,8 @@ brms_f_mod5 %>%
     , axis.text.y = element_text(size = 4)
     , panel.grid.major.x = element_blank()
     , panel.grid.minor.x = element_blank()
+    , plot.subtitle = element_text(size = 8)
+    , plot.title = element_text(size = 9)
   )
 ```
 
@@ -3360,14 +3391,15 @@ dplyr::bind_rows(
   geom_vline(xintercept = 10000, linetype = "dashed", color = "gray44", lwd = 1.2) +
   geom_segment( aes(x = 0, xend=ess, yend=parameter), color="black") +
   geom_point() +
-  scale_fill_manual(values = c("navy", "firebrick")) +
-  scale_color_manual(values = c("navy", "firebrick")) +
+  scale_fill_manual(values = c("blue4", "blue3")) +
+  scale_color_manual(values = c("blue4", "blue3")) +
   scale_y_continuous(NULL, breaks = NULL) +
   scale_x_continuous(labels = scales::comma) +
   labs(
     x = "ESS"
     , subtitle = "MCMC chain resolution check for effective sample size (ESS) values"
     , y = ""
+    , title = "F-Score"
   ) +
   theme_light() +
   theme(
@@ -3375,6 +3407,8 @@ dplyr::bind_rows(
     , axis.text.y = element_text(size = 4)
     , panel.grid.major.x = element_blank()
     , panel.grid.minor.x = element_blank()
+    , plot.subtitle = element_text(size = 8)
+    , plot.title = element_text(size = 9)
   )
 ```
 
@@ -3407,6 +3441,8 @@ brms::pp_check(
   theme(
     legend.position = "top", legend.direction = "horizontal"
     , legend.text = element_text(size = 14)
+    , plot.subtitle = element_text(size = 8)
+    , plot.title = element_text(size = 9)
   )
 
 ggplot2::ggsave("../data/ppchk_ovrll_mod5.png", height = 7, width = 10.5)
@@ -3461,9 +3497,11 @@ and another posterior predictive check for the overall model combining mean and 
 ```{r}
 brms::pp_check(brms_f_mod5, type = "stat_2d") +
   theme_light() +
+  labs(title = "F-Score") +
   theme(
     legend.position = "top", legend.direction = "horizontal"
-    , legend.text = element_text(size = 14)
+    , legend.text = element_text(size = 8)
+    , plot.title = element_text(size = 9)
   )
 ```
 
@@ -3738,10 +3776,10 @@ and summarize these contrasts
 ```{r}
 table_temp = 
   brms_contrast_temp %>%
-  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
-  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
+  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper, pr_gt_zero) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode)
 
 table_temp %>% 
@@ -3753,6 +3791,7 @@ kableExtra::kbl(
       "filtering mode"
       , "median difference<br>F-score"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
     , escape = F
   ) %>% 
@@ -3953,7 +3992,7 @@ ptchwrk_qlty_sftwr_comp =
     , y_axis_title = "quality contrast"
     , facet = "software"
     , label_size = 1.35
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.75
   ) +
     labs(
@@ -3977,7 +4016,7 @@ ptchwrk_qlty_sftwr_comp =
     , y_axis_title = "quality contrast"
     , facet = "software"
     , label_size = 1.4
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.8
   ) +
     labs(
@@ -3997,10 +4036,10 @@ and summarize these contrasts
 
 ```{r}
 table_temp = brms_contrast_temp %>%
-  dplyr::group_by(contrast, software) %>% 
+  dplyr::group_by(contrast, software, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
-  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper, pr_gt_zero) %>% 
   dplyr::arrange(software, contrast)
 
 table_temp %>% 
@@ -4012,6 +4051,7 @@ table_temp %>%
       "quality contrast"
       , "median difference<br>F-score"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
     , escape = F
   ) %>% 
@@ -4101,7 +4141,7 @@ ptchwrk_sftwr_qlty_comp =
     , y_axis_title = "software contrast"
     , facet = "depth_maps_generation_quality"
     , label_size = 1.7
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.8
   ) +
     facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 3) +
@@ -4131,7 +4171,7 @@ ptchwrk_sftwr_qlty_comp =
     , y_axis_title = "software contrast"
     , facet = "depth_maps_generation_quality"
     , label_size = 1.7
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.8
   ) +
     facet_wrap(facets = vars(depth_maps_generation_quality), ncol = 2) +
@@ -4156,10 +4196,10 @@ and summarize these contrasts
 
 ```{r}
 table_temp = brms_contrast_temp %>%
-  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_quality, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
-  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper)
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper, pr_gt_zero)
    
 table_temp %>% 
   dplyr::select(-c(contrast)) %>% 
@@ -4170,6 +4210,7 @@ table_temp %>%
       "quality"
       , "median difference<br>F-score"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
     , escape = F
   ) %>% 
@@ -4342,7 +4383,7 @@ ptchwrk_fltr_sftwr_comp =
     , y_axis_title = "filtering mode contrast"
     , facet = "software"
     , label_size = 1.7
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.8
   ) +
     labs(
@@ -4366,7 +4407,7 @@ ptchwrk_fltr_sftwr_comp =
     , y_axis_title = "filtering mode contrast"
     , facet = "software"
     , label_size = 1.7
-    , label = "pct_gt_zero_lab_sm"
+    , label = "pr_diff_lab_sm"
     , annotate_size = 1.8
   ) +
     labs(
@@ -4386,10 +4427,10 @@ and summarize these contrasts
 
 ```{r}
 table_temp = brms_contrast_temp %>%
-  dplyr::group_by(contrast, software) %>% 
+  dplyr::group_by(contrast, software, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
-  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper, pr_gt_zero) %>% 
   dplyr::arrange(software, contrast)
 
 table_temp %>% 
@@ -4401,6 +4442,7 @@ table_temp %>%
       "filtering contrast"
       , "median difference<br>F-score"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
     , escape = F
   ) %>% 
@@ -4805,10 +4847,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
 kableExtra::kbl(
     digits = 2
@@ -4817,6 +4859,7 @@ kableExtra::kbl(
       "quality contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -4985,10 +5028,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
 kableExtra::kbl(
     digits = 2
@@ -4997,6 +5040,7 @@ kableExtra::kbl(
       "filtering mode contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5126,10 +5170,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
   kableExtra::kbl(
     digits = 2
@@ -5138,6 +5182,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -5154,30 +5199,39 @@ For a phenomenally excellent overview of binary logistic regression and how to i
 ```{r}
 # tidybayes::get_variables(brms_f_mod5)
 # extract the posterior draws
-brms::as_draws_df(brms_f_mod5) %>% 
-  dplyr::select(c(tidyselect::starts_with("sd_"))) %>% 
-  tidyr::pivot_longer(dplyr::everything()) %>% 
-  # dplyr::group_by(name) %>% 
-  # tidybayes::median_hdi(value) %>% 
-  dplyr::mutate(
-    name = name %>% 
-      stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
-      stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering") %>% 
-      forcats::fct_reorder(value)
-    , value = plogis(value)
-  ) %>%
-# plot
-  ggplot(aes(x = value, y = name)) +
-  tidybayes::stat_dotsinterval(
-    point_interval = median_hdi, .width = .95
-    , justification = -0.04
-    , shape = 21 #, point_size = 3
-    , quantiles = 100
-  ) +
-  labs(x = "", y = ""
-       # , caption = form_temp
-  ) +
-  theme_light()
+# extract the posterior draws
+  brms::as_draws_df(brms_f_mod5) %>%
+    dplyr::select(c(tidyselect::starts_with("sd_"))) %>% 
+    tidyr::pivot_longer(dplyr::everything()) %>% 
+    # dplyr::group_by(name) %>% 
+    # tidybayes::median_hdi(value) %>% 
+    dplyr::mutate(
+      name = name %>% 
+        stringr::str_replace_all("depth_maps_generation_quality", "quality") %>% 
+        stringr::str_replace_all("depth_maps_generation_filtering_mode", "filtering") %>% 
+        stringr::str_remove_all("sd_") %>% 
+        stringr::str_remove_all("__Intercept") %>% 
+        stringr::str_replace_all("_", " ") %>% 
+        forcats::fct_reorder(value)
+    ) %>%
+  # plot
+    ggplot(aes(x = value, y = name)) +
+    tidybayes::stat_dotsinterval(
+      point_interval = median_hdi, .width = .95
+      , justification = -0.04
+      , shape = 21 #, point_size = 3
+      , quantiles = 100
+    ) +
+    scale_x_continuous(breaks = NULL) +
+    labs(x = "", y = ""
+      , subtitle = latex2exp::TeX("$\\sigma_\\beta$ posterior distributions")
+      , title = "F-Score"
+    ) +
+    theme_light() +
+    theme(
+      plot.subtitle = element_text(size = 8)
+      , plot.title = element_text(size = 9)
+    )
 ```
 
 Variance of study site is stronger than variance of depth map generation quality, but the posterior predictive distributions overlap a good deal. The study site (the "subjects" in our study) seems to have the overall strongest effect, but this comes with high uncertainty. Taken alone, the influence of quality, filtering, and software comes with huge uncertainty. This makes sense as the influence of software largely depends on the depth map generation quality, of which we are fairly certain. Filtering mode has the overall weakest effect on tree detection and this comes with relatively high certainty, especially conditional on the depth map generation quality.
@@ -5653,6 +5707,7 @@ The Bayesian p-value is the probability that a test statistic in the reference d
 Check the Bayesian p-values between the models
 
 ```{r}
+# bayesian p-value
 get_mod_p_val = function(my_mod, ndraws = 1000){
   # get draws from the posterior predictive distribution
   brms::posterior_predict(my_mod, ndraws = ndraws) %>% 
@@ -5660,24 +5715,19 @@ get_mod_p_val = function(my_mod, ndraws = 1000){
     dplyr::mutate(draw = dplyr::row_number()) %>% 
     tidyr::pivot_longer(cols = -draw, values_to = "y_rep") %>% 
     dplyr::mutate(y_n = readr::parse_number(name)) %>% 
-    # join with original data
-    dplyr::inner_join(
-      ptcld_validation_data %>% 
-        dplyr::select(f_score) %>% 
-        dplyr::rename(y=f_score) %>% 
-        dplyr::mutate(y_n = dplyr::row_number())
-      , by = dplyr::join_by("y_n")
-    ) %>% 
     dplyr::select(-c(y_n)) %>% 
     dplyr::group_by(draw) %>% 
     # make test statistic
     dplyr::summarise(
-      # test statistics y
-      mean_y = mean(y)
-      , sd_y = sd(y)
       # test statistics y_sim
-      , mean_y_rep = mean(y_rep)
+      mean_y_rep = mean(y_rep)
       , sd_y_rep = sd(y_rep)
+    ) %>% 
+    # # observed data test statistics
+    dplyr::mutate(
+    # test statistics y
+      mean_y = mean(my_mod$data[,1])
+      , sd_y = sd(my_mod$data[,1])
     ) %>% 
     # p-values
     dplyr::ungroup() %>% 
@@ -5692,6 +5742,7 @@ get_mod_p_val = function(my_mod, ndraws = 1000){
     )
 }
 # get the model p-values
+set.seed(16) # replicate results
 dplyr::bind_rows(
     get_mod_p_val(brms_f_mod4, ndraws = 5000) %>% 
       dplyr::mutate(model = "brms_f_mod4")
@@ -5701,7 +5752,7 @@ dplyr::bind_rows(
       dplyr::mutate(model = "brms_f_mod5_5")
   ) %>% 
   dplyr::relocate(model) %>% 
-  kableExtra::kbl(digits = 2) %>% 
+  kableExtra::kbl(digits = 3) %>% 
   kableExtra::kable_styling()
 ```
 
@@ -6201,10 +6252,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
   kableExtra::kbl(
     digits = 2
@@ -6213,13 +6264,14 @@ brms_contrast_temp %>%
       "overstory contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
 
 ```
 
-Averaging across all levels of filtering mode, dense cloud quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a `r brms_contrast_temp$pct_gt_zero[1] %>% scales::percent(accuracy = 0.1)` that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior predictive distribution above)
+Averaging across all levels of filtering mode, dense cloud quality setting, study site, and software the process does a better job detecting overstory trees than understory trees. Because this is a Bayesian analysis we can quantify this probability: there is a `r brms_contrast_temp$pr_diff[1] %>% scales::percent(accuracy = 0.1)` that overstory trees will be detected with better accuracy than understory trees (see coloring on posterior predictive distribution above)
 
 #### Story:Software - interaction
 
@@ -6278,10 +6330,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast, story) %>% 
+  dplyr::group_by(contrast, story, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, story) %>% 
-  dplyr::select(contrast, story, value, .lower, .upper) %>% 
+  dplyr::select(contrast, story, value, .lower, .upper, pr_gt_zero) %>% 
    
   kableExtra::kbl(
     digits = 2
@@ -6291,6 +6343,7 @@ brms_contrast_temp %>%
       , "overstory/understory"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -6485,10 +6538,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast, depth_maps_generation_filtering_mode) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_filtering_mode, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_filtering_mode) %>% 
-  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper) %>% 
+  dplyr::select(contrast, depth_maps_generation_filtering_mode, value, .lower, .upper, pr_gt_zero) %>% 
    
 kableExtra::kbl(
     digits = 2
@@ -6498,6 +6551,7 @@ kableExtra::kbl(
       , "filtering mode"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6655,10 +6709,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast, software) %>% 
+  dplyr::group_by(contrast, software, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
-  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper, pr_gt_zero) %>% 
    
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
@@ -6669,6 +6723,7 @@ brms_contrast_temp %>%
       , "software"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6750,10 +6805,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast, depth_maps_generation_quality) %>% 
+  dplyr::group_by(contrast, depth_maps_generation_quality, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, depth_maps_generation_quality) %>% 
-  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper) %>% 
+  dplyr::select(contrast, depth_maps_generation_quality, value, .lower, .upper, pr_gt_zero) %>% 
    
   kableExtra::kbl(
     digits = 2
@@ -6763,6 +6818,7 @@ brms_contrast_temp %>%
       , "quality"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -6898,10 +6954,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast, software) %>% 
+  dplyr::group_by(contrast, software, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast, software) %>% 
-  dplyr::select(contrast, software, value, .lower, .upper) %>% 
+  dplyr::select(contrast, software, value, .lower, .upper, pr_gt_zero) %>% 
    
   dplyr::arrange(software, contrast) %>% 
   kableExtra::kbl(
@@ -6912,6 +6968,7 @@ brms_contrast_temp %>%
       , "software"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling() %>% 
@@ -7201,10 +7258,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
 kableExtra::kbl(
     digits = 2
@@ -7213,6 +7270,7 @@ kableExtra::kbl(
       "quality contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -7326,10 +7384,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
 kableExtra::kbl(
     digits = 2
@@ -7338,6 +7396,7 @@ kableExtra::kbl(
       "filtering mode contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
@@ -7420,10 +7479,10 @@ and summarize these contrasts
 
 ```{r}
 brms_contrast_temp %>%
-  dplyr::group_by(contrast) %>% 
+  dplyr::group_by(contrast, pr_gt_zero) %>% 
   tidybayes::median_hdi(value) %>% 
   dplyr::arrange(contrast) %>% 
-  dplyr::select(contrast, value, .lower, .upper) %>% 
+  dplyr::select(contrast, value, .lower, .upper, pr_gt_zero) %>% 
    
   kableExtra::kbl(
     digits = 2
@@ -7432,6 +7491,7 @@ brms_contrast_temp %>%
       "software contrast"
       , "difference (F-score)"
       , "HDI low", "HDI high"
+      , "Pr(diff>0)"
     )
   ) %>% 
   kableExtra::kable_styling()
